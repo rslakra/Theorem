@@ -24,9 +24,51 @@ public class Date {
 	 * @param day
 	 */
 	public Date(int year, int month, int day) {
-		this.year = year;
-		this.month = month;
-		this.day = day;
+		setYear(year);
+		setMonth(month);
+		setDay(day);
+	}
+	
+	/**
+	 * Returns true if the year is greater than MIN_YEAR otherwise false.
+	 * 
+	 * @param year
+	 * @return
+	 */
+	private boolean isValidYear(int year) {
+		if(year > MIN_YEAR) {
+			return true;
+		} else {
+			throw new IllegalArgumentException("Invalid Month:" + getMonth());
+		}
+	}
+	
+	/**
+	 * Returns true if the day is valid.
+	 * 
+	 * @param day
+	 * @return
+	 */
+	private boolean isValidMonth(int month) {
+		if(month > 0 && month <= 12) {
+			return true;
+		} else {
+			throw new IllegalArgumentException("Invalid Month:" + getMonth());
+		}
+	}
+	
+	/**
+	 * Returns true if the day is valid.
+	 * 
+	 * @param day
+	 * @return
+	 */
+	private boolean isValidDay(int day) {
+		if(day > 0 && (isExtendedMonth() ? day <= 31 : (isStandardMonth() ? day <= 30 : (isLeapMonth() ? day <= 29 : day <= 28)))) {
+			return true;
+		} else {
+			throw new IllegalArgumentException("Invalid day:" + getDay() + " of month:" + getMonth());
+		}
 	}
 	
 	/**
@@ -44,7 +86,9 @@ public class Date {
 	 * @param year
 	 */
 	public void setYear(int year) {
-		this.year = year;
+		if(isValidYear(year)) {
+			this.year = year;
+		}
 	}
 	
 	/**
@@ -62,7 +106,9 @@ public class Date {
 	 * @param month
 	 */
 	public void setMonth(int month) {
-		this.month = month;
+		if(isValidMonth(month)) {
+			this.month = month;
+		}
 	}
 	
 	/**
@@ -80,7 +126,9 @@ public class Date {
 	 * @param day
 	 */
 	public void setDay(int day) {
-		this.day = day;
+		if(isValidDay(day)) {
+			this.day = day;
+		}
 	}
 	
 	/**
@@ -93,31 +141,51 @@ public class Date {
 	}
 	
 	/**
-	 * Returns true if the day is valid.
+	 * Returns true if the month is 30 days otherwise false.
 	 * 
-	 * @param day
 	 * @return
 	 */
-	private boolean isValidMonth(int month) {
-		if(getMonth() > 0 && getMonth() <= month) {
-			return true;
-		} else {
-			throw new IllegalArgumentException("Invalid Month:" + getMonth());
+	protected boolean isStandardMonth() {
+		switch(getMonth()) {
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				return true;
+			
+			default:
+				return false;
 		}
 	}
 	
 	/**
-	 * Returns true if the day is valid.
+	 * Returns true if the month is 31 days otherwise false.
 	 * 
-	 * @param day
 	 * @return
 	 */
-	private boolean isValidDay(int day) {
-		if(getDay() > 0 && getDay() <= day) {
-			return true;
-		} else {
-			throw new IllegalArgumentException("Invalid day:" + getDay() + " of month:" + getMonth());
+	protected boolean isExtendedMonth() {
+		switch(getMonth()) {
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+				return true;
+			
+			default:
+				return false;
 		}
+	}
+	
+	/**
+	 * Returns true if the month is 29 days otherwise false.
+	 * 
+	 * @return
+	 */
+	protected boolean isLeapMonth() {
+		return (getMonth() == 2 && isLeapYear());
 	}
 	
 	/**
@@ -126,26 +194,37 @@ public class Date {
 	 * @return
 	 */
 	public boolean isLastDayOfMonth() {
-		switch(getMonth()) {
-			case 2:
-				return (isLeapYear() ? (isValidDay(29) && getDay() == 29) : (isValidDay(28) && getDay() == 28));
-			case 4:
-			case 6:
-			case 9:
-			case 11:
-				return (isValidDay(30) && getDay() == 30);
-			case 1:
-			case 3:
-			case 5:
-			case 7:
-			case 8:
-			case 10:
-			case 12:
-				return (isValidDay(31) && getDay() == 31);
-			
-			default:
-				throw new IllegalArgumentException("Invalid day:" + getDay() + " of month:" + getMonth());
+		if(isExtendedMonth()) {
+			return (isValidDay(31) && getDay() == 31);
+		} else if(isStandardMonth()) {
+			return (isValidDay(30) && getDay() == 30);
+		} else if(isLeapMonth()) {
+			return (isValidDay(29) && getDay() == 29);
+		} else {
+			return (isValidDay(28) && getDay() == 28);
 		}
+		// switch(getMonth()) {
+		// case 2:
+		// return (isLeapYear() ? (isValidDay(29) && getDay() == 29) :
+		// (isValidDay(28) && getDay() == 28));
+		// case 4:
+		// case 6:
+		// case 9:
+		// case 11:
+		// return (isValidDay(30) && getDay() == 30);
+		// case 1:
+		// case 3:
+		// case 5:
+		// case 7:
+		// case 8:
+		// case 10:
+		// case 12:
+		// return (isValidDay(31) && getDay() == 31);
+		//
+		// default:
+		// throw new IllegalArgumentException("Invalid day:" + getDay() + " of
+		// month:" + getMonth());
+		// }
 	}
 	
 	/**
