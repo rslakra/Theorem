@@ -83,38 +83,24 @@ public class Name {
 	 */
 	public String toString() {
 		return StringHelper.toString(this);
-//		StringBuilder sBuilder = new StringBuilder();
-//		if(StringHelper.isNotNull(getFirstName())) {
-//			sBuilder.append(getFirstName()).append(" ");
-//		}
-//		
-//		if(StringHelper.isNotNull(getMiddleName())) {
-//			sBuilder.append(getMiddleName()).append(" ");
-//		}
-//		
-//		if(StringHelper.isNotNull(getLastName())) {
-//			sBuilder.append(getLastName());
-//		}
-//		
-//		return sBuilder.toString();
 	}
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// Name name = new Name("Rohtash", "Singh", "Lakra");
-		// System.out.println(new ToString().toString(name));
-		// System.out.println();
-		// System.out.println(new ToString(true).toString(name));
-		// System.out.println();
-		// System.out.println(new ToString(true, true).toString(name));
+		 Name name = new Name("Rohtash", "Singh", "Lakra");
+		 System.out.println(StringHelper.toString(name));
+		 System.out.println();
+		 System.out.println(new ToString(true).toString(name));
+		 System.out.println();
+		 System.out.println(new ToString(true, true).toString(name));
 		
 		Name[] names = new Name[2];
 		names[0] = new Name("Rohtash", "Singh", "Lakra");
 		names[1] = new Name("Sangita", null, "Lakra");
 		System.out.println();
-		System.out.println(new ToString().toString(names));
+		System.out.println(StringHelper.toString(names));
 		System.out.println();
 		System.out.println(new ToString(true).toString(names));
 		System.out.println();
