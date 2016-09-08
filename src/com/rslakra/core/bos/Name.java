@@ -82,20 +82,21 @@ public class Name {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		StringBuilder sBuilder = new StringBuilder();
-		if(StringHelper.isNotNull(getFirstName())) {
-			sBuilder.append(getFirstName()).append(" ");
-		}
-		
-		if(StringHelper.isNotNull(getMiddleName())) {
-			sBuilder.append(getMiddleName()).append(" ");
-		}
-		
-		if(StringHelper.isNotNull(getLastName())) {
-			sBuilder.append(getLastName());
-		}
-		
-		return sBuilder.toString();
+		return StringHelper.toString(this);
+//		StringBuilder sBuilder = new StringBuilder();
+//		if(StringHelper.isNotNull(getFirstName())) {
+//			sBuilder.append(getFirstName()).append(" ");
+//		}
+//		
+//		if(StringHelper.isNotNull(getMiddleName())) {
+//			sBuilder.append(getMiddleName()).append(" ");
+//		}
+//		
+//		if(StringHelper.isNotNull(getLastName())) {
+//			sBuilder.append(getLastName());
+//		}
+//		
+//		return sBuilder.toString();
 	}
 	
 	/**

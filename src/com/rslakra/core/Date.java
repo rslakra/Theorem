@@ -203,28 +203,6 @@ public class Date {
 		} else {
 			return (isValidDay(28) && getDay() == 28);
 		}
-		// switch(getMonth()) {
-		// case 2:
-		// return (isLeapYear() ? (isValidDay(29) && getDay() == 29) :
-		// (isValidDay(28) && getDay() == 28));
-		// case 4:
-		// case 6:
-		// case 9:
-		// case 11:
-		// return (isValidDay(30) && getDay() == 30);
-		// case 1:
-		// case 3:
-		// case 5:
-		// case 7:
-		// case 8:
-		// case 10:
-		// case 12:
-		// return (isValidDay(31) && getDay() == 31);
-		//
-		// default:
-		// throw new IllegalArgumentException("Invalid day:" + getDay() + " of
-		// month:" + getMonth());
-		// }
 	}
 	
 	/**
