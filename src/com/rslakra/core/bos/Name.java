@@ -89,12 +89,12 @@ public class Name {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		 Name name = new Name("Rohtash", "Singh", "Lakra");
-		 System.out.println(StringHelper.toString(name));
-		 System.out.println();
-		 System.out.println(new ToString(true).toString(name));
-		 System.out.println();
-		 System.out.println(new ToString(true, true).toString(name));
+		Name name = new Name("Rohtash", "Singh", "Lakra");
+		System.out.println(StringHelper.toString(name));
+		System.out.println();
+		System.out.println(new ToString(true).toString(name));
+		System.out.println();
+		System.out.println(new ToString(true, true).toString(name));
 		
 		Name[] names = new Name[2];
 		names[0] = new Name("Rohtash", "Singh", "Lakra");
