@@ -85,7 +85,14 @@ public class Stack<E> {
 	 * @return
 	 */
 	protected E peekElement(int index) {
-		return (E) (isEmpty() ? null : elements[index]);
+		E element = null;
+		if(isEmpty()) {
+			System.out.println("Stack is empty!");
+		} else {
+			element = (E) elements[index];
+		}
+		
+		return element;
 	}
 	
 	/**
@@ -94,12 +101,7 @@ public class Stack<E> {
 	 * @return
 	 */
 	public E peek() {
-		E element = null;
-		if(!isEmpty()) {
-			element = peekElement(index - 1);
-		}
-		
-		return element;
+		return peekElement(index - 1);
 	}
 	
 	/**

@@ -27,6 +27,10 @@ public class TestStack {
 		System.out.println(stack.pop());
 		System.out.println(stack);
 		System.out.println();
+		
+		System.out.println(stack.pop());
+		System.out.println(stack);
+		System.out.println();
 	}
 	
 	/**
@@ -66,8 +70,12 @@ public class TestStack {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// fixedSizeStack();
-		dynamicStack();
+		final boolean fixedStack = true;
+		if(fixedStack) {
+			fixedSizeStack();
+		} else {
+			dynamicStack();
+		}
 	}
 	
 }
