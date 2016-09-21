@@ -9,16 +9,21 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 /**
+ * This class implements the PBKDF2 in pure java.
  * 
- * @author Rohtash Singh Lakra
+ * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
  * @date 09/21/2016 04:00:03 PM
  *
  */
 public final class PBKDF2Java {
 	
+	/* The secret keys algorithm */
 	private static final String PBKDF2_WITH_HMAC_SHA512 = "PBKDF2WithHmacSHA512";
+	/* Secure Random Algorithm */
 	private static final String SHA1PRNG = "SHA1PRNG";
+	/* Iterations */
 	private static final int ITERATIONS = 1000;
+	/* Key Length */
 	private static final int KEY_LENGTH = 64;
 	
 	/**
@@ -43,6 +48,7 @@ public final class PBKDF2Java {
 	}
 	
 	/**
+	 * Returns the hex-string for the specified <code>dataBytes</code> bytes.
 	 * 
 	 * @param dataBytes
 	 * @return
@@ -57,6 +63,22 @@ public final class PBKDF2Java {
 		}
 		
 		return hexString;
+	}
+	
+	/**
+	 * Returns the bytes for the specified hex-string <code>hexString</code>.
+	 * 
+	 * @param hexString
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	private static byte[] fromHex(String hexString) throws NoSuchAlgorithmException {
+		byte[] hexBytes = new byte[hexString.length() / 2];
+		for(int i = 0; i < hexBytes.length; i++) {
+			hexBytes[i] = (byte) Integer.parseInt(hexString.substring(2 * i, 2 * i + 2), 16);
+		}
+		
+		return hexBytes;
 	}
 	
 	/**
@@ -116,21 +138,6 @@ public final class PBKDF2Java {
 		}
 		
 		return (diff == 0);
-	}
-	
-	/**
-	 * 
-	 * @param hexString
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 */
-	private static byte[] fromHex(String hexString) throws NoSuchAlgorithmException {
-		byte[] hexBytes = new byte[hexString.length() / 2];
-		for(int i = 0; i < hexBytes.length; i++) {
-			hexBytes[i] = (byte) Integer.parseInt(hexString.substring(2 * i, 2 * i + 2), 16);
-		}
-		
-		return hexBytes;
 	}
 	
 	/**
