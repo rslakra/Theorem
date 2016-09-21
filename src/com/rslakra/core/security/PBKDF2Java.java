@@ -11,6 +11,8 @@ import javax.crypto.spec.PBEKeySpec;
 /**
  * This class implements the PBKDF2 in pure java.
  * 
+ * https://www.ietf.org/rfc/rfc2898.txt
+ * 
  * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
  * @date 09/21/2016 04:00:03 PM
  *
