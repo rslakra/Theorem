@@ -1,5 +1,7 @@
 package com.rslakra.core.bos;
 
+import java.util.Date;
+
 /**
  * 
  * @author Rohtash Singh Lakra
@@ -32,16 +34,16 @@ public class Book {
 	private String edition;
 	private String format;
 	private String illustrator;
-	private String numberOfPages;
+	private int numberOfPages;
 	private String author;
 	private String comment;
 	private String contributor;
 	private String copyrightHolder;
 	private String copyrightYear;
 	private String creator;
-	private String createdOn;
-	private String modifiedOn;
-	private String publishedOn;
+	private Date createdOn;
+	private Date modifiedOn;
+	private Date publishedOn;
 	private String editor;
 	private String encoding;
 	private String genre;
@@ -137,14 +139,14 @@ public class Book {
 	/**
 	 * @return the numberOfPages
 	 */
-	public String getNumberOfPages() {
+	public int getNumberOfPages() {
 		return numberOfPages;
 	}
 	
 	/**
 	 * @param numberOfPages the numberOfPages to set
 	 */
-	public void setNumberOfPages(String numberOfPages) {
+	public void setNumberOfPages(int numberOfPages) {
 		this.numberOfPages = numberOfPages;
 	}
 	
@@ -235,42 +237,42 @@ public class Book {
 	/**
 	 * @return the createdOn
 	 */
-	public String getCreatedOn() {
+	public Date getCreatedOn() {
 		return createdOn;
 	}
 	
 	/**
 	 * @param createdOn the createdOn to set
 	 */
-	public void setCreatedOn(String createdOn) {
+	public void setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
 	}
 	
 	/**
 	 * @return the modifiedOn
 	 */
-	public String getModifiedOn() {
+	public Date getModifiedOn() {
 		return modifiedOn;
 	}
 	
 	/**
 	 * @param modifiedOn the modifiedOn to set
 	 */
-	public void setModifiedOn(String modifiedOn) {
+	public void setModifiedOn(Date modifiedOn) {
 		this.modifiedOn = modifiedOn;
 	}
 	
 	/**
 	 * @return the publishedOn
 	 */
-	public String getPublishedOn() {
+	public Date getPublishedOn() {
 		return publishedOn;
 	}
 	
 	/**
 	 * @param publishedOn the publishedOn to set
 	 */
-	public void setPublishedOn(String publishedOn) {
+	public void setPublishedOn(Date publishedOn) {
 		this.publishedOn = publishedOn;
 	}
 	
