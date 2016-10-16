@@ -137,7 +137,7 @@ public class Date {
 	 * @return
 	 */
 	public boolean isLeapYear() {
-		return ((getYear() % 400 == 0) || (getYear() % 4 == 0));
+		return ((getYear() % 400 == 0) || (getYear() % 4 == 0 && getYear() % 100 != 0));
 	}
 	
 	/**
