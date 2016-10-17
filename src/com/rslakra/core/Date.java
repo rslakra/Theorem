@@ -132,7 +132,10 @@ public class Date {
 	}
 	
 	/**
-	 * Returns true if the year is divisible by 4 or 400 otherwise false.
+	 * Returns true if the year is leap year otherwise false.
+	 * Note:
+	 * A year is a leap year if either (i) it is divisible by 4 but not by 100
+	 * or (ii) it is divisible by 400.
 	 * 
 	 * @return
 	 */
