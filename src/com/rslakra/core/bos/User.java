@@ -1,6 +1,6 @@
 package com.rslakra.core.bos;
 
-import com.rslakra.utils.StringHelper;
+import com.rslakra.utils.ObjectHelper;
 
 /**
  * 
@@ -15,6 +15,6 @@ public class User {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return StringHelper.toString(this);
+		return ObjectHelper.toString(this);
 	}
 }

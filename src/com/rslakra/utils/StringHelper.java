@@ -8,7 +8,7 @@ package com.rslakra.utils;
  * @date 09/08/2016 04:38:08 PM
  *
  */
-public class StringHelper {
+public final class StringHelper {
 	/** UTF-8 */
 	public static final String UTF_8 = "UTF-8";
 	/** ISO-8859-1 */
@@ -16,24 +16,8 @@ public class StringHelper {
 	/** HEXA_DIGITS */
 	public static final String HEXA_DIGITS = "0123456789ABCDEF";
 	
-	/**
-	 * Returns true if the object is null or otherwise false.
-	 * 
-	 * @param object
-	 * @return
-	 */
-	public static boolean isNull(Object object) {
-		return (null == object);
-	}
-	
-	/**
-	 * Returns true if the object is not null otherwise false.
-	 * 
-	 * @param object
-	 * @return
-	 */
-	public static boolean isNotNull(Object object) {
-		return (!isNull(object));
+	private StringHelper() {
+		
 	}
 	
 	/**
@@ -43,18 +27,7 @@ public class StringHelper {
 	 * @return
 	 */
 	public static boolean isNullOrEmpty(String string) {
-		return (isNull(string) || string.isEmpty());
-	}
-	
-	/**
-	 * Returns true if either the strings array is null or empty otherwise
-	 * false.
-	 * 
-	 * @param strings
-	 * @return
-	 */
-	public static boolean isNullOrEmpty(Object... objects) {
-		return (isNull(objects) || objects.length == 0);
+		return (ObjectHelper.isNull(string) || string.isEmpty());
 	}
 	
 	/**
@@ -67,7 +40,7 @@ public class StringHelper {
 	 */
 	public static String toString(byte[] bytes, String charsetName) {
 		String bytesAsString = null;
-		if(!isNullOrEmpty(bytes)) {
+		if(!ObjectHelper.isNullOrEmpty(bytes)) {
 			try {
 				if(isNullOrEmpty(charsetName)) {
 					bytesAsString = new String(bytes);
@@ -75,7 +48,7 @@ public class StringHelper {
 					bytesAsString = new String(bytes, charsetName);
 				}
 			} catch(Exception ex) {
-				bytesAsString = (isNull(bytes) ? null : bytes.toString());
+				bytesAsString = (ObjectHelper.isNull(bytes) ? null : bytes.toString());
 			}
 		}
 		
@@ -90,26 +63,6 @@ public class StringHelper {
 	 */
 	public static String toString(byte[] bytes) {
 		return toString(bytes, null);
-	}
-	
-	/**
-	 * Returns the string representation of the specified <code>object</code>;
-	 * 
-	 * @param object
-	 * @param useReflection
-	 * @return
-	 */
-	public static String toString(Object object, boolean useReflection) {
-		return (useReflection ? new ToString().toString(object) : object.toString());
-	}
-	
-	/**
-	 * 
-	 * @param object
-	 * @return
-	 */
-	public static String toString(Object object) {
-		return toString(object, true);
 	}
 	
 	/**
@@ -143,7 +96,7 @@ public class StringHelper {
 	 */
 	public static byte[] toBytes(String string, String charsetName) {
 		byte[] stringAsBytes = null;
-		if(!isNull(string)) {
+		if(!ObjectHelper.isNull(string)) {
 			try {
 				stringAsBytes = isNullOrEmpty(charsetName) ? string.getBytes() : string.getBytes(charsetName);
 			} catch(Exception ex) {
@@ -192,7 +145,7 @@ public class StringHelper {
 	 */
 	public static String toHexString(final byte[] bytes) {
 		String hexString = null;
-		if(!isNullOrEmpty(bytes)) {
+		if(!ObjectHelper.isNullOrEmpty(bytes)) {
 			StringBuilder hexaBuilder = new StringBuilder(bytes.length * 2);
 			for(int index = 0; index < bytes.length; index++) {
 				int highNumber = ((int) (bytes[index]) & 0x00ff) / 16;
@@ -236,7 +189,7 @@ public class StringHelper {
 	 * @throws IllegalArgumentException
 	 */
 	public static byte[] toHexBytes(String hexString) {
-		if(isNull(hexString)) {
+		if(ObjectHelper.isNull(hexString)) {
 			// Allow empty input string.
 			hexString = "";
 		} else if(hexString.length() % 2 != 0) {

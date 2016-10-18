@@ -13,7 +13,7 @@ import java.lang.reflect.Modifier;
  * @date 09/08/2016 04:39:36 PM
  *
  */
-public class ToString {
+public final class ToString {
 	/*
 	 * excludePackageName
 	 */
