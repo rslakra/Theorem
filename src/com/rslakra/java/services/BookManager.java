@@ -118,4 +118,25 @@ public final class BookManager implements Cloneable {
 		
 	}
 	
+	/**
+	 * float CheckIn (book)
+	 * 
+	 * Effect: Accesses book and checks it into this library.
+	 * Returns a fine amount (0 if there is no fine).
+	 * 
+	 * Preconditions: Book was checked out of this library; book is
+	 * presented at the check-in desk.
+	 * 
+	 * Postconditions: return value = (amount of fine due); contents of
+	 * this library is the original contents + book
+	 * 
+	 * Exception: This library is not open
+	 * 
+	 * @param book
+	 * @return
+	 */
+	public static float checkInBook(Book book) {
+		return 0.0F;
+	}
+	
 }
