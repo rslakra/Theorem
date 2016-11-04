@@ -9,15 +9,16 @@ package com.rslakra.java;
  * @param <T>
  */
 public class Node<T> {
-	private T data;
+	private final T data;
 	private Node<T> next;
 	
 	/**
 	 * 
 	 * @param data
 	 */
-	public Node(T data) {
+	public Node(final T data) {
 		this.data = data;
+		this.next = null;
 	}
 	
 	/**

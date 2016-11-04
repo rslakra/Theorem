@@ -47,6 +47,8 @@ public class KnapsackProblem {
 		KnapsackProblem kProblem = new KnapsackProblem();
 		ArrayList<Item> items = new ArrayList<>();
 		items.add(new Item(2, 1));
+		items.add(new Item(6, 7));
+		items.add(new Item(3, 8));
 		items.add(new Item(3, 3));
 		items.add(new Item(1, 4));
 		items.add(new Item(6, 1));
