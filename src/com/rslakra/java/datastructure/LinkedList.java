@@ -8,9 +8,9 @@ import com.rslakra.java.Node;
  * @date 11/03/2016 04:28:44 PM
  *
  */
-public class LinkedList {
+public class LinkedList<E> {
 	
-	private Node<Integer> head;
+	private Node<E> head;
 	
 	/**
 	 * 
@@ -33,11 +33,11 @@ public class LinkedList {
 	 * 
 	 * @param newNode
 	 */
-	public void insertFirst(Node<Integer> newNode) {
+	public void insertFirst(Node<E> newNode) {
 		if(head == null) {
 			head = newNode;
 		} else {
-			Node<Integer> temp = head;
+			Node<E> temp = head;
 			head = newNode;
 			newNode.setNext(temp);
 		}
@@ -49,7 +49,7 @@ public class LinkedList {
 	 * @param parentNode
 	 * @param newNode
 	 */
-	public void insertAt(Node<Integer> parentNode, Node<Integer> newNode) {
+	public void insertAt(Node<E> parentNode, Node<E> newNode) {
 		if(parentNode == null) {
 			parentNode = newNode;
 		} else {
@@ -67,8 +67,8 @@ public class LinkedList {
 	 * 
 	 * @param newNode
 	 */
-	public void insertLast(Node<Integer> newNode) {
-		Node<Integer> tempNode = head;
+	public void insertLast(Node<E> newNode) {
+		Node<E> tempNode = head;
 		while(tempNode.getNext() != null) {
 			tempNode = tempNode.getNext();
 		}
@@ -83,7 +83,7 @@ public class LinkedList {
 	 */
 	public String toString() {
 		StringBuilder sBuilder = new StringBuilder();
-		Node<Integer> tempNode = head;
+		Node<E> tempNode = head;
 		sBuilder.append("[");
 		
 		while(tempNode != null) {

@@ -11,8 +11,11 @@ import com.rslakra.java.datastructure.LinkedList;
  */
 public class TestLinkedList {
 	
-	public static void main(String[] args) {
-		LinkedList list = new LinkedList();
+	/**
+	 * 
+	 */
+	public void listNumbers() {
+		LinkedList<Integer> list = new LinkedList<Integer>();
 		list.insertFirst(new Node<Integer>(1));
 		Node<Integer> second = new Node<Integer>(2);
 		list.insertLast(second);
@@ -20,6 +23,30 @@ public class TestLinkedList {
 		list.insertLast(new Node<Integer>(3));
 		list.insertAt(second, new Node<Integer>(4));
 		System.out.println(list);
+	}
+	
+	/**
+	 * 
+	 */
+	public void listStrings() {
+		LinkedList<String> list = new LinkedList<String>();
+		list.insertFirst(new Node<String>("One"));
+		Node<String> second = new Node<String>("Two");
+		list.insertLast(second);
+		list.insertFirst(new Node<String>("Zero"));
+		list.insertLast(new Node<String>("Three"));
+		list.insertAt(second, new Node<String>("Four"));
+		System.out.println(list);
+	}
+	
+	/**
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		TestLinkedList linkList = new TestLinkedList();
+		linkList.listNumbers();
+		linkList.listStrings();
 	}
 	
 }
