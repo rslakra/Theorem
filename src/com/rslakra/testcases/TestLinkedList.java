@@ -17,11 +17,11 @@ public class TestLinkedList {
 	public void listNumbers() {
 		LinkedList<Integer> list = new LinkedList<Integer>();
 		Node<Integer> second = new Node<Integer>(2);
-		list.insertFirst(new Node<Integer>(1));
-		list.insertLast(second);
-		list.insertFirst(new Node<Integer>(0));
-		list.insertLast(new Node<Integer>(3));
-		list.insertAt(second, new Node<Integer>(4));
+		list.push(new Node<Integer>(1));
+		list.append(second);
+		list.push(new Node<Integer>(0));
+		list.append(new Node<Integer>(3));
+		list.insertAfter(second, new Node<Integer>(4));
 		System.out.println(list);
 	}
 	
@@ -30,12 +30,12 @@ public class TestLinkedList {
 	 */
 	public void listStrings() {
 		LinkedList<String> list = new LinkedList<String>();
-		list.insertFirst(new Node<String>("One"));
+		list.push(new Node<String>("One"));
 		Node<String> second = new Node<String>("Two");
-		list.insertLast(second);
-		list.insertFirst(new Node<String>("Zero"));
-		list.insertLast(new Node<String>("Three"));
-		list.insertAt(second, new Node<String>("Four"));
+		list.append(second);
+		list.push(new Node<String>("Zero"));
+		list.append(new Node<String>("Three"));
+		list.insertAfter(second, new Node<String>("Four"));
 		System.out.println(list);
 	}
 	

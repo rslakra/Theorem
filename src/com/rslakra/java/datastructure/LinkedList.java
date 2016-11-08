@@ -36,7 +36,7 @@ public class LinkedList<E> {
 	 * 
 	 * @param newNode
 	 */
-	public void insertFirst(Node<E> newNode) {
+	public void push(Node<E> newNode) {
 		if(head != null) {
 			newNode.setNext(head);
 		}
@@ -46,10 +46,13 @@ public class LinkedList<E> {
 	/**
 	 * Inserts the new node after the specified parent node.
 	 * 
+	 * Time complexity of insertAfter() is O(1) as it does constant amount of
+	 * work.
+	 * 
 	 * @param parentNode
 	 * @param newNode
 	 */
-	public void insertAt(Node<E> parentNode, Node<E> newNode) {
+	public void insertAfter(Node<E> parentNode, Node<E> newNode) {
 		if(parentNode == null) {
 			parentNode = newNode;
 		} else {
@@ -63,13 +66,19 @@ public class LinkedList<E> {
 	 * 
 	 * @param newNode
 	 */
-	public void insertLast(Node<E> newNode) {
-		Node<E> tempNode = head;
-		while(tempNode.getNext() != null) {
-			tempNode = tempNode.getNext();
-		}
+	public void append(Node<E> newNode) {
+		// new node will be the last node, so set it's next to be null;
+		newNode.setNext(null);
 		
-		insertAt(tempNode, newNode);
+		if(head == null) {
+			head = newNode;
+		} else {
+			Node<E> last = head;
+			while(last.getNext() != null) {
+				last = last.getNext();
+			}
+			last.setNext(newNode);
+		}
 	}
 	
 	/**
