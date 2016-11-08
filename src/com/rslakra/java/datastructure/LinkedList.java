@@ -31,16 +31,16 @@ public class LinkedList<E> {
 	/**
 	 * Inserts the new node at the first position of the linked list.
 	 * 
+	 * Time complexity of insertion is O(1), because it takes constant amount of
+	 * time.
+	 * 
 	 * @param newNode
 	 */
 	public void insertFirst(Node<E> newNode) {
-		if(head == null) {
-			head = newNode;
-		} else {
-			Node<E> temp = head;
-			head = newNode;
-			newNode.setNext(temp);
+		if(head != null) {
+			newNode.setNext(head);
 		}
+		head = newNode;
 	}
 	
 	/**
@@ -53,11 +53,7 @@ public class LinkedList<E> {
 		if(parentNode == null) {
 			parentNode = newNode;
 		} else {
-			if(parentNode.getNext() == null) {
-				newNode.setNext(null);
-			} else {
-				newNode.setNext(parentNode.getNext());
-			}
+			newNode.setNext(parentNode.getNext());
 			parentNode.setNext(newNode);
 		}
 	}
@@ -74,6 +70,22 @@ public class LinkedList<E> {
 		}
 		
 		insertAt(tempNode, newNode);
+	}
+	
+	/**
+	 * Removes the provided node.
+	 * 
+	 * @param node
+	 */
+	public void remove(Node<E> node) {
+		Node<E> currentNode = head;
+		while(currentNode != null) {
+			if(currentNode.equals(node)) {
+				
+				break;
+			}
+			currentNode = currentNode.getNext();
+		}
 	}
 	
 	/**

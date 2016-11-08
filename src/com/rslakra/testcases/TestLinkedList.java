@@ -16,8 +16,8 @@ public class TestLinkedList {
 	 */
 	public void listNumbers() {
 		LinkedList<Integer> list = new LinkedList<Integer>();
-		list.insertFirst(new Node<Integer>(1));
 		Node<Integer> second = new Node<Integer>(2);
+		list.insertFirst(new Node<Integer>(1));
 		list.insertLast(second);
 		list.insertFirst(new Node<Integer>(0));
 		list.insertLast(new Node<Integer>(3));
