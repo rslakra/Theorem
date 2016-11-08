@@ -11,6 +11,7 @@ import com.rslakra.java.Node;
 public class LinkedList<E> {
 	
 	private Node<E> head;
+	// private transient Node<E> tail;
 	
 	/**
 	 * 
@@ -55,6 +56,7 @@ public class LinkedList<E> {
 	public void insertAfter(Node<E> parentNode, Node<E> newNode) {
 		if(parentNode == null) {
 			parentNode = newNode;
+			// tail = newNode;
 		} else {
 			newNode.setNext(parentNode.getNext());
 			parentNode.setNext(newNode);
@@ -63,6 +65,13 @@ public class LinkedList<E> {
 	
 	/**
 	 * Inserts the new node at the end of the linked list.
+	 * 
+	 * Time complexity of append is O(n) where n is the number of nodes in
+	 * linked list. Since there is a loop from head to end, the function does
+	 * O(n) work.
+	 * 
+	 * This method can also be optimized to work in O(1) by keeping an extra
+	 * pointer to tail of linked list/
 	 * 
 	 * @param newNode
 	 */
@@ -86,14 +95,24 @@ public class LinkedList<E> {
 	 * 
 	 * @param node
 	 */
-	public void remove(Node<E> node) {
+	public void remove(E element) {
 		Node<E> currentNode = head;
-		while(currentNode != null) {
-			if(currentNode.equals(node)) {
-				
-				break;
-			}
+		Node<E> previous = head;
+		while(currentNode != null && !currentNode.getData().equals(element)) {
+			previous = currentNode;
 			currentNode = currentNode.getNext();
+		}
+		
+		if(previous != null && currentNode != null) {
+			if(previous == currentNode) {
+				head = currentNode.getNext();
+			} else {
+				previous.setNext(currentNode.getNext());
+			}
+			
+			// make available for garbage collection
+			currentNode.setNext(null);
+			currentNode = null;
 		}
 	}
 	

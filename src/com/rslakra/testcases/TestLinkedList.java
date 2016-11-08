@@ -23,6 +23,12 @@ public class TestLinkedList {
 		list.append(new Node<Integer>(3));
 		list.insertAfter(second, new Node<Integer>(4));
 		System.out.println(list);
+		list.remove(4);
+		// list.remove(1);
+		list.remove(3);
+		// list.remove(0);
+		list.remove(2);
+		System.out.println(list);
 	}
 	
 	/**
@@ -37,6 +43,10 @@ public class TestLinkedList {
 		list.append(new Node<String>("Three"));
 		list.insertAfter(second, new Node<String>("Four"));
 		System.out.println(list);
+		list.remove("Zero");
+		list.remove("Three");
+		list.remove("Two");
+		System.out.println(list);
 	}
 	
 	/**
@@ -46,6 +56,7 @@ public class TestLinkedList {
 	public static void main(String[] args) {
 		TestLinkedList linkList = new TestLinkedList();
 		linkList.listNumbers();
+		System.out.println();
 		linkList.listStrings();
 	}
 	
