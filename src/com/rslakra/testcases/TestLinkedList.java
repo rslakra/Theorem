@@ -22,12 +22,18 @@ public class TestLinkedList {
 		list.push(new Node<Integer>(0));
 		list.append(new Node<Integer>(3));
 		list.insertAfter(second, new Node<Integer>(4));
+		System.out.println("Size:" + list.size());
 		System.out.println(list);
-		list.remove(4);
-		// list.remove(1);
-		list.remove(3);
-		// list.remove(0);
-		list.remove(2);
+		// list.remove(4);
+		// list.remove(3);
+		// list.remove(2);
+		// System.out.println(list);
+		
+		list.remove(1);
+		// // list.remove(1);
+		// list.remove(3);
+		// // list.remove(0);
+		// list.remove(2);
 		System.out.println(list);
 	}
 	
@@ -42,10 +48,13 @@ public class TestLinkedList {
 		list.push(new Node<String>("Zero"));
 		list.append(new Node<String>("Three"));
 		list.insertAfter(second, new Node<String>("Four"));
+		System.out.println("Size:" + list.size());
+		System.out.println("Size with recursion:" + list.size(list.getHead()));
 		System.out.println(list);
 		list.remove("Zero");
 		list.remove("Three");
 		list.remove("Two");
+		System.out.println("Size:" + list.size());
 		System.out.println(list);
 	}
 	

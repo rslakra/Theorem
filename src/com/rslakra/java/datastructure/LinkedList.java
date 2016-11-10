@@ -21,6 +21,15 @@ public class LinkedList<E> {
 	}
 	
 	/**
+	 * Return the head node of the linked list.
+	 * 
+	 * @return
+	 */
+	public Node<E> getHead() {
+		return this.head;
+	}
+	
+	/**
 	 * Returns true if the linked list is empty otherwise false.
 	 * 
 	 * @return
@@ -117,19 +126,71 @@ public class LinkedList<E> {
 	}
 	
 	/**
+	 * Removes the node of the specified position.
+	 * 
+	 * @param node
+	 */
+	public void remove(int position) {
+		Node<E> currentNode = head;
+		Node<E> previous = head;
+		for(int i = 0; i < position - 1 && currentNode != null; i++) {
+			previous = currentNode;
+			currentNode = currentNode.getNext();
+		}
+		
+		if(previous != null && currentNode != null) {
+			if(previous == currentNode) {
+				head = currentNode.getNext();
+			} else {
+				previous.setNext(currentNode.getNext());
+			}
+			
+			// make available for garbage collection
+			currentNode.setNext(null);
+			currentNode = null;
+		}
+	}
+	
+	/**
+	 * Returns the size of the linked list.
+	 * 
+	 * @return
+	 */
+	public int size() {
+		int size = 0;
+		Node<E> current = head;
+		while(current != null) {
+			current = current.getNext();
+			size++;
+		}
+		
+		return size;
+	}
+	
+	/**
+	 * Returns the size of the linked list using recursion.
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public int size(Node<E> node) {
+		return (node == null ? 0 : (1 + size(node.getNext())));
+	}
+	
+	/**
 	 * Returns the string representation of this oject.
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 		StringBuilder sBuilder = new StringBuilder();
-		Node<E> tempNode = head;
+		Node<E> current = head;
 		sBuilder.append("[");
 		
-		while(tempNode != null) {
-			sBuilder.append(tempNode.getData());
-			tempNode = tempNode.getNext();
-			if(tempNode != null) {
+		while(current != null) {
+			sBuilder.append(current.getData());
+			current = current.getNext();
+			if(current != null) {
 				sBuilder.append(", ");
 			}
 		}
