@@ -152,6 +152,27 @@ public class LinkedList<E> {
 	}
 	
 	/**
+	 * Removes the first node of the linked list.
+	 */
+	public void removeFirst() {
+		Node<E> current = head;
+		head = current.getNext();
+		current.setNext(null);
+		current = null;
+	}
+	
+	/**
+	 * Removes the first node of the linked list.
+	 *
+	 * @param node
+	 * @return
+	 */
+	// @Deprecated
+	// public Node<E> removeFirst(Node<E> node) {
+	// return (node == null ? null : node.getNext());
+	// }
+	
+	/**
 	 * Returns the size of the linked list.
 	 * 
 	 * @return
@@ -170,11 +191,100 @@ public class LinkedList<E> {
 	/**
 	 * Returns the size of the linked list using recursion.
 	 * 
+	 * Time complexity of append is O(n) where n is the number of nodes in
+	 * linked list. Since there is a loop from head to end, the function does
+	 * O(n) work.
+	 * 
 	 * @param node
 	 * @return
 	 */
 	public int size(Node<E> node) {
 		return (node == null ? 0 : (1 + size(node.getNext())));
+	}
+	
+	/**
+	 * Return true if the linked list contains the specified node for an element
+	 * otherwise false. The comparison is case-sensitive.
+	 * 
+	 * Time complexity of append is O(n) where n is the number of nodes in
+	 * linked list. Since there is a loop from head to end, the function does
+	 * O(n) work.
+	 * 
+	 * @param element
+	 * @return
+	 */
+	public boolean contain(E element) {
+		boolean contains = false;
+		Node<E> current = head;
+		while(current != null) {
+			if(current.getData().equals(element)) {
+				contains = true;
+				break;
+			}
+			current = current.getNext();
+		}
+		
+		return contains;
+	}
+	
+	/**
+	 * 
+	 * @param node
+	 * @param element
+	 * @return
+	 */
+	public boolean contain(Node<E> node, E element) {
+		return (node == null ? false : node.getData().equals(element) ? true : contain(node.getNext(), element));
+	}
+	
+	/**
+	 * Swaps the source node with the target node.
+	 * 
+	 * @param source
+	 * @param target
+	 */
+	public void swapNodes(E source, E target) {
+		if(source == target) {
+			return;
+		}
+		
+		// find source and its previous nodes.
+		Node<E> sNode = head;
+		Node<E> sPrevious = null;
+		while(sNode != null && !sNode.getData().equals(source)) {
+			sPrevious = sNode;
+			sNode = sNode.getNext();
+		}
+		
+		// find target and its previous nodes.
+		Node<E> tNode = head;
+		Node<E> tPrevious = null;
+		while(tNode != null && !tNode.getData().equals(target)) {
+			tPrevious = tNode;
+			tNode = tNode.getNext();
+		}
+		
+		// if any node does not exist, nothing to do.
+		if(sNode == null || tNode == null) {
+			return;
+		}
+		
+		if(sPrevious != null) {
+			sPrevious.setNext(tNode);
+		} else {
+			head = tNode;
+		}
+		
+		if(tPrevious != null) {
+			tPrevious.setNext(sNode);
+		} else {
+			head = sNode;
+		}
+		
+		// swap next pointers
+		Node<E> tempNode = sNode.getNext();
+		sNode.setNext(tNode.getNext());
+		tNode.setNext(tempNode);
 	}
 	
 	/**
