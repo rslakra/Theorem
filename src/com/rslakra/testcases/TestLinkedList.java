@@ -120,6 +120,16 @@ public class TestLinkedList {
 	
 	/**
 	 * 
+	 * @param index
+	 */
+	public void getValue(int index) {
+		LinkedList<Integer> list = createIntegerLinkedList();
+		System.out.println(list);
+		System.out.println(list.getValue(index));
+	}
+	
+	/**
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -131,6 +141,9 @@ public class TestLinkedList {
 		linkList.findNodes();
 		System.out.println();
 		linkList.swapNodes();
+		System.out.println();
+		linkList.getValue(3);
+		linkList.getValue(1);
 	}
 	
 }

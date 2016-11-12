@@ -288,6 +288,25 @@ public class LinkedList<E> {
 	}
 	
 	/**
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public E getValue(int index) {
+		Node<E> current = head;
+		int ctr = 0;
+		while(current != null) {
+			if(ctr == index) {
+				break;
+			}
+			ctr++;
+			current = current.getNext();
+		}
+		
+		return (current == null ? null : current.getData());
+	}
+	
+	/**
 	 * Returns the string representation of this oject.
 	 * 
 	 * @see java.lang.Object#toString()
