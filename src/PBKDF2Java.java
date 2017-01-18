@@ -1,5 +1,3 @@
-package com.rslakra.core.security;
-
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -26,7 +24,7 @@ public final class PBKDF2Java {
 	/* Iterations */
 	private static final int ITERATIONS = 1000;
 	/* Key Length */
-	private static final int KEY_LENGTH = 64;
+	private static final int KEY_LENGTH = 16;
 	
 	/**
 	 * 
@@ -119,18 +117,6 @@ public final class PBKDF2Java {
 		return pbkdf2String;
 	}
 	
-	public static String hashPassword(String password, byte[] salt, int keyLength) {
-		String hashPassword = null;
-		try {
-			byte[] hashBytes = pbkdf2(password.toCharArray(), salt, ITERATIONS, keyLength);
-			hashPassword = toHex(hashBytes);
-		} catch(NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		
-		return hashPassword;
-	}
-	
 	/**
 	 * 
 	 * @param originalPassword
@@ -144,14 +130,14 @@ public final class PBKDF2Java {
 		int iterations = Integer.parseInt(parts[0]);
 		byte[] salt = fromHex(parts[1]);
 		byte[] hash = fromHex(parts[2]);
-		byte[] testHash = pbkdf2(originalPassword.toCharArray(), salt, iterations, hash.length);
+		byte[] pbkdf2Hash = pbkdf2(originalPassword.toCharArray(), salt, iterations, hash.length);
 		
-		int diff = hash.length ^ testHash.length;
-		for(int i = 0; i < hash.length && i < testHash.length; i++) {
-			diff |= hash[i] ^ testHash[i];
+		int difference = hash.length ^ pbkdf2Hash.length;
+		for(int i = 0; i < hash.length && i < pbkdf2Hash.length; i++) {
+			difference |= hash[i] ^ pbkdf2Hash[i];
 		}
 		
-		return (diff == 0);
+		return (difference == 0);
 	}
 	
 	/**
@@ -171,16 +157,6 @@ public final class PBKDF2Java {
 		
 		matched = validatePassword("password1", pbkdf2String);
 		System.out.println(matched);
-		
-		String password = "password";
-		String password1 = "password1";
-		byte[] salt = getSalt();
-		String hashPassword = hashPassword(password, salt, KEY_LENGTH);
-		String hashPassword1 = hashPassword(password1, salt, KEY_LENGTH);
-		String newHashPassword = hashPassword("password", salt, KEY_LENGTH);
-		System.out.println("hashPassword:" + hashPassword);
-		System.out.println("hashPassword1:" + hashPassword1);
-		System.out.println("newHashPassword:" + newHashPassword);
 	}
 	
 }
