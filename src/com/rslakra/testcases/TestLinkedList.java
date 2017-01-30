@@ -24,6 +24,7 @@ public class TestLinkedList {
 		list.push(new Node<Integer>(0));
 		list.append(new Node<Integer>(3));
 		list.insertAfter(second, new Node<Integer>(4));
+		list.removeAt(2);
 		return list;
 	}
 	

@@ -130,7 +130,7 @@ public class LinkedList<E> {
 	 * 
 	 * @param node
 	 */
-	public void remove(int position) {
+	public void removeAt(int position) {
 		Node<E> currentNode = head;
 		Node<E> previous = head;
 		for(int i = 0; i < position - 1 && currentNode != null; i++) {
@@ -191,7 +191,7 @@ public class LinkedList<E> {
 	/**
 	 * Returns the size of the linked list using recursion.
 	 * 
-	 * Time complexity of append is O(n) where n is the number of nodes in
+	 * Time complexity of size is O(n) where n is the number of nodes in
 	 * linked list. Since there is a loop from head to end, the function does
 	 * O(n) work.
 	 * 
