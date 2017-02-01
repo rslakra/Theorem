@@ -134,17 +134,28 @@ public class TestLinkedList {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		TestLinkedList linkList = new TestLinkedList();
-		linkList.printLinedList();
-		System.out.println();
-		linkList.removeNodes();
-		System.out.println();
-		linkList.findNodes();
-		System.out.println();
-		linkList.swapNodes();
-		System.out.println();
-		linkList.getValue(3);
-		linkList.getValue(1);
+		// TestLinkedList linkList = new TestLinkedList();
+		// linkList.printLinedList();
+		// System.out.println();
+		// linkList.removeNodes();
+		// System.out.println();
+		// linkList.findNodes();
+		// System.out.println();
+		// linkList.swapNodes();
+		// System.out.println();
+		// linkList.getValue(3);
+		// linkList.getValue(1);
+		
+		LinkedList<Integer> list = new LinkedList<>();
+		list.append(new Node<Integer>(1));
+		list.append(new Node<Integer>(2));
+		list.append(new Node<Integer>(3));
+		list.append(new Node<Integer>(4));
+		list.append(new Node<Integer>(5));
+		System.out.println(list);
+		
+		list.insertAt(3, new Node<Integer>(20));
+		System.out.println(list);
 	}
 	
 }

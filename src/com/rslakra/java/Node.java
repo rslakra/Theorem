@@ -11,6 +11,7 @@ package com.rslakra.java;
 public class Node<T> {
 	private final T data;
 	private Node<T> next;
+	private Node<T> previous;
 	
 	/**
 	 * 
@@ -19,6 +20,7 @@ public class Node<T> {
 	public Node(final T data) {
 		this.data = data;
 		this.next = null;
+		this.previous = null;
 	}
 	
 	/**
@@ -30,6 +32,7 @@ public class Node<T> {
 	}
 	
 	/**
+	 * Returns the next node.
 	 * 
 	 * @return
 	 */
@@ -44,6 +47,24 @@ public class Node<T> {
 	 */
 	public void setNext(Node<T> next) {
 		this.next = next;
+	}
+	
+	/**
+	 * Returns the previous node.
+	 * 
+	 * @return
+	 */
+	public Node<T> getPrevious() {
+		return previous;
+	}
+	
+	/**
+	 * The previous node to be set.
+	 * 
+	 * @param previous
+	 */
+	public void setPrevious(Node<T> previous) {
+		this.previous = previous;
 	}
 	
 	/**
