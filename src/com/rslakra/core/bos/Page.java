@@ -1,6 +1,6 @@
 package com.rslakra.core.bos;
 
-import com.rslakra.utils.ObjectHelper;
+import com.rslakra.utils.Objects;
 
 /**
  * 
@@ -16,6 +16,6 @@ public class Page {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return ObjectHelper.toString(this);
+		return Objects.toString(this);
 	}
 }

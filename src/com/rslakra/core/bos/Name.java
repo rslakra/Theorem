@@ -1,7 +1,6 @@
 package com.rslakra.core.bos;
 
-import com.rslakra.utils.ObjectHelper;
-import com.rslakra.utils.StringHelper;
+import com.rslakra.utils.Objects;
 import com.rslakra.utils.ToString;
 
 /**
@@ -83,7 +82,7 @@ public class Name {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return ObjectHelper.toString(this);
+		return Objects.toString(this);
 	}
 	
 	/**
@@ -91,7 +90,7 @@ public class Name {
 	 */
 	public static void main(String[] args) {
 		Name name = new Name("Rohtash", "Singh", "Lakra");
-		System.out.println(ObjectHelper.toString(name));
+		System.out.println(Objects.toString(name));
 		System.out.println();
 		System.out.println(new ToString(true).toString(name));
 		System.out.println();
@@ -101,7 +100,7 @@ public class Name {
 		names[0] = new Name("Rohtash", "Singh", "Lakra");
 		names[1] = new Name("Sangita", null, "Lakra");
 		System.out.println();
-		System.out.println(ObjectHelper.toString(names));
+		System.out.println(Objects.toString(names));
 		System.out.println();
 		System.out.println(new ToString(true).toString(names));
 		System.out.println();

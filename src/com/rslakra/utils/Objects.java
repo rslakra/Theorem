@@ -6,7 +6,7 @@ package com.rslakra.utils;
  * @date 10/18/2016 02:15:00 PM
  *
  */
-public final class ObjectHelper {
+public final class Objects {
 	/**
 	 * Returns true if the object is null or otherwise false.
 	 * 
@@ -16,7 +16,7 @@ public final class ObjectHelper {
 	public static boolean isNull(Object object) {
 		return (null == object);
 	}
-	
+
 	/**
 	 * Returns true if the object is not null otherwise false.
 	 * 
@@ -26,7 +26,7 @@ public final class ObjectHelper {
 	public static boolean isNotNull(Object object) {
 		return (!isNull(object));
 	}
-	
+
 	/**
 	 * Returns true if either the strings array is null or empty otherwise
 	 * false.
@@ -37,7 +37,7 @@ public final class ObjectHelper {
 	public static boolean isNullOrEmpty(Object... objects) {
 		return (isNull(objects) || objects.length == 0);
 	}
-	
+
 	/**
 	 * Returns the string representation of the specified <code>object</code>;
 	 * 
@@ -48,7 +48,7 @@ public final class ObjectHelper {
 	public static String toString(Object object, boolean useReflection) {
 		return (useReflection ? new ToString().toString(object) : object.toString());
 	}
-	
+
 	/**
 	 * 
 	 * @param object

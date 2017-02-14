@@ -1,6 +1,6 @@
 package com.rslakra.core.bos;
 
-import com.rslakra.utils.ObjectHelper;
+import com.rslakra.utils.Objects;
 
 /**
  * 
@@ -79,7 +79,7 @@ public class Address {
 	 * Returns the string representation of this object.
 	 */
 	public String toString() {
-		return ObjectHelper.toString(this);
+		return Objects.toString(this);
 //		StringBuilder sBuilder = new StringBuilder();
 //		if(StringHelper.isNotNull(getStreet())) {
 //			sBuilder.append(getStreet()).append("\n");
