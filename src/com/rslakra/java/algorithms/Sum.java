@@ -165,42 +165,44 @@ public class Sum {
 	public static List<List<Integer>> uniqueTripletsZeroSum(int[] elements) {
 		List<List<Integer>> uniqueTriplets = new ArrayList<List<Integer>>();
 		
-		if(elements != null && elements.length > 0) {
+		if(elements != null && elements.length > 2) {
 			Arrays.sort(elements);
 			
-			for(int i = 0; i < elements.length; i++) {
-				int j = i + 1;
-				int k = elements.length - 1;
-				
-				while(j < k) {
-					int sum = (elements[i] + elements[j] + elements[k]);
-					if(sum == 0) {
-						List<Integer> set = new ArrayList<>();
-						set.add(i);
-						set.add(j);
-						set.add(k);
-						uniqueTriplets.add(set);
-						
-						j++;
-						k--;
-						
-						// handle duplicates here
-						while(j < k && elements[j] == elements[j - 1]) {
+			for(int i = 0; i < elements.length - 2; i++) {
+				if(i == 0 || elements[i] > elements[i - 1]) {
+					
+					int j = i + 1;
+					int k = elements.length - 1;
+					
+					while(j < k) {
+						int sum = (elements[i] + elements[j] + elements[k]);
+						if(sum == 0) {
+							List<Integer> set = new ArrayList<>();
+							set.add(i);
+							set.add(j);
+							set.add(k);
+							uniqueTriplets.add(set);
+							
 							j++;
-						}
-						
-						while(j < k && elements[k] == elements[k + 1]) {
+							k--;
+							
+							// handle duplicates here
+							while(j < k && elements[j] == elements[j - 1]) {
+								j++;
+							}
+							
+							while(j < k && elements[k] == elements[k + 1]) {
+								k--;
+							}
+							
+						} else if(sum < 0) {
+							j++;
+						} else {
 							k--;
 						}
-						
-					} else if(sum < 0) {
-						j++;
-					} else {
-						k--;
 					}
 				}
 			}
-			
 		}
 		
 		return uniqueTriplets;
