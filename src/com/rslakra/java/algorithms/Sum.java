@@ -1,7 +1,9 @@
 package com.rslakra.java.algorithms;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Given an array of integers, find two numbers such that they add up to a
@@ -124,8 +126,6 @@ public class Sum {
 	 * @return
 	 */
 	public boolean find(int value) {
-		System.out.println(elements);
-		
 		for(Integer key : elements.keySet()) {
 			int target = value - key;
 			if(elements.containsKey(target)) {
@@ -138,6 +138,72 @@ public class Sum {
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Problem:
+	 * 
+	 * Given an array S of n integers, are there elements a, b, c in S such that
+	 * a + b + c = 0? Find all unique triplets in the array which gives the sum
+	 * of zero.
+	 * 
+	 * Note:
+	 * Elements in a triplet (a,b,c) must be in non-descending order. (ie, a ≤ b
+	 * ≤ c)
+	 * The solution set must not contain duplicate triplets.
+	 * 
+	 * For example, given array S = {-1 0 1 2 -1 -4},
+	 * 
+	 * A solution set is:
+	 * (-1, 0, 1)
+	 * (-1, -1, 2)
+	 * 
+	 * 
+	 * @param elements
+	 * @return
+	 */
+	public static List<List<Integer>> uniqueTripletsZeroSum(int[] elements) {
+		List<List<Integer>> uniqueTriplets = new ArrayList<List<Integer>>();
+		
+		if(elements != null && elements.length > 0) {
+			Arrays.sort(elements);
+			
+			for(int i = 0; i < elements.length; i++) {
+				int j = i + 1;
+				int k = elements.length - 1;
+				
+				while(j < k) {
+					int sum = (elements[i] + elements[j] + elements[k]);
+					if(sum == 0) {
+						List<Integer> set = new ArrayList<>();
+						set.add(i);
+						set.add(j);
+						set.add(k);
+						uniqueTriplets.add(set);
+						
+						j++;
+						k--;
+						
+						// handle duplicates here
+						while(j < k && elements[j] == elements[j - 1]) {
+							j++;
+						}
+						
+						while(j < k && elements[k] == elements[k + 1]) {
+							k--;
+						}
+						
+					} else if(sum < 0) {
+						j++;
+					} else {
+						k--;
+					}
+				}
+			}
+			
+		}
+		
+		return uniqueTriplets;
 	}
 	
 	/**
@@ -156,11 +222,14 @@ public class Sum {
 		sum.add(1);
 		sum.add(2);
 		sum.add(3);
-		sum.add(5);
+		// sum.add(5);
 		System.out.println(sum.find(2));
 		System.out.println(sum.find(4));
-		System.out.println(sum.find(7));
+		System.out.println(sum.find(6));
 		System.out.println(sum.find(13));
+		
+		int[] elements = { -1, 0, 1, 2, -1, -4 };
+		System.out.println(uniqueTripletsZeroSum(elements));
 	}
 	
 }
