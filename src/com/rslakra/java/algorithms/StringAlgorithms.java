@@ -145,6 +145,45 @@ public class StringAlgorithms {
 	}
 	
 	/**
+	 * Implement wildcard pattern matching with support for '?' and '*'.
+	 * 
+	 * Java Solution
+	 * 
+	 * To understand this solution, you can use s="aab" and p="*ab".
+	 * 
+	 * @return
+	 */
+	public static boolean wildCardMatching(String source, String criteria) {
+		int i = 0;
+		int j = 0;
+		int starIndex = -1;
+		int iIndex = -1;
+		
+		while(i < source.length()) {
+			if(j < criteria.length() && (criteria.charAt(j) == '?' || criteria.charAt(j) == source.charAt(i))) {
+				++i;
+				++j;
+			} else if(j < criteria.length() && criteria.charAt(j) == '*') {
+				starIndex = j;
+				iIndex = i;
+				j++;
+			} else if(starIndex != -1) {
+				j = starIndex + 1;
+				i = iIndex + 1;
+				iIndex++;
+			} else {
+				return false;
+			}
+		}
+		
+		while(j < criteria.length() && criteria.charAt(j) == '*') {
+			++j;
+		}
+		
+		return j == criteria.length();
+	}
+	
+	/**
 	 * Starting point.
 	 * 
 	 * @param args
@@ -169,6 +208,11 @@ public class StringAlgorithms {
 		string = "foo";
 		String another = "bar";
 		System.out.println("isIsomorphic(" + string + ", " + another + "):" + isIsomorphic(string, another));
+		
+		String source = "aaxab";
+		String criteria = "*ab";
+		System.out.println("wildCardMatching(" + source + ", " + criteria + "):" + wildCardMatching(source, criteria));
+		
 	}
 	
 }
