@@ -27,51 +27,109 @@ public class Sorting {
 		}
 	}
 	
-	/**
-	 * Prints the values of the given array.
-	 * 
-	 * @param values
-	 */
-	public static void print(int[] values) {
-		System.out.println(Arrays.toString(values));
-	}
 	
 	/**
-	 * Sorts the values using the bubble sort.
+	 * Sorts the values of the given array in ascending order.
 	 * 
 	 * @param values
 	 */
-	public static void bubbleSort(int[] values) {
-		if(values != null) {
-			for(int i = 0; i < values.length - 1; i++) {
-				// System.out.println("Iteration:" + i + ", going till: " +
-				// (values.length - i - 1));
-				for(int j = 0; j < values.length - i - 1; j++) {
-					if(values[j] > values[j + 1]) {
-						int temp = values[j];
-						values[j] = values[j + 1];
-						values[j + 1] = temp;
-					}
+	public static void selectionSortAscending(int[] values) {
+		int temp;
+		for (int i = 0; i < values.length; i++) {
+			for (int j = i + 1; j < values.length; j++) {
+				if (values[i] > values[j]) {
+					temp = values[j];
+					values[j] = values[i];
+					values[i] = temp;
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * Sorts the values using the insert sort.
+	 * Sorts the values of the given array in descending order.
 	 * 
 	 * @param values
 	 */
-	public static void insertSort(int[] values) {
-		if(values != null) {
-			int j;
-			int temp;
-			for(int i = 1; i < values.length; i++) {
-				temp = values[i];
-				for(j = i; j > 0 && temp < values[j - 1]; j--) {
-					values[j] = values[j - 1];
+	public static void selectionSortDescending(int[] values) {
+		int temp;
+		for (int i = 0; i < values.length; i++) {
+			for (int j = i + 1; j < values.length; j++) {
+				if (values[i] < values[j]) {
+					temp = values[j];
+					values[j] = values[i];
+					values[i] = temp;
 				}
-				values[j] = temp;
+			}
+		}
+	}
+
+	/**
+	 * Sorts the values of the given array in ascending order.
+	 * 
+	 * @param values
+	 */
+	public static void insertSortAscending(int[] values) {
+		int j, temp;
+		for (int i = 1; i < values.length; i++) {
+			temp = values[i];
+			for (j = i; j > 0 && temp < values[j - 1]; j--) {
+				values[j] = values[j - 1];
+			}
+			values[j] = temp;
+		}
+	}
+
+	/**
+	 * Sorts the values of the given array in descending order.
+	 * 
+	 * @param values
+	 */
+	public static void insertSortDescending(int[] values) {
+		int j, temp;
+		for (int i = 1; i < values.length; i++) {
+			temp = values[i];
+			for (j = i; j > 0 && temp > values[j - 1]; j--) {
+				values[j] = values[j - 1];
+			}
+			values[j] = temp;
+		}
+	}
+
+	/**
+	 * Sorts the values of the given array in ascending order.
+	 * 
+	 * @param values
+	 */
+	public static void bubbleSortAscending(int[] values) {
+		int temp;
+		for (int i = 0; i < values.length - 1; i++) {
+			for (int j = 0; j < values.length - 1 - i; j++) {
+				if (values[j] > values[j + 1]) {
+					temp = values[j];
+					values[j] = values[j + 1];
+					values[j + 1] = temp;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Sorts the values of the given array in descending order.
+	 * 
+	 * f(n) = O(n2)
+	 * 
+	 * @param values
+	 */
+	public static void bubbleSortDescending(int[] values) {
+		int temp;
+		for (int i = 0; i < values.length - 1; i++) {
+			for (int j = 0; j < values.length - 1 - i; j++) {
+				if (values[j] < values[j + 1]) {
+					temp = values[j];
+					values[j] = values[j + 1];
+					values[j + 1] = temp;
+				}
 			}
 		}
 	}
@@ -146,17 +204,25 @@ public class Sorting {
 		int SIZE = 1000000;
 		int[] values = new int[SIZE];
 		Sorting.fillRandoms(values, SIZE);
-		Sorting.print(values);
+		System.out.println(Arrays.toString(values));
 		
 		long sTime = System.currentTimeMillis();
 		// sort
-		// Sorting.bubbleSort(values);
-		Sorting.insertSort(values);
+		
+		// selectionSortAscending(values);
+		// selectionSortDescending(values);
+
+		// insertSortAscending(values);
+		// insertSortDescending(values);
+
+		// bubbleSortAscending(values);
+		// bubbleSortDescending(values);
+		
 		// int[] temp = new int[values.length];
 		// Sorting.mergeSort(values, temp, 0, values.length - 1);
 		long timeTaken = (System.currentTimeMillis() - sTime);
 		System.out.println("Took :" + timeTaken + " millis");
-		Sorting.print(values);
+		System.out.println(Arrays.toString(values));
 	}
 	
 }
