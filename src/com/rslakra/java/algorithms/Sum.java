@@ -209,6 +209,39 @@ public class Sum {
 	}
 	
 	/**
+	 * Given an array of n positive integers and a positive integer s, find the
+	 * minimal length of a subarray of which the sum ≥ s. If there isn't one,
+	 * return 0 instead.
+	 * 
+	 * For example, given the array [2,3,1,2,4,3] and s = 7, the subarray [4,3]
+	 * has the minimal length of 2 under the problem constraint.
+	 * 
+	 * 
+	 * @param array
+	 * @param sum
+	 * @return
+	 */
+	public static int[] minSubArrayLength(int[] array, int sum) {
+		int[] result = new int[2];
+//		Arrays.sort(array);
+		int i = 0;
+		int j = array.length - 1;
+		while(i < j) {
+			if(array[i] + array[j] > sum) {
+				i++;
+			} else if(array[i] + array[j] < sum) {
+				j--;
+			} else if(array[i] + array[j] == sum) {
+				result[0] = array[i];
+				result[1] = array[j];
+				break;
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * 
 	 * @param args
 	 */
@@ -232,6 +265,10 @@ public class Sum {
 		
 		int[] elements = { -1, 0, 1, 2, -1, -4 };
 		System.out.println(uniqueTripletsZeroSum(elements));
+		
+		int[] array = { 2, 3, 1, 2, 4, 3 };
+		System.out.println(Arrays.toString(minSubArrayLength(array, 7)));
+		
 	}
 	
 }
