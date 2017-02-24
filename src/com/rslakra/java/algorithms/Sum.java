@@ -223,7 +223,7 @@ public class Sum {
 	 */
 	public static int[] minSubArrayLength(int[] array, int sum) {
 		int[] result = new int[2];
-//		Arrays.sort(array);
+		// Arrays.sort(array);
 		int i = 0;
 		int j = array.length - 1;
 		while(i < j) {
@@ -239,6 +239,58 @@ public class Sum {
 		}
 		
 		return result;
+	}
+	
+	public static int productCalculator(int[] values, int index, int cValue) {
+		int result = index == 0 ? 0 : 1;
+		for(int i = index - 1; i >= 0 && index - i <= cValue; i--) {
+			result = result * values[i];
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * You have a range of consecutive numbers, from 1 to n (inclusive). e.g.
+	 * [1,2,3,4,...,n].
+	 * 
+	 * We would like to calculate a sum of a function across the entire range,
+	 * where the function returns the product of the *preceding* C elements.
+	 * 
+	 * If there are less than C previous elements, just use the available
+	 * numbers. i.e. if you are processing the fourth number in the range, but C
+	 * is greater than 3, then you will calculate the product using only the 3
+	 * available preceding numbers. In this situation as you move further along
+	 * in this range more preceding numbers become available.
+	 * 
+	 * A worked example follows: if n=5 and C=2, the correct products and final
+	 * sum for each element of the range are: 0 + 1 + 2 + 6 + 12 = 21
+	 * 
+	 * The solution should be implemented in Java. Initially calculate the value
+	 * where n=100 and C=10, and let us know the answer
+	 * 
+	 * Please additionally tell us the values where n=1000000 and C=200, but
+	 * only include the first 10 digits of the result in your answer.
+	 * 
+	 * What is the algorithmic complexity of your solution? What if you needed
+	 * to calculate n=10,000,000 and C=200 ?
+	 * 
+	 * @param values
+	 * @param check
+	 * @return
+	 */
+	public static void sumOfProduct(int n, int check) {
+		// populate values
+		int sum = 0;
+		int[] prods = new int[n];
+		int numbers[] = new int[n];
+		for(int i = 0; i < numbers.length; i++) {
+			numbers[i] = i + 1;
+			prods[i] = productCalculator(numbers, i, check);
+			sum += prods[i];
+		}
+		
+		System.out.println(Arrays.toString(prods) + "=" + sum);
 	}
 	
 	/**
@@ -268,6 +320,10 @@ public class Sum {
 		
 		int[] array = { 2, 3, 1, 2, 4, 3 };
 		System.out.println(Arrays.toString(minSubArrayLength(array, 7)));
+		
+		int n = 5;
+		int check = 2;
+		sumOfProduct(n, check);
 		
 	}
 	
