@@ -31,7 +31,7 @@ public class Search {
 	
 	public static void main(String[] args) {
 		int[] values = { 2, 4, 6, 9, 11, 38 };
-		System.out.println(binarySearch(values, 0, values.length - 1, 89));
+		System.out.println(binarySearch(values, 0, values.length - 1, 11));
 		
 	}
 	
