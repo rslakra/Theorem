@@ -13,7 +13,7 @@ import javax.crypto.spec.PBEKeySpec;
  * 
  * https://www.ietf.org/rfc/rfc2898.txt
  * 
- * @author Rohtash Singh Lakra (rsingh@boardvantage.com)
+ * @author Rohtash Singh Lakra
  * @date 11/21/2016 12:10:03 PM
  */
 public final class PBKDF2Generator {
