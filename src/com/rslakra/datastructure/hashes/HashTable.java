@@ -32,11 +32,27 @@ package com.rslakra.datastructure.hashes;
 public class HashTable<K, V> {
 
 	private int capacity;
-	private HashEntry[] entries;
+	private HashEntry<K, V>[] entries;
 	private int size;
 
+	/**
+	 * Returns the hash for the key.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	private final int keyHash(K key) {
+		int hash = key.hashCode() % this.capacity;
+		// mandatory to handle collisions, if any
+		while (entries[hash] != null && !entries[hash].getKey().equals(key)) {
+			hash = (hash + 1) % this.capacity;
+		}
+
+		return hash;
+	}
+
 	class HashEntry<K, V> {
-		K key;
+		final K key;
 		V value;
 
 		public HashEntry(K key, V value) {
@@ -62,12 +78,23 @@ public class HashTable<K, V> {
 			return value;
 		}
 
-		public int hashCode() {
-			if (key != null && value != null) {
-				return 31 * key.hashCode() * value.hashCode();
-			}
+		/**
+		 * The value to be set.
+		 * 
+		 * @param value
+		 */
+		public void setValue(V value) {
+			this.value = value;
+		}
 
-			return 0;
+		/**
+		 * Returns the hash code of the hash table.
+		 * 
+		 * @return
+		 * @see java.lang.Object#hashCode()
+		 */
+		public int hashCode() {
+			return ((key == null ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode()));
 		}
 
 		/**
@@ -79,7 +106,6 @@ public class HashTable<K, V> {
 		public String toString() {
 			return new StringBuilder().append(key).append("=").append(value).toString();
 		}
-
 	}
 
 	/**
@@ -108,22 +134,6 @@ public class HashTable<K, V> {
 	}
 
 	/**
-	 * Returns the hash for the key.
-	 * 
-	 * @param key
-	 * @return
-	 */
-	private int keyHash(K key) {
-		int hash = key.hashCode() % this.capacity;
-		// mandatory to handle collisions, if any
-		while (entries[hash] != null && !entries[hash].getKey().equals(key)) {
-			hash = (hash + 1) % this.capacity;
-		}
-
-		return hash;
-	}
-
-	/**
 	 * Returns the value of the key.
 	 * 
 	 * @param key
@@ -145,11 +155,88 @@ public class HashTable<K, V> {
 		size++;
 	}
 
+	/**
+	 * Remves the element for the key.
+	 * 
+	 * @param key
+	 * @return
+	 */
 	public V remove(K key) {
-		V value = (V) entries[keyHash(key)];
-		entries[keyHash(key)] = null;
-		size--;
+		V value = get(key);
+
+		// handle collissions, if any
+		if (value != null) {
+			int hash = keyHash(key);
+			entries[hash] = null;
+			size--;
+			hash = (hash + 1) % capacity;
+
+			// find all entries of the similar hash, if any
+			while (entries[hash] != null) {
+				HashEntry<K, V> entry = entries[hash];
+				entries[hash] = null;
+				size--;
+				put(entry.getKey(), entry.getValue());
+				hash = (hash + 1) % capacity;
+			}
+		}
+
 		return value;
+	}
+
+	/**
+	 * Returns true if the key exists in the hash table otherwise false.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public boolean hasKey(K key) {
+		int hash = keyHash(key);
+		return (entries[hash] != null && entries[hash].getKey().equals(key));
+	}
+
+	/**
+	 * Returns true if the value exists in the hash table otherwise false.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public boolean hasValue(V value) {
+		for (int i = 0; i < capacity; i++) {
+			HashEntry<K, V> entry = entries[i];
+			if (entry != null && entry.getValue().equals(value)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the string representation of this object.
+	 * 
+	 * @return
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		StringBuilder sBuilder = new StringBuilder("{");
+		boolean isFirst = true;
+		for (int i = 0; i < capacity; i++) {
+			HashEntry<K, V> entry = entries[i];
+			if (entry != null) {
+				if (isFirst) {
+					isFirst = false;
+				} else {
+					sBuilder.append(", ");
+				}
+
+				sBuilder.append((entry.getKey() == this ? "(this map)" : entry.getKey()));
+				sBuilder.append("=");
+				sBuilder.append((entry.getValue() == this ? "(this map)" : entry.getValue()));
+			}
+		}
+
+		return sBuilder.append("}").toString();
 	}
 
 }

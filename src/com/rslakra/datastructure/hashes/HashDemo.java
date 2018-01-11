@@ -37,15 +37,31 @@ public class HashDemo {
 	public static void main(String[] args) {
 		HashTable<Integer, Integer> hashTable = new HashTable<>();
 		System.out.println(hashTable.get(1));
+		System.out.println();
+
+		// add entries in hashmap.
 		hashTable.put(1, 11);
 		hashTable.put(2, 12);
 		hashTable.put(3, 13);
 		hashTable.put(4, 14);
-		System.out.println(hashTable.size());
+		System.out.println("Size:" + hashTable.size());
 		System.out.println(hashTable.get(1));
-
+		System.out.println();
+		// remove entries from hash map.
 		hashTable.remove(3);
-		System.out.println(hashTable.size());
+		System.out.println("Size:" + hashTable.size());
+		System.out.println(hashTable);
+		System.out.println();
+
+		// check has key or value in hash table
+		System.out.println(hashTable.hasKey(2));
+		System.out.println(hashTable.hasKey(3));
+		System.out.println(hashTable.hasValue(14));
+		System.out.println();
+		
+//		HashTable<Integer, Integer> newHashTable = new HashTable<>();
+//		newHashTable.put(10, 1);
+//		newHashTable.put(hashTable, hashTable);
 
 	}
 
