@@ -9,10 +9,11 @@ package com.rslakra.java;
  * @param <T>
  */
 public class Node<T> {
+
 	private final T data;
 	private Node<T> next;
 	private Node<T> previous;
-	
+
 	/**
 	 * 
 	 * @param data
@@ -22,7 +23,7 @@ public class Node<T> {
 		this.next = null;
 		this.previous = null;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -30,7 +31,7 @@ public class Node<T> {
 	public T getData() {
 		return data;
 	}
-	
+
 	/**
 	 * Returns the next node.
 	 * 
@@ -39,7 +40,7 @@ public class Node<T> {
 	public Node<T> getNext() {
 		return next;
 	}
-	
+
 	/**
 	 * The next node to be set.
 	 * 
@@ -48,7 +49,7 @@ public class Node<T> {
 	public void setNext(Node<T> next) {
 		this.next = next;
 	}
-	
+
 	/**
 	 * Returns the previous node.
 	 * 
@@ -57,7 +58,7 @@ public class Node<T> {
 	public Node<T> getPrevious() {
 		return previous;
 	}
-	
+
 	/**
 	 * The previous node to be set.
 	 * 
@@ -66,7 +67,7 @@ public class Node<T> {
 	public void setPrevious(Node<T> previous) {
 		this.previous = previous;
 	}
-	
+
 	/**
 	 * Returns the string representation of this object.
 	 * 
@@ -75,5 +76,5 @@ public class Node<T> {
 	public String toString() {
 		return (data == null ? "" : data.toString());
 	}
-	
+
 }
