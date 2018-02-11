@@ -39,13 +39,41 @@ public class LinkedList<E> implements List<E> {
 	 * @version 1.0.0
 	 * @since 1.0.0
 	 */
-	private class Node<E> {
-		E data;
-		Node<E> next;
+	private class Node {
+		private E data;
+		private Node next;
 
-		Node(E data) {
+		public Node(E data) {
 			this.data = data;
 			next = null;
+		}
+
+		/**
+		 * Returns the value of data.
+		 *
+		 * @return the data
+		 */
+		public E getData() {
+			return data;
+		}
+
+		/**
+		 * Returns the value of next.
+		 *
+		 * @return the next
+		 */
+		public Node getNext() {
+			return next;
+		}
+
+		/**
+		 * The next to be set.
+		 *
+		 * @param next
+		 *            the next to set
+		 */
+		public void setNext(Node next) {
+			this.next = next;
 		}
 
 		public String toString() {
@@ -53,8 +81,13 @@ public class LinkedList<E> implements List<E> {
 		}
 	}
 
-	private Node<E> root;
+	private Node root;
 	private int size;
+
+	public LinkedList() {
+		root = null;
+		size = 0;
+	}
 
 	/**
 	 * @return
@@ -62,8 +95,7 @@ public class LinkedList<E> implements List<E> {
 	 */
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	/**
@@ -72,8 +104,7 @@ public class LinkedList<E> implements List<E> {
 	 */
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return (size == 0);
 	}
 
 	/**
@@ -83,19 +114,34 @@ public class LinkedList<E> implements List<E> {
 	 */
 	@Override
 	public boolean contains(Object item) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	/**
-	 * @param e
+	 * 
+	 * @param parent
+	 * @param newNode
+	 * @return
+	 */
+	private Node insert(Node parent, E data) {
+		if (parent == null) {
+			parent = new Node(data);
+			size++;
+			return parent;
+		} else {
+			return insert(parent.getNext(), data);
+		}
+	}
+
+	/**
+	 * @param item
 	 * @return
 	 * @see com.devamatre.algorithms.lists.List#add(java.lang.Object)
 	 */
 	@Override
-	public boolean add(E e) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean add(E item) {
+		root = insert(root, item);
+		return true;
 	}
 
 	/**
@@ -253,6 +299,34 @@ public class LinkedList<E> implements List<E> {
 	public List<E> subList(int fromIndex, int toIndex) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * Returns the string representation of this object.
+	 * 
+	 * @return
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		StringBuilder sBuilder = new StringBuilder("[");
+		if (!isEmpty()) {
+			Node temp = root;
+			boolean isFirst = true;
+			while (temp != null) {
+				if (isFirst) {
+					isFirst = false;
+				}
+
+				if (!isFirst) {
+					sBuilder.append(", ");
+				}
+
+				sBuilder.append(temp.getData());
+				temp = temp.getNext();
+			}
+		}
+
+		return sBuilder.append("]").toString();
 	}
 
 }

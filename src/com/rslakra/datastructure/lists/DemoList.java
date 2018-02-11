@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (C) Devamatre Inc 2009-2018
+ * Copyright (C) Devamatre Technologies 2017
  * 
  * This code is licensed to Devamatre under one or more contributor license 
  * agreements. The reproduction, transmission or use of this code or the 
@@ -20,37 +20,34 @@
  * Devamatre reserves the right to modify the technical specifications and or 
  * features without any prior notice.
  *****************************************************************************/
-package com.rslakra.testcases;
+package com.rslakra.datastructure.lists;
 
-public class Test {
-	
+/**
+ * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
+ * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
+ * @created 2018-01-16 06:53:53 PM
+ * @version 1.0.0
+ * @since 1.0.0
+ */
+public class DemoList {
+
 	/**
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static boolean findDuplicateChars(String str) {
-		int checker = 0;
-		for(int i = 0; i < str.length(); ++i) {
-			int val = str.charAt(i) - 'a';
-			int leftShift = (1 << val);
-			int result = (checker & leftShift);
-			System.out.println("checker: " + checker + ", val: " + val + ", leftShift: " + leftShift + ", result: " + result);
-			if(result > 0)
-				return false;
-			checker |= leftShift;
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println(findDuplicateChars("abc"));
-		System.out.println(findDuplicateChars("bcdb"));
+		// array list.
+		List<String> list = ListFactory.getListFor(ListType.ARRAY_LIST);
+		ListFactory.fillList(list);
+		System.out.println(list);
+		System.out.println("Size:" + list.size());
+		System.out.println();
+
+		// linked list.
+		list = ListFactory.getListFor(ListType.LINKED_LIST);
+		ListFactory.fillList(list);
+		System.out.println(list);
+		System.out.println("Size:" + list.size());
+		System.out.println();
 	}
-	
+
 }

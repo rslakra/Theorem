@@ -1,6 +1,25 @@
-/**
+/******************************************************************************
+ * Copyright (C) Devamatre Inc 2009-2018
  * 
- */
+ * This code is licensed to Devamatre under one or more contributor license 
+ * agreements. The reproduction, transmission or use of this code or the 
+ * snippet is not permitted without prior express written consent of Devamatre. 
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the license is distributed on an "AS IS" BASIS, WITHOUT 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied and the 
+ * offenders will be liable for any damages. All rights, including  but not
+ * limited to rights created by patent grant or registration of a utility model 
+ * or design, are reserved. Technical specifications and features are binding 
+ * only insofar as they are specifically and expressly agreed upon in a written 
+ * contract.
+ * 
+ * You may obtain a copy of the License for more details at:
+ *      http://www.devamatre.com/licenses/license.txt.
+ *      
+ * Devamatre reserves the right to modify the technical specifications and or 
+ * features without any prior notice.
+ *****************************************************************************/
 package com.rslakra.utils;
 
 import java.lang.reflect.AccessibleObject;
@@ -18,12 +37,12 @@ public final class ToString {
 	 * excludePackageName
 	 */
 	private boolean excludePackageName;
-	
+
 	/*
 	 * includeClassName
 	 */
 	private boolean includeClassName;
-	
+
 	/**
 	 * Parameterized Constructor.
 	 * 
@@ -34,7 +53,7 @@ public final class ToString {
 		this.excludePackageName = excludePackageName;
 		this.includeClassName = includeClassName;
 	}
-	
+
 	/**
 	 * Parameterized Constructor.
 	 * 
@@ -43,14 +62,14 @@ public final class ToString {
 	public ToString(boolean includeClassName) {
 		this(false, includeClassName);
 	}
-	
+
 	/**
 	 * Default Constructor.
 	 */
 	public ToString() {
 		this(false, false);
 	}
-	
+
 	/**
 	 * Returns the string representation of the specified <code>object</code>
 	 * including all fields.
@@ -60,78 +79,78 @@ public final class ToString {
 	 * @return
 	 */
 	public String toString(Object object) {
-		if(object == null) {
+		if (object == null) {
 			return "null";
 		}
-		
+
 		Class<?> objectClass = object.getClass();
-		if(objectClass == String.class) {
+		if (objectClass == String.class) {
 			return (String) object;
-		} else if(objectClass.isArray()) {
+		} else if (objectClass.isArray()) {
 			String classArrayType = (includeClassName ? objectClass.getComponentType().toString() : "") + "[]{";
-			if(excludePackageName) {
+			if (excludePackageName) {
 				int index = classArrayType.lastIndexOf(".");
-				if(index > 0 && index < classArrayType.length() - 1) {
+				if (index > 0 && index < classArrayType.length() - 1) {
 					classArrayType = classArrayType.substring(index + 1);
 				}
 			}
-			
-			for(int i = 0; i < Array.getLength(object); i++) {
-				if(i > 0) {
+
+			for (int i = 0; i < Array.getLength(object); i++) {
+				if (i > 0) {
 					classArrayType += ", ";
 				}
-				
+
 				Object objectArray = Array.get(object, i);
-				if(objectClass.getComponentType().isPrimitive()) {
+				if (objectClass.getComponentType().isPrimitive()) {
 					classArrayType += objectArray;
 				} else {
 					// recursion call.
 					classArrayType += toString(objectArray);
 				}
 			}
-			
+
 			return classArrayType + "}";
 		}
-		
+
 		String className = (excludePackageName ? objectClass.getSimpleName() : objectClass.getName());
 		/*
 		 * Check this class fields as well as supper classes, if any.
 		 */
 		do {
-			if(includeClassName) {
+			if (includeClassName) {
 				className += "[";
 			} else {
 				className = "[";
 			}
-			
+
 			Field[] classFields = objectClass.getDeclaredFields();
 			AccessibleObject.setAccessible(classFields, true);
 			// get the names and values of all fields
-			for(Field field : classFields) {
-				if(!Modifier.isStatic(field.getModifiers())) {
-					if(!className.endsWith("[")) {
+			for (Field field : classFields) {
+				if (!Modifier.isStatic(field.getModifiers())) {
+					if (!className.endsWith("[")) {
 						className += ", ";
 					}
 					className += field.getName() + "=";
 					try {
 						Class<?> classType = field.getType();
 						Object value = field.get(object);
-						if(classType.isPrimitive()) {
+						if (classType.isPrimitive()) {
 							className += value;
 						} else {
 							// recursion call.
 							className += toString(value);
 						}
-					} catch(Exception ex) {
+					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
 				}
 			}
 			className += "]";
 			objectClass = objectClass.getSuperclass();
-		} while(objectClass != null && !objectClass.isInstance(Object.class));
-		
+		} while (objectClass != null && !objectClass.isInstance(Object.class));
+
 		return className;
 	}
-	
+
 }

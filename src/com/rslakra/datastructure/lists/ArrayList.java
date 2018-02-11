@@ -38,13 +38,22 @@ public class ArrayList<E> implements List<E> {
 	private int size;
 
 	/**
+	 * Initialize with the specified capacity.
+	 * 
+	 * @param capacity
+	 */
+	private void initWithCapacity(int capacity) {
+		items = new Object[capacity];
+		size = 0;
+	}
+
+	/**
 	 * 
 	 * @param capacity
 	 */
 	public ArrayList(int capacity) {
 		this.capacity = capacity;
-		items = new Object[capacity];
-		size = 0;
+		initWithCapacity(capacity);
 	}
 
 	/**
@@ -69,8 +78,20 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return (size == 0);
+	}
+
+	/**
+	 * Checks the capacity and if it's less it doubles it.
+	 */
+	private void checkCapacity() {
+		if (size == capacity) {
+			Object[] temp = items;
+			capacity *= 2;
+			items = new Object[capacity];
+			System.arraycopy(temp, 0, items, 0, temp.length);
+			temp = null;
+		}
 	}
 
 	/**
@@ -80,18 +101,23 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public boolean contains(Object item) {
-		// TODO Auto-generated method stub
-		return false;
+		int index = indexOf(item);
+		return (index >= 0 && index < size);
 	}
 
 	/**
-	 * @param e
+	 * @param item
 	 * @return
 	 * @see com.devamatre.algorithms.lists.List#add(java.lang.Object)
 	 */
 	@Override
-	public boolean add(E e) {
-		// TODO Auto-generated method stub
+	public boolean add(E item) {
+		if (item != null) {
+			checkCapacity();
+			items[size++] = item;
+			return true;
+		}
+
 		return false;
 	}
 
@@ -101,8 +127,19 @@ public class ArrayList<E> implements List<E> {
 	 * @see com.devamatre.algorithms.lists.List#remove(java.lang.Object)
 	 */
 	@Override
-	public boolean remove(Object o) {
-		// TODO Auto-generated method stub
+	public boolean remove(Object item) {
+		if (item != null) {
+			for (int i = 0; i < size; i++) {
+				if (item.equals(items[i])) {
+					size--;
+					Object[] temp = items;
+					System.arraycopy(temp, i + 1, items, i, size - i);
+					temp = null;
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 
@@ -113,7 +150,6 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public boolean containsAll(List<?> items) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -124,8 +160,29 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public boolean addAll(List<? extends E> newItems) {
-		// TODO Auto-generated method stub
+		if (newItems != null) {
+			boolean added = false;
+			for (int i = 0; i < newItems.size(); i++) {
+				added = add(newItems.get(i));
+			}
+
+			if (added) {
+				return true;
+			}
+		}
+
 		return false;
+	}
+
+	/**
+	 * Validates the specified index.
+	 * 
+	 * @param index
+	 */
+	private void validateIndex(int index) {
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException("Invalid Index:" + index);
+		}
 	}
 
 	/**
@@ -137,7 +194,8 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public boolean addAll(int index, List<? extends E> newItems) {
-		// TODO Auto-generated method stub
+		validateIndex(index);
+
 		return false;
 	}
 
@@ -148,7 +206,9 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public boolean removeAll(List<?> items) {
-		// TODO Auto-generated method stub
+		if (items != null) {
+		}
+
 		return false;
 	}
 
@@ -159,7 +219,6 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public boolean retainAll(List<?> items) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -169,8 +228,7 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		initWithCapacity(capacity);
 	}
 
 	/**
@@ -178,10 +236,17 @@ public class ArrayList<E> implements List<E> {
 	 * @return
 	 * @see com.devamatre.algorithms.lists.List#get(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public E get(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		E item = null;
+		validateIndex(index);
+
+		if (!isEmpty()) {
+			item = (E) items[index];
+		}
+
+		return item;
 	}
 
 	/**
@@ -192,7 +257,8 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public E set(int index, E element) {
-		// TODO Auto-generated method stub
+		validateIndex(index);
+
 		return null;
 	}
 
@@ -203,8 +269,9 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public void add(int index, E element) {
-		// TODO Auto-generated method stub
-
+		if (index < 0) {
+			throw new IndexOutOfBoundsException("Invalid Index:" + index);
+		}
 	}
 
 	/**
@@ -214,7 +281,7 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public E remove(int index) {
-		// TODO Auto-generated method stub
+		validateIndex(index);
 		return null;
 	}
 
@@ -224,9 +291,16 @@ public class ArrayList<E> implements List<E> {
 	 * @see com.devamatre.algorithms.lists.List#indexOf(java.lang.Object)
 	 */
 	@Override
-	public int indexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int indexOf(Object item) {
+		if (item != null) {
+			for (int i = 0; i < size; i++) {
+				if (item.equals(items[i])) {
+					return i;
+				}
+			}
+		}
+
+		return -1;
 	}
 
 	/**
@@ -235,9 +309,16 @@ public class ArrayList<E> implements List<E> {
 	 * @see com.devamatre.algorithms.lists.List#lastIndexOf(java.lang.Object)
 	 */
 	@Override
-	public int lastIndexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int lastIndexOf(Object item) {
+		if (item != null) {
+			for (int i = size - 1; i >= 0; i--) {
+				if (item.equals(items[i])) {
+					return i;
+				}
+			}
+		}
+
+		return -1;
 	}
 
 	/**
@@ -248,8 +329,28 @@ public class ArrayList<E> implements List<E> {
 	 */
 	@Override
 	public List<E> subList(int fromIndex, int toIndex) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * Returns the string representation of this object.
+	 * 
+	 * @return
+	 * @see java.lang.Object#toString()
+	 */
+	@SuppressWarnings("unchecked")
+	public String toString() {
+		StringBuilder sBuilder = new StringBuilder("[");
+		if (!isEmpty()) {
+			for (int i = 0; i < size; i++) {
+				sBuilder.append((E) items[i]);
+				if (i < size - 1) {
+					sBuilder.append(", ");
+				}
+			}
+		}
+
+		return sBuilder.append("]").toString();
 	}
 
 }
