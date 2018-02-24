@@ -1,26 +1,34 @@
 /******************************************************************************
- * Copyright (C) Devamatre Inc 2009-2018
+ * Copyright (C) Devamatre Inc 2009-2018. All rights reserved.
  * 
  * This code is licensed to Devamatre under one or more contributor license 
- * agreements. The reproduction, transmission or use of this code or the 
- * snippet is not permitted without prior express written consent of Devamatre. 
+ * agreements. The reproduction, transmission or use of this code, in source 
+ * and binary forms, with or without modification, are permitted provided 
+ * that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright
+ * 	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the license is distributed on an "AS IS" BASIS, WITHOUT 
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied and the 
- * offenders will be liable for any damages. All rights, including  but not
- * limited to rights created by patent grant or registration of a utility model 
- * or design, are reserved. Technical specifications and features are binding 
- * only insofar as they are specifically and expressly agreed upon in a written 
- * contract.
- * 
- * You may obtain a copy of the License for more details at:
- *      http://www.devamatre.com/licenses/license.txt.
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
  *      
  * Devamatre reserves the right to modify the technical specifications and or 
  * features without any prior notice.
  *****************************************************************************/
-package com.rslakra.datastructure.testcases;
+package com.rslakra.datastructure.linkedlist;
+
+import com.rslakra.datastructure.Node;
 
 /**
  * 
@@ -29,7 +37,7 @@ package com.rslakra.datastructure.testcases;
  *
  */
 public class TestLinkedList {
-	
+
 	/**
 	 * 
 	 * @param type
@@ -46,7 +54,7 @@ public class TestLinkedList {
 		list.removeAt(2);
 		return list;
 	}
-	
+
 	/**
 	 * 
 	 * @param type
@@ -62,7 +70,7 @@ public class TestLinkedList {
 		list.insertAfter(second, new Node<String>("Four"));
 		return list;
 	}
-	
+
 	/**
 	 * Lists the linked list.
 	 */
@@ -70,13 +78,13 @@ public class TestLinkedList {
 		LinkedList<Integer> intLinkedList = createIntegerLinkedList();
 		System.out.println(intLinkedList);
 		System.out.println("Size:" + intLinkedList.size());
-		
+
 		LinkedList<String> stringLinkedList = createStringLinkedList();
 		System.out.println("Size:" + stringLinkedList.size());
 		System.out.println("Size with recursion:" + stringLinkedList.size(stringLinkedList.getHead()));
 		System.out.println(stringLinkedList);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -84,50 +92,50 @@ public class TestLinkedList {
 		LinkedList<Integer> intLinkedList = createIntegerLinkedList();
 		System.out.println("Size:" + intLinkedList.size());
 		System.out.println(intLinkedList);
-		
+
 		// remove
 		intLinkedList.removeFirst();
 		intLinkedList.removeFirst();
 		System.out.println(intLinkedList);
-		
+
 		// remove
 		intLinkedList.remove(1);
 		System.out.println(intLinkedList);
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void findNodes() {
 		LinkedList<Integer> list = createIntegerLinkedList();
 		System.out.println(list);
-		
+
 		System.out.println("contain 3:" + list.contain(3));
 		System.out.println("contain 16:" + list.contain(16));
 		System.out.println("contain 2:" + list.contain(2));
 		System.out.println();
-		
+
 		// contain
 		System.out.println("contain using recursion 2:" + list.contain(list.getHead(), 2));
 		System.out.println("contain using recursion 10:" + list.contain(list.getHead(), 10));
 		System.out.println("contain using recursion 4:" + list.contain(list.getHead(), 4));
-		
+
 		// contain
 		LinkedList<String> stringLinkedList = createStringLinkedList();
 		System.out.println(stringLinkedList);
 		System.out.println("contain \"Four\":" + stringLinkedList.contain("Four"));
 		System.out.println("contain \"Zero\":" + stringLinkedList.contain("ZERO"));
 		System.out.println("contain \"Ten\":" + stringLinkedList.contain("Ten"));
-		
+
 	}
-	
+
 	/**
 	* 
 	*/
 	public void swapNodes() {
 		LinkedList<Integer> list = createIntegerLinkedList();
 		System.out.println(list);
-		
+
 		// swap nodes
 		list.swapNodes(1, 3);
 		list.swapNodes(1, 4);
@@ -137,7 +145,7 @@ public class TestLinkedList {
 		list.swapNodes(2, 2);
 		System.out.println(list);
 	}
-	
+
 	/**
 	 * 
 	 * @param index
@@ -147,7 +155,7 @@ public class TestLinkedList {
 		System.out.println(list);
 		System.out.println(list.getValue(index));
 	}
-	
+
 	/**
 	 * 
 	 * @param args
@@ -164,7 +172,7 @@ public class TestLinkedList {
 		// System.out.println();
 		// linkList.getValue(3);
 		// linkList.getValue(1);
-		
+
 		LinkedList<Integer> list = new LinkedList<>();
 		list.append(new Node<Integer>(1));
 		list.append(new Node<Integer>(2));
@@ -172,9 +180,9 @@ public class TestLinkedList {
 		list.append(new Node<Integer>(4));
 		list.append(new Node<Integer>(5));
 		System.out.println(list);
-		
+
 		list.insertAt(3, new Node<Integer>(20));
 		System.out.println(list);
 	}
-	
+
 }

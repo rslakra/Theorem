@@ -1,3 +1,31 @@
+/******************************************************************************
+ * Copyright (C) Devamatre Inc 2009-2018. All rights reserved.
+ * 
+ * This code is licensed to Devamatre under one or more contributor license 
+ * agreements. The reproduction, transmission or use of this code, in source 
+ * and binary forms, with or without modification, are permitted provided 
+ * that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright
+ * 	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *      
+ * Devamatre reserves the right to modify the technical specifications and or 
+ * features without any prior notice.
+ *****************************************************************************/
 package com.rslakra.algorithms;
 
 import java.util.Arrays;
@@ -9,7 +37,7 @@ import java.util.HashMap;
  * @date 01/27/2017 10:39:52 AM
  */
 public class StringAlgorithms {
-	
+
 	/**
 	 * Given an input string, reverse the string word by word. A word is defined
 	 * as a sequence of non-space characters.
@@ -29,13 +57,13 @@ public class StringAlgorithms {
 	public static String wordReversal(final String string) {
 		// long sTime = System.currentTimeMillis();
 		String wordReversed = string;
-		if(null != string) {
+		if (null != string) {
 			String[] words = string.split(" ");
-			if(null != words) {
+			if (null != words) {
 				StringBuilder sBuilder = new StringBuilder();
-				for(int i = words.length - 1; i >= 0; i--) {
+				for (int i = words.length - 1; i >= 0; i--) {
 					sBuilder.append(words[i]);
-					if(i > 0) {
+					if (i > 0) {
 						sBuilder.append(" ");
 					}
 				}
@@ -45,7 +73,7 @@ public class StringAlgorithms {
 		// System.out.println("Took:" + (System.currentTimeMillis() - sTime));
 		return wordReversed;
 	}
-	
+
 	/**
 	 * 
 	 * @param string
@@ -53,7 +81,7 @@ public class StringAlgorithms {
 	 * @param endIndex
 	 */
 	private static void wordReverse(char[] string, int startIndex, int endIndex) {
-		while(endIndex > startIndex) {
+		while (endIndex > startIndex) {
 			char temp = string[startIndex];
 			string[startIndex] = string[endIndex];
 			string[endIndex] = temp;
@@ -61,30 +89,30 @@ public class StringAlgorithms {
 			endIndex--;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param string
 	 */
 	public static void wordReversal(final char[] string) {
 		// long sTime = System.currentTimeMillis();
-		if(null != string) {
+		if (null != string) {
 			int startIndex = 0;
-			for(int ctr = 0; ctr < string.length; ctr++) {
-				if(string[ctr] == ' ') {
+			for (int ctr = 0; ctr < string.length; ctr++) {
+				if (string[ctr] == ' ') {
 					wordReverse(string, startIndex, ctr - 1);
 					startIndex = ctr + 1;
 				}
 			}
-			
+
 			wordReverse(string, startIndex, string.length - 1);
-			
+
 			// now reverse all the characters.
 			wordReverse(string, 0, string.length - 1);
 		}
 		// System.out.println("Took:" + (System.currentTimeMillis() - sTime));
 	}
-	
+
 	/**
 	 * TODO - Implement Me!
 	 * 
@@ -96,19 +124,19 @@ public class StringAlgorithms {
 		int ctr = string.length - 1;
 		int lastIndex = string.length;
 		int startIndex = 0;
-		while(ctr >= 0) {
-			if(string[ctr] == ' ') {
+		while (ctr >= 0) {
+			if (string[ctr] == ' ') {
 				System.arraycopy(string, (ctr + 1), reversed, startIndex, (lastIndex - 1 - ctr));
 				startIndex += (lastIndex - ctr);
 				lastIndex = ctr;
 			}
 			ctr--;
 		}
-		
+
 		System.arraycopy(string, (ctr + 1), reversed, startIndex, (lastIndex - 1 - ctr));
 		System.arraycopy(reversed, 0, string, 0, string.length);
 	}
-	
+
 	/**
 	 * Given two strings s and t, determine if they are isomorphic. Two strings
 	 * are isomorphic if the characters in s can be replaced to get t.
@@ -120,30 +148,30 @@ public class StringAlgorithms {
 	 * @return
 	 */
 	public static boolean isIsomorphic(String string, String another) {
-		if(string == null || another == null) {
+		if (string == null || another == null) {
 			return false;
-		} else if(string.length() != another.length()) {
+		} else if (string.length() != another.length()) {
 			return false;
 		} else {
 			HashMap<Character, Character> isomorphic = new HashMap<>();
-			for(int i = 0; i < string.length(); i++) {
+			for (int i = 0; i < string.length(); i++) {
 				char key = string.charAt(i);
 				char value = another.charAt(i);
-				if(isomorphic.containsKey(key)) {
-					if(isomorphic.get(key) != value) {
+				if (isomorphic.containsKey(key)) {
+					if (isomorphic.get(key) != value) {
 						return false;
 					}
-				} else if(isomorphic.containsValue(value)) {
+				} else if (isomorphic.containsValue(value)) {
 					return false;
 				} else {
 					isomorphic.put(key, value);
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Implement wildcard pattern matching with support for '?' and '*'.
 	 * 
@@ -158,16 +186,16 @@ public class StringAlgorithms {
 		int j = 0;
 		int starIndex = -1;
 		int iIndex = -1;
-		
-		while(i < source.length()) {
-			if(j < criteria.length() && (criteria.charAt(j) == '?' || criteria.charAt(j) == source.charAt(i))) {
+
+		while (i < source.length()) {
+			if (j < criteria.length() && (criteria.charAt(j) == '?' || criteria.charAt(j) == source.charAt(i))) {
 				++i;
 				++j;
-			} else if(j < criteria.length() && criteria.charAt(j) == '*') {
+			} else if (j < criteria.length() && criteria.charAt(j) == '*') {
 				starIndex = j;
 				iIndex = i;
 				j++;
-			} else if(starIndex != -1) {
+			} else if (starIndex != -1) {
 				j = starIndex + 1;
 				i = iIndex + 1;
 				iIndex++;
@@ -175,14 +203,14 @@ public class StringAlgorithms {
 				return false;
 			}
 		}
-		
-		while(j < criteria.length() && criteria.charAt(j) == '*') {
+
+		while (j < criteria.length() && criteria.charAt(j) == '*') {
 			++j;
 		}
-		
+
 		return j == criteria.length();
 	}
-	
+
 	/**
 	 * Implement atoi to convert a string to an integer.
 	 * 
@@ -194,11 +222,8 @@ public class StringAlgorithms {
 	 * 
 	 * The following cases should be considered for this problem:
 	 * 
-	 * 1. null or empty string
-	 * 2. white spaces
-	 * 3. +/- sign
-	 * 4. calculate real value
-	 * 5. handle min & max
+	 * 1. null or empty string 2. white spaces 3. +/- sign 4. calculate real
+	 * value 5. handle min & max
 	 * 
 	 * 
 	 * @param string
@@ -207,42 +232,42 @@ public class StringAlgorithms {
 	public static int stringToInteger(String string) {
 		double result = 0;
 		// 1. handle null or empty string.
-		if(string != null && string.length() > 0) {
+		if (string != null && string.length() > 0) {
 			// 2. handle white spaces
 			string = string.trim();
 			int index = 0;
 			char sign = '+';
-			if(string.charAt(index) == '-') {
+			if (string.charAt(index) == '-') {
 				sign = '-';
 				index++;
-			} else if(string.charAt(index) == '+') {
+			} else if (string.charAt(index) == '+') {
 				index++;
 			}
-			
+
 			// 4. calculate value.
-			while(index < string.length() && (string.charAt(index) >= '0' && string.charAt(index) <= '9')) {
+			while (index < string.length() && (string.charAt(index) >= '0' && string.charAt(index) <= '9')) {
 				result = result * 10 + (string.charAt(index) - '0');
 				index++;
 			}
-			
+
 			// 3. handle +/- sign
-			if(sign == '-') {
+			if (sign == '-') {
 				result = -result;
 			}
-			
+
 			// 5. handle min & max values.
-			if(result > Integer.MAX_VALUE) {
+			if (result > Integer.MAX_VALUE) {
 				result = Integer.MAX_VALUE;
 			}
-			
-			if(result < Integer.MIN_VALUE) {
+
+			if (result < Integer.MIN_VALUE) {
 				result = Integer.MIN_VALUE;
 			}
 		}
-		
+
 		return (int) result;
 	}
-	
+
 	/**
 	 * Given a string, determine if it is a palindrome, considering only
 	 * alphanumeric characters and ignoring cases.
@@ -250,9 +275,8 @@ public class StringAlgorithms {
 	 * For example, "Red rum, sir, is murder" is a palindrome, while
 	 * "Programcreek is awesome" is not.
 	 * 
-	 * Note:
-	 * Have you consider that the string might be empty? This is a good question
-	 * to ask during an interview.
+	 * Note: Have you consider that the string might be empty? This is a good
+	 * question to ask during an interview.
 	 * 
 	 * For the purpose of this problem, we define empty string as valid
 	 * palindrome.
@@ -268,29 +292,29 @@ public class StringAlgorithms {
 	 * @return
 	 */
 	public static boolean isPalindrome(String string, boolean ignoreCase) {
-		if(string != null) {
-			if(ignoreCase) {
+		if (string != null) {
+			if (ignoreCase) {
 				string = string.toLowerCase();
 			}
-			
+
 			int startIndex = 0;
 			int endIndex = string.length() - 1;
-			while(startIndex < endIndex) {
-				if(!Character.isLetterOrDigit(string.charAt(startIndex))) {
+			while (startIndex < endIndex) {
+				if (!Character.isLetterOrDigit(string.charAt(startIndex))) {
 					startIndex++;
-				} else if(!Character.isLetterOrDigit(string.charAt(endIndex))) {
+				} else if (!Character.isLetterOrDigit(string.charAt(endIndex))) {
 					endIndex--;
-				} else if(string.charAt(startIndex) != string.charAt(endIndex)) {
+				} else if (string.charAt(startIndex) != string.charAt(endIndex)) {
 					return false;
 				}
 				startIndex++;
 				endIndex--;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * By default ignore case.
 	 * 
@@ -298,23 +322,23 @@ public class StringAlgorithms {
 	 * @return
 	 */
 	public static boolean isPalindromeNew(String string) {
-		if(string != null) {
+		if (string != null) {
 			string = string.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-			
+
 			int startIndex = 0;
 			int endIndex = string.length() - 1;
-			while(startIndex < endIndex) {
-				if(string.charAt(startIndex) != string.charAt(endIndex)) {
+			while (startIndex < endIndex) {
+				if (string.charAt(startIndex) != string.charAt(endIndex)) {
 					return false;
 				}
 				startIndex++;
 				endIndex--;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Starting point.
 	 * 
@@ -324,38 +348,38 @@ public class StringAlgorithms {
 		// String string = "The great day ahead";
 		String string = "Rohtash Singh Lakra";
 		string = "The quick brown fox jumps over the little lazy dog.";
-		
+
 		System.out.println("string:" + string);
 		String wordReversed = wordReversal(string);
 		System.out.println("wordReversed:" + wordReversed);
-		
+
 		char[] values = string.toCharArray();
 		wordReversal(values);
 		System.out.println(Arrays.toString(values));
-		
+
 		values = string.toCharArray();
 		wordReversalByArrayCopy(values);
 		System.out.println(Arrays.toString(values));
-		
+
 		string = "foo";
 		String another = "bar";
 		System.out.println("isIsomorphic(" + string + ", " + another + "):" + isIsomorphic(string, another));
-		
+
 		String source = "aaxab";
 		String criteria = "*ab";
 		System.out.println("wildCardMatching(" + source + ", " + criteria + "):" + wildCardMatching(source, criteria));
-		
+
 		String numbers = "-542422242454545464654546465544";
 		System.out.println("stringToInteger(" + numbers + "):" + stringToInteger(numbers));
-		
+
 		string = "-542422242454545464654546465544";
 		string = "Red rum, sir, is murder";
-//		string = "Programcreek is awesome";
+		// string = "Programcreek is awesome";
 		System.out.println("isPalindrome(" + string + ", true):" + isPalindrome(string, true));
 		System.out.println("isPalindrome(" + string + ", false):" + isPalindrome(string, false));
-		
+
 		// new way
 		System.out.println("isPalindrome(" + string + "):" + isPalindromeNew(string));
 	}
-	
+
 }

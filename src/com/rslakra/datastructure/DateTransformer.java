@@ -26,15 +26,80 @@
  * Devamatre reserves the right to modify the technical specifications and or 
  * features without any prior notice.
  *****************************************************************************/
-package com.rslakra.datastructure.lists;
+package com.rslakra.datastructure;
 
-/**
- * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
- * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
- * @created 2018-01-06 10:00:50 AM
- * @version 1.0.0
- * @since 1.0.0
- */
-public class DoubleLinkedList<E> extends LinkedList<E> implements List<E> {
+public class DateTransformer extends Date {
+	// private DateType dateType;
+
+	/**
+	 * 
+	 * @param dateType
+	 * @param year
+	 * @param month
+	 * @param day
+	 */
+	public DateTransformer(int year, int month, int day) {
+		this(null, year, month, day);
+	}
+
+	/**
+	 * 
+	 * @param dateType
+	 * @param year
+	 * @param month
+	 * @param day
+	 */
+	public DateTransformer(DateType dateType, int year, int month, int day) {
+		super(year, month, day);
+		// this.dateType = dateType;
+	}
+
+	/**
+	 * Increments the date to tomorrow's date.
+	 * 
+	 * @return
+	 */
+	public Date increment() {
+		if (isLastMonthOfYear() && isLastDayOfMonth()) {
+			setYear(getYear() + 1);
+			setMonth(1);
+			setDay(1);
+		} else if (isLastDayOfMonth()) {
+			setMonth(getMonth() + 1);
+			setDay(1);
+		} else {
+			setDay(getDay() + 1);
+		}
+
+		return new Date(getYear(), getMonth(), getDay());
+	}
+
+	/**
+	 * Decrements the date to yesterday's date.
+	 * 
+	 * @return
+	 */
+	public Date decrement() {
+		if (isFirstMonthOfYear() && isFirstDayOfMonth()) {
+			setYear(getYear() - 1);
+			setMonth(12);
+			setDay(31);
+		} else if (isFirstDayOfMonth()) {
+			setMonth(getMonth() - 1);
+			if (isExtendedMonth()) {
+				setDay(31);
+			} else if (isStandardMonth()) {
+				setDay(30);
+			} else if (isLeapMonth()) {
+				setDay(29);
+			} else {
+				setDay(28);
+			}
+		} else {
+			setDay(getDay() - 1);
+		}
+
+		return new Date(getYear(), getMonth(), getDay());
+	}
 
 }

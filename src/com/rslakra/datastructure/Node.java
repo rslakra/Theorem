@@ -26,15 +26,83 @@
  * Devamatre reserves the right to modify the technical specifications and or 
  * features without any prior notice.
  *****************************************************************************/
-package com.rslakra.datastructure.lists;
+package com.rslakra.datastructure;
 
 /**
- * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
- * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
- * @created 2018-01-06 10:00:50 AM
- * @version 1.0.0
- * @since 1.0.0
+ * This class represents the nodes of the linked list.
+ * 
+ * @author Rohtash Singh Lakra
+ * @date 09/20/2016 01:51:00 PM
+ *
+ * @param <T>
  */
-public class DoubleLinkedList<E> extends LinkedList<E> implements List<E> {
+public class Node<T> {
+
+	private final T data;
+	private Node<T> next;
+	private Node<T> previous;
+
+	/**
+	 * 
+	 * @param data
+	 */
+	public Node(final T data) {
+		this.data = data;
+		this.next = null;
+		this.previous = null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public T getData() {
+		return data;
+	}
+
+	/**
+	 * Returns the next node.
+	 * 
+	 * @return
+	 */
+	public Node<T> getNext() {
+		return next;
+	}
+
+	/**
+	 * The next node to be set.
+	 * 
+	 * @param next
+	 */
+	public void setNext(Node<T> next) {
+		this.next = next;
+	}
+
+	/**
+	 * Returns the previous node.
+	 * 
+	 * @return
+	 */
+	public Node<T> getPrevious() {
+		return previous;
+	}
+
+	/**
+	 * The previous node to be set.
+	 * 
+	 * @param previous
+	 */
+	public void setPrevious(Node<T> previous) {
+		this.previous = previous;
+	}
+
+	/**
+	 * Returns the string representation of this object.
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return (data == null ? "" : data.toString());
+	}
 
 }

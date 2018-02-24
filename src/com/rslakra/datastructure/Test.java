@@ -26,15 +26,37 @@
  * Devamatre reserves the right to modify the technical specifications and or 
  * features without any prior notice.
  *****************************************************************************/
-package com.rslakra.datastructure.lists;
+package com.rslakra.datastructure;
 
-/**
- * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
- * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
- * @created 2018-01-06 10:00:50 AM
- * @version 1.0.0
- * @since 1.0.0
- */
-public class DoubleLinkedList<E> extends LinkedList<E> implements List<E> {
-
+public class Test {
+	
+	/**
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static boolean findDuplicateChars(String str) {
+		int checker = 0;
+		for(int i = 0; i < str.length(); ++i) {
+			int val = str.charAt(i) - 'a';
+			int leftShift = (1 << val);
+			int result = (checker & leftShift);
+			System.out.println("checker: " + checker + ", val: " + val + ", leftShift: " + leftShift + ", result: " + result);
+			if(result > 0)
+				return false;
+			checker |= leftShift;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		System.out.println(findDuplicateChars("abc"));
+		System.out.println(findDuplicateChars("bcdb"));
+	}
+	
 }

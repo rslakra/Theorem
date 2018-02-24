@@ -26,15 +26,8 @@
  * Devamatre reserves the right to modify the technical specifications and or 
  * features without any prior notice.
  *****************************************************************************/
-package com.rslakra.datastructure.lists;
+package com.rslakra.datastructure;
 
-/**
- * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
- * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
- * @created 2018-01-06 10:00:50 AM
- * @version 1.0.0
- * @since 1.0.0
- */
-public class DoubleLinkedList<E> extends LinkedList<E> implements List<E> {
-
+public enum DateType {
+	INCREMENT, DECREMENT;
 }

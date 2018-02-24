@@ -28,129 +28,130 @@
  *****************************************************************************/
 package com.rslakra.datastructure.stack;
 
+import java.util.Arrays;
+
 /**
- * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
- * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
- * @created 2017-12-28 04:41:02 PM
- * @version 1.0.0
- * @since 1.0.0
+ * 
+ * @author Rohtash Singh Lakra
+ * @date 09/20/2016 02:00:49 PM
+ *
+ * @param <E>
  */
-@SuppressWarnings("unchecked")
-public class LinkedListStack<E> implements Stack<E> {
+public class StackArray<E> {
+
+	private static final int MAX_CAPACITY = 16;
+	private int index;
+	private Object[] elements;
 
 	/**
 	 * 
-	 * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
-	 * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
-	 * @created 2018-01-06 03:03:08 PM
-	 * @version 1.0.0
-	 * @since 1.0.0
+	 * @param capacity
 	 */
-	private class Node {
-		E data;
-		Node next;
-
-		Node(E data) {
-			this.data = data;
-			next = null;
-		}
-
-		public String toString() {
-			return (data != null ? data.toString() : "");
-		}
+	public StackArray(int capacity) {
+		elements = new Object[capacity];
+		index = 0;
 	}
 
-	private Node root;
-	private int size;
-
-	public LinkedListStack() {
-		root = null;
-		size = 0;
+	/**
+	 * 
+	 */
+	public StackArray() {
+		this(MAX_CAPACITY);
 	}
 
-	public E push(E data) {
-		Node node = new Node(data);
-		if (root == null) {
-			root = node;
-		} else {
-			node.next = root;
-			root = node;
+	/**
+	 * Returns true if the stack is full otherwise false.
+	 * 
+	 * @return
+	 */
+	public boolean isFull() {
+		return (index == elements.length - 1);
+	}
+
+	/**
+	 * Returns true if the stack is empty otherwise false.
+	 * 
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return (index == 0);
+	}
+
+	/**
+	 * Adds the new element into the stack.
+	 * 
+	 * @param element
+	 */
+	public void push(E element) {
+		if (isFull()) {
+			int newSize = elements.length + MAX_CAPACITY;
+			elements = Arrays.copyOf(elements, newSize, Object[].class);
 		}
-		size++;
-		return data;
+		elements[index] = element;
+		index++;
 	}
 
+	/**
+	 * Removes the top element from the stack.
+	 * 
+	 * @return
+	 */
 	public E pop() {
-		if (empty()) {
-			return null;
+		E element = peek();
+		if (element != null && !isEmpty()) {
+			elements[index - 1] = null;
+			index--;
 		}
 
-		Node node = root;
-		root = root.next;
-		size--;
-		return (E) node;
-	}
-
-	public E peek() {
-		if (empty()) {
-			return null;
-		}
-
-		return (E) root.data;
+		return element;
 	}
 
 	/**
+	 * Returns the element at the specified index.
+	 * 
+	 * @param index
 	 * @return
-	 * @see com.devamatre.algorithms.stack.Stack#empty()
 	 */
-	@Override
-	public boolean empty() {
-		return root == null;
-	}
-
-	public int size() {
-		return size;
-	}
-
-	/**
-	 * @param item
-	 * @return
-	 * @see com.devamatre.algorithms.stack.Stack#contains(java.lang.Object)
-	 */
-	@Override
-	public boolean contains(E item) {
-		if (!empty()) {
-			Node temp = root;
-			while (temp != null) {
-				if (temp.data == item) {
-					return true;
-				}
-				temp = temp.next;
-			}
+	protected E peekElement(int index) {
+		E element = null;
+		if (isEmpty()) {
+			System.out.println("Stack is empty!");
+		} else {
+			element = (E) elements[index];
 		}
 
-		return false;
+		return element;
 	}
 
 	/**
+	 * Returns the top element of the stack without removing it.
 	 * 
 	 * @return
+	 */
+	public E peek() {
+		return peekElement(index - 1);
+	}
+
+	/**
+	 * Returns the string representation of this object.
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		StringBuilder stackString = new StringBuilder("[");
-		if (!empty()) {
-			Node temp = root;
-			while (temp != null) {
-				stackString.append(temp.data.toString());
-				if (temp.next != null) {
-					stackString.append(", ");
+		StringBuilder sBuilder = new StringBuilder("[");
+		if (!isEmpty()) {
+			for (int i = elements.length - 1; i >= 0; i--) {
+				Object element = peekElement(i);
+				if (element != null) {
+					sBuilder.append(peekElement(i));
+					if (i > 0) {
+						sBuilder.append(", ");
+					}
 				}
-				temp = temp.next;
 			}
 		}
-		stackString.append("]");
-		return stackString.toString();
+		sBuilder.append("]");
+		return sBuilder.toString();
 	}
 
 }

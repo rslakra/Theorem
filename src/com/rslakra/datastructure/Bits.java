@@ -26,15 +26,45 @@
  * Devamatre reserves the right to modify the technical specifications and or 
  * features without any prior notice.
  *****************************************************************************/
-package com.rslakra.datastructure.lists;
+package com.rslakra.datastructure;
 
-/**
- * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
- * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
- * @created 2018-01-06 10:00:50 AM
- * @version 1.0.0
- * @since 1.0.0
- */
-public class DoubleLinkedList<E> extends LinkedList<E> implements List<E> {
-
+public class Bits {
+	
+	public static void main(String[] args) {
+		
+		int a = 1;
+		int b = 2;
+		int c = 3;
+		
+		System.out.println("a&b: " + (a & b));
+		System.out.println("a&c: " + (a & c));
+		System.out.println("b&c: " + (b & c));
+		System.out.println();
+		
+		System.out.println("a|b: " + (a | b));
+		System.out.println("a|c: " + (a | c));
+		System.out.println("b|c: " + (b | c));
+		System.out.println();
+		
+		System.out.println("a>>b: " + (a >> b));
+		System.out.println("a>>c: " + (a >> c));
+		System.out.println("b>>c: " + (b >> c));
+		System.out.println();
+		
+		System.out.println("a<<b: " + (a << b));
+		System.out.println("a<<c: " + (a << c));
+		System.out.println("b<<c: " + (b << c));
+		System.out.println();
+		
+		int d = 2;
+		d |= a;
+		System.out.println("d|=a: " + d);
+		d |= b;
+		System.out.println("d|=b: " + d);
+		d |= c;
+		System.out.println("d|=c: " + d);
+		System.out.println();
+		
+	}
+	
 }
