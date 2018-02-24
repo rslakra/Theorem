@@ -12,8 +12,8 @@
 /******************************************************************************
  * Module		: Ant Build Script of Core Module
  * Author		: Rohtash Singh (rohtash.singh@gmail.com)
- * Created On	: 08/30/2016
- * Updated On	: 08/30/2016
+ * Created On	: 2016/08/30
+ * Updated On	: 2016/08/30
  * Version		: 1.0.0
  * Since		: 1.0.0
  * 
@@ -48,21 +48,20 @@
 	<property file="${basedir}/build.properties" />
 
 	<!-- Basic Structure Settings -->
-	<property name="base.dir" value="${basedir}" />
-	<property name="src.dir" value="${base.dir}/src" />
+	<property name="src.dir" value="${basedir}/src" />
 	<property name="jar.file" value="${ant.project.name}-v${impl-version}.jar" />
 	
 	<!-- Libraries -->
-	<property name="lib.dir" value="${base.dir}/lib" />
+	<property name="libs.dir" value="${basedir}/libs" />
 
 	<!-- Build Paths -->
-	<property name="build.dir" value="${base.dir}/build" />
+	<property name="build.dir" value="${basedir}/build" />
 	<property name="classes.dir" value="${build.dir}/classes" />
 
 	<!-- Create Targets -->
 	<!-- Build CLASSPATH Settings -->
 	<path id="build.classpath">
-		<fileset dir="${lib.dir}" includes="**/*.jar" />
+		<fileset dir="${libs.dir}" includes="**/*.jar" />
 	</path>
 
 	<!-- = = = = = = = = = = = = = = = = =
@@ -96,7 +95,7 @@
 			</chainedmapper>
 		</mapper>
 		<path>
-			<fileset dir="${lib.dir}" includes="**/*.jar" />
+			<fileset dir="${libs.dir}" includes="**/*.jar" />
 		</path>
 	</pathconvert>
 
@@ -107,9 +106,9 @@
 	<target name="clean" description="Removing Directories...">
 		<delete dir="${build.dir}" />
 		<delete dir="${deploy.dir}" />
-		<delete file="${base.dir}/dLogs.log" />
-		<delete file="${base.dir}/result.txt" />
-		<delete file="${base.dir}/result.xml" />
+		<delete file="${basedir}/dLogs.log" />
+		<delete file="${basedir}/result.txt" />
+		<delete file="${basedir}/result.xml" />
 	</target>
 
 	<!-- Creates Directories.... -->
@@ -139,7 +138,7 @@
 		<mkdir dir="${deploy.dir}" />
 		<jar destfile="${deploy.dir}/${jar.file}">
 			<fileset dir="${classes.dir}" includes="**" />
-			<fileset dir="${base.dir}" includes="log4j.properties, dLog4j.properties, dLog4j.xml" />
+			<fileset dir="${basedir}" includes="log4j.properties, dLog4j.properties, dLog4j.xml" />
 
 			<!-- MANIFEST.MF Properties -->
 			<manifest>
@@ -157,7 +156,7 @@
 		</jar>
 		
 		<!-- copy dLogger jar file into base directory -->
-		<copy file="${deploy.dir}/${jar.file}" todir="${base.dir}" overwrite="true" />
+		<copy file="${deploy.dir}/${jar.file}" todir="${basedir}" overwrite="true" />
 		
 		<tstamp>
 			<format property="NOW" pattern="${nowPattern}" />
