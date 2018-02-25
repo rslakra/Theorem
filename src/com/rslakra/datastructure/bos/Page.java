@@ -28,7 +28,7 @@
  *****************************************************************************/
 package com.rslakra.datastructure.bos;
 
-import com.rslakra.datastructure.utils.Objects;
+import com.rslakra.utils.StringHelper;
 
 /**
  * 
@@ -44,6 +44,6 @@ public class Page {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return Objects.toString(this);
+		return StringHelper.toString(this);
 	}
 }

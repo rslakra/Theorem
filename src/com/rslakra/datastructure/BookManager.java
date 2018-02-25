@@ -34,7 +34,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.rslakra.datastructure.bos.Book;
-import com.rslakra.datastructure.utils.Objects;
+import com.rslakra.utils.CoreHelper;
 
 /**
  * 
@@ -59,9 +59,9 @@ public final class BookManager implements Cloneable {
 	 * @return
 	 */
 	public BookManager getInstance() {
-		if (Objects.isNull(instance)) {
+		if (CoreHelper.isNull(instance)) {
 			synchronized (BookManager.class) {
-				if (Objects.isNull(instance)) {
+				if (CoreHelper.isNull(instance)) {
 					instance = new BookManager();
 				}
 			}
@@ -82,7 +82,7 @@ public final class BookManager implements Cloneable {
 	 * @param book
 	 */
 	public void addBook(Book book) {
-		if (Objects.isNotNull(book)) {
+		if (CoreHelper.isNotNull(book)) {
 			books.add(book);
 		}
 	}

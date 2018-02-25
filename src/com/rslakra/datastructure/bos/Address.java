@@ -28,7 +28,7 @@
  *****************************************************************************/
 package com.rslakra.datastructure.bos;
 
-import com.rslakra.datastructure.utils.Objects;
+import com.rslakra.utils.StringHelper;
 
 /**
  * 
@@ -109,27 +109,12 @@ public class Address {
 
 	/**
 	 * Returns the string representation of this object.
+	 * 
+	 * @return
+	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return Objects.toString(this);
-		// StringBuilder sBuilder = new StringBuilder();
-		// if(StringHelper.isNotNull(getStreet())) {
-		// sBuilder.append(getStreet()).append("\n");
-		// }
-		//
-		// if(StringHelper.isNotNull(getCity())) {
-		// sBuilder.append(getCity()).append("\n");
-		// }
-		//
-		// if(StringHelper.isNotNull(getState())) {
-		// sBuilder.append(getState()).append(" ");
-		// }
-		//
-		// if(StringHelper.isNotNull(getZip())) {
-		// sBuilder.append(getZip()).append("\n");
-		// }
-		//
-		// return sBuilder.toString();
+		return StringHelper.toString(this);
 	}
 
 }

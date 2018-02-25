@@ -28,8 +28,10 @@
  *****************************************************************************/
 package com.rslakra.datastructure.bos;
 
-import com.rslakra.datastructure.utils.Objects;
-import com.rslakra.datastructure.utils.ToString;
+import java.util.Objects;
+
+import com.devamatre.logger.LogManager;
+import com.rslakra.utils.StringHelper;
 
 /**
  * 
@@ -110,32 +112,35 @@ public class Name {
 	/**
 	 * Returns the string representation of this object.
 	 * 
+	 * @return
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return Objects.toString(this);
+		return StringHelper.toString(this);
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		LogManager.configure(LogManager.LOG4J_PROPERTY_FILE);
+
 		Name name = new Name("Rohtash", "Singh", "Lakra");
 		System.out.println(Objects.toString(name));
 		System.out.println();
-		System.out.println(new ToString(true).toString(name));
+		System.out.println(StringHelper.toString(name, true));
 		System.out.println();
-		System.out.println(new ToString(true, true).toString(name));
+		System.out.println(StringHelper.toString(name, true, true));
 
 		Name[] names = new Name[2];
 		names[0] = new Name("Rohtash", "Singh", "Lakra");
 		names[1] = new Name("Sangita", null, "Lakra");
 		System.out.println();
-		System.out.println(Objects.toString(names));
+		System.out.println(StringHelper.toString(names));
 		System.out.println();
-		System.out.println(new ToString(true).toString(names));
+		System.out.println(StringHelper.toString(name, true));
 		System.out.println();
-		System.out.println(new ToString(true, true).toString(names));
+		System.out.println(StringHelper.toString(name, true, true));
 	}
 
 }

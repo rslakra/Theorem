@@ -28,7 +28,7 @@
  *****************************************************************************/
 package com.rslakra.datastructure.bos;
 
-import com.rslakra.datastructure.utils.Objects;
+import com.rslakra.utils.StringHelper;
 
 /**
  * 
@@ -41,9 +41,10 @@ public class Company {
 	/**
 	 * Returns the string representation of this object.
 	 * 
+	 * @return
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return Objects.toString(this);
+		return StringHelper.toString(this);
 	}
 }
