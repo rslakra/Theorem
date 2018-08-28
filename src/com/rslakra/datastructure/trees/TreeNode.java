@@ -67,37 +67,58 @@ public class TreeNode {
 	}
 	
 	/**
-	 * Returns the current level of the given node from parent.
+	 * Returns the length of the path to its root.
 	 * 
 	 * @param parent
 	 * @return
 	 */
-	public static int getLevel(final TreeNode treeNode) {
+	public static int maxDepth(final TreeNode treeNode) {
 		if (treeNode == null) {
 			return 0;
 		} else {
-			return (getLevel(treeNode.getParent()) + 1);
+			return (maxDepth(treeNode.getParent()) + 1);
 		}
 	}
 	
 	/**
-	 * Returns the max depth of the given node till it's leaf.
+	 * Returns the lenght of the longest path to a leaf.
 	 * 
 	 * @param parent
 	 * @return
 	 */
-	public static int maxDepth(final TreeNode node) {
+	public static int maxHeight(final TreeNode node) {
 		if (node == null) {
 			return 1;
 		} else {
 			int maxDepth = 1;
 			if (node.hasChildren()) {
 				for (TreeNode child : node.getChildren()) {
-					maxDepth = Math.max(maxDepth(child) + 1, maxDepth);
+					maxDepth = Math.max(maxHeight(child) + 1, maxDepth);
 				}
 			}
 			
 			return maxDepth;
+		}
+	}
+	
+	/**
+	 * Returns the edge count of the node.
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public static int maxEdges(final TreeNode node) {
+		if (node == null) {
+			return 0;
+		} else {
+			int edgeCount = 0;
+			if (node.hasChildren()) {
+				for (TreeNode child : node.getChildren()) {
+					edgeCount += (maxEdges(child) + 1);
+				}
+			}
+			
+			return edgeCount;
 		}
 	}
 	
@@ -202,14 +223,14 @@ public class TreeNode {
 		if (getData() != null) {
 			nodeString.append(getData());
 			if (SHOW_DEPTH) {
-				nodeString.append(" [").append(maxDepth(this)).append("]");
+				nodeString.append(" [").append(maxHeight(this)).append("]");
 			}
 			nodeString.append("\n");
 		}
 		
 		if (hasChildren()) {
 			for (TreeNode child : getChildren()) {
-				int nodeLevel = getLevel(child);
+				int nodeLevel = maxDepth(child);
 				for (int i = 1; i < nodeLevel - 1; i++) {
 					nodeString.append("|   ");
 				}
@@ -228,6 +249,7 @@ public class TreeNode {
 		// ROOT
 		TreeNode root = new TreeNode(null, "CEO");
 		System.out.println(root);
+		System.out.println("Edges:" + TreeNode.maxEdges(root));
 		System.out.println();
 		
 		// CTO
@@ -247,5 +269,6 @@ public class TreeNode {
 		TreeNode cfo = new TreeNode(root, "CFO");
 		root.addChild(cfo);
 		System.out.println(root);
+		System.out.println("Edges:" + TreeNode.maxEdges(root));
 	}
 }
