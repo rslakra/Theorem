@@ -28,6 +28,8 @@
  *****************************************************************************/
 package com.rslakra.datastructure.trees;
 
+import java.util.Queue;
+
 /**
  * Handle the binary tree management. This binary tree does not allow duplicate
  * values.
@@ -39,15 +41,15 @@ package com.rslakra.datastructure.trees;
  * @since 1.0.0
  */
 public class BinaryTree<E extends Comparable<E>> {
-
+	
 	private Node<E> rootNode;
 	private int size;
-
+	
 	public BinaryTree() {
 		rootNode = null;
 		size = 0;
 	}
-
+	
 	/**
 	 * Returns the size of the binary tree;
 	 * 
@@ -56,7 +58,7 @@ public class BinaryTree<E extends Comparable<E>> {
 	public int getSize() {
 		return size;
 	}
-
+	
 	/**
 	 * Inserts the new node at its repective position. It does not allow to add
 	 * duplicate nodes.
@@ -86,7 +88,7 @@ public class BinaryTree<E extends Comparable<E>> {
 			// tree.
 		}
 	}
-
+	
 	/**
 	 * Add the given node in the binary tree.
 	 * 
@@ -101,7 +103,7 @@ public class BinaryTree<E extends Comparable<E>> {
 			insert(rootNode, newNode);
 		}
 	}
-
+	
 	/**
 	 * Finds and returns the node for the given data, if exists otherwise null.
 	 * 
@@ -120,10 +122,10 @@ public class BinaryTree<E extends Comparable<E>> {
 				return current;
 			}
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * Returns true if the given node exists otherwise false.
 	 * 
@@ -133,7 +135,7 @@ public class BinaryTree<E extends Comparable<E>> {
 	public boolean contain(E data) {
 		return (findNode(data) != null);
 	}
-
+	
 	/**
 	 * 
 	 * @param current
@@ -150,7 +152,7 @@ public class BinaryTree<E extends Comparable<E>> {
 			currentNode.getParent().setLeftNode(newNode);
 		}
 	}
-
+	
 	/**
 	 * Deletes the given node, if exists.
 	 * 
@@ -161,7 +163,7 @@ public class BinaryTree<E extends Comparable<E>> {
 		if (rootNode != null) {
 			// find node to be deleted.
 			Node<E> delNode = findNode(data);
-
+			
 			// if node found
 			if (delNode != null) {
 				// easy, if it's the leaf node.
@@ -185,38 +187,38 @@ public class BinaryTree<E extends Comparable<E>> {
 					while (tempNode != null && tempNode.hasChildren()) {
 						tempNode = tempNode.getRightNode();
 					}
-
+					
 					tempNode.getParent().setRightNode(null);
 					tempNode.setLeftNode(delNode.getLeftNode());
 					tempNode.setRightNode(delNode.getRightNode());
-
+					
 					remove(delNode, tempNode);
 					deleted = true;
 				}
 			}
-
+			
 			if (deleted) {
 				size--;
 			}
 		}
-
+		
 		return deleted;
 	}
-
+	
 	/**
 	 * 
 	 */
 	public void balanceTree() {
-
+		
 	}
-
+	
 	/**
 	 * 
 	 */
 	public void printTree() {
-
+		
 	}
-
+	
 	/**
 	 * Returns the string representation of this object.
 	 * 
@@ -225,8 +227,92 @@ public class BinaryTree<E extends Comparable<E>> {
 	 */
 	public String toString() {
 		StringBuilder sBuilder = new StringBuilder("[");
-
+		if (rootNode != null) {
+			Queue<Node<E>> queue = new java.util.LinkedList<Node<E>>();
+			queue.add(rootNode);
+			while (!queue.isEmpty()) {
+				Node<E> node = queue.poll();
+				sBuilder.append(node.getData().toString());
+				if (node.hasLeftChild()) {
+					queue.add(node.getLeftNode());
+				}
+				
+				if (node.hasRightChild()) {
+					queue.add(node.getRightNode());
+				}
+				
+				if (!queue.isEmpty()) {
+					sBuilder.append(", ");
+				}
+			}
+		}
+		
 		return sBuilder.append("]").toString();
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Node<E> getLeftNode() {
+		if (rootNode != null) {
+			return rootNode.getLeftNode();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param newData
+	 */
+	public void addLeftChild(final E newData) {
+		if (rootNode == null) {
+			rootNode = new Node<E>(newData);
+		} else {
+			rootNode.addLeftNode(newData);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Node<E> getRightNode() {
+		if (rootNode != null) {
+			return rootNode.getRightNode();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param newData
+	 */
+	public void addRightChild(final E newData) {
+		if (rootNode == null) {
+			rootNode = new Node<E>(newData);
+		} else {
+			rootNode.addRightNode(newData);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		BinaryTree<String> bTree = new BinaryTree<>();
+		bTree.addLeftChild("A");
+		bTree.addLeftChild("B");
+		bTree.addRightChild("C");
+		
+		bTree.getLeftNode().addRightNode("D");
+		bTree.getRightNode().addLeftNode("E");
+		bTree.getRightNode().addRightNode("F");
+		
+		System.out.println(bTree);
+	}
+	
 }

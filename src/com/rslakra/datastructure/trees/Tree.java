@@ -7,15 +7,15 @@ import java.util.Queue;
  * @author Rohtash Singh Lakra
  */
 public class Tree<E extends Comparable<E>> {
-
+	
 	private Node<E> root;
 	private int size;
-
+	
 	public Tree() {
 		root = null;
 		size = 0;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -23,7 +23,7 @@ public class Tree<E extends Comparable<E>> {
 	public int getSize() {
 		return size;
 	}
-
+	
 	public void add(E data) {
 		Node<E> newNode = new Node<>(data);
 		if (root == null) {
@@ -33,7 +33,7 @@ public class Tree<E extends Comparable<E>> {
 			insert(root, newNode);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param parent
@@ -62,7 +62,7 @@ public class Tree<E extends Comparable<E>> {
 			// same data, don't allow duplicates in binary tree.
 		}
 	}
-
+	
 	/**
 	 * Returns true if the node contain otherwise false.
 	 * 
@@ -72,7 +72,7 @@ public class Tree<E extends Comparable<E>> {
 	public boolean contain(E data) {
 		return (findNode(data) != null);
 	}
-
+	
 	/**
 	 * Returns the node for the given data.
 	 * 
@@ -93,10 +93,10 @@ public class Tree<E extends Comparable<E>> {
 				}
 			}
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * 
 	 * @param current
@@ -115,7 +115,7 @@ public class Tree<E extends Comparable<E>> {
 			current.getParent().setLeftNode(newNode);
 		}
 	}
-
+	
 	/**
 	 * Returns true if the node is deleted otherwise false.
 	 * 
@@ -124,11 +124,11 @@ public class Tree<E extends Comparable<E>> {
 	 */
 	public boolean delete(E data) {
 		boolean deleted = false;
-
+		
 		// if not empty, check which node to delete.
 		if (root != null) {
 			Node<E> delNode = findNode(data);
-
+			
 			// if node exists, delete it.
 			if (delNode != null) {
 				// check, if it's a leaf node
@@ -153,28 +153,28 @@ public class Tree<E extends Comparable<E>> {
 					if (child.hasRightChild() && child.hasLeftChild()) {
 						child = child.getRightNode();
 					}
-
+					
 					// now replace it's right node.
 					child.getParent().setRightNode(null);
-
+					
 					child.setLeftNode(delNode.getLeftNode());
 					child.setRightNode(delNode.getRightNode());
-
+					
 					unlink(delNode, child);
 					deleted = true;
 				}
 			}
-
+			
 			delNode = null;
 		}
-
+		
 		if (deleted) {
 			size--;
 		}
-
+		
 		return deleted;
 	}
-
+	
 	/**
 	 * Returns the string representation of this object.
 	 */
@@ -189,18 +189,18 @@ public class Tree<E extends Comparable<E>> {
 				if (node.hasLeftChild()) {
 					queue.add(node.getLeftNode());
 				}
-
+				
 				if (node.hasRightChild()) {
 					queue.add(node.getRightNode());
 				}
-
+				
 				if (!queue.isEmpty()) {
 					sBuilder.append(", ");
 				}
 			}
 		}
-
+		
 		return sBuilder.append("]").toString();
 	}
-
+	
 }

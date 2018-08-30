@@ -36,21 +36,12 @@ package com.rslakra.datastructure.trees;
  * @since 1.0.0
  */
 public class Node<E> {
-
+	
 	private E data;
+	private Node<E> parent;
 	private Node<E> leftNode;
 	private Node<E> rightNode;
-	private Node<E> parent;
-
-	/**
-	 * Returns the value of data.
-	 *
-	 * @return the data
-	 */
-	public E getData() {
-		return data;
-	}
-
+	
 	/**
 	 * 
 	 * @param data
@@ -61,63 +52,16 @@ public class Node<E> {
 		rightNode = null;
 		parent = null;
 	}
-
+	
 	/**
-	 * Returns true if the left node is not null otherwise false.
-	 * 
-	 * @return
-	 */
-	public boolean hasLeftChild() {
-		return (leftNode != null);
-	}
-
-	/**
-	 * Returns the value of leftNode.
+	 * Returns the value of data.
 	 *
-	 * @return the leftNode
+	 * @return the data
 	 */
-	public Node<E> getLeftNode() {
-		return leftNode;
+	public E getData() {
+		return data;
 	}
-
-	/**
-	 * The leftNode to be set.
-	 *
-	 * @param leftNode
-	 *            the leftNode to set
-	 */
-	public void setLeftNode(Node<E> leftNode) {
-		this.leftNode = leftNode;
-	}
-
-	/**
-	 * Returns true if the right node is not null otherwise false.
-	 * 
-	 * @return
-	 */
-	public boolean hasRightChild() {
-		return (rightNode != null);
-	}
-
-	/**
-	 * Returns the value of rightNode.
-	 *
-	 * @return the rightNode
-	 */
-	public Node<E> getRightNode() {
-		return rightNode;
-	}
-
-	/**
-	 * The rightNode to be set.
-	 *
-	 * @param rightNode
-	 *            the rightNode to set
-	 */
-	public void setRightNode(Node<E> rightNode) {
-		this.rightNode = rightNode;
-	}
-
+	
 	/**
 	 * Returns the value of parent.
 	 *
@@ -126,7 +70,7 @@ public class Node<E> {
 	public Node<E> getParent() {
 		return parent;
 	}
-
+	
 	/**
 	 * The parent to be set.
 	 *
@@ -136,7 +80,63 @@ public class Node<E> {
 	public void setParent(Node<E> parent) {
 		this.parent = parent;
 	}
-
+	
+	/**
+	 * Returns true if the left node is not null otherwise false.
+	 * 
+	 * @return
+	 */
+	public boolean hasLeftChild() {
+		return (leftNode != null);
+	}
+	
+	/**
+	 * Returns the value of leftNode.
+	 *
+	 * @return the leftNode
+	 */
+	public Node<E> getLeftNode() {
+		return leftNode;
+	}
+	
+	/**
+	 * The leftNode to be set.
+	 *
+	 * @param leftNode
+	 *            the leftNode to set
+	 */
+	public void setLeftNode(Node<E> leftNode) {
+		this.leftNode = leftNode;
+	}
+	
+	/**
+	 * Returns true if the right node is not null otherwise false.
+	 * 
+	 * @return
+	 */
+	public boolean hasRightChild() {
+		return (rightNode != null);
+	}
+	
+	/**
+	 * Returns the value of rightNode.
+	 *
+	 * @return the rightNode
+	 */
+	public Node<E> getRightNode() {
+		return rightNode;
+	}
+	
+	/**
+	 * The rightNode to be set.
+	 *
+	 * @param rightNode
+	 *            the rightNode to set
+	 */
+	public void setRightNode(Node<E> rightNode) {
+		this.rightNode = rightNode;
+	}
+	
 	/**
 	 * Returns true if this is leaf node (means both left and right nodes are
 	 * empty of this node).
@@ -146,7 +146,7 @@ public class Node<E> {
 	public boolean isLeafNode() {
 		return (leftNode == null && rightNode == null);
 	}
-
+	
 	/**
 	 * Returns true if the node has both left and right children otherwise
 	 * false.
@@ -156,5 +156,31 @@ public class Node<E> {
 	public boolean hasChildren() {
 		return (leftNode != null && rightNode != null);
 	}
-
+	
+	/**
+	 * Adds the left node to the current node.
+	 * 
+	 * @param newData
+	 */
+	public void addLeftNode(final E newData) {
+		final Node<E> newNode = new Node<E>(newData);
+		if (this.hasLeftChild()) {
+			newNode.setLeftNode(getLeftNode());
+		}
+		setLeftNode(newNode);
+	}
+	
+	/**
+	 * Adds the right node to the current node.
+	 * 
+	 * @param newData
+	 */
+	public void addRightNode(final E newData) {
+		final Node<E> newNode = new Node<E>(newData);
+		if (hasRightChild()) {
+			newNode.setRightNode(getRightNode());
+		}
+		setRightNode(newNode);
+	}
+	
 }
