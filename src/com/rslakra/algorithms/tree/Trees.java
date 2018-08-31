@@ -35,15 +35,13 @@ package com.rslakra.algorithms.tree;
  * @date 07/03/2017 04:12:06 PM
  */
 public class Trees {
-
-	private static final boolean useRecursion = false;
-
+	
 	static class Node<T> {
-
+		
 		private T data;
 		private Node<T> leftChild;
 		private Node<T> rightChild;
-
+		
 		/**
 		 * 
 		 * @param data
@@ -53,7 +51,7 @@ public class Trees {
 			leftChild = null;
 			rightChild = null;
 		}
-
+		
 		/**
 		 * Returns the data.
 		 * 
@@ -62,16 +60,7 @@ public class Trees {
 		public T getData() {
 			return data;
 		}
-
-		/**
-		 * The data to be set.
-		 * 
-		 * @param data
-		 */
-		public void setData(T data) {
-			this.data = data;
-		}
-
+		
 		/**
 		 * Returns the leftChild.
 		 * 
@@ -80,7 +69,7 @@ public class Trees {
 		public Node<T> getLeftChild() {
 			return leftChild;
 		}
-
+		
 		/**
 		 * The leftChild to be set.
 		 * 
@@ -89,7 +78,7 @@ public class Trees {
 		public void setLeftChild(Node<T> leftChild) {
 			this.leftChild = leftChild;
 		}
-
+		
 		/**
 		 * 
 		 * @return
@@ -97,7 +86,7 @@ public class Trees {
 		public boolean hasLeftChild() {
 			return (this.leftChild != null);
 		}
-
+		
 		/**
 		 * Returns the rightChild.
 		 * 
@@ -106,7 +95,7 @@ public class Trees {
 		public Node<T> getRightChild() {
 			return rightChild;
 		}
-
+		
 		/**
 		 * The rightChild to be set.
 		 * 
@@ -115,7 +104,7 @@ public class Trees {
 		public void setRightChild(Node<T> rightChild) {
 			this.rightChild = rightChild;
 		}
-
+		
 		/**
 		 * 
 		 * @return
@@ -123,65 +112,7 @@ public class Trees {
 		public boolean hasRightChild() {
 			return (this.rightChild != null);
 		}
-
-		/**
-		 * 
-		 * @param rootNode
-		 * @return
-		 */
-		public String leftNodeTraversal(Node<T> rootNode) {
-			StringBuilder nodeBuilder = new StringBuilder();
-			if (rootNode != null) {
-				nodeBuilder.append(rootNode.getData());
-				// traversal only left tree.
-				if (useRecursion) {
-					if (rootNode.hasLeftChild()) {
-						// recursion
-						nodeBuilder.append(" ").append(rootNode.getLeftChild().getData());
-					}
-				} else {
-					Node<T> tempNode = rootNode.getLeftChild();
-					while (tempNode != null) {
-						// append left node
-						nodeBuilder.append(" ");
-						nodeBuilder.append(tempNode.getData());
-						tempNode = tempNode.getLeftChild();
-					}
-				}
-			}
-
-			return nodeBuilder.toString();
-		}
-
-		/**
-		 * 
-		 * @param rootNode
-		 * @return
-		 */
-		public String rightgNodeTraversal(Node<T> rootNode) {
-			StringBuilder nodeBuilder = new StringBuilder();
-			if (rootNode != null) {
-				nodeBuilder.append(rootNode.getData());
-				// traversal only right tree.
-				if (useRecursion) {
-					if (rootNode.hasRightChild()) {
-						// recursion
-						nodeBuilder.append(" ").append(rootNode.getRightChild().getData());
-					}
-				} else {
-					Node<T> tempNode = rootNode.getRightChild();
-					while (tempNode != null) {
-						// append left node
-						nodeBuilder.append(" ");
-						nodeBuilder.append(tempNode.getData());
-						tempNode = tempNode.getRightChild();
-					}
-				}
-			}
-
-			return nodeBuilder.toString();
-		}
-
+		
 		/**
 		 * Returns the string representation of this object.
 		 * 
@@ -190,34 +121,173 @@ public class Trees {
 		 * @see java.lang.Object#toString()
 		 */
 		public String toString() {
-			StringBuilder nodeBuilder = new StringBuilder();
-			if (getData() != null) {
-				nodeBuilder.append(getData());
-
-				// append left node
-				if (hasLeftChild()) {
-					nodeBuilder.append(" ");
-					nodeBuilder.append(leftNodeTraversal(getLeftChild()));
+			return preOrderTraversal(this, false);
+		}
+		
+		/**
+		 * Traverses a tree in a pre-order (ROOT-LEFT-RIGHT) manner.
+		 * 
+		 * Until all nodes are traversed:
+		 * Step 1 − Visit root node.
+		 * Step 2 − Recursively traverse left subtree.
+		 * Step 3 − Recursively traverse right subtree.
+		 * 
+		 * @param node
+		 * @param addBrackets
+		 * @return
+		 */
+		public String preOrderTraversal(final Node<T> node, final boolean addBrackets) {
+			final StringBuilder nodeBuilder = new StringBuilder();
+			if (addBrackets) {
+				nodeBuilder.append("[");
+			}
+			
+			if (node != null) {
+				// append root node
+				if (node.getData() != null) {
+					nodeBuilder.append(node.getData());
 				}
-
+				
+				Node<T> tempNode = null;
+				// append left node
+				if (node.hasLeftChild()) {
+					tempNode = node.getLeftChild();
+					do {
+						// append left node
+						nodeBuilder.append(" ").append(tempNode.getData());
+						tempNode = tempNode.getLeftChild();
+					} while (tempNode != null);
+				}
+				
 				// append right node.
 				if (hasRightChild()) {
-					nodeBuilder.append(" ");
-					nodeBuilder.append(rightgNodeTraversal(getRightChild()));
+					tempNode = node.getRightChild();
+					do {
+						// append left node
+						nodeBuilder.append(" ").append(tempNode.getData());
+						tempNode = tempNode.getRightChild();
+					} while (tempNode != null);
 				}
 			}
-
+			
+			if (addBrackets) {
+				nodeBuilder.append("]");
+			}
+			
+			return nodeBuilder.toString();
+		}
+		
+		/**
+		 * Traverses a tree in an in-order (LEFT-ROOT-RIGHT) manner.
+		 * 
+		 * Until all nodes are traversed:
+		 * Step 1 − Recursively traverse left subtree.
+		 * Step 2 − Visit root node.
+		 * Step 3 − Recursively traverse right subtree.
+		 */
+		public String inOrderTraversal(final Node<T> node, final boolean addBrackets) {
+			final StringBuilder nodeBuilder = new StringBuilder();
+			if (addBrackets) {
+				nodeBuilder.append("[");
+			}
+			
+			if (node != null) {
+				Node<T> tempNode = node.getLeftChild();
+				// append left node
+				while (tempNode != null) {
+					nodeBuilder.append(tempNode.getData());
+					if (tempNode.hasLeftChild()) {
+						nodeBuilder.append(" ");
+					}
+					tempNode = tempNode.getLeftChild();
+				}
+				
+				// append root node
+				if (node.getData() != null) {
+					if (node.hasLeftChild()) {
+						nodeBuilder.append(" ");
+					}
+					nodeBuilder.append(node.getData());
+				}
+				
+				// append right node.
+				tempNode = node.getRightChild();
+				while (tempNode != null) {
+					nodeBuilder.append(" ").append(tempNode.getData());
+					tempNode = tempNode.getRightChild();
+				}
+			}
+			
+			if (addBrackets) {
+				nodeBuilder.append("]");
+			}
+			
+			return nodeBuilder.toString();
+		}
+		
+		/**
+		 * Traverses a tree in a post-order (LEFT-RIGHT-ROOT) manner.
+		 * 
+		 * Until all nodes are traversed:
+		 * Step 1 − Recursively traverse left subtree.
+		 * Step 2 − Recursively traverse right subtree.
+		 * Step 3 − Visit root node.
+		 */
+		public String postOrderTraversal(final Node<T> node, final boolean addBrackets) {
+			final StringBuilder nodeBuilder = new StringBuilder();
+			if (addBrackets) {
+				nodeBuilder.append("[");
+			}
+			
+			if (node != null) {
+				Node<T> tempNode = node.getLeftChild();
+				// append left node
+				while (tempNode != null) {
+					nodeBuilder.append(tempNode.getData());
+					if (tempNode.hasLeftChild()) {
+						nodeBuilder.append(" ");
+					}
+					tempNode = tempNode.getLeftChild();
+				}
+				
+				// append right node.
+				if (node.hasLeftChild()) {
+					nodeBuilder.append(" ");
+				}
+				
+				tempNode = node.getRightChild();
+				while (tempNode != null) {
+					nodeBuilder.append(tempNode.getData());
+					if (tempNode.hasRightChild()) {
+						nodeBuilder.append(" ");
+					}
+					tempNode = tempNode.getRightChild();
+				}
+				
+				// append root node
+				if (node.getData() != null) {
+					if (node.hasRightChild()) {
+						nodeBuilder.append(" ");
+					}
+					nodeBuilder.append(node.getData());
+				}
+			}
+			
+			if (addBrackets) {
+				nodeBuilder.append("]");
+			}
+			
 			return nodeBuilder.toString();
 		}
 	}
-
+	
 	static enum TraversalMode {
 		PRE_ORDER_TRAVERSAL, IN_ORDER_TRAVERSAL, POST_ORDER_TRAVERSAL;
 	}
-
+	
 	static class IntBinaryTree {
 		Node<Integer> rootNode;
-
+		
 		/**
 		 * Adds the node as the child of the parent node. the position.
 		 * 
@@ -231,7 +301,7 @@ public class Trees {
 				parentNode.setRightChild(currentNode);
 			}
 		}
-
+		
 		/**
 		 * Inserts an element in a tree/create a tree.
 		 * 
@@ -250,6 +320,9 @@ public class Trees {
 					while (currentNode != null) {
 						if (data < currentNode.getData()) {
 							// goto left subtree
+							if (currentNode.hasLeftChild()) {
+								parentNode = currentNode.getLeftChild();
+							}
 							currentNode = currentNode.getLeftChild();
 							// add new node
 							if (currentNode == null) {
@@ -257,6 +330,9 @@ public class Trees {
 							}
 						} else if (data > currentNode.getData()) {
 							// goto right subtree
+							if (currentNode.hasRightChild()) {
+								parentNode = currentNode.getRightChild();
+							}
 							currentNode = currentNode.getRightChild();
 							// add new node
 							if (currentNode == null) {
@@ -267,88 +343,74 @@ public class Trees {
 				}
 			}
 		}
-
+		
 		/**
 		 * Searches an element in a tree.
 		 * 
 		 * @param findWhat
 		 */
-		public Node<Integer> searchNode(Integer findWhat) {
+		public Node<Integer> searchNode(final Integer findWhat) {
 			Node<Integer> currentNode = rootNode;
-			if (rootNode.getData() != findWhat) {
-				while (currentNode != null) {
-					if (findWhat < currentNode.getData()) {
-						// goto left subtree
-						currentNode = currentNode.getLeftChild();
-					} else if (findWhat > currentNode.getData()) {
-						// goto right subtree
-						currentNode = currentNode.getRightChild();
-					}
+			while (currentNode != null) {
+				if (findWhat < currentNode.getData()) {
+					// goto left subtree
+					currentNode = currentNode.getLeftChild();
+				} else if (findWhat > currentNode.getData()) {
+					// goto right subtree
+					currentNode = currentNode.getRightChild();
+				} else {
+					break;
 				}
 			}
-
+			
 			return currentNode;
 		}
-
+		
 		/**
+		 * Traverses a tree in a pre-order (ROOT-LEFT-RIGHT) manner.
 		 * 
-		 * @param tMode
-		 */
-		public void nodeTraversal(TraversalMode tMode) {
-			switch (tMode) {
-			case PRE_ORDER_TRAVERSAL:
-				preOrderTraversal();
-				break;
-			case IN_ORDER_TRAVERSAL:
-				inOrderTraversal();
-				break;
-			case POST_ORDER_TRAVERSAL:
-				postOrderTraversal();
-				break;
-			default:
-				System.out.println("Invalid Traversal!");
-				break;
-			}
-		}
-
-		/**
-		 * Traverses a tree in a pre-order manner. Until all nodes are traversed
-		 * − Step 1 − Visit root node. Step 2 − Recursively traverse left
-		 * subtree. Step 3 − Recursively traverse right subtree.
+		 * Until all nodes are traversed:
+		 * Step 1 − Visit root node.
+		 * Step 2 − Recursively traverse left subtree.
+		 * Step 3 − Recursively traverse right subtree.
 		 */
 		public void preOrderTraversal() {
-
+			System.out.println(rootNode.preOrderTraversal(rootNode, true));
 		}
-
+		
 		/**
-		 * Traverses a tree in an in-order manner. Until all nodes are traversed
-		 * − Step 1 − Recursively traverse left subtree. Step 2 − Visit root
-		 * node. Step 3 − Recursively traverse right subtree.
+		 * Traverses a tree in an in-order (LEFT-ROOT-RIGHT) manner.
+		 * 
+		 * Until all nodes are traversed:
+		 * Step 1 − Recursively traverse left subtree.
+		 * Step 2 − Visit root node.
+		 * Step 3 − Recursively traverse right subtree.
 		 */
 		public void inOrderTraversal() {
-
+			System.out.println(rootNode.inOrderTraversal(rootNode, true));
 		}
-
+		
 		/**
-		 * Traverses a tree in a post-order manner.
+		 * Traverses a tree in a post-order (LEFT-RIGHT-ROOT) manner.
 		 * 
-		 * Until all nodes are traversed − Step 1 − Recursively traverse left
-		 * subtree. Step 2 − Recursively traverse right subtree. Step 3 − Visit
-		 * root node.
+		 * Until all nodes are traversed:
+		 * Step 1 − Recursively traverse left subtree.
+		 * Step 2 − Recursively traverse right subtree.
+		 * Step 3 − Visit root node.
 		 */
 		public void postOrderTraversal() {
-
+			System.out.println(rootNode.postOrderTraversal(rootNode, true));
 		}
-
+		
 		/**
 		 * Removes the node of the tree.
 		 * 
 		 * @param node
 		 */
 		public void removeNode(Node<Integer> node) {
-
+			
 		}
-
+		
 		/**
 		 * 
 		 */
@@ -356,23 +418,25 @@ public class Trees {
 			return "[" + (rootNode == null ? "" : rootNode.toString()) + "]";
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		IntBinaryTree bTree = new IntBinaryTree();
-		bTree.insertNode(8);
 		bTree.insertNode(10);
+		bTree.insertNode(8);
 		bTree.insertNode(11);
 		System.out.println(bTree);
-		Node<Integer> nodeFound = bTree.searchNode(8);
+		System.out.println();
+		Node<Integer> nodeFound = bTree.searchNode(10);
 		System.out.println(nodeFound);
-
+		
+		System.out.println();
 		bTree.preOrderTraversal();
 		bTree.inOrderTraversal();
 		bTree.postOrderTraversal();
 	}
-
+	
 }

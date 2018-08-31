@@ -28,6 +28,8 @@
  *****************************************************************************/
 package com.rslakra.datastructure.trees;
 
+import java.util.Comparator;
+
 /**
  * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
  * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
@@ -35,8 +37,7 @@ package com.rslakra.datastructure.trees;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class Node<E> {
-	
+public class Node<E> implements Comparator<Node<E>> {
 	private E data;
 	private Node<E> parent;
 	private Node<E> leftNode;
@@ -181,6 +182,26 @@ public class Node<E> {
 			newNode.setRightNode(getRightNode());
 		}
 		setRightNode(newNode);
+	}
+	
+	/**
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public boolean equals(Node<E> other) {
+		return (getData() == other.getData());
+	}
+	
+	/**
+	 * @param object
+	 * @param other
+	 * @return
+	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public int compare(Node<E> object, Node<E> other) {
+		return 0;
 	}
 	
 }
