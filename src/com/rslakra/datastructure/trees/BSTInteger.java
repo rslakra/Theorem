@@ -40,12 +40,52 @@ public class BSTInteger {
 			left = right = null;
 		}
 		
+		/**
+		 * Returns true if the current node has left node.
+		 * 
+		 * @return
+		 */
 		public boolean hasLeft() {
 			return (left != null);
 		}
 		
+		/**
+		 * Returns true if the current node is the left node of the given
+		 * parent.
+		 * 
+		 * @param parent
+		 * @return
+		 */
+		public boolean isLeftOf(Node parent) {
+			return (parent != null && parent.hasLeft() && this.compareTo(parent.left) == 0);
+		}
+		
+		/**
+		 * Returns true if the current node is the right node of the given
+		 * parent.
+		 * 
+		 * @param parent
+		 * @return
+		 */
+		public boolean isRightOf(Node parent) {
+			return (parent != null && parent.hasRight() && this.compareTo(parent.right) == 0);
+		}
+		
+		/**
+		 * Returns true if the current node has right node.
+		 * 
+		 * @return
+		 */
 		public boolean hasRight() {
 			return (right != null);
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean hasChildren() {
+			return (hasLeft() && hasRight());
 		}
 		
 		/**
@@ -55,7 +95,7 @@ public class BSTInteger {
 		 */
 		@Override
 		public int compareTo(Node other) {
-			return (other.data - data);
+			return (other != null ? other.data - data : -1);
 		}
 		
 		/**
@@ -73,17 +113,6 @@ public class BSTInteger {
 			}
 			
 			return null;
-		}
-		
-		/**
-		 * 
-		 * @param data
-		 * @return
-		 */
-		public Node removeNode(int data) {
-			Node deleted = null;
-			
-			return deleted;
 		}
 		
 		/**
@@ -162,6 +191,96 @@ public class BSTInteger {
 	}
 	
 	/**
+	 * Removes the given node recursively.
+	 * 
+	 * @param parent
+	 * @param current
+	 * @param data
+	 */
+	private void removeNode(Node parent, Node current, int data) {
+		if (data < current.data && current.hasLeft()) {
+			removeNode(current, current.left, data);
+		} else if (data > current.data && current.hasRight()) {
+			removeNode(current, current.right, data);
+		} else if (current.data == data) {
+			// Case 1 - Node has no child.
+			if (parent != null) {
+				if (current.isLeftOf(parent)) {
+					// case has both parents.
+					if (current.hasChildren()) {
+						parent.left = current.right;
+						pushNode(current.right, current.left);
+					}
+					// Case 2 - Node has only 1 child
+					else if (current.hasLeft()) {
+						parent.left = current.left;
+					} else if (current.hasRight()) {
+						parent.left = current.right;
+					}
+					
+					// Node has no child
+					else {
+						parent.left = null;
+					}
+				} else if (current.isRightOf(parent)) {
+					// Case 3 - Node has both children
+					if (current.hasChildren()) {
+						parent.right = current.right;
+						pushNode(current.right, current.left);
+					}
+					// Case 2 - Node has only 1 child
+					else if (current.hasLeft()) {
+						parent.left = current.left;
+					} else if (current.hasRight()) {
+						parent.right = current.right;
+					}
+					
+					// Node has no child
+					else {
+						parent.right = null;
+					}
+				}
+			} else {
+				// Case 3 - Node has both children
+				if (current.hasChildren()) {
+					pushNode(current.right, current.left);
+					rootNode = current.right;
+				}
+				// Case 2 - Node has only 1 child
+				else if (current.hasLeft()) {
+					if (current.left.hasChildren()) {
+						rootNode = current.left.right;
+						current.left.right = null;
+						pushNode(rootNode, current.left);
+					} else if (current.left.hasLeft()) {
+						rootNode = current.left.left;
+					} else if (current.left.hasRight()) {
+						rootNode = current.left.right;
+					}
+				} else if (current.hasRight()) {
+					rootNode = current.right;
+				}
+				
+				// Node has no child
+				else {
+					rootNode = null;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Removes the given node.
+	 * 
+	 * @param data
+	 */
+	public void removeNode(int data) {
+		if (rootNode != null) {
+			removeNode(null, rootNode, data);
+		}
+	}
+	
+	/**
 	 * Returns the string representation of this object.
 	 * 
 	 * @return
@@ -176,17 +295,25 @@ public class BSTInteger {
 	 */
 	public static void main(String[] args) {
 		BSTInteger bst = new BSTInteger();
-		// 50, 76, 21, 4, 32, 100, 64, 52
+		// 50, 76, 21, 4, 16, 3, 32, 100, 64, 52, 102
+		
+		// Add Nodes
 		bst.addNode(50);
-		bst.addNode(76);
+		// bst.addNode(76);
+		
 		bst.addNode(21);
 		bst.addNode(4);
+		bst.addNode(16);
+		bst.addNode(3);
 		bst.addNode(32);
-		bst.addNode(100);
-		bst.addNode(64);
-		bst.addNode(52);
+		
+		// bst.addNode(100);
+		// bst.addNode(64);
+		// bst.addNode(52);
+		// bst.addNode(102);
 		System.out.println(bst);
 		
+		// Find Node
 		System.out.println("Finding ... 32");
 		Node found = bst.findNode(32);
 		System.out.println("Found:" + found);
@@ -199,6 +326,9 @@ public class BSTInteger {
 		found = bst.findNode(80);
 		System.out.println("Found:" + found);
 		
+		// Delete Node.
+		bst.removeNode(50);
+		System.out.println(bst);
 	}
 	
 }
