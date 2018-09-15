@@ -39,11 +39,11 @@ import java.util.ArrayList;
  */
 @SuppressWarnings("serial")
 public class ListStack<E> extends ArrayList<E> implements Stack<E> {
-
+	
 	public ListStack() {
 		super();
 	}
-
+	
 	/**
 	 * @param item
 	 * @return
@@ -54,7 +54,18 @@ public class ListStack<E> extends ArrayList<E> implements Stack<E> {
 		super.add(0, item);
 		return item;
 	}
-
+	
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 * @see java.util.ArrayList#add(java.lang.Object)
+	 */
+	public boolean add(E item) {
+		super.add(0, item);
+		return true;
+	}
+	
 	/**
 	 * @return
 	 * @see com.devamatre.algorithms.stack.Stack#pop()
@@ -63,7 +74,7 @@ public class ListStack<E> extends ArrayList<E> implements Stack<E> {
 	public E pop() {
 		return remove(0);
 	}
-
+	
 	/**
 	 * @return
 	 * @see com.devamatre.algorithms.stack.Stack#peek()
@@ -72,7 +83,7 @@ public class ListStack<E> extends ArrayList<E> implements Stack<E> {
 	public E peek() {
 		return get(0);
 	}
-
+	
 	/**
 	 * @return
 	 * @see com.devamatre.algorithms.stack.Stack#empty()
@@ -81,13 +92,24 @@ public class ListStack<E> extends ArrayList<E> implements Stack<E> {
 	public boolean empty() {
 		return super.isEmpty();
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 * @see java.util.ArrayList#size()
+	 */
 	public int size() {
 		return super.size();
 	}
-
+	
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 * @see java.util.ArrayList#contains(java.lang.Object)
+	 */
 	public boolean contains(Object item) {
 		return super.contains(item);
 	}
-
+	
 }

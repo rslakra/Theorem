@@ -60,7 +60,7 @@ public class BinaryTree<E extends Comparable<E>> {
 	}
 	
 	/**
-	 * Inserts the new node at its repective position. It does not allow to add
+	 * Inserts the new node at its respective position. It does not allow to add
 	 * duplicate nodes.
 	 * 
 	 * @param parentNode

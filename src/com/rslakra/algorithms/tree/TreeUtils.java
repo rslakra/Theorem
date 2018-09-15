@@ -74,6 +74,18 @@ public final class TreeUtils {
 	}
 	
 	/**
+	 * Adds the <code>totalSpaces</code>.
+	 * 
+	 * @param count
+	 * @param treeBuilder
+	 */
+	public static void addSpaces(final int totalSpaces, final StringBuilder treeBuilder) {
+		for (int i = 0; i < totalSpaces; i++) {
+			treeBuilder.append(" ");
+		}
+	}
+	
+	/**
 	 * Prints the preety tree.
 	 * 
 	 * <pre>
@@ -100,11 +112,11 @@ public final class TreeUtils {
 		}
 		
 		if (currentHeight == maxHeight) {
-			return new StringBuilder(root.getData() + "");
+			return new StringBuilder(root.getData().toString());
 		}
 		
 		int slashes = countSlashes(maxHeight - currentHeight + 1);
-		treeBuilder.append(String.format("%" + (spaces + 1) + "s%" + spaces + "s", root.getData() + "", ""));
+		treeBuilder.append(String.format("%" + (spaces + 1) + "s%" + spaces + "s", root.getData().toString(), ""));
 		treeBuilder.append("\n");
 		/*
 		 * now print / and \
@@ -114,17 +126,11 @@ public final class TreeUtils {
 		char rightSlash = root.hasRightChild() ? '\\' : ' ';
 		int spaceInBetween = 1;
 		for (int i = 0, space = spaces - 1; i < slashes; i++, space--, spaceInBetween += 2) {
-			for (int j = 0; j < space; j++) {
-				treeBuilder.append(" ");
-			}
+			addSpaces(space, treeBuilder);
 			treeBuilder.append(leftSlash);
-			for (int j = 0; j < spaceInBetween; j++) {
-				treeBuilder.append(" ");
-			}
+			addSpaces(spaceInBetween, treeBuilder);
 			treeBuilder.append(rightSlash + "");
-			for (int j = 0; j < space; j++) {
-				treeBuilder.append(" ");
-			}
+			addSpaces(space, treeBuilder);
 			treeBuilder.append("\n");
 		}
 		
@@ -145,7 +151,8 @@ public final class TreeUtils {
 			} else {
 				treeBuilder.append(leftScanner.nextLine());
 				treeBuilder.append(" ");
-				treeBuilder.append(rightScanner.nextLine() + "\n");
+				treeBuilder.append(rightScanner.nextLine());
+				treeBuilder.append("\n");
 			}
 		}
 		
@@ -153,6 +160,19 @@ public final class TreeUtils {
 		rightScanner.close();
 		
 		return treeBuilder;
+	}
+	
+	/**
+	 * Removes the last space.
+	 * 
+	 * @param nodeBuilder
+	 */
+	public static void trimLastSpace(final StringBuilder nodeBuilder) {
+		// remove last white space.
+		int lastIndex = nodeBuilder.lastIndexOf(" ");
+		if (lastIndex != -1) {
+			nodeBuilder.deleteCharAt(lastIndex);
+		}
 	}
 	
 	/**

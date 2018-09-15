@@ -28,6 +28,13 @@
  *****************************************************************************/
 package com.rslakra.algorithms.tree;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.TreeMap;
+
 /**
  * Three Algorithms.
  *
@@ -136,38 +143,42 @@ public class Trees {
 		 * @param addBrackets
 		 * @return
 		 */
-		public String preOrderTraversal(final Node<T> node, final boolean addBrackets) {
+		public String preOrderTraversal(Node<T> node, final boolean addBrackets) {
 			final StringBuilder nodeBuilder = new StringBuilder();
 			if (addBrackets) {
 				nodeBuilder.append("[");
 			}
 			
+			/*
+			 * Push root node in the stack. Iterate until stack is empty.
+			 * Pop all items one by one. Do following for every popped item:
+			 * a) print it
+			 * b) push its right child
+			 * c) push its left child
+			 * Note that right child is pushed first so that left is processed
+			 * first.
+			 */
 			if (node != null) {
-				// append root node
-				if (node.getData() != null) {
-					nodeBuilder.append(node.getData());
+				final Stack<Node<T>> stack = new Stack<>();
+				stack.push(node);
+				while (!stack.isEmpty()) {
+					node = stack.pop();
+					// append root node
+					nodeBuilder.append(node.data).append(" ");
+					
+					// push right node
+					if (node.hasRightChild()) {
+						stack.push(node.getRightChild());
+					}
+					
+					// push left node
+					if (node.hasLeftChild()) {
+						stack.push(node.getLeftChild());
+					}
 				}
 				
-				Node<T> tempNode = null;
-				// append left node
-				if (node.hasLeftChild()) {
-					tempNode = node.getLeftChild();
-					do {
-						// append left node
-						nodeBuilder.append(" ").append(tempNode.getData());
-						tempNode = tempNode.getLeftChild();
-					} while (tempNode != null);
-				}
-				
-				// append right node.
-				if (hasRightChild()) {
-					tempNode = node.getRightChild();
-					do {
-						// append left node
-						nodeBuilder.append(" ").append(tempNode.getData());
-						tempNode = tempNode.getRightChild();
-					} while (tempNode != null);
-				}
+				// remove last white space.
+				TreeUtils.trimLastSpace(nodeBuilder);
 			}
 			
 			if (addBrackets) {
@@ -185,37 +196,36 @@ public class Trees {
 		 * Step 2 − Visit root node.
 		 * Step 3 − Recursively traverse right subtree.
 		 */
-		public String inOrderTraversal(final Node<T> node, final boolean addBrackets) {
+		public String inOrderTraversal(Node<T> node, final boolean addBrackets) {
 			final StringBuilder nodeBuilder = new StringBuilder();
 			if (addBrackets) {
 				nodeBuilder.append("[");
 			}
 			
+			/*
+			 * Create empty stack.
+			 * Iterate until stack is empty or node != null.
+			 * If node != null, push the node into stack and assign traverse to
+			 * left tree.
+			 * Else pop item from the stack, print it and traverse to right
+			 * tree.
+			 */
 			if (node != null) {
-				Node<T> tempNode = node.getLeftChild();
-				// append left node
-				while (tempNode != null) {
-					nodeBuilder.append(tempNode.getData());
-					if (tempNode.hasLeftChild()) {
-						nodeBuilder.append(" ");
+				final Stack<Node<T>> stack = new Stack<>();
+				while (!stack.isEmpty() || node != null) {
+					if (node != null) {
+						stack.push(node);
+						node = node.leftChild;
+					} else {
+						node = stack.pop();
+						// append node
+						nodeBuilder.append(node.data).append(" ");
+						node = node.rightChild;
 					}
-					tempNode = tempNode.getLeftChild();
 				}
 				
-				// append root node
-				if (node.getData() != null) {
-					if (node.hasLeftChild()) {
-						nodeBuilder.append(" ");
-					}
-					nodeBuilder.append(node.getData());
-				}
-				
-				// append right node.
-				tempNode = node.getRightChild();
-				while (tempNode != null) {
-					nodeBuilder.append(" ").append(tempNode.getData());
-					tempNode = tempNode.getRightChild();
-				}
+				// remove last white space.
+				TreeUtils.trimLastSpace(nodeBuilder);
 			}
 			
 			if (addBrackets) {
@@ -233,44 +243,317 @@ public class Trees {
 		 * Step 2 − Recursively traverse right subtree.
 		 * Step 3 − Visit root node.
 		 */
-		public String postOrderTraversal(final Node<T> node, final boolean addBrackets) {
+		public String postOrderTraversal(Node<T> node, final boolean addBrackets) {
 			final StringBuilder nodeBuilder = new StringBuilder();
 			if (addBrackets) {
 				nodeBuilder.append("[");
 			}
 			
+			/*
+			 * Create empty stack.
+			 * Set lastVisited to be nulll;
+			 * Iterate until stack is empty or node != null
+			 * If node != null, push the node into stack and traverse to left
+			 * tree.
+			 * Else peek item from the stack and do the following
+			 * if peekNode.right != null and lastVisited != peekNode.right then
+			 * traverse to right tree
+			 * node = peekNode.right
+			 * else
+			 * visit(node)
+			 * lastVisited = stack.pop()
+			 */
 			if (node != null) {
-				Node<T> tempNode = node.getLeftChild();
-				// append left node
-				while (tempNode != null) {
-					nodeBuilder.append(tempNode.getData());
-					if (tempNode.hasLeftChild()) {
-						nodeBuilder.append(" ");
+				final Stack<Node<T>> stack = new Stack<>();
+				Node<T> lastVisited = null;
+				while (!stack.isEmpty() || node != null) {
+					if (node != null) {
+						stack.push(node);
+						node = node.leftChild;
+					} else {
+						Node<T> peekNode = stack.peek();
+						if (peekNode.rightChild != null && lastVisited != peekNode.rightChild) {
+							node = peekNode.rightChild;
+						} else {
+							// append node
+							nodeBuilder.append(peekNode.data).append(" ");
+							lastVisited = stack.pop();
+						}
 					}
-					tempNode = tempNode.getLeftChild();
 				}
 				
-				// append right node.
-				if (node.hasLeftChild()) {
-					nodeBuilder.append(" ");
+				// remove last white space.
+				TreeUtils.trimLastSpace(nodeBuilder);
+			}
+			
+			if (addBrackets) {
+				nodeBuilder.append("]");
+			}
+			
+			return nodeBuilder.toString();
+		}
+		
+		/**
+		 * Traverses a tree in a level order manner.
+		 * 
+		 * Until all nodes are traversed:
+		 * Step 1 − Visit root node.
+		 * Step 2 − Traverse left and right siblings.
+		 * Step 3 − Iterate till the leafs.
+		 */
+		public String levelOrderTraversal(Node<T> node, final boolean addBrackets) {
+			final StringBuilder nodeBuilder = new StringBuilder();
+			if (addBrackets) {
+				nodeBuilder.append("[");
+			}
+			
+			/*
+			 * Create empty Queue.
+			 * Add root node into the queue.
+			 * Iterate until queue is empty
+			 * Poll node from the queue.
+			 * Visit node.
+			 * If node's left child is not null, push into the queue.
+			 * If node's right child is not null, push into the queue.
+			 */
+			if (node != null) {
+				final Queue<Node<T>> queue = new LinkedList<>();
+				queue.offer(node);
+				while (!queue.isEmpty()) {
+					node = queue.poll();
+					// append node
+					nodeBuilder.append(node.data).append(" ");
+					if (node.leftChild != null) {
+						queue.offer(node.leftChild);
+					}
+					if (node.rightChild != null) {
+						queue.offer(node.rightChild);
+					}
 				}
 				
-				tempNode = node.getRightChild();
-				while (tempNode != null) {
-					nodeBuilder.append(tempNode.getData());
-					if (tempNode.hasRightChild()) {
-						nodeBuilder.append(" ");
+				// remove last white space.
+				TreeUtils.trimLastSpace(nodeBuilder);
+			}
+			
+			if (addBrackets) {
+				nodeBuilder.append("]");
+			}
+			
+			return nodeBuilder.toString();
+		}
+		
+		private class TempNode {
+			Node<T> node;
+			int level;
+			
+			TempNode(Node<T> node, int level) {
+				this.node = node;
+				this.level = level;
+			}
+		}
+		
+		/**
+		 * 
+		 * @param node
+		 * @param addBrackets
+		 * @return
+		 */
+		public String treeViewTraversal(Node<T> node, final boolean addBrackets) {
+			final StringBuilder nodeBuilder = new StringBuilder();
+			if (addBrackets) {
+				nodeBuilder.append("[");
+			}
+			
+			/*
+			 * Create empty Queue.
+			 * Add root node into the queue.
+			 * Iterate until queue is empty
+			 * Poll node from the queue.
+			 * Visit node.
+			 * If node's left child is not null, push into the queue.
+			 * If node's right child is not null, push into the queue.
+			 */
+			if (node != null) {
+				final HashMap<Integer, Node<T>> treeView = new HashMap<>();
+				final Queue<TempNode> queue = new LinkedList<>();
+				queue.offer(new TempNode(node, 0));
+				while (!queue.isEmpty()) {
+					TempNode tempNode = queue.poll();
+					if (!treeView.containsKey(tempNode.level)) {
+						// append node
+						nodeBuilder.append(tempNode.node.data).append(" ");
+						treeView.put(tempNode.level, tempNode.node);
 					}
-					tempNode = tempNode.getRightChild();
+					
+					if (tempNode.node.leftChild != null) {
+						queue.offer(new TempNode(tempNode.node.leftChild, tempNode.level - 1));
+					}
+					
+					if (tempNode.node.rightChild != null) {
+						queue.offer(new TempNode(tempNode.node.rightChild, tempNode.level + 1));
+					}
 				}
 				
-				// append root node
-				if (node.getData() != null) {
-					if (node.hasRightChild()) {
-						nodeBuilder.append(" ");
+				// remove last white space.
+				TreeUtils.trimLastSpace(nodeBuilder);
+			}
+			
+			if (addBrackets) {
+				nodeBuilder.append("]");
+			}
+			
+			return nodeBuilder.toString();
+		}
+		
+		/**
+		 * 
+		 * @param node
+		 * @param addBrackets
+		 * @return
+		 */
+		public String treeBottomViewTraversal(Node<T> node, final boolean addBrackets) {
+			final StringBuilder nodeBuilder = new StringBuilder();
+			if (addBrackets) {
+				nodeBuilder.append("[");
+			}
+			
+			/*
+			 * Create empty Queue.
+			 * Add root node into the queue.
+			 * Iterate until queue is empty
+			 * Poll node from the queue.
+			 * Visit node.
+			 * If node's left child is not null, push into the queue.
+			 * If node's right child is not null, push into the queue.
+			 */
+			if (node != null) {
+				final Map<Integer, Node<T>> treeBottomView = new TreeMap<>();
+				final Queue<TempNode> queue = new LinkedList<>();
+				queue.offer(new TempNode(node, 0));
+				while (!queue.isEmpty()) {
+					TempNode tempNode = queue.poll();
+					treeBottomView.put(tempNode.level, tempNode.node);
+					if (tempNode.node.leftChild != null) {
+						queue.offer(new TempNode(tempNode.node.leftChild, tempNode.level - 1));
 					}
-					nodeBuilder.append(node.getData());
+					
+					if (tempNode.node.rightChild != null) {
+						queue.offer(new TempNode(tempNode.node.rightChild, tempNode.level + 1));
+					}
 				}
+				
+				treeBottomView.forEach((k, v) -> {
+					nodeBuilder.append(v.data).append(" ");
+				});
+				
+				// remove last white space.
+				TreeUtils.trimLastSpace(nodeBuilder);
+			}
+			
+			if (addBrackets) {
+				nodeBuilder.append("]");
+			}
+			
+			return nodeBuilder.toString();
+		}
+		
+		/**
+		 * 
+		 * @param node
+		 * @param addBrackets
+		 * @return
+		 */
+		public String treeLeftViewTraversal(Node<T> node, final boolean addBrackets) {
+			final StringBuilder nodeBuilder = new StringBuilder();
+			if (addBrackets) {
+				nodeBuilder.append("[");
+			}
+			
+			/*
+			 * Create empty Queue.
+			 * Add root node into the queue.
+			 * Iterate until queue is empty
+			 * Poll node from the queue.
+			 * Visit node.
+			 * If node's left child is not null, push into the queue.
+			 * If node's right child is not null, push into the queue.
+			 */
+			if (node != null) {
+				final Map<Integer, Node<T>> treeLeftView = new TreeMap<>();
+				final Queue<TempNode> queue = new LinkedList<>();
+				queue.offer(new TempNode(node, 0));
+				while (!queue.isEmpty()) {
+					TempNode tempNode = queue.poll();
+					if (!treeLeftView.containsKey(tempNode.level)) {
+						treeLeftView.put(tempNode.level, tempNode.node);
+					}
+					if (tempNode.node.leftChild != null) {
+						queue.offer(new TempNode(tempNode.node.leftChild, tempNode.level + 1));
+					}
+					
+					if (tempNode.node.rightChild != null) {
+						queue.offer(new TempNode(tempNode.node.rightChild, tempNode.level + 1));
+					}
+				}
+				
+				treeLeftView.forEach((k, v) -> {
+					nodeBuilder.append(v.data).append(" ");
+				});
+				
+				// remove last white space.
+				TreeUtils.trimLastSpace(nodeBuilder);
+			}
+			
+			if (addBrackets) {
+				nodeBuilder.append("]");
+			}
+			
+			return nodeBuilder.toString();
+		}
+		
+		/**
+		 * 
+		 * @param node
+		 * @param addBrackets
+		 * @return
+		 */
+		public String treeRightViewTraversal(Node<T> node, final boolean addBrackets) {
+			final StringBuilder nodeBuilder = new StringBuilder();
+			if (addBrackets) {
+				nodeBuilder.append("[");
+			}
+			
+			/*
+			 * Create empty Queue.
+			 * Add root node into the queue.
+			 * Iterate until queue is empty
+			 * Poll node from the queue.
+			 * Visit node.
+			 * If node's left child is not null, push into the queue.
+			 * If node's right child is not null, push into the queue.
+			 */
+			if (node != null) {
+				final Map<Integer, Node<T>> treeLeftView = new TreeMap<>();
+				final Queue<TempNode> queue = new LinkedList<>();
+				queue.offer(new TempNode(node, 0));
+				while (!queue.isEmpty()) {
+					TempNode tempNode = queue.poll();
+					treeLeftView.put(tempNode.level, tempNode.node);
+					if (tempNode.node.leftChild != null) {
+						queue.offer(new TempNode(tempNode.node.leftChild, tempNode.level + 1));
+					}
+					
+					if (tempNode.node.rightChild != null) {
+						queue.offer(new TempNode(tempNode.node.rightChild, tempNode.level + 1));
+					}
+				}
+				
+				treeLeftView.forEach((k, v) -> {
+					nodeBuilder.append(v.data).append(" ");
+				});
+				
+				// remove last white space.
+				TreeUtils.trimLastSpace(nodeBuilder);
 			}
 			
 			if (addBrackets) {
@@ -403,12 +686,50 @@ public class Trees {
 		}
 		
 		/**
+		 * Prints the level order traversal order manner.
+		 */
+		public void levelOrderTraversal() {
+			System.out.println(rootNode.levelOrderTraversal(rootNode, true));
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public void treeViewTraversal() {
+			System.out.println(rootNode.treeViewTraversal(rootNode, true));
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public void treeBottomViewTraversal() {
+			System.out.println(rootNode.treeBottomViewTraversal(rootNode, true));
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public void treeLeftViewTraversal() {
+			System.out.println(rootNode.treeLeftViewTraversal(rootNode, true));
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public void treeRightViewTraversal() {
+			System.out.println(rootNode.treeRightViewTraversal(rootNode, true));
+		}
+		
+		/**
 		 * Removes the node of the tree.
 		 * 
 		 * @param node
 		 */
 		public void removeNode(Node<Integer> node) {
-			
 		}
 		
 		/**
@@ -425,18 +746,38 @@ public class Trees {
 	 */
 	public static void main(String[] args) {
 		IntBinaryTree bTree = new IntBinaryTree();
-		bTree.insertNode(10);
-		bTree.insertNode(8);
-		bTree.insertNode(11);
+		bTree.insertNode(50);
+		bTree.insertNode(21);
+		bTree.insertNode(4);
+		bTree.insertNode(32);
+		bTree.insertNode(3);
+		bTree.insertNode(16);
+		bTree.insertNode(60);
+		bTree.insertNode(55);
+		bTree.insertNode(75);
 		System.out.println(bTree);
 		System.out.println();
-		Node<Integer> nodeFound = bTree.searchNode(10);
+		Node<Integer> nodeFound = bTree.searchNode(16);
 		System.out.println(nodeFound);
 		
-		System.out.println();
+		System.out.println("PreOrder Traversal");
 		bTree.preOrderTraversal();
+		System.out.println("InOrder Traversal");
 		bTree.inOrderTraversal();
+		System.out.println("PostOrder Traversal");
 		bTree.postOrderTraversal();
+		
+		System.out.println("Level Order Traversal");
+		bTree.levelOrderTraversal();
+		
+		System.out.println("Tree TopView Traversal");
+		bTree.treeViewTraversal();
+		System.out.println("Tree BottomView Traversal");
+		bTree.treeBottomViewTraversal();
+		System.out.println("Tree LeftView Traversal");
+		bTree.treeLeftViewTraversal();
+		System.out.println("Tree RightView Traversal");
+		bTree.treeRightViewTraversal();
 	}
 	
 }

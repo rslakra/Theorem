@@ -22,6 +22,10 @@
  *******************************************************************************/
 package com.rslakra.datastructure.trees;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Stack;
+
 /**
  * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
  * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
@@ -291,6 +295,302 @@ public class BSTInteger {
 	}
 	
 	/**
+	 * Traverses a tree in a pre-order (ROOT-LEFT-RIGHT) manner.
+	 * 
+	 * Until all nodes are traversed:
+	 * Step 1 − Visit root node.
+	 * Step 2 − Recursively traverse left subtree.
+	 * Step 3 − Recursively traverse right subtree.
+	 * 
+	 * @param node
+	 * @param addBrackets
+	 * @return
+	 */
+	public String preOrderTraversal(final boolean addBrackets) {
+		final StringBuilder nodeBuilder = new StringBuilder();
+		if (addBrackets) {
+			nodeBuilder.append("[");
+		}
+		
+		/*
+		 * Push root node in the stack. Iterate until stack is empty.
+		 * Pop all items one by one. Do following for every popped item:
+		 * a) print it
+		 * b) push its right child
+		 * c) push its left child
+		 * Note that right child is pushed first so that left is processed
+		 * first.
+		 */
+		if (rootNode != null) {
+			final Stack<Node> stack = new Stack<>();
+			stack.push(rootNode);
+			while (!stack.isEmpty()) {
+				Node node = stack.pop();
+				// append root node
+				nodeBuilder.append(node.data).append(" ");
+				
+				// push right node
+				if (node.hasRight()) {
+					stack.push(node.right);
+				}
+				
+				// push left node
+				if (node.hasLeft()) {
+					stack.push(node.left);
+				}
+			}
+			
+			// remove last white space.
+			int lastIndex = nodeBuilder.lastIndexOf(" ");
+			if (lastIndex != -1) {
+				nodeBuilder.deleteCharAt(lastIndex);
+			}
+		}
+		
+		if (addBrackets) {
+			nodeBuilder.append("]");
+		}
+		
+		return nodeBuilder.toString();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Iterator<Node> preOrderIterator() {
+		return new PreOrderIterator();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Iterator<Node> inOrderIterator() {
+		return new InOrderIterator();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Iterator<Node> postOrderIterator() {
+		return new PostOrderIterator();
+	}
+	
+	/**
+	 * 
+	 * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
+	 * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
+	 * @created 2018-09-13 09:46:28 PM
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	private abstract class BSTIterator implements Iterator<Node> {
+		// stack
+		protected Stack<Node> stack = new Stack<>();
+		
+		/**
+		 * 
+		 */
+		public BSTIterator() {
+			
+		}
+		
+		/**
+		 * @return
+		 * @see java.util.Iterator#hasNext()
+		 */
+		@Override
+		public boolean hasNext() {
+			return (!stack.isEmpty());
+		}
+		
+		/**
+		 * We shall leave the method remove() unimplemented. Since a binary tree
+		 * has a nonlinear structure, removing a node might cause the major tree
+		 * rearrangement, which will lead to incorrect output from next():
+		 * 
+		 * @see java.util.Iterator#remove()
+		 */
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+	}
+	
+	private class InOrderIterator extends BSTIterator {
+		
+		public InOrderIterator() {
+			if (rootNode != null) {
+				pushLeft(rootNode);
+			}
+		}
+		
+		/**
+		 * Pushes the left nodes to the stack.
+		 * 
+		 * @param node
+		 */
+		private void pushLeft(Node node) {
+			while (node != null) {
+				stack.push(node);
+				node = node.left;
+			}
+		}
+		
+		/**
+		 * If there is a left child, we push the child on a stack and return a
+		 * parent node. If there is no left child, we check for a right child.
+		 * If there is a right child, we push the right child on a stack and
+		 * return a parent node. If there is no right child, we move back up the
+		 * tree (while-loop) until we find a node with a right child.
+		 * 
+		 * @return
+		 * @see java.util.Iterator#next()
+		 */
+		@Override
+		public Node next() {
+			if (stack.isEmpty()) {
+				throw new NoSuchElementException();
+			}
+			
+			Node current = stack.pop();
+			pushLeft(current.right);
+			return current;
+		}
+	}
+	
+	/**
+	 * Iterator is the API interface. A class which implements Iterator should
+	 * implement three methods
+	 * 
+	 * boolean hasNext() - Returns true if the iteration has more elements.
+	 * Object next() - Returns the next element in the iteration.
+	 * void remove() - (optional operation) Removes from the underlying
+	 * collection the last element returned by next().
+	 * 
+	 * We implement a pre-order traversal by ading a new method iterator to the
+	 * BSTree class. This method returns an iterator over the nodes of a binary
+	 * tree in pre-order.
+	 * 
+	 * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
+	 * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
+	 * @created 2018-09-11 10:02:18 PM
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 * @param <E>
+	 */
+	private class PreOrderIterator extends BSTIterator {
+		
+		public PreOrderIterator() {
+			if (rootNode != null) {
+				stack.push(rootNode);
+			}
+		}
+		
+		/**
+		 * If there is a left child, we push the child on a stack and return a
+		 * parent node. If there is no left child, we check for a right child.
+		 * If there is a right child, we push the right child on a stack and
+		 * return a parent node. If there is no right child, we move back up the
+		 * tree (while-loop) until we find a node with a right child.
+		 * 
+		 * @return
+		 * @see java.util.Iterator#next()
+		 */
+		@Override
+		public Node next() {
+			if (stack.isEmpty()) {
+				throw new NoSuchElementException();
+			}
+			
+			Node current = stack.peek();
+			if (current != null) {
+				if (current.left != null) {
+					stack.push(current.left);
+				} else {
+					Node node = stack.pop();
+					while (node.right == null) {
+						if (stack.isEmpty()) {
+							return current;
+						}
+						node = stack.pop();
+					}
+					
+					stack.push(node.right);
+				}
+			}
+			
+			return current;
+		}
+	}
+	
+	/**
+	 * 
+	 * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
+	 * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
+	 * @created 2018-09-13 09:38:14 PM
+	 * @version 1.0.0
+	 * @since 1.0.0
+	 */
+	private class PostOrderIterator extends BSTIterator {
+		
+		public PostOrderIterator() {
+			if (rootNode != null) {
+				pushLeft(rootNode);
+			}
+		}
+		
+		/**
+		 * Pushes the left nodes to the stack.
+		 * 
+		 * @param node
+		 */
+		private void pushLeft(Node node) {
+			while (node != null) {
+				stack.push(node);
+				node = node.left;
+			}
+			
+			if (stack.isEmpty()) {
+				return;
+			}
+			
+			node = stack.peek();
+			if (node.right != null) {
+				pushLeft(node.right);
+			}
+		}
+		
+		/**
+		 * If there is a left child, we push the child on a stack and return a
+		 * parent node. If there is no left child, we check for a right child.
+		 * If there is a right child, we push the right child on a stack and
+		 * return a parent node. If there is no right child, we move back up the
+		 * tree (while-loop) until we find a node with a right child.
+		 * 
+		 * @return
+		 * @see java.util.Iterator#next()
+		 */
+		@Override
+		public Node next() {
+			if (stack.isEmpty()) {
+				throw new NoSuchElementException();
+			}
+			
+			Node current = stack.pop();
+			if (hasNext()) {
+				Node node = stack.peek();
+				if (current != node.right) {
+					pushLeft(node.right);
+				}
+			}
+			
+			return current;
+		}
+	}
+	
+	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -327,8 +627,27 @@ public class BSTInteger {
 		System.out.println("Found:" + found);
 		
 		// Delete Node.
-		bst.removeNode(50);
+		// bst.removeNode(50);
 		System.out.println(bst);
+		
+		System.out.println("PreOrder:" + bst.preOrderTraversal(true));
+		System.out.println("\nPreOrderIterator Results:");
+		Iterator<Node> itr = bst.preOrderIterator();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
+		
+		System.out.println("\nInOrderIterator Results:");
+		itr = bst.inOrderIterator();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
+		
+		System.out.println("\nPostOrderIterator Results:");
+		itr = bst.postOrderIterator();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
 	}
 	
 }
