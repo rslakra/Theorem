@@ -125,6 +125,45 @@ public class TrieNode {
 	}
 	
 	/**
+	 * Returns true if it has children otherwise false.
+	 * 
+	 * @return
+	 */
+	public boolean hasChildren() {
+		return (!children.isEmpty());
+	}
+	
+	/**
+	 * Returns true if the key is deleted otherwise false.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public boolean delete(TrieNode current, final String key) {
+		if (current != null) {
+			if (key != null) {
+				for (int i = 0; i < key.length(); i++) {
+					if (current.hasChildren()) {
+						current = current.children.get(key.charAt(i));
+						// delete(current, key.substring(i + 1, key.length()));
+					}
+				}
+			}
+			
+			if (key == null && current.isLeaf()) {
+				if (!current.hasChildren()) {
+					return true;
+				} else {
+					current.leaf = false;
+					return false;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Returns the string representation of this object.
 	 * 
 	 * @return

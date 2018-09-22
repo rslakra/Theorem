@@ -58,6 +58,16 @@ public class Trie {
 	}
 	
 	/**
+	 * Returns true if the key is deleted otherwise false.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public boolean delete(String key) {
+		return head.delete(head, key);
+	}
+	
+	/**
 	 * Returns the string representation of this object.
 	 * 
 	 * @return
@@ -114,10 +124,18 @@ public class Trie {
 		trie.insert("lakra");
 		trie.insert("lion");
 		trie.insert("leo");
-		
 		System.out.println(trie);
-		System.out.println(trie.find("may"));
-		System.out.println(trie.find("lakra"));
-		System.out.println(trie.find("leo"));
+		System.out.println();
+		
+		// find key
+		System.out.println("Found:" + trie.find("may"));
+		System.out.println("Found:" + trie.find("lakra"));
+		System.out.println("Found:" + trie.find("leo"));
+		System.out.println();
+		
+		// delete key
+		System.out.println("Deleted:" + trie.delete("leo"));
+		System.out.println("Deleted:" + trie.delete("an"));
+		System.out.println();
 	}
 }
