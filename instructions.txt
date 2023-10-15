@@ -1,12 +1,4 @@
-The Software Process
-
-When we consider computer programming, we immediately think of writing code in
-some computer language. As a beginning student of computer science, you wrote programs
-that solved relatively simple problems. Much of your effort went into learning
-the syntax of a programming language such as Java or C++: the language’s reserved
-words, its data types, its constructs for selection and looping, and its input/output
-mechanisms.
-
+Data Structure
 
 
 
