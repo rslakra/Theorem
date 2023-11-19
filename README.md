@@ -1,6 +1,6 @@
-# DataStructure
-Data Structure Implementation using java.
+# Theorem
 
+Data Structure Implementation using java.
 
 The Software Process
 
@@ -17,7 +17,6 @@ work as part of a team that develops a system containing tens of thousands, or e
 millions, of lines of code. The activities involved in such a software project’s whole “life
 cycle” clearly go beyond just sitting down at a computer and writing programs. These
 activities include:
-
 
 • Problem analysis - Understanding the nature of the problem to be solved
 • Requirements elicitation - Determining exactly what the program must do
