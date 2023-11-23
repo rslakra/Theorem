@@ -30,9 +30,9 @@ package com.devamatre.theorem.adts.linkedlist;
 
 public class BasicLinkedList<E> {
 
-    Node<E> first;
-    Node<E> last;
-    int count;
+    private Node<E> first;
+    private Node<E> last;
+    private int count;
 
     private class Node<E> {
 

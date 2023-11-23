@@ -23,6 +23,12 @@
 package com.devamatre.theorem.adts.trie;
 
 /**
+
+    // keys
+    // keys with wildcard
+    // keys with prefix
+    // longest prefix keys
+
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-09-11 05:07:59 PM

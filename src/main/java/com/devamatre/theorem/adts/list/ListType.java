@@ -28,6 +28,8 @@
  *****************************************************************************/
 package com.devamatre.theorem.adts.list;
 
+import java.util.List;
+
 /**
  * @author Rohtash Lakra
  * @version 1.0.0
@@ -37,5 +39,67 @@ package com.devamatre.theorem.adts.list;
 public enum ListType {
 
     ARRAY_LIST, LINKED_LIST, DOUBLE_LINKED_LIST;
+
+
+    /**
+     * Fills the list.
+     *
+     * @param list
+     */
+    public static void fillList(List<String> list) {
+        if (list != null) {
+            list.add("Rohtash");
+            list.add("Singh");
+            list.add("Lakra");
+            list.add("Just");
+            list.add("today");
+            list.add("bundle");
+            list.add("directory");
+            list.add("defeat");
+            list.add("would");
+            list.add("signature");
+            list.add("other");
+            list.add("code");
+            list.add("because");
+            list.add("each");
+            list.add("applications");
+            list.add("system");
+            list.add("sandbox");
+            list.add("only");
+            list.add("other");
+            list.add("application");
+            list.add("like");
+            list.add("documents");
+            list.add("current");
+            list.add("would");
+            list.add("this");
+            list.add("directory");
+            list.add("something");
+            list.add("Objective-C");
+            list.add("write");
+            list.add("Remember");
+            list.add("quick");
+            list.add("been");
+            list.add("for");
+            list.add("and");
+            list.add("forget");
+            list.add("always");
+            list.add("bit");
+            list.add("pain");
+            list.add("you");
+            list.add("always");
+            list.add("reminder");
+            list.add("code");
+            list.add("directory");
+            list.add("iOS");
+            list.add("the");
+            list.add("documents");
+            list.add("proper");
+            list.add("Pulling");
+            list.add("one");
+            list.add("today");
+            list.add("quick");
+        }
+    }
 
 }

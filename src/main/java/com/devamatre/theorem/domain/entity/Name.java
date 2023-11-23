@@ -26,12 +26,9 @@
  * Devamatre reserves the right to modify the technical specifications and or
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.theorem.adts.bos;
+package com.devamatre.theorem.domain.entity;
 
 import com.devamatre.appsuite.core.ToString;
-import com.devamatre.appsuite.core.text.TextUtils;
-
-import java.util.Objects;
 
 /**
  * @author Rohtash Lakra
@@ -44,13 +41,6 @@ public class Name {
     private String lastName;
 
     /**
-     *
-     */
-    public Name() {
-        this(null, null, null);
-    }
-
-    /**
      * @param firstName
      * @param middleName
      * @param lastName
@@ -59,6 +49,21 @@ public class Name {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
+    }
+
+    /**
+     * @param firstName
+     * @param lastName
+     */
+    public Name(String firstName, String lastName) {
+        this(firstName, null, lastName);
+    }
+
+    /**
+     * Default Constructor.
+     */
+    public Name() {
+        this(null, null, null);
     }
 
     /**
@@ -110,29 +115,11 @@ public class Name {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return ToString.of(Name.class).toString();
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        Name name = new Name("Rohtash", "Singh", "Lakra");
-        System.out.println(Objects.toString(name));
-        System.out.println();
-        System.out.println(TextUtils.toString(name, true));
-        System.out.println();
-        System.out.println(TextUtils.toString(name, true, true));
-
-        Name[] names = new Name[2];
-        names[0] = new Name("Rohtash", "Singh", "Lakra");
-        names[1] = new Name("Sangita", null, "Lakra");
-        System.out.println();
-        System.out.println(TextUtils.toString(names));
-        System.out.println();
-        System.out.println(TextUtils.toString(name, true));
-        System.out.println();
-        System.out.println(TextUtils.toString(name, true, true));
+        return ToString.of(Name.class)
+            .add("firstName", getFirstName())
+            .add("middleName", getMiddleName())
+            .add("lastName", getLastName())
+            .toString();
     }
 
 }

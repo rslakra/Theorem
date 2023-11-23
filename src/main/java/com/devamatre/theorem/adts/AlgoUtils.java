@@ -1,7 +1,6 @@
 package com.devamatre.theorem.adts;
 
 import com.devamatre.appsuite.core.Sets;
-import com.devamatre.theorem.adts.list.ListNode;
 import com.devamatre.theorem.adts.time.Interval;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,17 +123,20 @@ public enum AlgoUtils {
      * @return
      */
     public static Object[] growCapacity(Object[] elements, int minCapacity) {
-        return elements = Arrays.copyOf(elements, newCapacity(elements, minCapacity));
+        elements = Arrays.copyOf(elements, newCapacity(elements, minCapacity));
+        return elements;
     }
 
     /**
-     * @param values
+     * Prints the <code>elements</code>.
+     *
+     * @param elements
      * @param <T>
      */
-    public static <T> void printElements(List<T> values) {
-        for (int i = 0; i < values.size(); i++) {
-            System.out.print(values.get(i));
-            if (i < values.size() - 1) {
+    public static <T> void printElements(List<T> elements) {
+        for (int i = 0; i < elements.size(); i++) {
+            System.out.print(elements.get(i));
+            if (i < elements.size() - 1) {
                 System.out.print(", ");
             }
         }
@@ -142,13 +144,13 @@ public enum AlgoUtils {
     }
 
     /**
-     * @param values
+     * @param elements
      * @param <T>
      */
-    public static <T> void printArray(T[] values) {
-        for (int i = 0; i < values.length; i++) {
-            System.out.print(values[i]);
-            if (i < values.length - 1) {
+    public static <T> void printArray(T[] elements) {
+        for (int i = 0; i < elements.length; i++) {
+            System.out.print(elements[i]);
+            if (i < elements.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -156,10 +158,10 @@ public enum AlgoUtils {
     }
 
     /**
-     * @param values
+     * @param elements
      */
-    public static <T> void print2DArray(T[][] values) {
-        for (T[] array : values) {
+    public static <T> void print2DArray(T[][] elements) {
+        for (T[] array : elements) {
             for (T item : array) {
                 System.out.print(item + ", ");
             }
@@ -337,48 +339,6 @@ public enum AlgoUtils {
         }
 
         return true;
-    }
-
-    /**
-     * Reverses the nodes of the list and returns the head of the reversed list.
-     *
-     * @param head
-     * @return
-     */
-    public static ListNode reverseList(ListNode head) {
-        if (head == null || head.getNext() == null) {
-            return head;
-        }
-        ListNode previous;
-        ListNode current;
-        ListNode next;
-        previous = head;
-        current = head.getNext();
-        while (current != null) {
-            next = current.getNext();
-            current.setNext(previous);
-            previous = current;
-            current = next;
-        }
-        head.setNext(null);
-
-        return previous;
-    }
-
-    /**
-     * @param head
-     */
-    public static void printAsList(final ListNode head) {
-        ListNode listNode = head;
-        System.out.println("\n--------------------------------------------");
-        while (listNode != null) {
-            System.out.print(listNode.getValue());
-            listNode = listNode.getNext();
-            if (listNode != null) {
-                System.out.print("->");
-            }
-        }
-        System.out.println();
     }
 
     /**

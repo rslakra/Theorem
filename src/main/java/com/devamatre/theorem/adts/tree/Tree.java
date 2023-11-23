@@ -1,9 +1,9 @@
 package com.devamatre.theorem.adts.tree;
 
 import com.devamatre.theorem.adts.tree.traversal.InOrderIterator;
+import com.devamatre.theorem.adts.tree.traversal.LevelOrderIterator;
 import com.devamatre.theorem.adts.tree.traversal.PostOrderIterator;
 import com.devamatre.theorem.adts.tree.traversal.PreOrderIterator;
-import com.devamatre.theorem.adts.tree.traversal.LevelOrderIterator;
 
 import java.util.Iterator;
 import java.util.Queue;
@@ -28,6 +28,9 @@ public class Tree<E extends Comparable<E>> implements TreeIterator {
         return size;
     }
 
+    /**
+     * @param data
+     */
     public void add(E data) {
         Node<E> newNode = new Node<>(data);
         if (root == null) {
@@ -45,7 +48,7 @@ public class Tree<E extends Comparable<E>> implements TreeIterator {
      */
     private void insert(Node<E> parent, Node<E> child) {
         // check, if node need to add in left side.
-        if (child.getValue().compareTo(parent.getValue()) < 0) {
+        if (child.getData().compareTo(parent.getData()) < 0) {
             if (child.getLeft() == null) {
                 parent.setLeft(child);
                 child.setParent(parent);
@@ -53,7 +56,7 @@ public class Tree<E extends Comparable<E>> implements TreeIterator {
             } else {
                 insert(child.getLeft(), child);
             }
-        } else if (child.getValue().compareTo(parent.getValue()) > 0) {
+        } else if (child.getData().compareTo(parent.getData()) > 0) {
             if (child.getRight() == null) {
                 parent.setRight(child);
                 child.setParent(parent);
@@ -86,7 +89,7 @@ public class Tree<E extends Comparable<E>> implements TreeIterator {
         if (data != null) {
             Node<E> current = root;
             while (current != null) {
-                int result = data.compareTo(current.getValue());
+                int result = data.compareTo(current.getData());
                 if (result < 0) {
                     current = current.getLeft();
                 } else if (result > 0) {
@@ -184,7 +187,7 @@ public class Tree<E extends Comparable<E>> implements TreeIterator {
             queue.add(root);
             while (!queue.isEmpty()) {
                 Node<E> node = queue.poll();
-                sBuilder.append(node.getValue().toString());
+                sBuilder.append(node.getData().toString());
                 if (node.hasLeft()) {
                     queue.add(node.getLeft());
                 }

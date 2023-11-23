@@ -55,7 +55,7 @@ public class GenericTree<E> {
 
     /**
      * @param parent
-     * @param data
+     * @param child
      */
     public void addChild(GenericNode<E> parent, GenericNode<E> child) {
         if (parent == null) {

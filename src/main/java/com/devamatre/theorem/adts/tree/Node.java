@@ -28,27 +28,29 @@
  *****************************************************************************/
 package com.devamatre.theorem.adts.tree;
 
+import java.util.Objects;
+
 /**
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-13 04:35:49 PM
  * @since 1.0.0
  */
-public class Node<E> implements Comparable<Node> {
+public class Node<E extends Comparable> implements Comparable<Node> {
 
     private Node<E> parent;
-    private final E value;
+    private final E data;
     private Node<E> left;
     private Node<E> right;
 
     /**
-     * @param value
+     * @param data
      */
-    public Node(E value) {
-        parent = null;
-        this.value = value;
-        left = null;
-        right = null;
+    public Node(E data) {
+        this.parent = null;
+        this.data = data;
+        this.left = null;
+        this.right = null;
     }
 
     /**
@@ -56,8 +58,8 @@ public class Node<E> implements Comparable<Node> {
      *
      * @return the data
      */
-    public E getValue() {
-        return value;
+    public E getData() {
+        return data;
     }
 
     /**
@@ -103,6 +105,9 @@ public class Node<E> implements Comparable<Node> {
      */
     public void setLeft(Node<E> left) {
         this.left = left;
+        if (this.left != null) {
+            this.left.setParent(this);
+        }
     }
 
     /**
@@ -130,6 +135,9 @@ public class Node<E> implements Comparable<Node> {
      */
     public void setRight(Node<E> right) {
         this.right = right;
+        if (this.right != null) {
+            this.right.setParent(this);
+        }
     }
 
     /**
@@ -147,33 +155,7 @@ public class Node<E> implements Comparable<Node> {
      * @return
      */
     public boolean hasChildren() {
-        return (left != null && right != null);
-    }
-
-    /**
-     * Adds the left node to the current node.
-     *
-     * @param newData
-     */
-    public void addLeftNode(final E newData) {
-        final Node<E> newNode = new Node<E>(newData);
-        if (this.hasLeft()) {
-            newNode.setLeft(getLeft());
-        }
-        setLeft(newNode);
-    }
-
-    /**
-     * Adds the right node to the current node.
-     *
-     * @param newData
-     */
-    public void addRightNode(final E newData) {
-        final Node<E> newNode = new Node<E>(newData);
-        if (hasRight()) {
-            newNode.setRight(getRight());
-        }
-        setRight(newNode);
+        return (hasLeft() && hasRight());
     }
 
     /**
@@ -181,7 +163,17 @@ public class Node<E> implements Comparable<Node> {
      * @return
      */
     public boolean equals(Node<E> other) {
-        return (other != null && getValue().equals(other.getValue()));
+        return (other != null && getData().equals(other.getData()));
+    }
+
+    /**
+     * Returns the string representation of this object.
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return TreeUtils.preOrder((Node<E>) this).toString();
     }
 
     /**
@@ -217,6 +209,91 @@ public class Node<E> implements Comparable<Node> {
      */
     @Override
     public int compareTo(Node other) {
-        return ((Comparable) getValue()).compareTo((other.getValue()));
+        return (getData()).compareTo((other.getData()));
     }
+
+    /**
+     * Helper methods.
+     */
+
+    /**
+     * Returns true if the current node's <code>data</code>  is greater than the <code>data</code> node's value
+     * otherwise false.
+     *
+     * @param data
+     * @return
+     */
+    public boolean isGreaterThanEqualTo(E data) {
+        return (getData().compareTo(data) >= 0);
+    }
+
+    /**
+     * Returns true if the current node's <code>data</code>  is greater than the <code>data</code> node's value
+     * otherwise false.
+     *
+     * @param data
+     * @return
+     */
+    public boolean isGreaterThan(E data) {
+        return (getData().compareTo(data) > 0);
+    }
+
+    /**
+     * Returns true if current node's <code>data</code>  is less than the <code>data</code> node's value otherwise
+     * false.
+     *
+     * @param data
+     * @return
+     */
+    public boolean isLessThan(E data) {
+        return (getData().compareTo(data) < 0);
+    }
+
+    /**
+     * Returns true if current node's <code>data</code>  is equals to the <code>data</code> node's value otherwise
+     * false.
+     *
+     * @param data
+     * @return
+     */
+    public boolean isEquals(E data) {
+        return (getData().compareTo(data) == 0);
+    }
+
+    /**
+     * Returns the left-most children of the <code>current</code> node.
+     *
+     * @return
+     */
+    public Node<E> findLeftMost() {
+        Node<E> current = this;
+        Node<E> leftMost = null;
+        if (Objects.nonNull(current) && current.hasLeft()) {
+            leftMost = current.getLeft();
+            while (leftMost.hasLeft()) {
+                leftMost = leftMost.getLeft();
+            }
+        }
+
+        return leftMost;
+    }
+
+    /**
+     * Returns the right-most children of the <code>current</code> node.
+     *
+     * @return
+     */
+    public Node<E> findRightMost() {
+        Node<E> rightMost = null;
+        Node<E> current = this;
+        if (Objects.nonNull(current) && current.hasRight()) {
+            rightMost = current.getRight();
+            while (rightMost.hasRight()) {
+                rightMost = rightMost.getRight();
+            }
+        }
+
+        return rightMost;
+    }
+
 }

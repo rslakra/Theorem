@@ -16,7 +16,7 @@ public class MinHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     public MinHeap() {
         super();
-        HeapUtils.buildMinHeap((E[]) getData());
+        super.buildMinHeap();
     }
 
     /**
@@ -27,7 +27,7 @@ public class MinHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     public MinHeap(int initialCapacity) {
         super(initialCapacity);
-        HeapUtils.buildMinHeap((E[]) getData());
+        super.buildMinHeap();
     }
 
     /**
@@ -39,17 +39,17 @@ public class MinHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     public MinHeap(int initialCapacity, Comparator<? super E> comparator) {
         super(initialCapacity, comparator);
-        HeapUtils.buildMinHeap((E[]) getData());
+        super.buildMinHeap();
     }
 
     /**
      * Creates a <code>MinHeap</code> containing the elements in the specified collection.
      *
-     * @param c
+     * @param elements
      */
-    public MinHeap(Collection<? extends E> c) {
-        super(c);
-        HeapUtils.buildMinHeap((E[]) getData());
+    public MinHeap(Collection<? extends E> elements) {
+        super(elements);
+        super.buildMinHeap();
     }
 
     /**
@@ -60,27 +60,27 @@ public class MinHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     public MinHeap(Comparator<? super E> comparator) {
         super(comparator);
-        HeapUtils.buildMinHeap((E[]) getData());
+        super.buildMinHeap();
     }
 
     /**
      * Creates a <code>MinHeap</code> containing the elements in the specified priority queue.
      *
-     * @param c
+     * @param elements
      */
-    public MinHeap(Heap<? extends E> c) {
-        super(c);
-        HeapUtils.buildMinHeap((E[]) getData());
+    public MinHeap(Heap<? extends E> elements) {
+        super(elements);
+        super.buildMinHeap();
     }
 
     /**
      * Creates a <code>MinHeap</code> containing the elements in the specified sorted set.
      *
-     * @param c
+     * @param elements
      */
-    public MinHeap(SortedSet<? extends E> c) {
-        super(c);
-        HeapUtils.buildMinHeap((E[]) getData());
+    public MinHeap(SortedSet<? extends E> elements) {
+        super(elements);
+        super.buildMinHeap();
     }
 
     /**
@@ -88,6 +88,6 @@ public class MinHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     @Override
     public void sort() {
-        HeapUtils.heapSortDesc((E[]) getData());
+        super.heapSortDesc();
     }
 }

@@ -32,8 +32,10 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
+ * This class handles the sorting.
+ *
  * @author Rohtash Lakra
- * @created 10/18/23 9:10 AM
+ * @created 05/13/2017 03:51:19 PM
  */
 public enum Sorts {
 
@@ -146,6 +148,30 @@ public enum Sorts {
     }
 
     /**
+     * Sorts using bubble sort.
+     *
+     * @param values
+     */
+    public static void bubbleSort(int[] values) {
+        for (int i = 0; i < values.length - 1; i++) {
+            boolean swapped = false;
+            for (int j = 0; j < values.length - 1 - i; j++) {
+                if (values[j] > values[j + 1]) {
+                    int temp = values[j];
+                    values[j] = values[j + 1];
+                    values[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+
+            if (!swapped) {
+                // array is already sorted, nothing to do.
+                break;
+            }
+        }
+    }
+
+    /**
      * Fills the specified array with random numbers of the specified length.
      *
      * @param values
@@ -251,6 +277,139 @@ public enum Sorts {
         }
     }
 
+    //--------
+
+    /**
+     * @param values
+     */
+    public static void mergeSort(int[] values) {
+        int[] temp = new int[values.length];
+        mergeSort(values, 0, values.length - 1, temp);
+    }
+
+    /**
+     * @param values
+     * @param low
+     * @param high
+     */
+    private static void mergeSort(int[] values, int low, int high, int[] temp) {
+        if (low < high) {
+            int mid = (low + high) / 2;
+            mergeSort(values, low, mid, temp);
+            mergeSort(values, mid + 1, high, temp);
+            merge(values, low, mid, high, temp);
+        }
+    }
+
+    /**
+     * @param values
+     * @param low
+     * @param middle
+     * @param high
+     * @param temp
+     */
+    private static void merge(int[] values, int low, int middle, int high, int[] temp) {
+        int index = low;
+        int leftIndex = low;
+        int rightIndex = middle + 1;
+
+        // copy the existing sorted values to temp
+        System.arraycopy(values, 0, temp, 0, values.length);
+
+        // merge both (left and right array values
+        while (leftIndex <= middle && rightIndex <= high) {
+            if (temp[leftIndex] < temp[rightIndex]) {
+                values[index] = temp[leftIndex];
+                leftIndex++;
+            } else {
+                values[index] = temp[rightIndex];
+                rightIndex++;
+            }
+            index++;
+        }
+
+        // merge left array remaining items, if any
+        while (leftIndex <= middle) {
+            values[index] = temp[leftIndex];
+            leftIndex++;
+            index++;
+        }
+
+        // merge right array remaining items, if any.
+        while (rightIndex <= high) {
+            values[index] = temp[rightIndex];
+            rightIndex++;
+            index++;
+        }
+    }
+
+    /**
+     * @param values
+     */
+    public static void mergeSortWithRecursion(int[] values) {
+        int[] result = mergeSort(values, values.length);
+        System.arraycopy(result, 0, values, 0, result.length);
+    }
+
+    /**
+     * @param values
+     * @param length
+     * @return
+     */
+    private static int[] mergeSort(int[] values, int length) {
+        if (values.length == 1) {
+            return values;
+        } else {
+            int mid = length / 2;
+            int[] lArray = new int[mid];
+            System.arraycopy(values, 0, lArray, 0, mid);
+            int[] rArray = new int[length - mid];
+            System.arraycopy(values, mid, rArray, 0, (length - mid));
+            return merge(mergeSort(lArray, mid), mergeSort(rArray, (length - mid)));
+        }
+    }
+
+    /**
+     * @param leftArray
+     * @param rightArray
+     */
+    private static int[] merge(int[] leftArray, int[] rightArray) {
+        int[] values = new int[leftArray.length + rightArray.length];
+        int leftIndex = 0;
+        int rightIndex = 0;
+        int index = 0;
+
+        // merge both (left and right array values
+        while (leftIndex < leftArray.length && rightIndex < rightArray.length) {
+            if (leftArray[leftIndex] < rightArray[rightIndex]) {
+                values[index] = leftArray[leftIndex];
+                leftIndex++;
+            } else {
+                values[index] = rightArray[rightIndex];
+                rightIndex++;
+            }
+            index++;
+        }
+
+        // merge left array remaining items, if any
+        while (leftIndex < leftArray.length) {
+            values[index] = leftArray[leftIndex];
+            leftIndex++;
+            index++;
+        }
+
+        // merge right array remaining items, if any.
+        while (rightIndex < rightArray.length) {
+            values[index] = rightArray[rightIndex];
+            rightIndex++;
+            index++;
+        }
+
+        return values;
+    }
+
+    //--------
+
     /**
      * @param args
      */
@@ -267,6 +426,15 @@ public enum Sorts {
         // bubbleSortAscending(values);
         // bubbleSortDescending(values);
         System.out.println(Arrays.toString(values));
+
+        values = new int[]{3, 1, 6, 4, 9, 5, 0, 8};
+        System.out.println("Values:" + Arrays.toString(values));
+        // Sorts.mergeSort(values);
+        // Sorts.mergeSortWithRecursion(values);
+        // System.out.println("Sorted:" + Arrays.toString(values));
+        Sorts.bubbleSort(values);
+        System.out.println("Sorted:" + Arrays.toString(values));
+
     }
 
 }

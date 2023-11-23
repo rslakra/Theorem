@@ -19,8 +19,19 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
      *
      * @return the number of elements in this list
      */
-    public int size() {
+    public int getSize() {
         return size;
+    }
+
+    /**
+     * Returns the number of elements in this list.  If this list contains more than {@code Integer.MAX_VALUE} elements,
+     * returns {@code Integer.MAX_VALUE}.
+     *
+     * @return the number of elements in this list
+     */
+    @Override
+    public int size() {
+        return getSize();
     }
 
     /**
@@ -43,12 +54,12 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
      * @return {@code true} if this list contains no elements
      */
     public boolean isEmpty() {
-        return (size() == 0);
+        return (getSize() == 0);
     }
 
     /**
      * Returns {@code true} if this list contains the specified element. More formally, returns {@code true} if and only
-     * if this list contains at least one element {@code e} such that {@code Objects.equals(o, e)}.
+     * if this list contains at least one element {@code e} such that {@code Objects.equals(object, e)}.
      *
      * @param other element whose presence in this list is to be tested
      * @return {@code true} if this list contains the specified element
@@ -102,10 +113,10 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
     }
 
     /**
-     * Returns {@code true} if this list contains all of the elements of the specified collection.
+     * Returns {@code true} if this list contains all the elements of the specified collection.
      *
      * @param objects collection to be checked for containment in this list
-     * @return {@code true} if this list contains all of the elements of the specified collection
+     * @return {@code true} if this list contains all the elements of the specified collection
      * @throws ClassCastException   if the types of one or more elements in the specified collection are incompatible
      *                              with this list (<a href="Collection.html#optional-restrictions">optional</a>)
      * @throws NullPointerException if the specified collection contains one or more null elements and this list does
@@ -256,9 +267,9 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
     /**
      * Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not
      * contain the element. More formally, returns the lowest index {@code i} such that
-     * {@code Objects.equals(o, get(i))}, or -1 if there is no such index.
+     * {@code Objects.equals(object, get(i))}, or -1 if there is no such index.
      *
-     * @param o element to search for
+     * @param object element to search for
      * @return the index of the first occurrence of the specified element in this list, or -1 if this list does not
      * contain the element
      * @throws ClassCastException   if the type of the specified element is incompatible with this list (<a
@@ -266,16 +277,16 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
      * @throws NullPointerException if the specified element is null and this list does not permit null elements (<a
      *                              href="Collection.html#optional-restrictions">optional</a>)
      */
-    public int indexOf(Object o) {
+    public int indexOf(Object object) {
         return 0;
     }
 
     /**
      * Returns the index of the last occurrence of the specified element in this list, or -1 if this list does not
      * contain the element. More formally, returns the highest index {@code i} such that
-     * {@code Objects.equals(o, get(i))}, or -1 if there is no such index.
+     * {@code Objects.equals(object, get(i))}, or -1 if there is no such index.
      *
-     * @param o element to search for
+     * @param object element to search for
      * @return the index of the last occurrence of the specified element in this list, or -1 if this list does not
      * contain the element
      * @throws ClassCastException   if the type of the specified element is incompatible with this list (<a
@@ -283,7 +294,7 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
      * @throws NullPointerException if the specified element is null and this list does not permit null elements (<a
      *                              href="Collection.html#optional-restrictions">optional</a>)
      */
-    public int lastIndexOf(Object o) {
+    public int lastIndexOf(Object object) {
         return 0;
     }
 
@@ -316,7 +327,7 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
      * Returns a view of the portion of this list between the specified {@code fromIndex}, inclusive, and
      * {@code toIndex}, exclusive.  (If {@code fromIndex} and {@code toIndex} are equal, the returned list is empty.)
      * The returned list is backed by this list, so non-structural changes in the returned list are reflected in this
-     * list, and vice-versa. The returned list supports all of the optional list operations supported by this list.<p>
+     * list, and vice-versa. The returned list supports all the optional list operations supported by this list.<p>
      * <p>
      * This method eliminates the need for explicit range operations (of the sort that commonly exist for arrays).  Any
      * operation that expects a list can be used as a range operation by passing a subList view instead of a whole list.
@@ -324,7 +335,7 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
      * <pre>{@code
      *      list.subList(from, to).clear();
      * }</pre>
-     * Similar idioms may be constructed for {@code indexOf} and {@code lastIndexOf}, and all of the algorithms in the
+     * Similar idioms may be constructed for {@code indexOf} and {@code lastIndexOf}, and all the algorithms in the
      * {@code Collections} class can be applied to a subList.<p>
      * <p>
      * The semantics of the list returned by this method become undefined if the backing list (i.e., this list) is
@@ -389,7 +400,7 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
     }
 
     /**
-     * Returns an array containing all of the elements in this list in proper sequence (from first to last element).
+     * Returns an array containing all the elements in this list in proper sequence (from first to last element).
      *
      * <p>The returned array will be "safe" in that no references to it are
      * maintained by this list.  (In other words, this method must allocate a new array even if this list is backed by
@@ -398,7 +409,7 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
      * <p>This method acts as bridge between array-based and collection-based
      * APIs.
      *
-     * @return an array containing all of the elements in this list in proper sequence
+     * @return an array containing all the elements in this list in proper sequence
      * @see java.util.Arrays#asList(Object[])
      */
     @Override
@@ -407,7 +418,7 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
     }
 
     /**
-     * Returns an array containing all of the elements in this list in proper sequence (from first to last element); the
+     * Returns an array containing all the elements in this list in proper sequence (from first to last element); the
      * runtime type of the returned array is that of the specified array.  If the list fits in the specified array, it
      * is returned therein.  Otherwise, a new array is allocated with the runtime type of the specified array and the
      * size of this list.
@@ -462,4 +473,6 @@ public abstract class AbstractList<E extends Comparable<? super E>> implements L
     public boolean retainAll(Collection<?> c) {
         return false;
     }
+
+
 }

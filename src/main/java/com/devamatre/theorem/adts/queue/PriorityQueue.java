@@ -65,10 +65,10 @@ public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
     /**
      * Creates a <code>PriorityQueue</code> containing the elements in the specified collection.
      *
-     * @param c
+     * @param elements
      */
-    public PriorityQueue(Collection<? extends E> c) {
-        super(c);
+    public PriorityQueue(Collection<? extends E> elements) {
+        super(elements);
     }
 
     /**
@@ -84,10 +84,10 @@ public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
     /**
      * Creates a <code>PriorityQueue</code> containing the elements in the specified priority queue.
      *
-     * @param c
+     * @param elements
      */
-    public PriorityQueue(Heap<? extends E> c) {
-        super(c);
+    public PriorityQueue(Heap<? extends E> elements) {
+        super(elements);
     }
 
     /**
@@ -121,8 +121,6 @@ public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
      */
     @Override
     public void sort() {
-
     }
-
 
 }

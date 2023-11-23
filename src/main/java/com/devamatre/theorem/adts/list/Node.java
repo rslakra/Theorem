@@ -28,6 +28,7 @@
  *****************************************************************************/
 package com.devamatre.theorem.adts.list;
 
+import com.devamatre.appsuite.core.ToString;
 import lombok.Data;
 
 import java.util.Objects;
@@ -35,41 +36,41 @@ import java.util.Objects;
 /**
  * This class represents the nodes of the linked list.
  *
- * @param <E>
  * @author Rohtash Lakra
- * @date 09/20/2016 01:51:00 PM
+ * @created 09/20/2016 01:51:00 PM
+ * @See <url>https://en.wikipedia.org/wiki/Linked_list</url>
  */
 @Data
-public class Node<E extends Comparable<? super E>> implements Comparable<Node> {
+public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>> {
 
-    private Node previous;
-    private final E value;
-    private Node next;
-
-    /**
-     * @param value
-     */
-    public Node(E value) {
-        this(null, value, null);
-    }
-
-    /**
-     * @param value
-     * @param next
-     */
-    public Node(E value, Node next) {
-        this(null, value, next);
-    }
+    private Node<E> previous;
+    private final E data;
+    private Node<E> next;
 
     /**
      * @param previous
-     * @param value
+     * @param data
      * @param next
      */
-    public Node(Node previous, E value, Node next) {
-        this.previous = null;
-        this.value = value;
-        this.next = null;
+    public Node(Node<E> previous, E data, Node<E> next) {
+        this.previous = previous;
+        this.data = data;
+        this.next = next;
+    }
+
+    /**
+     * @param data
+     * @param next
+     */
+    public Node(E data, Node<E> next) {
+        this(null, data, next);
+    }
+
+    /**
+     * @param data
+     */
+    public Node(E data) {
+        this(null, data, null);
     }
 
     /**
@@ -84,6 +85,55 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node> {
      */
     public boolean hasNext() {
         return Objects.nonNull(getNext());
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPrevious(), getData(), next);
+    }
+
+    /**
+     * @param object
+     * @return
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof Node)) {
+            return false;
+        }
+
+        Node node = (Node) object;
+        if (!isEquals(node)) {
+            return false;
+        }
+
+        boolean result = Objects.equals(getPrevious(), node.getPrevious());
+        if (!result) {
+            result = Objects.equals(getNext(), node.getNext());
+        }
+
+        return result;
+    }
+
+    /**
+     * Returns the string representation of this object.
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return ToString.of(Node.class)
+            .add("previous", getPrevious())
+            .add("data", getData())
+            .add("next", getNext())
+            .toString();
     }
 
     /**
@@ -118,67 +168,67 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node> {
      * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
     @Override
-    public int compareTo(Node other) {
-        return (getValue().compareTo((E) other.getValue()));
+    public int compareTo(Node<E> other) {
+        return getData().compareTo(other.getData());
     }
 
     /**
-     * Returns true if the node value is greater than the <code>other</code> node's value otherwise false.
+     * Returns true if the node data is greater than the <code>other</code> node's data otherwise false.
      *
      * @param other
      * @return
      */
-    public boolean isGreaterThan(Node other) {
+    public boolean isGreaterThan(Node<E> other) {
         return (this.compareTo(other) > 0);
     }
 
     /**
-     * Returns true if the node value is less than the <code>other</code> node's value otherwise false.
+     * Returns true if the node data is less than the <code>other</code> node's data otherwise false.
      *
      * @param other
      * @return
      */
-    public boolean isLessThan(Node other) {
+    public boolean isLessThan(Node<E> other) {
         return (this.compareTo(other) < 0);
     }
 
     /**
-     * Returns true if the node value is equals to the <code>other</code> node's value otherwise false.
+     * Returns true if the node data is equals to the <code>other</code> node's data otherwise false.
      *
      * @param other
      * @return
      */
-    public boolean isEquals(Node other) {
+    public boolean isEquals(Node<E> other) {
         return (this.compareTo(other) == 0);
     }
 
     /**
+     * Returns true if the node's data is greater than the <code>other</code> otherwise false.
+     *
+     * @param other
      * @return
      */
-    @Override
-    public int hashCode() {
-        return Objects.hash(getValue(), next);
+    public boolean isGreaterThan(E other) {
+        return (getData().compareTo(other) > 0);
     }
 
     /**
-     * @param object
+     * Returns true if the node's data is less than the <code>other</code> otherwise false.
+     *
+     * @param other
      * @return
      */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
+    public boolean isLessThan(E other) {
+        return (getData().compareTo(other) < 0);
+    }
 
-        if (!(object instanceof Node)) {
-            return false;
-        }
-
-        Node node = (Node) object;
-        if (!isEquals(node)) {
-            return false;
-        }
-
-        return Objects.equals(getNext(), node.getNext());
+    /**
+     * Returns true if the node's data is equal to the <code>other</code> otherwise false.
+     *
+     * @param other
+     * @return
+     */
+    public boolean isEquals(E other) {
+        return (getData().compareTo(other) == 0);
     }
 }

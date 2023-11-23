@@ -63,7 +63,7 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
     /**
      * @param item
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#add(java.lang.Object)
+     * @see Queue#add(java.lang.Object)
      */
     @Override
     public boolean add(E item) {
@@ -79,7 +79,7 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
     /**
      * @param item
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#offer(java.lang.Object)
+     * @see Queue#offer(java.lang.Object)
      */
     @Override
     public boolean offer(E item) {
@@ -105,7 +105,7 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#remove()
+     * @see Queue#remove()
      */
     @Override
     public E remove() {
@@ -118,7 +118,7 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#poll()
+     * @see Queue#poll()
      */
     @Override
     public E poll() {
@@ -127,7 +127,7 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#element()
+     * @see Queue#element()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -141,7 +141,7 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#peek()
+     * @see Queue#peek()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -151,10 +151,10 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#size()
+     * @see Queue#getSize()
      */
     @Override
-    public int size() {
+    public int getSize() {
         return lastIndex;
     }
 

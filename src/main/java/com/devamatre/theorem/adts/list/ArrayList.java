@@ -40,7 +40,7 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
 
     private static final int DEFAULT_SIZE = 16;
     private int capacity;
-    private Object[] items;
+    private Object[] elements;
     private int size;
 
     /**
@@ -49,7 +49,7 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
      * @param capacity
      */
     private void initWithCapacity(int capacity) {
-        items = new Object[capacity];
+        elements = new Object[capacity];
         size = 0;
     }
 
@@ -72,7 +72,7 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
      * @return
      */
     @Override
-    public int size() {
+    public int getSize() {
         return size;
     }
 
@@ -89,10 +89,10 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
      */
     private void checkCapacity() {
         if (size == capacity) {
-            Object[] temp = items;
+            Object[] temp = elements;
             capacity *= 2;
-            items = new Object[capacity];
-            System.arraycopy(temp, 0, items, 0, temp.length);
+            elements = new Object[capacity];
+            System.arraycopy(temp, 0, elements, 0, temp.length);
             temp = null;
         }
     }
@@ -115,7 +115,7 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
     public boolean add(E item) {
         if (item != null) {
             checkCapacity();
-            items[size++] = item;
+            elements[size++] = item;
             return true;
         }
 
@@ -130,10 +130,10 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
     public boolean remove(Object item) {
         if (item != null) {
             for (int i = 0; i < size; i++) {
-                if (item.equals(items[i])) {
+                if (item.equals(elements[i])) {
                     size--;
-                    Object[] temp = items;
-                    System.arraycopy(temp, i + 1, items, i, size - i);
+                    Object[] temp = elements;
+                    System.arraycopy(temp, i + 1, elements, i, size - i);
                     temp = null;
                     return true;
                 }
@@ -222,7 +222,7 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
         validateIndex(index);
 
         if (!isEmpty()) {
-            item = (E) items[index];
+            item = (E) elements[index];
         }
 
         return item;
@@ -269,7 +269,7 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
     public int indexOf(Object item) {
         if (item != null) {
             for (int i = 0; i < size; i++) {
-                if (item.equals(items[i])) {
+                if (item.equals(elements[i])) {
                     return i;
                 }
             }
@@ -286,7 +286,7 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
     public int lastIndexOf(Object item) {
         if (item != null) {
             for (int i = size - 1; i >= 0; i--) {
-                if (item.equals(items[i])) {
+                if (item.equals(elements[i])) {
                     return i;
                 }
             }
@@ -316,7 +316,7 @@ public class ArrayList<E extends Comparable<? super E>> extends AbstractList<E> 
         StringBuilder sBuilder = new StringBuilder("[");
         if (!isEmpty()) {
             for (int i = 0; i < size; i++) {
-                sBuilder.append((E) items[i]);
+                sBuilder.append((E) elements[i]);
                 if (i < size - 1) {
                     sBuilder.append(", ");
                 }

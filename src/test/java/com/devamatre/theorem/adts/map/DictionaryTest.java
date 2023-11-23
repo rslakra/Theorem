@@ -3,6 +3,7 @@ package com.devamatre.theorem.adts.map;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import com.devamatre.theorem.adts.map.Dictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;

@@ -24,14 +24,22 @@ public class HeapUtilsTest {
         LOGGER.debug("0x7F: {}", 0x7F);
     }
 
-    @Test
-    public void testBuildMaxHeap() {
-        Integer[] result = AlgoUtils.positiveIntArrayGenerator(SIZE, false);
+    /**
+     * @param firstElementEmpty
+     * @return
+     */
+    public static Integer[] positiveIntListGenerator(boolean firstElementEmpty) {
+        Integer[] result = AlgoUtils.positiveIntArrayGenerator(SIZE, firstElementEmpty);
         LOGGER.debug("result: {}", Arrays.toString(result));
         assertEquals(SIZE, result.length);
         assertEquals(Arrays.toString(result), "[0, 1, 2, 3, 4, 5, 6, 7]");
         Arrays.stream(result).forEach(item -> assertTrue(item < SIZE));
+        return result;
+    }
 
+    @Test
+    public void testBuildMaxHeap() {
+        Integer[] result = positiveIntListGenerator(false);
         HeapUtils.buildMaxHeap(result);
         LOGGER.debug("buildMaxHeap: {}", Arrays.toString(result));
         assertEquals(Arrays.toString(result), "[7, 4, 6, 3, 0, 5, 2, 1]");
@@ -39,12 +47,7 @@ public class HeapUtilsTest {
 
     @Test
     public void testBuildMinHeap() {
-        Integer[] result = AlgoUtils.positiveIntArrayGenerator(SIZE, false);
-        LOGGER.debug("result: {}", Arrays.toString(result));
-        assertEquals(SIZE, result.length);
-        assertEquals(Arrays.toString(result), "[0, 1, 2, 3, 4, 5, 6, 7]");
-        Arrays.stream(result).forEach(item -> assertTrue(item < SIZE));
-
+        Integer[] result = positiveIntListGenerator(false);
         HeapUtils.buildMinHeap(result);
         LOGGER.debug("buildMinHeap: {}", Arrays.toString(result));
         assertEquals(Arrays.toString(result), "[0, 1, 2, 3, 4, 5, 6, 7]");
@@ -52,12 +55,7 @@ public class HeapUtilsTest {
 
     @Test
     public void testHeapSortAsc() {
-        Integer[] result = AlgoUtils.positiveIntArrayGenerator(SIZE, false);
-        LOGGER.debug("result: {}", Arrays.toString(result));
-        assertEquals(SIZE, result.length);
-        assertEquals(Arrays.toString(result), "[0, 1, 2, 3, 4, 5, 6, 7]");
-        Arrays.stream(result).forEach(item -> assertTrue(item < SIZE));
-
+        Integer[] result = positiveIntListGenerator(false);
         HeapUtils.buildMaxHeap(result);
         LOGGER.debug("buildMaxHeap: {}", Arrays.toString(result));
         assertEquals(Arrays.toString(result), "[7, 4, 6, 3, 0, 5, 2, 1]");
@@ -69,12 +67,7 @@ public class HeapUtilsTest {
 
     @Test
     public void testHeapSortDesc() {
-        Integer[] result = AlgoUtils.positiveIntArrayGenerator(SIZE, false);
-        LOGGER.debug("result: {}", Arrays.toString(result));
-        assertEquals(SIZE, result.length);
-        assertEquals(Arrays.toString(result), "[0, 1, 2, 3, 4, 5, 6, 7]");
-        Arrays.stream(result).forEach(item -> assertTrue(item < SIZE));
-
+        Integer[] result = positiveIntListGenerator(false);
         HeapUtils.buildMinHeap(result);
         LOGGER.debug("buildMinHeap: {}", Arrays.toString(result));
         assertEquals(Arrays.toString(result), "[0, 1, 2, 3, 4, 5, 6, 7]");

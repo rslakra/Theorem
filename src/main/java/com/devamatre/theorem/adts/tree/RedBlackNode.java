@@ -23,8 +23,8 @@ public class RedBlackNode<K extends Comparable, V extends Comparable> implements
     private V value;
     private RedBlackNode left;
     private RedBlackNode right;
-    private int size;
     private boolean color;
+    private int size;
 
     /**
      * @param key

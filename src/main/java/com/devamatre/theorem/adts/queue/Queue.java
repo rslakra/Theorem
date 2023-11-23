@@ -44,7 +44,7 @@ public interface Queue<E> {
      * restrictions, returning {@code true} upon success and throwing an {@code IllegalStateException} if no space is
      * currently available.
      *
-     * @param e the element to add
+     * @param item the element to add
      * @return {@code true} (as specified by {@link Collection#add})
      * @throws IllegalStateException if the element cannot be added at this time due to capacity restrictions added to
      *                               this queue
@@ -57,7 +57,7 @@ public interface Queue<E> {
      * restrictions. When using a capacity-restricted queue, this method is generally preferable to {@link #add}, which
      * can fail to insert an element only by throwing an exception.
      *
-     * @param e the element to add
+     * @param item the element to add
      * @return {@code true} if the element was added to this queue, else {@code false}
      * @throws NullPointerException if the specified element is null and this queue does not permit null elements
      */
@@ -100,5 +100,10 @@ public interface Queue<E> {
      *
      * @return
      */
-    int size();
+    int getSize();
+
+    /**
+     * @return
+     */
+    boolean isEmpty();
 }

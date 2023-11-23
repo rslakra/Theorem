@@ -216,7 +216,7 @@ public class HashMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Copies all of the mappings from the specified map to this map (optional operation).  The effect of this call is
+     * Copies all the mappings from the specified map to this map (optional operation).  The effect of this call is
      * equivalent to that of calling {@link #put(Object, Object) put(k, v)} on this map once for each mapping from key
      * {@code k} to value {@code v} in the specified map.  The behavior of this operation is undefined if the specified
      * map is modified while the operation is in progress.
@@ -236,7 +236,7 @@ public class HashMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Removes all of the mappings from this map (optional operation). The map will be empty after this call returns.
+     * Removes all the mappings from this map (optional operation). The map will be empty after this call returns.
      *
      * @throws UnsupportedOperationException if the {@code clear} operation is not supported by this map
      */

@@ -26,7 +26,7 @@
  * Devamatre reserves the right to modify the technical specifications and or
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.theorem.adts.bos;
+package com.devamatre.theorem.domain.entity;
 
 import com.devamatre.appsuite.core.ToString;
 

@@ -14,15 +14,16 @@ public enum ListUtils {
      * @param nums
      * @return
      */
-    public static <T> ListNode buildLinkedList(T[] nums) {
+    public static <T> Node buildLinkedList(T[] nums) {
         if (nums == null || nums.length == 0) {
             return null;
         }
-        ListNode previous = new ListNode(-1);
-        ListNode head = new ListNode((Comparable) nums[0]);
+
+        Node previous = new Node(-1);
+        Node head = new Node((Comparable) nums[0]);
         previous.setNext(head);
         for (int i = 1; i < nums.length; i++) {
-            head.setNext(new ListNode((Comparable) nums[i]));
+            head.setNext(new Node((Comparable) nums[i]));
             head = head.getNext();
         }
 
@@ -32,12 +33,12 @@ public enum ListUtils {
     /**
      * @param head
      */
-    public static void printList(ListNode head) {
-        ListNode temp = head;
+    public static void printList(Node head) {
+        Node temp = head;
         System.out.println();
         while (temp != null) {
-            System.out.print(temp.getValue() + "\t");
-            temp = (ListNode) temp.getNext();
+            System.out.print(temp.getData() + "\t");
+            temp = (Node) temp.getNext();
         }
         System.out.println();
     }
@@ -48,18 +49,62 @@ public enum ListUtils {
      * @param listValues
      * @return
      */
-    public static <T> ListNode buildSinglyLinkedList(List<T> listValues) {
+    public static <T> Node buildSinglyLinkedList(List<T> listValues) {
         if (listValues == null || listValues.size() == 0) {
             throw new IllegalArgumentException("Please pass in a valid listValues to create a singly linked list.");
         }
 
-        ListNode head = new ListNode((Comparable) listValues.get(0));
-        ListNode current = head;
+        Node head = new Node((Comparable) listValues.get(0));
+        Node current = head;
         for (int i = 1; i < listValues.size(); i++) {
-            current.setNext(new ListNode((Comparable) listValues.get(i)));
+            current.setNext(new Node((Comparable) listValues.get(i)));
             current = current.getNext();
         }
 
         return head;
     }
+
+
+    /**
+     * Reverses the nodes of the list and returns the head of the reversed list.
+     *
+     * @param head
+     * @return
+     */
+    public static Node reverseList(Node head) {
+        if (head == null || head.getNext() == null) {
+            return head;
+        }
+        Node previous;
+        Node current;
+        Node next;
+        previous = head;
+        current = head.getNext();
+        while (current != null) {
+            next = current.getNext();
+            current.setNext(previous);
+            previous = current;
+            current = next;
+        }
+        head.setNext(null);
+
+        return previous;
+    }
+
+    /**
+     * @param head
+     */
+    public static void printAsList(final Node head) {
+        Node listNode = head;
+        System.out.println("\n--------------------------------------------");
+        while (listNode != null) {
+            System.out.print(listNode.getData());
+            listNode = listNode.getNext();
+            if (listNode != null) {
+                System.out.print("->");
+            }
+        }
+        System.out.println();
+    }
+
 }

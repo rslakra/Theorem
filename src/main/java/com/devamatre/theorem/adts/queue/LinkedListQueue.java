@@ -34,7 +34,7 @@ package com.devamatre.theorem.adts.queue;
  * @created 2018-01-06 08:55:49 AM
  * @since 1.0.0
  */
-public class LinkedListQueue<E> implements Queue<E> {
+public class LinkedListQueue<E> extends AbstractQueue<E> implements Queue<E> {
 
     /**
      * @author Rohtash Lakra
@@ -61,76 +61,76 @@ public class LinkedListQueue<E> implements Queue<E> {
     private int size;
 
     /**
-     * @param item
-     * @return
-     * @see com.devamatre.algorithm.queue.Queue#add(java.lang.Object)
+     * Inserts the specified element into this queue if it is possible to do so immediately without violating capacity
+     * restrictions, returning {@code true} upon success and throwing an {@code IllegalStateException} if no space is
+     * currently available.
+     *
+     * @param item the element to add
+     * @return {@code true} (as specified by {@link Collection#add})
+     * @throws IllegalStateException if the element cannot be added at this time due to capacity restrictions added to
+     *                               this queue
+     * @throws NullPointerException  if the specified element is null and this queue does not permit null elements
      */
     @Override
     public boolean add(E item) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @param item
-     * @return
-     * @see com.devamatre.algorithm.queue.Queue#offer(java.lang.Object)
+     * Inserts the specified element into this queue if it is possible to do so immediately without violating capacity
+     * restrictions. When using a capacity-restricted queue, this method is generally preferable to {@link #add}, which
+     * can fail to insert an element only by throwing an exception.
+     *
+     * @param item the element to add
+     * @return {@code true} if the element was added to this queue, else {@code false}
+     * @throws NullPointerException if the specified element is null and this queue does not permit null elements
      */
     @Override
     public boolean offer(E item) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     /**
-     * @return
-     * @see com.devamatre.algorithm.queue.Queue#remove()
+     * Retrieves and removes the head of this queue. This method differs from {@link #poll poll} only in that it throws
+     * an exception if this queue is empty.
+     *
+     * @return the head of this queue
+     * @throws NoSuchElementException if this queue is empty
      */
     @Override
     public E remove() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     /**
-     * @return
-     * @see com.devamatre.algorithm.queue.Queue#poll()
+     * Retrieves and removes the head of this queue, or returns {@code null} if this queue is empty.
+     *
+     * @return the head of this queue, or {@code null} if this queue is empty
      */
     @Override
     public E poll() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     /**
-     * @return
-     * @see com.devamatre.algorithm.queue.Queue#element()
+     * Retrieves, but does not remove, the head of this queue. This method differs from {@link #peek peek} only in that
+     * it throws an exception if this queue is empty.
+     *
+     * @return the head of this queue
+     * @throws NoSuchElementException if this queue is empty
      */
     @Override
     public E element() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     /**
-     * @return
-     * @see com.devamatre.algorithm.queue.Queue#peek()
+     * Retrieves, but does not remove, the head of this queue, or returns {@code null} if this queue is empty.
+     *
+     * @return the head of this queue, or {@code null} if this queue is empty
      */
     @Override
     public E peek() {
-        // TODO Auto-generated method stub
         return null;
     }
-
-    /**
-     * @return
-     * @see com.devamatre.algorithm.queue.Queue#size()
-     */
-    @Override
-    public int size() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-
 }

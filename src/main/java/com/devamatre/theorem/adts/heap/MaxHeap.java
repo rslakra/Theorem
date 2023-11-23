@@ -16,7 +16,7 @@ public class MaxHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     public MaxHeap() {
         super();
-        HeapUtils.buildMaxHeap((E[]) getData());
+        super.buildMaxHeap();
     }
 
     /**
@@ -27,7 +27,7 @@ public class MaxHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     public MaxHeap(int initialCapacity) {
         super(initialCapacity);
-        HeapUtils.buildMaxHeap((E[]) getData());
+        super.buildMaxHeap();
     }
 
     /**
@@ -39,17 +39,17 @@ public class MaxHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     public MaxHeap(int initialCapacity, Comparator<? super E> comparator) {
         super(initialCapacity, comparator);
-        HeapUtils.buildMaxHeap((E[]) getData());
+        super.buildMaxHeap();
     }
 
     /**
      * Creates a <code>MaxHeap</code> containing the elements in the specified collection.
      *
-     * @param c
+     * @param elements
      */
-    public MaxHeap(Collection<? extends E> c) {
-        super(c);
-        HeapUtils.buildMaxHeap((E[]) getData());
+    public MaxHeap(Collection<? extends E> elements) {
+        super(elements);
+        super.buildMaxHeap();
     }
 
     /**
@@ -60,27 +60,27 @@ public class MaxHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     public MaxHeap(Comparator<? super E> comparator) {
         super(comparator);
-        HeapUtils.buildMaxHeap((E[]) getData());
+        super.buildMaxHeap();
     }
 
     /**
      * Creates a <code>MaxHeap</code> containing the elements in the specified priority queue.
      *
-     * @param c
+     * @param elements
      */
-    public MaxHeap(Heap<? extends E> c) {
-        super(c);
-        HeapUtils.buildMaxHeap((E[]) getData());
+    public MaxHeap(Heap<? extends E> elements) {
+        super(elements);
+        super.buildMaxHeap();
     }
 
     /**
      * Creates a <code>MaxHeap</code> containing the elements in the specified sorted set.
      *
-     * @param c
+     * @param elements
      */
-    public MaxHeap(SortedSet<? extends E> c) {
-        super(c);
-        HeapUtils.buildMaxHeap((E[]) getData());
+    public MaxHeap(SortedSet<? extends E> elements) {
+        super(elements);
+        super.buildMaxHeap();
     }
 
     /**
@@ -88,7 +88,7 @@ public class MaxHeap<E extends Comparable<? super E>> extends Heap<E> {
      */
     @Override
     public void sort() {
-        HeapUtils.heapSortAsc((E[]) getData());
+        super.heapSortAsc();
     }
 
 }

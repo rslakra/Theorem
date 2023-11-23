@@ -76,7 +76,7 @@ public class GenericNode<E> implements Comparator<GenericNode<E>> {
 
     /**
      * @param parent
-     * @param data
+     * @param child
      */
     public void addChild(GenericNode<E> parent, GenericNode<E> child) {
         if (parent == null) {

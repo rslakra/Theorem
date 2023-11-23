@@ -1,5 +1,6 @@
 package com.devamatre.theorem.adts.tree;
 
+import com.devamatre.appsuite.core.BeanUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +23,7 @@ public class RedBlackTree<K extends Comparable, V extends Comparable> {
     public V get(K key) {
         RedBlackNode<K, V> redBlackNode = root;
         while (redBlackNode != null) {
-            int result = key.compareTo(redBlackNode.getKey());
+            int result = redBlackNode.getKey().compareTo(key);
             if (result < 0) {
                 redBlackNode = redBlackNode.getLeft();
             } else if (result > 0) {
@@ -36,7 +37,7 @@ public class RedBlackTree<K extends Comparable, V extends Comparable> {
     }
 
     /**
-     * Adds the new node and balance the tree.
+     * Adds the new redBlackNode and balance the tree.
      * <p>
      * Balance Criteria:
      * <p>
@@ -46,37 +47,37 @@ public class RedBlackTree<K extends Comparable, V extends Comparable> {
      * <p>
      * 3. Both children red - flip colors.
      *
-     * @param node
+     * @param redBlackNode
      * @param key
      * @param value
      * @return
      */
-    private RedBlackNode addNode(RedBlackNode node, K key, V value) {
-        // add new node here.
-        if (node == null) {
+    private RedBlackNode addNode(RedBlackNode redBlackNode, K key, V value) {
+        // add new redBlackNode here.
+        if (BeanUtils.isNull(redBlackNode)) {
             return new RedBlackNode(key, value, RedBlackNode.RED);
         }
 
-        //Replace current node or add new node as child.
-        int result = key.compareTo(node.getKey());
+        // Replace current redBlackNode or add new redBlackNode as child.
+        int result = redBlackNode.getKey().compareTo(key);
         if (result == 0) {
-            node.setValue(value);
+            redBlackNode.setValue(value);
         } else if (result < 0) {
-            node.setLeft(addNode(node.getLeft(), key, value));
+            redBlackNode.setLeft(addNode(redBlackNode.getLeft(), key, value));
         } else if (result > 0) {
-            node.setRight(addNode(node.getRight(), key, value));
+            redBlackNode.setRight(addNode(redBlackNode.getRight(), key, value));
         }
 
-        //balance red-black tree.
-        if (RedBlackNode.isRed(node.getRight()) && !RedBlackNode.isRed(node.getLeft())) {
-            node = RedBlackNode.rotateLeft(node);
-        } else if (RedBlackNode.isRed(node.getLeft()) && RedBlackNode.isRed(node.getLeft().getLeft())) {
-            node = RedBlackNode.rotateRight(node);
-        } else if (RedBlackNode.isRed(node.getLeft()) && RedBlackNode.isRed(node.getRight())) {
-            RedBlackNode.flipColors(node);
+        // balance red-black tree.
+        if (RedBlackNode.isRed(redBlackNode.getRight()) && !RedBlackNode.isRed(redBlackNode.getLeft())) {
+            redBlackNode = RedBlackNode.rotateLeft(redBlackNode);
+        } else if (RedBlackNode.isRed(redBlackNode.getLeft()) && RedBlackNode.isRed(redBlackNode.getLeft().getLeft())) {
+            redBlackNode = RedBlackNode.rotateRight(redBlackNode);
+        } else if (RedBlackNode.isRed(redBlackNode.getLeft()) && RedBlackNode.isRed(redBlackNode.getRight())) {
+            RedBlackNode.flipColors(redBlackNode);
         }
 
-        return node;
+        return redBlackNode;
     }
 
     /**

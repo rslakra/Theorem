@@ -32,18 +32,11 @@ import com.devamatre.theorem.adts.list.Node;
 
 /**
  * @author Rohtash Lakra
- * @date 01/31/2017 03:49:55 PM
+ * @version 1.0.0
+ * @created 01/31/2017 03:49:55 PM
+ * @since 1.0.0
  */
 public class DoublyLinkedList<E extends Comparable<? super E>> extends LinkedList<E> {
-
-    // root node of the list.
-    private Node<E> head;
-
-    // last node of the list.
-    private Node<E> tail;
-
-    // total nodes of the list.
-    private int size;
 
     /**
      *
@@ -51,248 +44,190 @@ public class DoublyLinkedList<E extends Comparable<? super E>> extends LinkedLis
     public DoublyLinkedList() {
     }
 
-    /**
-     * Returns the size of the list.
-     *
-     * @return
-     */
-    public int getSize() {
-        return size;
-    }
-
-    /**
-     * Returns true if the linked list is empty otherwise false.
-     *
-     * @return
-     */
-    public boolean isEmpty() {
-        return (head == null && size == 0);
-    }
-
-    /**
-     * Inserts the new node at the first position of the linked list.
-     * <p>
-     * Time complexity of insertion is O(1), because it takes constant amount of time.
-     *
-     * @param newNode
-     */
-    public void push(Node<E> newNode) {
-        if (head == null) {
-            head = newNode;
-            tail = newNode;
-            size++;
-        } else {
-            newNode.setNext(head);
-            head.setPrevious(newNode);
-            head = newNode;
-            size++;
-            if (getSize() == 1) {
-                tail.setPrevious(head.getPrevious());
-                tail = head;
-            }
-        }
-    }
-
-    /**
-     * Inserts the new node after the specified parent node.
-     * <p>
-     * Time complexity of insertAfter() is O(1) as it does constant amount of work.
-     *
-     * @param parentNode
-     * @param newNode
-     */
-    public void insertAfter(Node<E> parentNode, Node<E> newNode) {
-        if (parentNode == null) {
-            parentNode = newNode;
-            tail = newNode;
-        } else {
-            newNode.setNext(parentNode.getNext());
-            parentNode.setNext(newNode);
-        }
-    }
-
-    /**
-     * Inserts the new node at the end of the linked list.
-     * <p>
-     * Time complexity of append is O(n) where n is the number of nodes in linked list. Since there is a loop from head
-     * to end, the function does O(n) work.
-     * <p>
-     * This method can also be optimized to work in O(1) by keeping an extra pointer to tail of linked list.
-     *
-     * @param newNode
-     */
-    public void append(Node<E> newNode) {
-        // new node will be the last node, so set it's next to be null;
-        newNode.setNext(null);
-        if (head == null) {
-            head = newNode;
-            tail = newNode;
-        } else {
-            tail.setNext(newNode);
-            newNode.setPrevious(tail);
-            tail = newNode;
-        }
-        size++;
-    }
-
-    /**
-     * Inserts the node at the specified index.
-     *
-     * @param index
-     * @param data
-     */
-    public void insertAt(int index, E data) {
-        if (index < 0 || index > size) {
-            throw new IllegalArgumentException("Invalid index:" + index);
-        }
-
-        Node<E> newNode = new Node<E>(data);
-        if (size == 0) {
-            push(newNode);
-        } else if (size == 1) {
-            append(newNode);
-        } else {
-            int ctr = 0;
-            Node<E> curNode = head;
-            while (ctr < (index - 2)) {
-                curNode = curNode.getNext();
-                ctr++;
-            }
-            newNode.setNext(curNode.getNext());
-            newNode.setPrevious(curNode);
-            newNode.getNext().setPrevious(newNode);
-            curNode.setNext(newNode);
-            size++;
-        }
-    }
-
-    /**
-     * Removes the provided node.
-     *
-     * @param element
-     */
-    public void remove(E element) {
-        Node<E> currentNode = head;
-        Node<E> previous = head;
-        while (currentNode != null && !currentNode.getValue().equals(element)) {
-            previous = currentNode;
-            currentNode = currentNode.getNext();
-        }
-
-        if (previous != null && currentNode != null) {
-            if (previous == currentNode) {
-                head = currentNode.getNext();
-            } else {
-                previous.setNext(currentNode.getNext());
-            }
-
-            // make available for garbage collection
-            currentNode.setNext(null);
-            currentNode = null;
-        }
-    }
-
-    /**
-     * Removes the node of the specified position.
-     *
-     * @param position
-     */
-    public void removeAt(int position) {
-        Node<E> currentNode = head;
-        Node<E> previous = head;
-        for (int i = 0; i < position - 1 && currentNode != null; i++) {
-            previous = currentNode;
-            currentNode = currentNode.getNext();
-        }
-
-        if (previous != null && currentNode != null) {
-            if (previous == currentNode) {
-                head = currentNode.getNext();
-            } else {
-                previous.setNext(currentNode.getNext());
-            }
-
-            // make available for garbage collection
-            currentNode.setNext(null);
-            currentNode = null;
-        }
-    }
-
-    /**
-     * Removes the first node of the linked list.
-     */
-    public void removeFirst() {
-        Node<E> current = head;
-        head = current.getNext();
-        current.setNext(null);
-        current = null;
-    }
-
-    /**
-     * Removes the first node of the linked list.
-     *
-     * @param node
-     * @return
-     */
-    // @Deprecated
-    // public Node<E> removeFirst(Node<E> node) {
-    // return (node == null ? null : node.getNext());
-    // }
-
-    /**
-     * Returns the size of the linked list.
-     *
-     * @return
-     */
-    public int size() {
-        return size;
-    }
-
-    /**
-     * Returns the size of the linked list using recursion.
-     * <p>
-     * Time complexity of size is O(n) where n is the number of nodes in linked list. Since there is a loop from head to
-     * end, the function does O(n) work.
-     *
-     * @param node
-     * @return
-     */
-    public int size(Node<E> node) {
-        return (node == null ? 0 : (1 + size(node.getNext())));
-    }
-
-    /**
-     * Return true if the linked list contains the specified node for an element otherwise false. The comparison is
-     * case-sensitive.
-     * <p>
-     * Time complexity of append is O(n) where n is the number of nodes in linked list. Since there is a loop from head
-     * to end, the function does O(n) work.
-     *
-     * @param element
-     * @return
-     */
-    public boolean contain(E element) {
-        boolean contains = false;
-        Node<E> current = head;
-        while (current != null) {
-            if (current.getValue().equals(element)) {
-                contains = true;
-                break;
-            }
-            current = current.getNext();
-        }
-
-        return contains;
-    }
-
-    /**
-     * @param node
-     * @param element
-     * @return
-     */
-    public boolean contain(Node<E> node, E element) {
-        return (node == null ? false : node.getValue().equals(element) ? true : contain(node.getNext(), element));
-    }
+//    /**
+//     * Inserts the new node at the first position of the linked list.
+//     * <p>
+//     * Time complexity of insertion is O(1), because it takes constant amount of time.
+//     *
+//     * @param newNode
+//     */
+//    public void addHead(Node<E> newNode) {
+//        if (head == null) {
+//            head = newNode;
+//            tail = newNode;
+//        } else {
+//            newNode.setNext(head);
+//            head.setPrevious(newNode);
+//            head = newNode;
+//            if (getSize() == 1) {
+//                tail.setPrevious(head.getPrevious());
+//                tail = head;
+//            }
+//        }
+//        incrementSize();
+//    }
+//
+//    /**
+//     * Inserts the new node after the specified parent node.
+//     * <p>
+//     * Time complexity of insertAfter() is O(1) as it does constant amount of work.
+//     *
+//     * @param parentNode
+//     * @param newNode
+//     */
+//    public void insertAfter(Node<E> parentNode, Node<E> newNode) {
+//        if (parentNode == null) {
+//            parentNode = newNode;
+//            tail = newNode;
+//        } else {
+//            newNode.setNext(parentNode.getNext());
+//            parentNode.setNext(newNode);
+//        }
+//    }
+//
+//    /**
+//     * Inserts the new node at the end of the linked list.
+//     * <p>
+//     * Time complexity of append is O(n) where n is the number of nodes in linked list. Since there is a loop from head
+//     * to end, the function does O(n) work.
+//     * <p>
+//     * This method can also be optimized to work in O(1) by keeping an extra pointer to tail of linked list.
+//     *
+//     * @param newNode
+//     */
+//    public void addTail(Node<E> newNode) {
+//        // new node will be the last node, so set it's next to be null;
+//        newNode.setNext(null);
+//        if (head == null) {
+//            head = newNode;
+//            tail = newNode;
+//        } else {
+//            tail.setNext(newNode);
+//            newNode.setPrevious(tail);
+//            tail = newNode;
+//        }
+//        incrementSize();
+//    }
+//
+//    /**
+//     * Inserts the node at the specified index.
+//     *
+//     * @param index
+//     * @param data
+//     */
+//    public void insertAt(int index, E data) {
+//        if (index < 0 || index > getSize()) {
+//            throw new IllegalArgumentException("Invalid index:" + index);
+//        }
+//
+//        Node<E> newNode = new Node<E>(data);
+//        if (isEmpty()) {
+//            addHead(newNode);
+//        } else if (getSize() == 1) {
+//            addTail(newNode);
+//        } else {
+//            int ctr = 0;
+//            Node<E> curNode = head;
+//            while (ctr < (index - 2)) {
+//                curNode = curNode.getNext();
+//                ctr++;
+//            }
+//            newNode.setNext(curNode.getNext());
+//            newNode.setPrevious(curNode);
+//            newNode.getNext().setPrevious(newNode);
+//            curNode.setNext(newNode);
+//            incrementSize();
+//        }
+//    }
+//
+//    /**
+//     * Removes the provided node.
+//     *
+//     * @param element
+//     */
+//    public void remove(E element) {
+//        Node<E> currentNode = head;
+//        Node<E> previous = head;
+//        while (currentNode != null && !currentNode.getData().equals(element)) {
+//            previous = currentNode;
+//            currentNode = currentNode.getNext();
+//        }
+//
+//        if (previous != null && currentNode != null) {
+//            if (previous == currentNode) {
+//                head = currentNode.getNext();
+//            } else {
+//                previous.setNext(currentNode.getNext());
+//            }
+//
+//            // make available for garbage collection
+//            currentNode.setNext(null);
+//            currentNode = null;
+//        }
+//    }
+//
+//    /**
+//     * Removes the node of the specified position.
+//     *
+//     * @param position
+//     */
+//    public E removeAt(int position) {
+//        return super.removeAt(position);
+//    }
+//
+//    /**
+//     * Removes the first node of the linked list.
+//     */
+//    public void removeFirst() {
+//        super.removeFirst();
+//    }
+//
+//    /**
+//     * Returns the size of the linked list using recursion.
+//     * <p>
+//     * Time complexity of size is O(n) where n is the number of nodes in linked list. Since there is a loop from head to
+//     * end, the function does O(n) work.
+//     *
+//     * @param listNode
+//     * @return
+//     */
+//    public int size(Node<E> listNode) {
+//        return (listNode == null ? 0 : (1 + size(listNode.getNext())));
+//    }
+//
+//    /**
+//     * Return true if the linked list contains the specified node for an element otherwise false. The comparison is
+//     * case-sensitive.
+//     * <p>
+//     * Time complexity of append is O(n) where n is the number of nodes in linked list. Since there is a loop from head
+//     * to end, the function does O(n) work.
+//     *
+//     * @param element
+//     * @return
+//     */
+//    public boolean contains(E element) {
+//        boolean contains = false;
+//        Node<E> current = head;
+//        while (current != null) {
+//            if (current.getData().equals(element)) {
+//                contains = true;
+//                break;
+//            }
+//            current = current.getNext();
+//        }
+//
+//        return contains;
+//    }
+//
+//    /**
+//     * @param listNode
+//     * @param element
+//     * @return
+//     */
+//    public boolean contains(Node<E> listNode, E element) {
+//        return (listNode == null ? false
+//                                 : listNode.getData().equals(element) ? true : contains(listNode.getNext(), element));
+//    }
 
     /**
      * Swaps the source node with the target node.
@@ -308,7 +243,7 @@ public class DoublyLinkedList<E extends Comparable<? super E>> extends LinkedLis
         // find source and its previous nodes.
         Node<E> sNode = head;
         Node<E> sPrevious = null;
-        while (sNode != null && !sNode.getValue().equals(source)) {
+        while (sNode != null && !sNode.getData().equals(source)) {
             sPrevious = sNode;
             sNode = sNode.getNext();
         }
@@ -316,7 +251,7 @@ public class DoublyLinkedList<E extends Comparable<? super E>> extends LinkedLis
         // find target and its previous nodes.
         Node<E> tNode = head;
         Node<E> tPrevious = null;
-        while (tNode != null && !tNode.getValue().equals(target)) {
+        while (tNode != null && !tNode.getData().equals(target)) {
             tPrevious = tNode;
             tNode = tNode.getNext();
         }
@@ -344,45 +279,46 @@ public class DoublyLinkedList<E extends Comparable<? super E>> extends LinkedLis
         tNode.setNext(tempNode);
     }
 
-    /**
-     * @param index
-     * @return
-     */
-    public E getValue(int index) {
-        Node<E> current = head;
-        int ctr = 0;
-        while (current != null) {
-            if (ctr == index) {
-                break;
-            }
-            ctr++;
-            current = current.getNext();
-        }
-
-        return (current == null ? null : current.getValue());
-    }
-
-    /**
-     * Returns the string representation of this object.
-     *
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        StringBuilder sBuilder = new StringBuilder();
-        Node<E> current = head;
-        sBuilder.append("[");
-
-        while (current != null) {
-            sBuilder.append(current.getValue());
-            current = current.getNext();
-            if (current != null) {
-                sBuilder.append(", ");
-            }
-        }
-
-        sBuilder.append("]");
-        return sBuilder.toString();
-    }
+//    /**
+//     * @param index
+//     * @return
+//     */
+//    public E getValue(int index) {
+//        Node<E> current = head;
+//        int ctr = 0;
+//        while (current != null) {
+//            if (ctr == index) {
+//                break;
+//            }
+//            ctr++;
+//            current = current.getNext();
+//        }
+//
+//        return (current == null ? null : current.getData());
+//    }
+//
+//    /**
+//     * Returns the string representation of this object.
+//     *
+//     * @see java.lang.Object#toString()
+//     */
+//    public String toString() {
+//        StringBuilder sBuilder = new StringBuilder();
+//        Node<E> current = head;
+//        sBuilder.append("[");
+//
+//        // iterate all elements of the linkedList
+//        while (current != null) {
+//            sBuilder.append(current.getData());
+//            current = current.getNext();
+//            if (current != null) {
+//                sBuilder.append(", ");
+//            }
+//        }
+//
+//        sBuilder.append("]");
+//        return sBuilder.toString();
+//    }
 
     /**
      * Returns the reverse string representation of this object.
@@ -393,7 +329,7 @@ public class DoublyLinkedList<E extends Comparable<? super E>> extends LinkedLis
         sBuilder.append("[");
 
         while (current != null) {
-            sBuilder.append(current.getValue());
+            sBuilder.append(current.getData());
             current = current.getPrevious();
             if (current != null) {
                 sBuilder.append(", ");
@@ -402,33 +338,6 @@ public class DoublyLinkedList<E extends Comparable<? super E>> extends LinkedLis
 
         sBuilder.append("]");
         return sBuilder.toString();
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        DoublyLinkedList<Integer> linkList = new DoublyLinkedList<>();
-        // push or prepend
-        // linkList.push(new Node<Integer>(1));
-        // linkList.push(new Node<Integer>(2));
-        // linkList.push(new Node<Integer>(3));
-
-        linkList.append(new Node<Integer>(1));
-        linkList.append(new Node<Integer>(2));
-        linkList.append(new Node<Integer>(3));
-        linkList.append(new Node<Integer>(4));
-
-        System.out.println(linkList);
-        System.out.println(linkList.toStringReverse());
-        // System.out.println(linkList.size());
-
-        linkList.insertAt(2, 100);
-        linkList.insertAt(linkList.getSize(), 200);
-        linkList.insertAt(3, 300);
-        System.out.println(linkList);
-        // System.out.println(linkList.toStringReverse());
-
     }
 
 }

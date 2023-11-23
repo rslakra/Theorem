@@ -30,12 +30,10 @@ package com.devamatre.theorem.adts.queue;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Queue;
 
-public class BasicQueue<E> implements Queue<E> {
+public class BasicQueue<E> extends AbstractQueue<E> implements Queue<E> {
 
     private List<E> data;
 
@@ -62,126 +60,77 @@ public class BasicQueue<E> implements Queue<E> {
     }
 
     /**
+     * Inserts the specified element into this queue if it is possible to do so immediately without violating capacity
+     * restrictions, returning {@code true} upon success and throwing an {@code IllegalStateException} if no space is
+     * currently available.
      *
+     * @param item the element to add
+     * @return {@code true} (as specified by {@link Collection#add})
+     * @throws IllegalStateException if the element cannot be added at this time due to capacity restrictions added to
+     *                               this queue
+     * @throws NullPointerException  if the specified element is null and this queue does not permit null elements
      */
     @Override
-    public int size() {
-        // TODO Auto-generated method stub
-        return data.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return data.isEmpty();
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        // TODO Auto-generated method stub
+    public boolean add(E item) {
         return false;
     }
 
+    /**
+     * Inserts the specified element into this queue if it is possible to do so immediately without violating capacity
+     * restrictions. When using a capacity-restricted queue, this method is generally preferable to {@link #add}, which
+     * can fail to insert an element only by throwing an exception.
+     *
+     * @param item the element to add
+     * @return {@code true} if the element was added to this queue, else {@code false}
+     * @throws NullPointerException if the specified element is null and this queue does not permit null elements
+     */
     @Override
-    public Iterator<E> iterator() {
-        // TODO Auto-generated method stub
-        return data.iterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        // TODO Auto-generated method stub
-        return data.toArray();
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        // TODO Auto-generated method stub
-        return data.toArray(a);
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        // TODO Auto-generated method stub
-        return data.remove(o);
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        // TODO Auto-generated method stub
+    public boolean offer(E item) {
         return false;
     }
 
-    @Override
-    public boolean addAll(Collection<? extends E> c) {
-        // TODO Auto-generated method stub
-        return data.addAll(c);
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        // TODO Auto-generated method stub
-        return data.retainAll(c);
-    }
-
-    @Override
-    public void clear() {
-        // TODO Auto-generated method stub
-        data.clear();
-    }
-
-    @Override
-    public boolean add(E e) {
-        // TODO Auto-generated method stub
-        return data.add(e);
-    }
-
-    @Override
-    public boolean offer(E e) {
-        // TODO Auto-generated method stub
-        return data.add(e);
-    }
-
+    /**
+     * Retrieves and removes the head of this queue. This method differs from {@link #poll poll} only in that it throws
+     * an exception if this queue is empty.
+     *
+     * @return the head of this queue
+     * @throws NoSuchElementException if this queue is empty
+     */
     @Override
     public E remove() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("Queue is empty!");
-        } else {
-            return data.remove(0);
-        }
+        return null;
     }
 
+    /**
+     * Retrieves and removes the head of this queue, or returns {@code null} if this queue is empty.
+     *
+     * @return the head of this queue, or {@code null} if this queue is empty
+     */
     @Override
     public E poll() {
-        if (isEmpty()) {
-            return null;
-        } else {
-            return data.remove(0);
-        }
+        return null;
     }
 
+    /**
+     * Retrieves, but does not remove, the head of this queue. This method differs from {@link #peek peek} only in that
+     * it throws an exception if this queue is empty.
+     *
+     * @return the head of this queue
+     * @throws NoSuchElementException if this queue is empty
+     */
     @Override
     public E element() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("Queue is empty!");
-        } else {
-            return data.get(0);
-        }
+        return null;
     }
 
+    /**
+     * Retrieves, but does not remove, the head of this queue, or returns {@code null} if this queue is empty.
+     *
+     * @return the head of this queue, or {@code null} if this queue is empty
+     */
     @Override
     public E peek() {
-        if (isEmpty()) {
-            return null;
-        } else {
-            return data.get(0);
-        }
+        return null;
     }
 
     public String toString() {

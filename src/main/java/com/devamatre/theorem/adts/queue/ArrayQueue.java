@@ -36,7 +36,7 @@ import java.util.NoSuchElementException;
  * @created 2018-01-06 08:54:30 AM
  * @since 1.0.0
  */
-public class ArrayQueue<E> implements Queue<E> {
+public class ArrayQueue<E> extends AbstractQueue<E> implements Queue<E> {
 
     static final int DEFAULT_SIZE = 16;
 
@@ -63,7 +63,7 @@ public class ArrayQueue<E> implements Queue<E> {
     /**
      * @param item
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#add(java.lang.Object)
+     * @see Queue#add(java.lang.Object)
      */
     @Override
     public boolean add(E item) {
@@ -82,7 +82,7 @@ public class ArrayQueue<E> implements Queue<E> {
     /**
      * @param item
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#offer(java.lang.Object)
+     * @see Queue#offer(java.lang.Object)
      */
     @Override
     public boolean offer(E item) {
@@ -97,10 +97,11 @@ public class ArrayQueue<E> implements Queue<E> {
     @SuppressWarnings("unchecked")
     private E removeFirst() {
         E item = null;
-        if (lastIndex > 0) {
+        if (lastIndex >= 0) {
             item = (E) items[0];
-            System.arraycopy(items, 1, items, 0, lastIndex);
             lastIndex--;
+            System.arraycopy(items, 1, items, 0, lastIndex);
+            items[lastIndex] = null;
         }
 
         return item;
@@ -108,12 +109,14 @@ public class ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#remove()
+     * @see Queue#remove()
      */
     @Override
     public E remove() {
-        if (lastIndex <= 0) {
+        if (lastIndex < 0) {
             throw new NoSuchElementException("Underflow!");
+        } else if (lastIndex > getSize()) {
+            throw new ArrayIndexOutOfBoundsException("lastIndex:" + lastIndex);
         }
 
         return removeFirst();
@@ -121,7 +124,7 @@ public class ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#poll()
+     * @see Queue#poll()
      */
     @Override
     public E poll() {
@@ -130,7 +133,7 @@ public class ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#element()
+     * @see Queue#element()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -144,7 +147,7 @@ public class ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#peek()
+     * @see Queue#peek()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -154,10 +157,10 @@ public class ArrayQueue<E> implements Queue<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.queue.Queue#size()
+     * @see Queue#getSize()
      */
     @Override
-    public int size() {
+    public int getSize() {
         return lastIndex;
     }
 

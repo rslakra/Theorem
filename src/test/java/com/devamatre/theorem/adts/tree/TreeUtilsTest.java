@@ -68,7 +68,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left Node Index
+     * Left PairNode Index
      */
     @Test(dataProvider = "leftNodeIndexData")
     public void testLeftNodeIndex(int index, int result) {
@@ -95,7 +95,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left Node Index
+     * Left PairNode Index
      */
     @Test(dataProvider = "rightNodeIndexData")
     public void testRightNodeIndex(int index, int result) {
@@ -122,7 +122,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left Node Index
+     * Left PairNode Index
      */
     @Test(dataProvider = "leftSiblingIndexData")
     public void testLeftSiblingIndex(int index, int result) {
@@ -149,7 +149,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left Node Index
+     * Left PairNode Index
      */
     @Test(dataProvider = "rightSiblingIndexData")
     public void testRightSiblingIndex(int index, int result) {
@@ -168,7 +168,7 @@ public class TreeUtilsTest {
         List<Object[]> inputs = new ArrayList<>();
         inputs.add(new Object[]{null, false});
         inputs.add(new Object[]{new TreeNode<>(0), true});
-        TreeNode treeNode = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3));
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3));
         inputs.add(new Object[]{treeNode, false});
         inputs.add(new Object[]{treeNode.getLeft(), true});
         inputs.add(new Object[]{treeNode.getRight(), true});
@@ -177,7 +177,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left Node Index
+     * Left PairNode Index
      */
     @Test(dataProvider = "isLeafData")
     public void testIsLeaf(TreeNode index, boolean result) {
@@ -205,7 +205,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left Node Index
+     * Left PairNode Index
      */
     @Test(dataProvider = "getMidIndexData")
     public void testGetMidIndex(int start, int end, int result) {
@@ -236,7 +236,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left Node Index
+     * Left PairNode Index
      */
     @Test(dataProvider = "heightByInputSizeData")
     public void testGetHeightByInputSize(int size, int result) {
@@ -263,7 +263,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left Node Index
+     * Left PairNode Index
      */
     @Test(dataProvider = "memoryAllotmentByTreeHeightData")
     public void testGetMemoryAllotmentByTreeHeight(int index, int result) {
@@ -290,7 +290,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left Node Index
+     * Left PairNode Index
      */
     @Test(dataProvider = "memoryAllotmentByInputSizeData")
     public void testGetMemoryAllotmentByInputSize(int index, int result) {
@@ -300,23 +300,39 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Print Binary Tree
+     * In-Order input data and expected results.
+     *
+     * @return
      */
-    @Test
-    public void testBuildBinaryTreeWithList() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
+    @DataProvider
+    public Iterator<Object[]> buildBinaryTreeData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{Arrays.asList(1)});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3)});
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1)});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7)});
+
+        return inputs.iterator();
     }
 
     /**
-     * Print Binary Tree
+     * Tests <code>buildBinaryTree</code> method.
+     */
+    @Test(dataProvider = "buildBinaryTreeData")
+    public void testBuildBinaryTreeWithList(List<Integer> inputData) {
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+    }
+
+    /**
+     * Tests <code>buildBinaryTree</code> method.
      */
     @Test
     public void testBuildBinaryTreeWithString() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree("1, 2, 3, 4, 5, 6, 7");
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree("1, 2, 3, 4, 5, 6, 7");
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
     }
 
     /**
@@ -324,10 +340,10 @@ public class TreeUtilsTest {
      */
     @Test
     public void testPrintBinaryTree() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        TreeUtils.printBinaryTree(root);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        TreeUtils.printBinaryTree(treeNode);
     }
 
     /**
@@ -335,10 +351,10 @@ public class TreeUtilsTest {
      */
     @Test
     public void testPrintPrettyTreeVertically() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        TreeUtils.printPrettyTreeVertically(root);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        TreeUtils.printPrettyTreeVertically(treeNode);
     }
 
     /**
@@ -347,8 +363,8 @@ public class TreeUtilsTest {
     @Test
     public void testPrintPrettyTree() {
         final Node<Integer> root = new Node<Integer>(1);
-        root.addLeftNode(2);
-        root.addRightNode(3);
+        root.setLeft(new Node<>(2));
+        root.setRight(new Node<>(3));
         int maxHeight = TreeUtils.maxHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(2, maxHeight);
@@ -357,7 +373,7 @@ public class TreeUtilsTest {
         LOGGER.debug("\n{}", printPrettyTree);
 
         // add new node
-        root.getLeft().addLeftNode(4);
+        root.getLeft().setLeft(new Node<>(4));
         maxHeight = TreeUtils.maxHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(3, maxHeight);
@@ -372,8 +388,8 @@ public class TreeUtilsTest {
     @Test
     public void testPrintPrettyTreeHorizontally() {
         final Node<Integer> root = new Node<Integer>(1);
-        root.addLeftNode(2);
-        root.addRightNode(3);
+        root.setLeft(new Node<>(2));
+        root.setRight(new Node<>(3));
 
         int maxHeight = TreeUtils.maxHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
@@ -384,7 +400,7 @@ public class TreeUtilsTest {
         LOGGER.debug("\n{}", printPrettyTree);
 
         // add new node
-        root.getLeft().addLeftNode(4);
+        root.getLeft().setLeft(new Node<>(4));
         maxHeight = TreeUtils.maxHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(3, maxHeight);
@@ -395,10 +411,10 @@ public class TreeUtilsTest {
 
     @Test
     public void testCountSpaces() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        int maxHeight = TreeUtils.maxHeight(root);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        int maxHeight = TreeUtils.maxHeight(treeNode);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(3, maxHeight);
 
@@ -408,113 +424,210 @@ public class TreeUtilsTest {
     }
 
     /**
+     * In-Order input data and expected results.
      *
+     * @return
      */
-    @Test
-    public void testGetMaxLevel() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        int maxLevel = TreeUtils.getHeight(root);
-        assertEquals(3, maxLevel);
+    @DataProvider
+    public Iterator<Object[]> getMaxLevelData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{Arrays.asList(1), 1});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3), 2});
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1), 3});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7), 3});
+
+        return inputs.iterator();
     }
 
     /**
-     *
+     * Test <code>inOrder</code> method.
      */
-    @Test
-    public void testGetLevelOrders() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        LOGGER.debug("root:{}", root);
-        assertNotNull(root);
-        List<List<Integer>> levelOrders = TreeUtils.getLevelOrders(root);
+    @Test(dataProvider = "getMaxLevelData")
+    public void testGetMaxLevel(List<Integer> inputData, Integer expected) {
+        LOGGER.debug("testGetMaxLevel({}, {})", inputData, expected);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        int maxLevel = TreeUtils.getHeight(treeNode);
+        assertEquals(expected, maxLevel);
+    }
+
+    /**
+     * In-Order input data and expected results.
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> levelOrdersData() {
+        List<Object[]> inputs = new ArrayList<>();
+        List<List<Integer>> expected = new ArrayList<>();
+        // [[1], [2, 3], [4, 5, 6, 7]]
+        expected.add(Arrays.asList(1));
+        expected.add(Arrays.asList(2, 3));
+        expected.add(Arrays.asList(4, 5, 6, 7));
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7), expected});
+
+        // [[5], [4, 3], [2, 1]]
+        expected = new ArrayList<>();
+        expected.add(Arrays.asList(5));
+        expected.add(Arrays.asList(4, 3));
+        expected.add(Arrays.asList(2, 1));
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1), expected});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>inOrder</code> method.
+     */
+    @Test(dataProvider = "levelOrdersData")
+    public void testGetLevelOrders(List<Integer> inputData, List<List<Integer>> expected) {
+        LOGGER.debug("testGetLevelOrders({}, {})", inputData, expected);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        List<List<Integer>> levelOrders = TreeUtils.getLevelOrders(treeNode);
         LOGGER.debug("levelOrders:{}", levelOrders);
         assertNotNull(levelOrders);
-        assertEquals(3, levelOrders.size());
-        assertEquals(1, levelOrders.get(0).size());
-        assertEquals(2, levelOrders.get(1).size());
-        assertEquals(4, levelOrders.get(2).size());
+        assertEquals(expected.size(), levelOrders.size());
+        for (int i = 0; i < expected.size(); i++) {
+            assertEquals(expected.get(i).size(), levelOrders.get(i).size());
+            assertEquals(expected.get(i), levelOrders.get(i));
+        }
     }
 
     /**
+     * In-Order input data and expected results.
      *
+     * @return
      */
-    @Test
-    public void testInOrder() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        TreeUtils.printPrettyTreeVertically(root);
-        List<Integer> inOrder = TreeUtils.inOrder(root);
+    @DataProvider
+    public Iterator<Object[]> inOrderData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7), Arrays.asList(4, 2, 5, 1, 6, 3, 7)});
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1), Arrays.asList(2, 4, 1, 5, 3)});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>inOrder</code> method.
+     */
+    @Test(dataProvider = "inOrderData")
+    public void testInOrder(List<Integer> inputData, List<Integer> expected) {
+        LOGGER.debug("testInOrder({}, {})", inputData, expected);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        TreeUtils.printPrettyTreeVertically(treeNode);
+        List<Integer> inOrder = TreeUtils.inOrder(treeNode);
         assertNotNull(inOrder);
         LOGGER.debug("inOrder:{}", inOrder);
-        assertEquals("[4, 2, 5, 1, 6, 3, 7]", inOrder.toString());
+        assertEquals(expected, inOrder);
     }
 
     /**
+     * Pre-Order input data and expected results.
      *
+     * @return
      */
-    @Test
-    public void testPreOrder() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        TreeUtils.printPrettyTreeVertically(root);
-        List<Integer> preOrder = TreeUtils.preOrder(root);
+    @DataProvider
+    public Iterator<Object[]> preOrderData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7), Arrays.asList(1, 2, 4, 5, 3, 6, 7)});
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1), Arrays.asList(5, 4, 2, 1, 3)});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>preOrder</code> method.
+     */
+    @Test(dataProvider = "preOrderData")
+    public void testPreOrder(List<Integer> inputData, List<Integer> expected) {
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        TreeUtils.printPrettyTreeVertically(treeNode);
+        List<Integer> preOrder = TreeUtils.preOrder(treeNode);
         assertNotNull(preOrder);
         LOGGER.debug("preOrder:{}", preOrder);
-        assertEquals("[1, 2, 4, 5, 3, 6, 7]", preOrder.toString());
+        assertEquals(expected, preOrder);
     }
 
     /**
+     * Post-Order input data and expected results.
      *
+     * @return
      */
-    @Test
-    public void testPostOrder() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        TreeUtils.printPrettyTreeVertically(root);
-        List<Integer> postOrder = TreeUtils.postOrder(root);
+    @DataProvider
+    public Iterator<Object[]> postOrderData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7), Arrays.asList(4, 5, 2, 6, 7, 3, 1)});
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1), Arrays.asList(2, 1, 4, 3, 5)});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>postOrder</code> method.
+     */
+    @Test(dataProvider = "postOrderData")
+    public void testPostOrder(List<Integer> inputData, List<Integer> expected) {
+        LOGGER.debug("testPostOrder({}, {})", inputData, expected);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        TreeUtils.printPrettyTreeVertically(treeNode);
+        List<Integer> postOrder = TreeUtils.postOrder(treeNode);
         assertNotNull(postOrder);
         LOGGER.debug("postOrder:{}", postOrder);
-        assertEquals("[4, 5, 2, 6, 7, 3, 1]", postOrder.toString());
+        assertEquals(expected, postOrder);
     }
 
     /**
-     *
+     * Test <code>inOrderTraversal</code> method.
      */
-    @Test
-    public void testInOrderTraversal() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        String inOrderTraversal = TreeUtils.inOrderTraversal(root);
+    @Test(dataProvider = "inOrderData")
+    public void testInOrderTraversal(List<Integer> inputData, List<Integer> expected) {
+        LOGGER.debug("testInOrderTraversal({}, {})", inputData, expected);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        String inOrderTraversal = TreeUtils.inOrderTraversal(treeNode);
         assertNotNull(inOrderTraversal);
         LOGGER.debug("inOrderTraversal:{}", inOrderTraversal);
-        assertEquals("[4, 2, 5, 1, 6, 3, 7]", inOrderTraversal.toString());
+        assertEquals(expected.toString(), inOrderTraversal);
     }
 
-    @Test
-    public void testPreOrderTraversal() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        String preOrderTraversal = TreeUtils.preOrderTraversal(root);
+    /**
+     * Test <code>preOrderTraversal</code> method.
+     */
+    @Test(dataProvider = "preOrderData")
+    public void testPreOrderTraversal(List<Integer> inputData, List<Integer> expected) {
+        LOGGER.debug("testPreOrderTraversal({}, {})", inputData, expected);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        String preOrderTraversal = TreeUtils.preOrderTraversal(treeNode);
         assertNotNull(preOrderTraversal);
         LOGGER.debug("preOrderTraversal:{}", preOrderTraversal);
-        assertEquals("[1, 2, 4, 5, 3, 6, 7]", preOrderTraversal.toString());
+        assertEquals(expected.toString(), preOrderTraversal);
     }
 
-    @Test
-    public void testPostOrderTraversal() {
-        TreeNode<Integer> root = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
-        assertNotNull(root);
-        LOGGER.debug("root:{}", root);
-        String postOrderTraversal = TreeUtils.postOrderTraversal(root);
+    /**
+     * Test <code>preOrderTraversal</code> method.
+     */
+    @Test(dataProvider = "postOrderData")
+    public void testPostOrderTraversal(List<Integer> inputData, List<Integer> expected) {
+        LOGGER.debug("testPostOrderTraversal({}, {})", inputData, expected);
+        TreeNode<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
+        assertNotNull(treeNode);
+        LOGGER.debug("treeNode:{}", treeNode);
+        String postOrderTraversal = TreeUtils.postOrderTraversal(treeNode);
         assertNotNull(postOrderTraversal);
         LOGGER.debug("postOrderTraversal:{}", postOrderTraversal);
-        assertEquals("[4, 5, 2, 6, 7, 3, 1]", postOrderTraversal.toString());
+        assertEquals(expected.toString(), postOrderTraversal);
     }
 
 }

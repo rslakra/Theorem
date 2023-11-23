@@ -26,10 +26,10 @@
  * Devamatre reserves the right to modify the technical specifications and or
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.theorem.adts;
+package com.devamatre.theorem.domain.service;
 
 import com.devamatre.appsuite.core.BeanUtils;
-import com.devamatre.theorem.adts.bos.Book;
+import com.devamatre.theorem.domain.entity.Book;
 
 import java.util.ArrayList;
 import java.util.Collections;

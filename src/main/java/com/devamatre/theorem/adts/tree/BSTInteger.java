@@ -199,7 +199,7 @@ public class BSTInteger {
         } else if (data > current.data && current.hasRight()) {
             removeNode(current, current.right, data);
         } else if (current.data == data) {
-            // Case 1 - Node has no child.
+            // Case 1 - PairNode has no child.
             if (parent != null) {
                 if (current.isLeftOf(parent)) {
                     // case has both parents.
@@ -207,36 +207,36 @@ public class BSTInteger {
                         parent.left = current.right;
                         pushNode(current.right, current.left);
                     } else if (current.hasLeft()) {
-                        // Case 2 - Node has only 1 child
+                        // Case 2 - PairNode has only 1 child
                         parent.left = current.left;
                     } else if (current.hasRight()) {
                         parent.left = current.right;
                     } else {
-                        // Node has no child
+                        // PairNode has no child
                         parent.left = null;
                     }
                 } else if (current.isRightOf(parent)) {
-                    // Case 3 - Node has both children
+                    // Case 3 - PairNode has both children
                     if (current.hasChildren()) {
                         parent.right = current.right;
                         pushNode(current.right, current.left);
                     } else if (current.hasLeft()) {
-                        // Case 2 - Node has only 1 child
+                        // Case 2 - PairNode has only 1 child
                         parent.left = current.left;
                     } else if (current.hasRight()) {
                         parent.right = current.right;
                     } else {
-                        // Node has no child
+                        // PairNode has no child
                         parent.right = null;
                     }
                 }
             } else {
-                // Case 3 - Node has both children
+                // Case 3 - PairNode has both children
                 if (current.hasChildren()) {
                     pushNode(current.right, current.left);
                     rootNode = current.right;
                 } else if (current.hasLeft()) {
-                    // Case 2 - Node has only 1 child
+                    // Case 2 - PairNode has only 1 child
                     if (current.left.hasChildren()) {
                         rootNode = current.left.right;
                         current.left.right = null;
@@ -249,7 +249,7 @@ public class BSTInteger {
                 } else if (current.hasRight()) {
                     rootNode = current.right;
                 } else {
-                    // Node has no child
+                    // PairNode has no child
                     rootNode = null;
                 }
             }
@@ -579,7 +579,7 @@ public class BSTInteger {
         // bst.addNode(102);
         System.out.println(bst);
 
-        // Find Node
+        // Find PairNode
         System.out.println("Finding ... 32");
         Node found = bst.findNode(32);
         System.out.println("Found:" + found);
@@ -592,7 +592,7 @@ public class BSTInteger {
         found = bst.findNode(80);
         System.out.println("Found:" + found);
 
-        // Delete Node.
+        // Delete PairNode.
         // bst.removeNode(50);
         System.out.println(bst);
 

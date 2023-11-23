@@ -3,6 +3,7 @@ package com.devamatre.theorem.adts.heap;
 import com.devamatre.appsuite.core.ArrayIterator;
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.AlgoUtils;
+import com.devamatre.theorem.adts.tree.TreeUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,6 +15,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
+ * <url>https://www.educative.io/blog/data-structure-heaps-guide</url>
+ *
  * @author Rohtash Lakra
  * @created 5/17/22 2:16 PM
  */
@@ -60,11 +63,11 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
     /**
      * Creates a <code>Heap</code> containing the elements in the specified collection.
      *
-     * @param c
+     * @param elements
      */
-    public Heap(Collection<? extends E> c) {
-        this();
-        addAll(c);
+    public Heap(Collection<? extends E> elements) {
+        this(BeanUtils.isNotEmpty(elements) ? elements.size() : DEFAULT_CAPACITY, null);
+        addAll(elements);
     }
 
     /**
@@ -80,21 +83,21 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
     /**
      * Creates a <code>Heap</code> containing the elements in the specified priority queue.
      *
-     * @param c
+     * @param elements
      */
-    public Heap(Heap<? extends E> c) {
-        this();
-        addAll(Arrays.stream(c.getData()).map(item -> (E) item).collect(Collectors.toList()));
+    public Heap(Heap<? extends E> elements) {
+        this(BeanUtils.isNotEmpty(elements) ? elements.getSize() : DEFAULT_CAPACITY, null);
+        addAll(Arrays.stream(elements.getData()).map(entry -> (E) entry).collect(Collectors.toList()));
     }
 
     /**
      * Creates a <code>Heap</code> containing the elements in the specified sorted set.
      *
-     * @param c
+     * @param elements
      */
-    public Heap(SortedSet<? extends E> c) {
-        this();
-        addAll(c);
+    public Heap(SortedSet<? extends E> elements) {
+        this(BeanUtils.isNotEmpty(elements) ? elements.size() : DEFAULT_CAPACITY, null);
+        addAll(elements);
     }
 
     /**
@@ -113,6 +116,28 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      */
     public Object[] getData() {
         return this.data;
+    }
+
+    /**
+     * Returns the object at <code>index</code>.
+     *
+     * @param index
+     * @return
+     */
+    private E getDataAt(int index) {
+        return (E) getData()[index];
+    }
+
+    /**
+     * The <code>E</code> element to be set at <code>index</code>.
+     *
+     * @param index
+     * @param element
+     */
+    private void setDataAt(int index, E element) {
+        if (isValidIndex(index)) {
+            data[index] = element;
+        }
     }
 
     /**
@@ -162,17 +187,17 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
     public abstract void sort();
 
     /**
-     * Inserts the specified element into this priority queue.
+     * Inserts the specified <code>element</code> into this priority queue.
      *
-     * @param e
+     * @param element
      * @return
      */
-    public boolean add(E e) {
-        return false;
+    public boolean add(E element) {
+        return addAll(Arrays.asList(element));
     }
 
     /**
-     * Adds all of the elements in the specified collection to this queue.
+     * Adds all elements in the specified collection to this queue.
      *
      * @param elements
      * @return
@@ -215,17 +240,17 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      *
      * @return
      */
-    public Comparator<? super E> comparator() {
+    public Comparator<? super E> getComparator() {
         return comparator;
     }
 
     /**
-     * Returns true if this queue contains the specified element.
+     * Returns true if this queue contains the specified <code>element</code>.
      *
-     * @param object
+     * @param element
      * @return
      */
-    public boolean contains(E object) {
+    public boolean contains(E element) {
         return false;
     }
 
@@ -249,20 +274,20 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
     }
 
     /**
-     * Returns the maximum/minimum element from the queue.
+     * Returns the maximum/minimum <code>element</code> from the queue.
      * <p>
-     * The maximum/minimum (root) element resides at index 1.
+     * The maximum/minimum (root) <code>element</code> resides at index 1.
      * <p>
      * Time Complexity: O(1)
      *
      * @return
      */
     public E peek() {
-        return (E) getData()[0];
+        return (E) (isEmpty() ? null : getData()[0]);
     }
 
     /**
-     * Removes a single instance of the specified element from this queue, if it is present.
+     * Removes a single instance of the specified <code>element</code> from this queue, if it is present.
      *
      * @param object
      * @return
@@ -275,15 +300,15 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * Removes all of this collection's elements that are also contained in the specified collection (optional
      * operation).
      *
-     * @param c
+     * @param elements
      * @return
      */
-    public boolean removeAll(Collection<?> c) {
+    public boolean removeAll(Collection<?> elements) {
         return false;
     }
 
     /**
-     * Removes all of the elements of this collection that satisfy the given predicate.
+     * Removes all the elements of this collection that satisfy the given predicate.
      *
      * @param filter
      * @return
@@ -296,15 +321,15 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * Retains only the elements in this collection that are contained in the specified collection (optional
      * operation).
      *
-     * @param c
+     * @param elements
      * @return
      */
-    public boolean retainAll(Collection<?> c) {
+    public boolean retainAll(Collection<?> elements) {
         return false;
     }
 
     /**
-     * Returns an array containing all of the elements in this queue.
+     * Returns an array containing all the elements in this queue.
      *
      * @return
      */
@@ -313,15 +338,15 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
     }
 
     /**
-     * Returns an array containing all of the elements in this queue; the runtime type of the returned array is that of
-     * the specified array.
+     * Returns an array containing all the elements in this queue; the runtime type of the returned array is that of the
+     * specified array.
      *
-     * @param arr
+     * @param elements
      * @param <T>
      * @return
      */
-    public <T> T[] toArray(T[] arr) {
-        return arr;
+    public <T> T[] toArray(T[] elements) {
+        return elements;
     }
 
     /**
@@ -359,18 +384,221 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * {@code 0}, or {@code 1} according to whether the value of
      * <i>expression</i> is negative, zero, or positive, respectively.
      *
-     * @param other the object to be compared.
+     * @param heap the object to be compared.
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than
      * the specified object.
      * @throws NullPointerException if the specified object is null
      * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
     @Override
-    public int compareTo(Heap other) {
-        if (comparator() != null) {
-            return comparator().compare((E) this, (E) other);
+    public int compareTo(Heap heap) {
+        if (BeanUtils.isNotNull(getComparator())) {
+            return getComparator().compare((E) this, (E) heap);
         }
 
-        return ((E) this).compareTo((E) other);
+        return ((E) this).compareTo((E) heap);
     }
+
+    /**
+     * Utility Methods
+     */
+
+    /**
+     * @param leftIndex
+     * @param rightIndex
+     * @return
+     */
+    private int compareIndices(int leftIndex, int rightIndex) {
+        return getDataAt(leftIndex).compareTo(getDataAt(rightIndex));
+    }
+
+    /**
+     * Returns true if the index is valid for the <code>data</code> array.
+     *
+     * @param index
+     * @return
+     */
+    private boolean isValidIndex(int index) {
+        return (index >= 0 && index < getSize());
+    }
+
+    /**
+     * Swaps the <code>source</code> index value with the <code>target</code> index value.
+     *
+     * @param source
+     * @param target
+     */
+    protected void swapElements(int source, int target) {
+        if (isValidIndex(source) && isValidIndex(target)) {
+            E temp = getDataAt(source);
+            setDataAt(source, getDataAt(target));
+            setDataAt(target, temp);
+        }
+    }
+
+    /**
+     * Max Heap Utility Methods
+     */
+
+    /**
+     * It maintains the property of max heap (i.e. each element value should be greater than or equal to any of its
+     * child and smaller than or equal to its parent)
+     * <p>
+     * Time Complexity: O(log N)
+     * <p>
+     * https://www.hackerearth.com/practice/data-structures/trees/heapspriority-queues/tutorial
+     * <p>
+     * Steps:
+     * <pre>
+     *  1. Shift down A[i] in A[1 .. N]
+     *  2. Get Left node index
+     *  3. Get Right node index
+     *  4. max key index equals to current index
+     *  5. if leftIndex < size and leftIndex > index, assign largest = leftIndex
+     *  5. if rightIndex < size and rightIndex < largest, assign largest = rightIndex
+     *  6. if largest != index, then
+     *  6.1. Swap A[index] with A[largest]
+     *  6.2. maxHeapify(A, largest, size)
+     * </pre>
+     * <p>
+     *
+     * @param index
+     * @param size
+     */
+    protected void maxHeapify(int index, int size) {
+        int leftIndex = TreeUtils.leftNodeIndex(index);     // left child
+        int rightIndex = TreeUtils.rightNodeIndex(index);   // right child
+        int largest = index;    // largest/max key index
+        // check left child
+        if (leftIndex <= size && compareIndices(leftIndex, largest) == 1) {
+            largest = leftIndex;
+        }
+
+        // check right child
+        if (rightIndex <= size && compareIndices(rightIndex, largest) == 1) {
+            largest = rightIndex;
+        }
+
+        //swap elements, if needed
+        if (largest != index) {
+            swapElements(index, largest);
+            maxHeapify(largest, size);
+        }
+    }
+
+    /**
+     * Note: An array can be used to simulate a tree in the following way.
+     * <p>
+     * If we are storing one element at index ```i``` in array ```arr```,then its parent will be stored at index
+     * ```i/2``` (unless it's a root, as root has no parent) and can be accessed by arr[i/2], and its left child can be
+     * accessed by arr[2 * i] and its right child can be accessed by arr[2 * i + 1]. Index of root will be 1 in an
+     * array.
+     * <p>
+     * Time Complexity: O(N)
+     */
+    protected void buildMaxHeap() {
+        for (int i = getSize() / 2; i >= 0; i--) {
+            maxHeapify(i, getSize() - 1);
+        }
+    }
+
+    /**
+     * Initially we will build a max heap of elements in an ```arr```.
+     * <p>
+     * Now the root element that is ```arr[1]``` contains maximum element of ```arr```. After that, we will exchange
+     * this element with the last element of and will again build a max heap excluding the last element which is already
+     * in its correct position and will decrease the length of heap by one.
+     * <p>
+     * We will repeat the step 2, until we get all the elements in their correct position.
+     * <p>
+     * We will get a sorted array.
+     * <p>
+     * Time Complexity: O(N log N)
+     */
+    protected void heapSortAsc() {
+        int heapSize = getSize() - 1;
+        buildMaxHeap();
+        for (int i = heapSize; i >= 1; i--) {
+            swapElements(0, i);
+            heapSize--;
+            maxHeapify(0, heapSize);
+        }
+    }
+
+    /**
+     * Min Heap Utility Methods
+     */
+
+    /**
+     * It maintains the property of max heap (i.e. each element value should be less than or equal to any of its child
+     * and larger than or equal to its parent)
+     * <p>
+     * Time Complexity: O(log N)
+     * <p>
+     * https://www.hackerearth.com/practice/data-structures/trees/heapspriority-queues/tutorial
+     *
+     * @param index
+     * @param size
+     */
+    protected void minHeapify(int index, int size) {
+        int leftIndex = TreeUtils.leftNodeIndex(index);     // left child
+        int rightIndex = TreeUtils.rightNodeIndex(index);   // right child
+        int smallest = index;    // smallest/min key index
+
+        // check left child
+        if (leftIndex <= size && compareIndices(leftIndex, smallest) == -1) {
+            smallest = leftIndex;
+        }
+
+        // check right child
+        if (rightIndex <= size && compareIndices(rightIndex, smallest) == -1) {
+            smallest = rightIndex;
+        }
+
+        //swap elements, if needed
+        if (smallest != index) {
+            swapElements(index, smallest);
+            minHeapify(smallest, size);
+        }
+    }
+
+    /**
+     * Note: An array can be used to simulate a tree in the following way.
+     * <p>
+     * If we are storing one element at index ```i``` in array ```arr```,then its parent will be stored at index
+     * ```i/2``` (unless it's a root, as root has no parent) and can be accessed by arr[i/2], and its left child can be
+     * accessed by arr[2 * i] and its right child can be accessed by arr[2 * i + 1]. Index of root will be 1 in an
+     * array.
+     * <p>
+     * Time Complexity: O(N)
+     */
+    protected void buildMinHeap() {
+        for (int i = getSize() / 2; i >= 0; i--) {
+            minHeapify(i, getSize() - 1);
+        }
+    }
+
+    /**
+     * Initially we will build a max heap of elements in an ```arr```.
+     * <p>
+     * Now the root element that is ```arr[1]``` contains maximum element of ```arr```. After that, we will exchange
+     * this element with the last element of and will again build a max heap excluding the last element which is already
+     * in its correct position and will decrease the length of heap by one.
+     * <p>
+     * We will repeat the step 2, until we get all the elements in their correct position.
+     * <p>
+     * We will get a sorted array.
+     * <p>
+     * Time Complexity: O(N log N)
+     */
+    protected void heapSortDesc() {
+        int heapSize = getSize() - 1;
+        buildMinHeap();
+        for (int i = heapSize; i >= 1; i--) {
+            swapElements(0, i);
+            heapSize--;
+            minHeapify(0, heapSize);
+        }
+    }
+
 }

@@ -1,8 +1,13 @@
 package com.devamatre.theorem.adts.map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -85,66 +90,66 @@ public class HashMapTest {
     @Test
     public void testNewHashMap() {
         HashMap<String, String> hashMap = new HashMap<>();
-        Assert.assertNotNull(hashMap);
-        Assert.assertEquals(0, hashMap.size());
-        Assert.assertTrue(hashMap.isEmpty());
-        LOGGER.debug("{}",hashMap);
+        assertNotNull(hashMap);
+        assertEquals(0, hashMap.size());
+        assertTrue(hashMap.isEmpty());
+        LOGGER.debug("{}", hashMap);
 
         hashMap = new HashMap<>(10);
-        Assert.assertNotNull(hashMap);
-        Assert.assertEquals(0, hashMap.size());
-        Assert.assertTrue(hashMap.isEmpty());
-        LOGGER.debug("{}",hashMap);
+        assertNotNull(hashMap);
+        assertEquals(0, hashMap.size());
+        assertTrue(hashMap.isEmpty());
+        LOGGER.debug("{}", hashMap);
     }
 
     @Test
     public void testSizeAndIsEmpty() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
-        LOGGER.debug("{}",toolSet);
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
+        LOGGER.debug("{}", toolSet);
 
         buildToolSet(toolSet);
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
-        LOGGER.debug("{}",toolSet);
+        assertNotNull(toolSet);
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
+        LOGGER.debug("{}", toolSet);
     }
 
     @Test
     public void testPut() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
-        LOGGER.debug("{}",toolSet);
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
+        LOGGER.debug("{}", toolSet);
 
         buildToolSet(toolSet);
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
-        LOGGER.debug("{}",toolSet);
+        assertNotNull(toolSet);
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
+        LOGGER.debug("{}", toolSet);
     }
 
 
     @Test
     public void testGet() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
         buildToolSet(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
 
         //get the 10mm socket and wrench
         String socket = toolSet.get("10mm");
         String wrench = toolSet.get("1/4d");
-        Assert.assertEquals("10mm Socket", socket);
-        Assert.assertEquals("1/4 socket wrench", wrench);
+        assertEquals("10mm Socket", socket);
+        assertEquals("1/4 socket wrench", wrench);
         String unKnownSocket = toolSet.get("101mm");
-        Assert.assertNotEquals("unKnownSocket", unKnownSocket);
+        assertNotEquals("unKnownSocket", unKnownSocket);
         LOGGER.debug("Removed 4 skid plate nuts with the " + socket + " and " + wrench);
         LOGGER.debug("Toolset: " + toolSet);
     }
@@ -152,100 +157,100 @@ public class HashMapTest {
     @Test
     public void testContainsKey() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
         buildToolSet(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
 
         //get the 10mm socket and wrench
-        Assert.assertTrue(toolSet.containsKey("10mm"));
-        Assert.assertTrue(toolSet.containsKey("1/4d"));
-        Assert.assertFalse(toolSet.containsKey("1/34d"));
+        assertTrue(toolSet.containsKey("10mm"));
+        assertTrue(toolSet.containsKey("1/4d"));
+        assertFalse(toolSet.containsKey("1/34d"));
     }
 
     @Test
     public void testContainsValue() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
         buildToolSet(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
 
 //        //get the 10mm socket and wrench
-//        Assert.assertTrue(toolSet.containsKey("10mm"));
-//        Assert.assertTrue(toolSet.containsKey("1/4d"));
-//        Assert.assertFalse(toolSet.containsKey("1/34d"));
+//        assertTrue(toolSet.containsKey("10mm"));
+//        assertTrue(toolSet.containsKey("1/4d"));
+//        assertFalse(toolSet.containsKey("1/34d"));
     }
 
     @Test
     public void testRemove() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
         buildToolSet(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
     }
 
     @Test
     public void testPutAll() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
         buildToolSet(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
     }
 
     @Test
     public void testClear() {
         HashMap<String, String> toolSet = new HashMap<>();
         buildToolSet(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
         toolSet.clear();
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
     }
 
 
     @Test
     public void testKeySet() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
         buildToolSet(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
     }
 
     @Test
     public void testValues() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
         buildToolSet(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
     }
 
     @Test
     public void testEntrySet() {
         HashMap<String, String> toolSet = new HashMap<>();
-        Assert.assertNotNull(toolSet);
-        Assert.assertEquals(0, toolSet.size());
-        Assert.assertTrue(toolSet.isEmpty());
+        assertNotNull(toolSet);
+        assertEquals(0, toolSet.size());
+        assertTrue(toolSet.isEmpty());
         buildToolSet(toolSet);
-        Assert.assertEquals(12, toolSet.size());
-        Assert.assertFalse(toolSet.isEmpty());
+        assertEquals(12, toolSet.size());
+        assertFalse(toolSet.isEmpty());
     }
 
 //    @Test
