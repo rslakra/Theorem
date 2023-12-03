@@ -12,7 +12,6 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 
-
     <!-- slf4j -->
     <logger name="ch.qos.logback.core.joran" level="WARN"/>
 
