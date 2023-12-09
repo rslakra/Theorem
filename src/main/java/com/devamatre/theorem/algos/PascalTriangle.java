@@ -28,6 +28,8 @@
  *****************************************************************************/
 package com.devamatre.theorem.algos;
 
+import com.devamatre.theorem.adts.array.ArrayUtils;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -46,10 +48,16 @@ import java.util.Scanner;
  *
  * @author Rohtash Lakra
  * @date 10/19/2017 01:45:08 PM
- * @see https://en.wikipedia.org/wiki/Pascal%27s_triangle
+ * @see <url>https://en.wikipedia.org/wiki/Pascal%27s_triangle</url>
  */
 public class PascalTriangle {
 
+    /**
+     * Fills the triangle with data.
+     *
+     * @param n
+     * @param data
+     */
     public static void fillTriangle(int n, int[][] data) {
         for (int row = 0; row < data.length; row++) {
             for (int column = 0; column < data.length; column++) {
@@ -59,12 +67,6 @@ public class PascalTriangle {
                     data[row][column] = data[row][column - 1] + data[row - 1][column];
                 }
             }
-        }
-    }
-
-    public static void printMatrix(int[][] data) {
-        for (int i = 0; i < data.length; i++) {
-            System.out.println(java.util.Arrays.toString(data[i]));
         }
     }
 
@@ -131,7 +133,7 @@ public class PascalTriangle {
      *
      * @param n
      */
-    public static void fibonacciSeriesWithPasalTriangle(int n) {
+    public static void fibonacciSeriesWithPascalTriangle(int n) {
         int[][] data = new int[n][n];
         for (int row = 0; row < n; row++) {
             int lastValue = 0;
@@ -169,7 +171,7 @@ public class PascalTriangle {
         in.close();
         int[][] data = new int[n][n];
         fillTriangle(n, data);
-        printMatrix(data);
+        ArrayUtils.printMatrix(data);
         System.out.println();
         printDiagonally(data);
         System.out.println();
@@ -177,7 +179,7 @@ public class PascalTriangle {
         System.out.println();
         printDiagonallyByFormulaLeftJustified(n);
         System.out.println();
-        fibonacciSeriesWithPasalTriangle(n);
+        fibonacciSeriesWithPascalTriangle(n);
     }
 
 }
