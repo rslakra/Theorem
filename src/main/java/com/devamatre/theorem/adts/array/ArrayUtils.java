@@ -16,7 +16,7 @@ public enum ArrayUtils {
      * @param data
      */
     public static <E> void printMatrix(E[] data) {
-        System.out.println(Arrays.toString(data));
+        System.out.print(Arrays.toString(data));
     }
 
     /**
@@ -27,6 +27,29 @@ public enum ArrayUtils {
     public static <E> void printMatrix(E[][] data) {
         for (int i = 0; i < data.length; i++) {
             printMatrix(data[i]);
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the <code>data</code> diagonally.
+     *
+     * @param data
+     */
+    public static <E> void printDiagonally(E[][] data) {
+        // print left to bottom.
+        for (int row = 0; row < data.length; row++) {
+            for (int i = 0; i < ((data.length * 2) - row); i++) {
+                System.out.print(" ");
+            }
+            for (int column = 0; column <= row; column++) {
+                if (row == 0 || column == 0) {
+                    System.out.print(data[row][column] + " ");
+                } else {
+                    System.out.print(data[row - column][column] + " ");
+                }
+            }
+            System.out.println();
         }
     }
 }

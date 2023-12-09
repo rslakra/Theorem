@@ -58,7 +58,7 @@ public class PascalTriangle {
      * @param n
      * @param data
      */
-    public static void fillTriangle(int n, int[][] data) {
+    public static void fillTriangle(int n, Integer[][] data) {
         for (int row = 0; row < data.length; row++) {
             for (int column = 0; column < data.length; column++) {
                 if (row == 0 || column == 0) {
@@ -67,26 +67,6 @@ public class PascalTriangle {
                     data[row][column] = data[row][column - 1] + data[row - 1][column];
                 }
             }
-        }
-    }
-
-    /**
-     * @param data
-     */
-    public static void printDiagonally(int[][] data) {
-        // print left to bottom.
-        for (int row = 0; row < data.length; row++) {
-            for (int i = 0; i < ((data.length * 2) - row); i++) {
-                System.out.print(" ");
-            }
-            for (int column = 0; column <= row; column++) {
-                if (row == 0 || column == 0) {
-                    System.out.print(data[row][column] + " ");
-                } else {
-                    System.out.print(data[row - column][column] + " ");
-                }
-            }
-            System.out.println();
         }
     }
 
@@ -169,11 +149,11 @@ public class PascalTriangle {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
         in.close();
-        int[][] data = new int[n][n];
+        Integer[][] data = new Integer[n][n];
         fillTriangle(n, data);
         ArrayUtils.printMatrix(data);
         System.out.println();
-        printDiagonally(data);
+        ArrayUtils.printDiagonally(data);
         System.out.println();
         printDiagonallyByFormula(n);
         System.out.println();
