@@ -1,5 +1,11 @@
 package com.devamatre.theorem.adts.list;
 
+import com.devamatre.theorem.adts.linkedlist.LinkedList;
+import com.devamatre.theorem.algos.linkedlist.ListNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -10,37 +16,80 @@ public enum ListUtils {
 
     INSTANCE;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ListUtils.class);
+
     /**
-     * @param nums
+     * Builds the linkedList recursively with the provided <code>newData</code>.
+     *
+     * @param index
+     * @param input
+     * @param <E>
      * @return
      */
-    public static <T> Node buildLinkedList(T[] nums) {
-        if (nums == null || nums.length == 0) {
+    public static <E extends Comparable<? super E>> Node<E> buildNodesRecursively(int index, E[] input) {
+        LOGGER.debug("+buildNodesRecursively({}, {})", index, Arrays.toString(input));
+        // if input is null or an invalid index
+        if (input == null || input.length == 0 || index < 0 || index >= input.length) {
             return null;
         }
 
-        Node previous = new Node(-1);
-        Node head = new Node((Comparable) nums[0]);
-        previous.setNext(head);
-        for (int i = 1; i < nums.length; i++) {
-            head.setNext(new Node((Comparable) nums[i]));
-            head = head.getNext();
-        }
-
-        return previous.getNext();
+        LOGGER.debug("input[{}]:{}", index, input[index]);
+        Node<E> headNode = new Node(input[index]);
+        headNode.setNext(buildNodesRecursively(index + 1, input));
+        LOGGER.debug("-buildNodesRecursively(), headNode:{}", headNode);
+        return headNode;
     }
 
     /**
-     * @param head
+     * Builds the linkedList recursively with the provided <code>newData</code>.
+     *
+     * @param input
+     * @param <E>
+     * @return
      */
-    public static void printList(Node head) {
-        Node temp = head;
-        System.out.println();
-        while (temp != null) {
-            System.out.print(temp.getData() + "\t");
-            temp = (Node) temp.getNext();
+    public static <E extends Comparable<? super E>> Node<E> buildNodesRecursively(E[] input) {
+        return buildNodesRecursively(0, input);
+    }
+
+    /**
+     * Builds the linkedList recursively with the provided <code>newData</code>.
+     *
+     * @param headNode
+     * @param newData
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Node<E> buildNodesRecursively(Node<E> headNode, E newData) {
+        if (headNode == null) {
+            headNode = new Node(newData);
+        } else {
+            headNode.setNext(buildNodesRecursively(headNode.getNext(), newData));
         }
-        System.out.println();
+
+        return headNode;
+    }
+
+    /**
+     * Builds the linkedList.
+     *
+     * @param linkedList
+     * @param input
+     * @param <E>
+     */
+    public static <E extends Comparable<? super E>> void buildLinkedList(LinkedList<E> linkedList, E[] input) {
+        linkedList.addHead(buildNodesRecursively(0, input));
+    }
+
+    /**
+     * Builds the linkedList of the provided <code>input</code>
+     *
+     * @param input
+     * @return
+     */
+    public static <E extends Comparable<? super E>> LinkedList<E> buildLinkedList(E[] input) {
+        LinkedList<E> linkedList = new LinkedList<>();
+        buildLinkedList(linkedList, input);
+        return linkedList;
     }
 
     /**
@@ -64,6 +113,39 @@ public enum ListUtils {
         return head;
     }
 
+
+    /**
+     * Builds the linkedList recursively with the provided <code>newData</code>.
+     *
+     * @param index
+     * @param input
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> ListNode<E> buildListNodesRecursively(int index, E[] input) {
+        LOGGER.debug("+buildListNodesRecursively({}, {})", index, Arrays.toString(input));
+        // if input is null or an invalid index
+        if (input == null || input.length == 0 || index < 0 || index >= input.length) {
+            return null;
+        }
+
+        LOGGER.debug("input[{}]:{}", index, input[index]);
+        ListNode<E> headNode = new ListNode(input[index]);
+        headNode.next = buildListNodesRecursively(index + 1, input);
+        LOGGER.debug("-buildListNodesRecursively(), headNode:{}", headNode);
+        return headNode;
+    }
+
+    /**
+     * Builds the linkedList recursively with the provided <code>newData</code>.
+     *
+     * @param input
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> ListNode<E> buildListNodesRecursively(E[] input) {
+        return buildListNodesRecursively(0, input);
+    }
 
     /**
      * Reverses the nodes of the list and returns the head of the reversed list.

@@ -3,9 +3,9 @@ package com.devamatre.theorem.adts.tree;
 import java.util.Queue;
 
 /**
- * @author Rohtash Singh Lakra
+ * @author Rohtash Lakra
  */
-public class NaryTree<E extends Comparable<E>> {
+public class NaryTree<E extends Comparable<? super E>> {
 
     private Node<E> root;
     private int size;

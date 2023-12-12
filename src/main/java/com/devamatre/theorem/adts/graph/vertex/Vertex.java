@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Rohtash Lakra
  * @created 9/9/23 4:59 PM
  */
-public class Vertex<E extends Comparable> {
+public class Vertex<E extends Comparable<? super E>> {
 
     private E data;
     private List<Edge> edges;

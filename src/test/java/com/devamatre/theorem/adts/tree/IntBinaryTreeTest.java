@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -74,5 +75,63 @@ public class IntBinaryTreeTest {
         LOGGER.debug("Tree RightView Traversal");
         binaryTree.treeRightViewTraversal();
         System.out.println();
+    }
+
+
+    @Test
+    public void testIntegerBinaryTree() {
+        IntBinaryTree bst = buildIntBinaryTree(Arrays.asList(50, 76, 21, 4, 16, 3, 32, 100, 64, 52, 102));
+
+        // Add Nodes
+        bst.addNode(50);
+        // bst.addNode(76);
+
+        bst.addNode(21);
+        bst.addNode(4);
+        bst.addNode(16);
+        bst.addNode(3);
+        bst.addNode(32);
+
+        // bst.addNode(100);
+        // bst.addNode(64);
+        // bst.addNode(52);
+        // bst.addNode(102);
+        System.out.println(bst);
+
+        // Find PairNode
+        System.out.println("Finding ... 32");
+        Node found = bst.findNode(32);
+        System.out.println("Found:" + found);
+
+        System.out.println("Finding ... 64");
+        found = bst.findNode(64);
+        System.out.println("Found:" + found);
+
+        System.out.println("Finding ... 80");
+        found = bst.findNode(80);
+        System.out.println("Found:" + found);
+
+        // Delete PairNode.
+        // bst.removeNode(50);
+        System.out.println(bst);
+
+        System.out.println("PreOrder:" + bst.preOrderTraversal(true));
+        System.out.println("\nPreOrderIterator Results:");
+        Iterator<Node> itr = bst.preOrderIterator();
+        while (itr.hasNext()) {
+            System.out.println(itr.next());
+        }
+
+        System.out.println("\nInOrderIterator Results:");
+        itr = bst.inOrderIterator();
+        while (itr.hasNext()) {
+            System.out.println(itr.next());
+        }
+
+        System.out.println("\nPostOrderIterator Results:");
+        itr = bst.postOrderIterator();
+        while (itr.hasNext()) {
+            System.out.println(itr.next());
+        }
     }
 }

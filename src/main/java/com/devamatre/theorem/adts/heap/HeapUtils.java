@@ -64,7 +64,7 @@ public enum HeapUtils {
      * accessed by arr[2 * i] and its right child can be accessed by arr[2 * i + 1]. Index of root will be 1 in an
      * array.
      * <p>
-     * Time Complexity: O(N)
+     * Time Complexity: <code>O(N)</code>
      */
     public static <T extends Comparable<? super T>> void buildMaxHeap(T[] input) {
         for (int i = input.length / 2; i >= 0; i--) {
@@ -140,7 +140,7 @@ public enum HeapUtils {
      * accessed by arr[2 * i] and its right child can be accessed by arr[2 * i + 1]. Index of root will be 1 in an
      * array.
      * <p>
-     * Time Complexity: O(N)
+     * Time Complexity: <code>O(N)</code>
      *
      * @param arr
      */

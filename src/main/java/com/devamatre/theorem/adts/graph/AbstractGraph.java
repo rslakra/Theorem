@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
  */
-public abstract class AbstractGraph<E extends Comparable> {
+public abstract class AbstractGraph<E extends Comparable<? super E>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGraph.class);
 

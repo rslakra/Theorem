@@ -7,14 +7,16 @@ import java.util.NoSuchElementException;
 
 /**
  * @author Rohtash Lakra
- * @created 10/18/23 1:57 PM
+ * @version 1.0.0
+ * @created 2018-01-07 03:36:00 PM
+ * @since 1.0.0
  */
-public class PreOrderIterator extends AbstractTreeIterator implements TreeIterator {
+public class PreOrderIterator<E extends Comparable<? super E>> extends AbstractTreeIterator<E> implements TreeIterator<E> {
 
     /**
      * @param node
      */
-    public PreOrderIterator(Node node) {
+    public PreOrderIterator(Node<E> node) {
         super(node);
     }
 
@@ -28,7 +30,7 @@ public class PreOrderIterator extends AbstractTreeIterator implements TreeIterat
      * @param node
      */
     @Override
-    public void pushLeft(Node node) {
+    public void pushLeft(Node<E> node) {
         if (node != null) {
             stack.push(node);
         }
@@ -41,25 +43,25 @@ public class PreOrderIterator extends AbstractTreeIterator implements TreeIterat
      * @throws NoSuchElementException if the iteration has no more elements
      */
     @Override
-    public Node next() {
+    public Node<E> next() {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        Node current = stack.peek();
+        Node<E> current = stack.peek();
         if (current != null) {
             if (current.hasLeft()) {
                 stack.push(current.getLeft());
             } else {
-                Node node = stack.pop();
-                while (node.getRight() == null) {
+                Node<E> popNode = stack.pop();
+                while (popNode.getRight() == null) {
                     if (stack.isEmpty()) {
                         return current;
                     }
-                    node = stack.pop();
+                    popNode = stack.pop();
                 }
 
-                stack.push(node.getRight());
+                stack.push(popNode.getRight());
             }
         }
 

@@ -1,66 +1,57 @@
 package com.devamatre.theorem.adts.tree;
 
-import com.devamatre.theorem.adts.tree.traversal.InOrderIterator;
-import com.devamatre.theorem.adts.tree.traversal.LevelOrderIterator;
-import com.devamatre.theorem.adts.tree.traversal.PostOrderIterator;
-import com.devamatre.theorem.adts.tree.traversal.PreOrderIterator;
-
 import java.util.Iterator;
-import java.util.Queue;
 
 /**
  * @author Rohtash Lakra
+ * @version 1.0.0
+ * @created 2018-01-07 03:36:00 PM
+ * @since 1.0.0
  */
-public class Tree<E extends Comparable<E>> implements TreeIterator {
+public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
 
-    private Node<E> root;
-    private int size;
+    private final boolean binary;
 
+    /**
+     * Builds the tree based on the <code>binary</code> property.
+     *
+     * @param binary
+     */
+    public Tree(boolean binary) {
+        super();
+        this.binary = binary;
+    }
+
+    /**
+     * Builds the non-binary tree.
+     */
     public Tree() {
-        root = null;
-        size = 0;
+        this(false);
     }
 
     /**
-     * @return
-     */
-    public int getSize() {
-        return size;
-    }
-
-    /**
-     * @param data
-     */
-    public void add(E data) {
-        Node<E> newNode = new Node<>(data);
-        if (root == null) {
-            root = newNode;
-            size++;
-        } else {
-            insert(root, newNode);
-        }
-    }
-
-    /**
+     * Builds the tree representation of the binary tree.
+     *
      * @param parent
      * @param child
      * @return
      */
-    private void insert(Node<E> parent, Node<E> child) {
+    @Override
+    protected void insert(Node<E> parent, Node<E> child) {
         // check, if node need to add in left side.
-        if (child.getData().compareTo(parent.getData()) < 0) {
+        if (parent.compareTo(child) > 0) {
             if (child.getLeft() == null) {
                 parent.setLeft(child);
                 child.setParent(parent);
-                size++;
+                incrementSize();
             } else {
                 insert(child.getLeft(), child);
             }
-        } else if (child.getData().compareTo(parent.getData()) > 0) {
+        } else if (child.getData().compareTo(parent.getData()) < 0) {
             if (child.getRight() == null) {
                 parent.setRight(child);
                 child.setParent(parent);
-                size++;
+                incrementSize();
             } else {
                 insert(child.getRight(), child);
             }
@@ -70,194 +61,48 @@ public class Tree<E extends Comparable<E>> implements TreeIterator {
     }
 
     /**
-     * Returns true if the node contain otherwise false.
+     * Compares this object with the specified object for order.  Returns a negative integer, zero, or a positive
+     * integer as this object is less than, equal to, or greater than the specified object.
      *
-     * @param data
-     * @return
+     * <p>The implementor must ensure
+     * {@code sgn(x.compareTo(y)) == -sgn(y.compareTo(x))} for all {@code x} and {@code y}.  (This implies that
+     * {@code x.compareTo(y)} must throw an exception iff {@code y.compareTo(x)} throws an exception.)
+     *
+     * <p>The implementor must also ensure that the relation is transitive:
+     * {@code (x.compareTo(y) > 0 && y.compareTo(z) > 0)} implies {@code x.compareTo(z) > 0}.
+     *
+     * <p>Finally, the implementor must ensure that {@code x.compareTo(y)==0}
+     * implies that {@code sgn(x.compareTo(z)) == sgn(y.compareTo(z))}, for all {@code z}.
+     *
+     * <p>It is strongly recommended, but <i>not</i> strictly required that
+     * {@code (x.compareTo(y)==0) == (x.equals(y))}.  Generally speaking, any class that implements the
+     * {@code Comparable} interface and violates this condition should clearly indicate this fact.  The recommended
+     * language is "Note: this class has a natural ordering that is inconsistent with equals."
+     *
+     * <p>In the foregoing description, the notation
+     * {@code sgn(}<i>expression</i>{@code )} designates the mathematical
+     * <i>signum</i> function, which is defined to return one of {@code -1},
+     * {@code 0}, or {@code 1} according to whether the value of
+     * <i>expression</i> is negative, zero, or positive, respectively.
+     *
+     * @param other the object to be compared.
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than
+     * the specified object.
+     * @throws NullPointerException if the specified object is null
+     * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
-    public boolean contain(E data) {
-        return (findNode(data) != null);
+    @Override
+    public int compareTo(E other) {
+        return 0;
     }
 
     /**
-     * Returns the node for the given data.
+     * Returns an iterator over elements of type {@code T}.
      *
-     * @param data
-     * @return
+     * @return an Iterator.
      */
-    private Node<E> findNode(E data) {
-        if (data != null) {
-            Node<E> current = root;
-            while (current != null) {
-                int result = data.compareTo(current.getData());
-                if (result < 0) {
-                    current = current.getLeft();
-                } else if (result > 0) {
-                    current = current.getRight();
-                } else {
-                    return current;
-                }
-            }
-        }
-
+    @Override
+    public Iterator<E> iterator() {
         return null;
-    }
-
-    /**
-     * @param current
-     * @param newNode
-     */
-    private void unlink(Node<E> current, Node<E> newNode) {
-        if (root == current) {
-            if (newNode != null) {
-                newNode.setLeft(current.getLeft());
-                newNode.setRight(current.getRight());
-                root = newNode;
-            }
-        } else if (current.getParent().getRight() == current) {
-            current.getParent().setRight(newNode);
-        } else if (current.getParent().getLeft() == current) {
-            current.getParent().setLeft(newNode);
-        }
-    }
-
-    /**
-     * Returns true if the node is deleted otherwise false.
-     *
-     * @param data
-     * @return
-     */
-    public boolean delete(E data) {
-        boolean deleted = false;
-
-        // if not empty, check which node to delete.
-        if (root != null) {
-            Node<E> delNode = findNode(data);
-
-            // if node exists, delete it.
-            if (delNode != null) {
-                // check, if it's a leaf node
-                if (delNode.isLeafNode()) {
-                    unlink(delNode, null);
-                    deleted = true;
-                } else if (delNode.hasLeft()) {
-                    // check if it only has right child.
-                    unlink(delNode, delNode.getRight());
-                    deleted = true;
-                } else if (delNode.hasLeft()) {
-                    // check if it only has left child.
-                    unlink(delNode, delNode.getLeft());
-                    deleted = true;
-                } else {
-                    // node has both children
-                    Node<E> child = delNode;
-                    // find right most child
-                    if (child.hasRight() && child.hasLeft()) {
-                        child = child.getRight();
-                    }
-
-                    // now replace it's right node.
-                    child.getParent().setRight(null);
-
-                    child.setLeft(delNode.getLeft());
-                    child.setRight(delNode.getRight());
-
-                    unlink(delNode, child);
-                    deleted = true;
-                }
-            }
-
-            delNode = null;
-        }
-
-        if (deleted) {
-            size--;
-        }
-
-        return deleted;
-    }
-
-    /**
-     * Returns the string representation of this object.
-     */
-    public String toString() {
-        StringBuilder sBuilder = new StringBuilder("[");
-        if (root != null) {
-            Queue<Node<E>> queue = new java.util.LinkedList<Node<E>>();
-            queue.add(root);
-            while (!queue.isEmpty()) {
-                Node<E> node = queue.poll();
-                sBuilder.append(node.getData().toString());
-                if (node.hasLeft()) {
-                    queue.add(node.getLeft());
-                }
-
-                if (node.hasRight()) {
-                    queue.add(node.getRight());
-                }
-
-                if (!queue.isEmpty()) {
-                    sBuilder.append(", ");
-                }
-            }
-        }
-
-        return sBuilder.append("]").toString();
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public Iterator<Node> inOrderIterator() {
-        return new InOrderIterator(root);
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public Iterator<Node> preOrderIterator() {
-        return new PreOrderIterator(root);
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public Iterator<Node> postOrderIterator() {
-        return new PostOrderIterator(root);
-    }
-
-    /**
-     * Iterates the tree in the level order traversal (or Breadth First Search)/BFS
-     *
-     * @return
-     */
-    @Override
-    public Iterator<Node> levelOrderIterator() {
-        return new LevelOrderIterator(root);
-    }
-
-    /**
-     * Returns {@code true} if the iteration has more elements. (In other words, returns {@code true} if {@link #next}
-     * would return an element rather than throwing an exception.)
-     *
-     * @return {@code true} if the iteration has more elements
-     */
-    @Override
-    public boolean hasNext() {
-        return inOrderIterator().hasNext();
-    }
-
-    /**
-     * Returns the next element in the iteration.
-     *
-     * @return the next element in the iteration
-     * @throws java.util.NoSuchElementException if the iteration has no more elements
-     */
-    @Override
-    public Node next() {
-        return inOrderIterator().next();
     }
 }

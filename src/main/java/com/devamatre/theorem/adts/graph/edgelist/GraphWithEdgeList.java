@@ -18,7 +18,7 @@ import java.util.TreeSet;
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
  */
-public class GraphWithEdgeList<E extends Comparable> extends AbstractGraph<E> {
+public class GraphWithEdgeList<E extends Comparable<? super E>> extends AbstractGraph<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GraphWithEdgeList.class);
 
@@ -32,8 +32,9 @@ public class GraphWithEdgeList<E extends Comparable> extends AbstractGraph<E> {
      */
     public GraphWithEdgeList(boolean weighted, boolean directed) {
         super(weighted, directed);
+        LOGGER.debug("GraphWithEdgeList({}, {})", weighted, directed);
         this.vertices = new ArrayList<>();
-        adjList = new HashMap<>();
+        this.adjList = new HashMap<>();
     }
 
     /**

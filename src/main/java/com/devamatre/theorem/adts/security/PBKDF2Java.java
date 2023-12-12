@@ -35,7 +35,7 @@ import javax.crypto.spec.PBEKeySpec;
  * <p>
  * https://www.ietf.org/rfc/rfc2898.txt
  *
- * @author Rohtash Lakra (rohtash.singh@gmail.com)
+ * @author Rohtash Lakra
  * @date 09/21/2016 04:00:03 PM
  */
 public final class PBKDF2Java {

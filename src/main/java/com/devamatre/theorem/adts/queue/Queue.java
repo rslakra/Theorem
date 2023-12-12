@@ -37,7 +37,21 @@ import java.util.NoSuchElementException;
  * @created 2018-01-06 08:53:49 AM
  * @since 1.0.0
  */
-public interface Queue<E> {
+public interface Queue<E extends Comparable<? super E>> {
+
+    int DEFAULT_SIZE = 16;
+
+    /**
+     * Returns the size of the queue.
+     *
+     * @return
+     */
+    int getSize();
+
+    /**
+     * @return
+     */
+    boolean isEmpty();
 
     /**
      * Inserts the specified element into this queue if it is possible to do so immediately without violating capacity
@@ -95,15 +109,4 @@ public interface Queue<E> {
      */
     E peek();
 
-    /**
-     * Returns the size of the queue.
-     *
-     * @return
-     */
-    int getSize();
-
-    /**
-     * @return
-     */
-    boolean isEmpty();
 }

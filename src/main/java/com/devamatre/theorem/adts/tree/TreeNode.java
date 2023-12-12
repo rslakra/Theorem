@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class TreeNode<E extends Comparable> extends Node<E> {
+public class TreeNode<E extends Comparable<? super E>> extends Node<E> {
 
     private final static boolean SHOW_DEPTH = true;
     private List<TreeNode> children;
@@ -192,5 +192,6 @@ public class TreeNode<E extends Comparable> extends Node<E> {
 
         return nodeString.toString();
     }
+
 
 }

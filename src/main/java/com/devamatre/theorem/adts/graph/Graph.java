@@ -23,7 +23,7 @@ import java.util.Stack;
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
  */
-public class Graph<E extends Comparable> extends AbstractGraph<E> {
+public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Graph.class);
 

@@ -43,7 +43,11 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
 
     protected Node<E> head;
 
-    // helps to add node at the tail of linkedList in constant time.
+    /**
+     * helps to add node at the tail of linkedList in constant time.
+     * <p>
+     * Time Complexity O(1)
+     */
     protected transient Node<E> tail;
 
     /**
@@ -55,35 +59,51 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
     /**
      * Returns true if the head of the linked-list is empty otherwise false.
      *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
      * @return
      */
     public boolean isEmpty() {
-        return (head == null && getSize() == 0);
+        return (head == null);
     }
 
     /**
      * Adds the provided <code>data</code> at the head of the linked-list.
      * <p>
+     * <p>
      * Time complexity of append is O(1) because it uses the head pointer of linked list.
      *
-     * @param listNode
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
+     * @param headNode
      * @param data
      * @return
      */
-    protected Node<E> linkHead(Node<E> listNode, E data) {
-        Node newNode = new Node(data);
-        if (listNode == null) {
-            listNode = newNode;
+    private Node<E> linkHead(Node<E> headNode, E data) {
+        Node<E> newNode = new Node(data);
+        if (headNode == null) {
+            headNode = newNode;
         } else {
-            newNode.setNext(listNode);
-            listNode = newNode;
+            newNode.setNext(headNode);
+            headNode = newNode;
         }
 
-        return listNode;
+        return headNode;
     }
 
     /**
      * Adds the provided <code>data</code> at the head of the linked-list.
+     *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
      *
      * @param data
      * @return
@@ -105,9 +125,14 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
      * <p>
      * Time complexity of insertion is O(1), because it takes constant amount of time.
      *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
      * @param newNode
      */
-    public void addFirst(Node<E> newNode) {
+    public void addHead(Node<E> newNode) {
         if (head == null) {
             head = newNode;
             tail = newNode;
@@ -119,17 +144,6 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
     }
 
     /**
-     * Adds the provided <code>data</code> at the head of the linked-list.
-     * <p>
-     * Time complexity of insertion is O(1), because it takes constant amount of time.
-     *
-     * @param data
-     */
-    public void addFirst(E data) {
-        addFirst(new Node<>(data));
-    }
-
-    /**
      * Links the <code>data</code> node at the end of the linkedList.
      * <p>
      * Time complexity of append is O(n) where n is the number of nodes in linked list. Since there is a loop from head
@@ -137,26 +151,36 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
      * <p>
      * This method can also be optimized to work in O(1) by keeping an extra pointer to tail of linked list.
      *
-     * @param listNode
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
+     * @param tailNode
      * @param data
      * @return
      */
-    protected Node<E> linkTail(Node<E> listNode, E data) {
+    private Node<E> linkTail(Node<E> tailNode, E data) {
         Node newNode = new Node(data);
-        if (listNode == null) {
-            listNode = newNode;
+        if (tailNode == null) {
+            tailNode = newNode;
         } else {
-            listNode.setNext(newNode);
-            listNode = newNode;
+            tailNode.setNext(newNode);
+            tailNode = newNode;
         }
 
-        return listNode;
+        return tailNode;
     }
 
     /**
      * Adds the provided <code>data</code> at the tail of the linked-list.
      * <p>
      * Time complexity of append is O(1) because it uses the tail pointer to add node at the end of linked list.
+     *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
      *
      * @param data
      * @return
@@ -178,9 +202,14 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
      * <p>
      * Time complexity of append is O(1) because it uses an extra tail pointer of linked list.
      *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
      * @param newNode
      */
-    public void addLast(Node<E> newNode) {
+    public void addTail(Node<E> newNode) {
         // new node will be the last node, so set it's next to be null;
         newNode.setNext(null);
         if (tail == null) {
@@ -202,7 +231,7 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
      */
     @Override
     public boolean addNode(E data) {
-        addLast(new Node<>(data));
+        addTail(new Node<>(data));
         return true;
     }
 
@@ -214,7 +243,15 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
      */
     @Override
     public E findNode(E data) {
-        return null;
+        Node<E> curNode = head;
+        while (curNode != null) {
+            if (curNode.isEquals(data)) {
+                break;
+            }
+            curNode = curNode.getNext();
+        }
+
+        return (curNode != null ? curNode.getData() : null);
     }
 
     /**
@@ -281,6 +318,53 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
         return false;
     }
 
+
+    /**
+     * Returns the parent node (or previous node) for the provided <code>data</code> value.
+     *
+     * <pre>
+     *  Time Complexity: O(N)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
+     * @param data
+     * @return
+     */
+    protected Node<E> findParent(E data) {
+        Node<E> prevNode = null;
+        if (head != null) {
+            Node<E> curNode = head;
+            while (curNode != null) {
+                if (curNode.isEquals(data)) {
+                    break;
+                }
+                prevNode = curNode;
+                curNode = curNode.getNext();
+            }
+        }
+
+        return prevNode;
+    }
+
+    /**
+     * Inserts the new node before the specified <code>nextNode</code> node.
+     *
+     * <pre>
+     *  Time Complexity: O(N)
+     * </pre>
+     *
+     * @param nextNode
+     * @param newNode
+     */
+    public void insertBefore(Node<E> nextNode, Node<E> newNode) {
+        if (nextNode == null) {
+            newNode.setNext(nextNode);
+            // tail = newNode;
+        } else {
+            insertAfter(findParent(newNode.getData()), newNode);
+        }
+    }
+
     /**
      * Inserts the new node after the specified parent node.
      * <p>
@@ -300,7 +384,7 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
     }
 
     /**
-     * Inserts the new node after the specified parent node.
+     * Inserts the new node at the specified index.
      * <p>
      * Time complexity of insertAfter() is O(1) as it does constant amount of work.
      *
@@ -312,7 +396,7 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
         // if index is valid (means >= 0 and < size of the list)
         if (index > 0 && index < listSize) {
             if (listSize == 1) {
-                addFirst(newNode);
+                addHead(newNode);
             } else {
                 int count = 1;
                 Node<E> parentNode = head;
@@ -327,7 +411,7 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
             /**
              * if index is not valid (means < 0 OR > size of the list), add value at the end of the list.
              */
-            addLast(newNode);
+            addTail(newNode);
         }
     }
 
@@ -535,35 +619,12 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
     }
 
     /**
-     * Returns the string representation of the linkedList.
-     *
-     * @param listNode
-     * @return
-     */
-    public String toString(Node<E> listNode) {
-        Node<E> current = listNode;
-        StringBuilder sBuilder = new StringBuilder();
-        while (current != null) {
-            if (current.equals(head)) {
-                sBuilder.append(current.getData());
-            } else {
-                sBuilder.append(", ").append(current.getData());
-            }
-            current = current.getNext();
-        }
-
-        return sBuilder.toString();
-    }
-
-    /**
      * Returns the string representation of this object.
      *
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        StringBuilder sBuilder = new StringBuilder();
-        sBuilder.append("[").append(toString(head)).append("]");
-        return sBuilder.toString();
+        return Node.toString(head);
     }
 
     /**
@@ -572,30 +633,7 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
      * @see java.lang.Object#toString()
      */
     public String reversedToString() {
-        StringBuilder sBuilder = new StringBuilder();
-        reverse();
-        sBuilder.append("[").append(toString(tail)).append("]");
-        return sBuilder.toString();
-    }
-
-    /**
-     * Returns the previous node.
-     *
-     * @param key
-     * @return
-     */
-    private Node<E> findParent(E key) {
-        Node<E> prevNode = null;
-        Node<E> listNode = head;
-        while (listNode != null) {
-            if (listNode.isEquals(key)) {
-                break;
-            }
-            prevNode = listNode;
-            listNode = listNode.getNext();
-        }
-
-        return prevNode;
+        return Node.toString(reversedRecursively(head));
     }
 
     /**
@@ -610,6 +648,30 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
             leftNode.setNext(rightNode.getNext());
             rightNode.setNext(tempNode);
         }
+    }
+
+    /**
+     * Swaps an alternative nodes of the linkedList recursively.
+     *
+     * <pre>
+     *  Time Complexity: O(N)
+     *  Space Complexity: O(N)
+     * </pre>
+     *
+     * @param headNode
+     */
+    public Node<E> swapAlternativeNodesRecursively(Node<E> headNode) {
+        // list is empty or list has only 1 node
+        if (headNode == null || headNode.getNext() == null) {
+            return headNode;
+        }
+
+        // update node pointers
+        Node<E> nextNode = headNode.getNext();
+        headNode.setNext(swapAlternativeNodesRecursively(headNode.getNext().getNext()));
+        nextNode.setNext(headNode);
+        headNode = nextNode;
+        return headNode;
     }
 
 //    /**
@@ -662,43 +724,100 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
 
     /**
      * Reverses the linked list by changing the links between nodes.
+     *
+     * <pre>
+     *  Time Complexity: O(N)
+     *  Space Complexity: O(N)
+     * </pre>
      */
-    public LinkedList<E> reversed() {
+    public LinkedList<E> newReversedLinkedList() {
         LinkedList<E> reversed = new LinkedList<>();
         Node<E> current = head;
         // change next to previous, previous to current and current to next.
         while (current != null) {
-            reversed.addFirst(current.getData());
+            reversed.addHead(current.getData());
             current = current.getNext();
         }
 
         assert getSize() == reversed.getSize();
-
         return reversed;
     }
 
     /**
      * Reverses the linked list by changing the links between nodes.
+     *
+     * <pre>
+     *  Time Complexity: O(N)
+     *  Space Complexity: O(1)
+     * </pre>
      */
-    public void reverse() {
-        Node<E> previous = null;
-        Node<E> current = head;
-        Node<E> next = null;
-        // change next to previous, previous to current and current to next.
-        while (current != null) {
-            next = current.getNext();
-            current.setNext(previous);
-            previous = current;
+    public void reversedIteratively() {
+        // either linkedList is empty or has only 1 node
+        if (head == null || !head.hasNext()) {
+            return;
+        }
+
+        Node<E> parent = head;
+        Node<E> current = head.getNext();
+        while (current != null) { // iterate till the last node is not null
+            //save next node
+            Node<E> next = current.getNext();
+
+            // update pointers
+            current.setNext(parent);
+            parent = current;
             current = next;
         }
-        head = previous;
+
+        // head is last node now and it's next should be null
+        head.setNext(null);
+        head = parent;
     }
 
     /**
+     * Reverses the linked list by changing the links between nodes.
+     *
+     * <pre>
+     *  Time Complexity: O(N)
+     *  Space Complexity: O(1)
+     * </pre>
+     */
+    public void reversed() {
+//        this.head = reversedRecursively(head);
+        reversedIteratively();
+    }
+
+    /**
+     * Reverses the linkedList recursively.
+     * <pre>
+     *  Time Complexity: O(N)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
+     * @param head
+     * @return
+     */
+    public Node<E> reversedRecursively(Node<E> head) {
+        // either list is empty or list is only 1 node
+        if (head == null || head.getNext() == null) {
+            //return the same head;
+            return head;
+        }
+
+        // the last node becomes the new head.
+        Node<E> newHead = reversedRecursively(head.getNext());
+        head.getNext().setNext(head);
+        head.setNext(null);
+        return newHead;
+    }
+
+    /**
+     * Reverses the linkedList recursively.
+     *
      * @param previous
      * @param current
      */
-    public Node<E> reverseRecursively(Node<E> previous, Node<E> current) {
+    public Node<E> reversedRecursively(Node<E> previous, Node<E> current) {
         if (current.getNext() == null) {
             head = current;
             current.setNext(previous);
@@ -707,15 +826,15 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
 
         Node<E> next = current.getNext();
         current.setNext(previous);
-        reverseRecursively(current, next);
+        reversedRecursively(current, next);
         return head;
     }
 
     /**
      * Reverses the linkedList recursively.
      */
-    public void reverseRecursively() {
-        head = reverseRecursively(null, head);
+    public void reversedRecursively() {
+        head = reversedRecursively(null, head);
     }
 
     /**
@@ -772,13 +891,6 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
         }
 
         return linkListMerged;
-    }
-
-    /**
-     * Prints the list.
-     */
-    public void printList() {
-        System.out.println(toString(head));
     }
 
     /**

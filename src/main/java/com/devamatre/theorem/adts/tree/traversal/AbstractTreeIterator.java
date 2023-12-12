@@ -8,20 +8,22 @@ import java.util.Stack;
 
 /**
  * @author Rohtash Lakra
- * @created 10/18/23 1:57 PM
+ * @version 1.0.0
+ * @created 2018-01-07 03:36:00 PM
+ * @since 1.0.0
  */
-public abstract class AbstractTreeIterator implements TreeIterator {
+public abstract class AbstractTreeIterator<E extends Comparable<? super E>> implements TreeIterator<E> {
 
     // node to be iterated.
-    protected Node node;
+    protected Node<E> node;
 
     // stack
-    protected Stack<Node> stack = new Stack<>();
+    protected Stack<Node<E>> stack = new Stack<>();
 
     /**
      * @param node
      */
-    protected AbstractTreeIterator(Node node) {
+    protected AbstractTreeIterator(Node<E> node) {
         this.node = node;
         if (node != null) {
             pushLeft(node);
@@ -61,13 +63,13 @@ public abstract class AbstractTreeIterator implements TreeIterator {
      *
      * @param node
      */
-    public abstract void pushLeft(Node node);
+    public abstract void pushLeft(Node<E> node);
 
     /**
      * @return
      */
     @Override
-    public Iterator<Node> inOrderIterator() {
+    public Iterator<Node<E>> inOrderIterator() {
         return null;
     }
 
@@ -75,7 +77,7 @@ public abstract class AbstractTreeIterator implements TreeIterator {
      * @return
      */
     @Override
-    public Iterator<Node> preOrderIterator() {
+    public Iterator<Node<E>> preOrderIterator() {
         return null;
     }
 
@@ -83,7 +85,7 @@ public abstract class AbstractTreeIterator implements TreeIterator {
      * @return
      */
     @Override
-    public Iterator<Node> postOrderIterator() {
+    public Iterator<Node<E>> postOrderIterator() {
         return null;
     }
 
@@ -93,7 +95,7 @@ public abstract class AbstractTreeIterator implements TreeIterator {
      * @return
      */
     @Override
-    public Iterator<Node> levelOrderIterator() {
+    public Iterator<Node<E>> levelOrderIterator() {
         return null;
     }
 }

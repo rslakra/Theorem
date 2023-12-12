@@ -29,8 +29,7 @@
 package com.devamatre.theorem.adts.tree;
 
 /**
- * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
- * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
+ * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-13 04:36:10 PM
  * @since 1.0.0

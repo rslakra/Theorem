@@ -28,15 +28,13 @@
  *****************************************************************************/
 package com.devamatre.theorem.adts.queue;
 
-import java.util.NoSuchElementException;
-
 /**
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-06 08:55:38 AM
  * @since 1.0.0
  */
-public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
+public class ListQueue<E extends Comparable<? super E>> extends ArrayQueue<E> implements Queue<E> {
 
     /**
      * @param capacity
@@ -49,58 +47,32 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
      *
      */
     public ListQueue() {
-        super();
+        this(DEFAULT_SIZE);
     }
 
+    /**
+     * checks the capacity and increases it if required.
+     */
     private void checkCapacity() {
-        if (lastIndex == capacity) {
-            Object[] oldItems = items;
-            items = new Object[capacity * 2];
-            System.arraycopy(oldItems, 0, items, 0, oldItems.length);
+        if ((tail + 1) == elements.length) {
+            Object[] oldItems = elements;
+            elements = new Object[capacity * 2];
+            System.arraycopy(oldItems, 0, elements, 0, oldItems.length);
         }
     }
 
     /**
+     * Adds an item into the queue.
+     *
      * @param item
      * @return
-     * @see Queue#add(java.lang.Object)
+     * @see java.util.Queue#add(java.lang.Object)
      */
     @Override
     public boolean add(E item) {
         checkCapacity();
-        // if (item == null) {
-        // throw new NullPointerException("Item is null!");
-        // }
-
-        items[lastIndex++] = item;
+        elements[++tail] = item;
         return true;
-    }
-
-    /**
-     * @param item
-     * @return
-     * @see Queue#offer(java.lang.Object)
-     */
-    @Override
-    public boolean offer(E item) {
-        return add(item);
-    }
-
-    /**
-     * Removes the first item.
-     *
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    private E removeFirst() {
-        E item = null;
-        if (lastIndex > 0) {
-            item = (E) items[0];
-            System.arraycopy(items, 1, items, 0, lastIndex);
-            lastIndex--;
-        }
-
-        return item;
     }
 
     /**
@@ -109,19 +81,7 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
      */
     @Override
     public E remove() {
-        if (lastIndex <= 0) {
-            throw new NoSuchElementException("Underflow!");
-        }
-
-        return removeFirst();
-    }
-
-    /**
-     * @return
-     * @see Queue#poll()
-     */
-    @Override
-    public E poll() {
+        checkUnderflow();
         return removeFirst();
     }
 
@@ -132,50 +92,8 @@ public class ListQueue<E> extends ArrayQueue<E> implements Queue<E> {
     @SuppressWarnings("unchecked")
     @Override
     public E element() {
-        if (lastIndex <= 0) {
-            throw new NoSuchElementException("Underflow!");
-        }
-
-        return (E) items[0];
-    }
-
-    /**
-     * @return
-     * @see Queue#peek()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public E peek() {
-        return (E) (lastIndex <= 0 ? null : items[0]);
-    }
-
-    /**
-     * @return
-     * @see Queue#getSize()
-     */
-    @Override
-    public int getSize() {
-        return lastIndex;
-    }
-
-    /**
-     * @return
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        StringBuilder sBuilder = new StringBuilder("[");
-        if (lastIndex > 0) {
-            for (int index = 0; index < lastIndex; index++) {
-                sBuilder.append(items[index].toString());
-                if (index < lastIndex - 1) {
-                    sBuilder.append(", ");
-                }
-            }
-        }
-
-        sBuilder.append("]");
-
-        return sBuilder.toString();
+        checkUnderflow();
+        return (E) elements[0];
     }
 
 }

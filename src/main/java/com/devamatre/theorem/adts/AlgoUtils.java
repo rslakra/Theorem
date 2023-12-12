@@ -51,18 +51,20 @@ public enum AlgoUtils {
     }
 
     /**
-     * Swaps the <code>source</code> index value with the <code>target</code> index value.
+     * Swaps the elements at the <code>source</code> index with the <code>target</code> index in the <code>input</code>
+     * array.
      *
-     * @param arr
+     * @param input
      * @param source
      * @param target
      * @param <T>
      */
-    public static <T extends Comparable<? super T>> void swapElements(T[] arr, int source, int target) {
-        if (isValidIndex(arr, source) && isValidIndex(arr, target)) {
-            T temp = arr[source];
-            arr[source] = arr[target];
-            arr[target] = temp;
+    public static <T extends Comparable<? super T>> void swapElements(T[] input, int source, int target) {
+        LOGGER.trace("-swapElements({}, {}, {})", input, source, target);
+        if (isValidIndex(input, source) && isValidIndex(input, target)) {
+            T temp = input[source];
+            input[source] = input[target];
+            input[target] = temp;
         }
     }
 
@@ -311,17 +313,6 @@ public enum AlgoUtils {
      */
     public static Set<Integer> positiveIntSetGenerator(int size) {
         return Sets.asSet(positiveIntArrayGenerator(size, false));
-    }
-
-    /**
-     * Prints the white space(s).
-     *
-     * @param count
-     */
-    public static void printWhiteSpaces(int count) {
-        for (int i = 0; i < count; i++) {
-            System.out.print(" ");
-        }
     }
 
     /**

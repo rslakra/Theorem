@@ -41,7 +41,7 @@ public class SegmentTree<T> {
     /**
      * Building to get the sum of all the nodes between the l and r nodes.
      * <p>
-     * Time Complexity: O(N)
+     * Time Complexity: <code>O(N)</code>
      *
      * @param nodeIndex
      * @param startIndex

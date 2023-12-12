@@ -40,12 +40,17 @@ public class QueueFactory {
      * @param queueType
      * @return
      */
-    public static <E> Queue<E> getQueueFor(QueueType queueType) {
+    public static <E extends Comparable<? super E>> Queue<E> getQueueFor(QueueType queueType) {
         switch (queueType) {
             case ARRAY_QUEUE:
                 return new ArrayQueue<>();
+
+            case CIRCULAR_QUEUE:
+                return new CircularQueue<>();
+
             case LIST_QUEUE:
                 return new ListQueue<>();
+
             case LINKED_LIST_QUEUE:
                 return new LinkedListQueue<>();
 

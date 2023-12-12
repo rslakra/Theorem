@@ -36,7 +36,7 @@ import java.util.Objects;
  * @created 2018-01-13 04:35:49 PM
  * @since 1.0.0
  */
-public class Node<E extends Comparable> implements Comparable<Node> {
+public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>> {
 
     private Node<E> parent;
     private final E data;
@@ -86,7 +86,7 @@ public class Node<E extends Comparable> implements Comparable<Node> {
      * @return
      */
     public boolean hasLeft() {
-        return (left != null);
+        return Objects.nonNull(getLeft());
     }
 
     /**
@@ -111,12 +111,32 @@ public class Node<E extends Comparable> implements Comparable<Node> {
     }
 
     /**
+     * Returns true if the current node is the left node of the <code>parent</code.
+     *
+     * @param parent
+     * @return
+     */
+    public boolean isLeftOf(Node<E> parent) {
+        return (parent != null && parent.hasLeft() && this.compareTo(parent.left) == 0);
+    }
+
+    /**
+     * Returns true if the current node is the right node of the<code>parent</code.
+     *
+     * @param parent
+     * @return
+     */
+    public boolean isRightOf(Node<E> parent) {
+        return (parent != null && parent.hasRight() && this.compareTo(parent.right) == 0);
+    }
+
+    /**
      * Returns true if the right node is not null otherwise false.
      *
      * @return
      */
     public boolean hasRight() {
-        return (right != null);
+        return Objects.nonNull(getRight());
     }
 
     /**
@@ -173,7 +193,54 @@ public class Node<E extends Comparable> implements Comparable<Node> {
      */
     @Override
     public String toString() {
-        return TreeUtils.preOrder((Node<E>) this).toString();
+        return TreeUtils.preOrder(this).toString();
+    }
+
+    /**
+     * Returns the string representation of this object.
+     * <p>
+     * TODO: DUPLICATE METHOD (JUST KEEPING FOR NEXT REFACTORING)
+     *
+     * @return
+     * @see java.lang.Object#toString()
+     */
+    public String toStringBuilder() {
+        final StringBuilder strBuilder = new StringBuilder();
+        // add left node.
+        if (this.hasLeft()) {
+            strBuilder.append(left.toString());
+        }
+
+        // add root node.
+        if (this.hasLeft()) {
+            strBuilder.append(" ");
+        }
+        strBuilder.append(this.data);
+
+        // add right node.
+        if (this.hasRight()) {
+            strBuilder.append(" ").append(this.right.toString());
+        }
+
+        return strBuilder.toString();
+    }
+
+    /**
+     * Returns the node of the <code>data</code>.
+     *
+     * @param data
+     * @return
+     */
+    public Node<E> findNode(E data) {
+        if (hasLeft() && getData().compareTo(data) > 0) {
+            return getLeft().findNode(data);
+        } else if (hasRight() && getData().compareTo(data) < 0) {
+            return getRight().findNode(data);
+        } else if (getData().compareTo(data) == 0) {
+            return this;
+        }
+
+        return null;
     }
 
     /**
@@ -208,7 +275,7 @@ public class Node<E extends Comparable> implements Comparable<Node> {
      * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
     @Override
-    public int compareTo(Node other) {
+    public int compareTo(Node<E> other) {
         return (getData()).compareTo((other.getData()));
     }
 

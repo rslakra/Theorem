@@ -18,7 +18,7 @@ import java.util.TreeSet;
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
  */
-public class GraphWith2DMatrix<E extends Comparable> extends AbstractGraph<E> {
+public class GraphWith2DMatrix<E extends Comparable<? super E>> extends AbstractGraph<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GraphWith2DMatrix.class);
 
@@ -33,8 +33,9 @@ public class GraphWith2DMatrix<E extends Comparable> extends AbstractGraph<E> {
      */
     public GraphWith2DMatrix(boolean weighted, boolean directed) {
         super(weighted, directed);
+        LOGGER.debug("GraphWith2DMatrix({}, {})", weighted, directed);
         this.vertices = new ArrayList<>();
-        adjList = new HashMap<>();
+        this.adjList = new HashMap<>();
     }
 
     /**

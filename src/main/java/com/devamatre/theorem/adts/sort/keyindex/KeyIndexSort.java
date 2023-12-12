@@ -1,10 +1,17 @@
 package com.devamatre.theorem.adts.sort.keyindex;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+
 /**
  * @author Rohtash Lakra
  * @created 1/6/21 1:02 PM
  */
 public class KeyIndexSort {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(KeyIndexSort.class);
 
     private final StringKeyIndex keyIndex;
 
@@ -45,24 +52,23 @@ public class KeyIndexSort {
         int[] count = new int[keyIndex.size() + 1];
         // count each vowel
         for (int i = 0; i < chars.length; i++) {
-//            LOGGER.debug("i:" + i + ", char:" + chars[i]);
+            LOGGER.trace("i:{}, char:", i, chars[i]);
             int index = keyIndex.get(chars[i]) + 1;
             count[index] = count[index] + 1;
         }
-//        LOGGER.debug(Arrays.toString(count));
+        LOGGER.trace("after vowel's count:{}", Arrays.toString(count));
 
         // find the next position index
         for (int i = 1; i < count.length - 1; i++) {
             count[i + 1] += count[i];
         }
-//        LOGGER.debug(Arrays.toString(count));
+        LOGGER.trace("after next position index:{}", Arrays.toString(count));
 
         // sort characters
         for (int i = 0; i < chars.length; i++) {
             sortedChars[count[keyIndex.get(chars[i])]++] = chars[i];
         }
-//        LOGGER.debug(Arrays.toString(count));
-//        LOGGER.debug(Arrays.toString(sortedChars));
+        LOGGER.trace("after sorting, count:{}, sortedChars:{}", Arrays.toString(count), Arrays.toString(sortedChars));
 
         // copy the sorted array to original array
         System.arraycopy(sortedChars, 0, chars, 0, chars.length);

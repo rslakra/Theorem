@@ -141,7 +141,7 @@ public enum GraphUtilsTest {
         graph.addEdge(1, 4, Maths.SIXTY);
 
         graph.addEdge(2, 3, Maths.TEN);
-        graph.addEdge(2, 4, Maths.FOURTY);
+        graph.addEdge(2, 4, Maths.FORTY);
 
         graph.addEdge(3, 4, Maths.FIFTY);
         LOGGER.debug("-createWeightedGraph(), graph:{}", graph);

@@ -26,11 +26,10 @@
  * Devamatre reserves the right to modify the technical specifications and or 
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.datastructure.lists;
+package com.devamatre.theorem.adts.list;
 
 /**
- * @author Rohtash Lakra (rohtash.lakra@devamatre.com)
- * @author Rohtash Singh Lakra (rohtash.singh@gmail.com)
+ * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-06 09:59:44 AM
  * @since 1.0.0

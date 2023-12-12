@@ -34,7 +34,7 @@ package com.devamatre.theorem.adts.queue;
  * @created 2018-01-06 08:55:49 AM
  * @since 1.0.0
  */
-public class LinkedListQueue<E> extends AbstractQueue<E> implements Queue<E> {
+public class LinkedListQueue<E extends Comparable<? super E>> extends AbstractQueue<E> implements Queue<E> {
 
     /**
      * @author Rohtash Lakra
@@ -66,7 +66,7 @@ public class LinkedListQueue<E> extends AbstractQueue<E> implements Queue<E> {
      * currently available.
      *
      * @param item the element to add
-     * @return {@code true} (as specified by {@link Collection#add})
+     * @return {@code true} (as specified by {@link java.util.Collection#add})
      * @throws IllegalStateException if the element cannot be added at this time due to capacity restrictions added to
      *                               this queue
      * @throws NullPointerException  if the specified element is null and this queue does not permit null elements
@@ -95,7 +95,7 @@ public class LinkedListQueue<E> extends AbstractQueue<E> implements Queue<E> {
      * an exception if this queue is empty.
      *
      * @return the head of this queue
-     * @throws NoSuchElementException if this queue is empty
+     * @throws java.util.NoSuchElementException if this queue is empty
      */
     @Override
     public E remove() {
@@ -117,7 +117,7 @@ public class LinkedListQueue<E> extends AbstractQueue<E> implements Queue<E> {
      * it throws an exception if this queue is empty.
      *
      * @return the head of this queue
-     * @throws NoSuchElementException if this queue is empty
+     * @throws java.util.NoSuchElementException if this queue is empty
      */
     @Override
     public E element() {

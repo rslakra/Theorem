@@ -22,11 +22,17 @@
  *******************************************************************************/
 package com.devamatre.theorem.adts.trie;
 
+import com.devamatre.appsuite.core.ToString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
  * Maintains the trie data structure.
+ *
+ * <url>https://en.wikipedia.org/wiki/Trie</url>
  *
  * <pre>
  * </pre>
@@ -38,11 +44,25 @@ import java.util.TreeMap;
  */
 public class TrieNode {
 
-    private boolean leaf;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrieNode.class);
     private Map<Character, TrieNode> children;
+    private boolean leaf;
 
+    /**
+     *
+     */
     public TrieNode() {
+        LOGGER.trace("TrieNode()");
         children = new TreeMap<>();
+    }
+
+    /**
+     * Returns the <code>children</code> object.
+     *
+     * @return
+     */
+    protected Map<Character, TrieNode> getChildren() {
+        return children;
     }
 
     /**
@@ -50,27 +70,29 @@ public class TrieNode {
      *
      * @return
      */
-    public boolean isLeaf() {
+    public final boolean isLeaf() {
         return leaf;
     }
 
     /**
      * Inserts the key into the 'trie' structure.
      *
-     * @param trieNode
+     * @param key
      */
     public void insert(String key) {
+        LOGGER.debug("+insert({})", key);
         if (key != null) {
-            TrieNode currentNode = this;
+            TrieNode trieNode = this;
             for (int i = 0; i < key.length(); i++) {
-                Character cKey = key.charAt(i);
-                if (!currentNode.children.containsKey(cKey)) {
-                    currentNode.children.put(cKey, new TrieNode());
+                Character nodeKey = key.charAt(i);
+                if (!trieNode.children.containsKey(nodeKey)) {
+                    trieNode.children.put(nodeKey, new TrieNode());
                 }
-                currentNode = currentNode.children.get(cKey);
+                trieNode = trieNode.children.get(nodeKey);
             }
-            currentNode.leaf = true;
+            trieNode.leaf = true;
         }
+        LOGGER.debug("-insert()");
     }
 
     /**
@@ -80,18 +102,23 @@ public class TrieNode {
      * @return
      */
     public boolean find(String key) {
+        LOGGER.debug("+find({})", key);
         if (key != null) {
-            TrieNode currentNode = this;
+            TrieNode trieNode = this;
             for (int i = 0; i < key.length(); i++) {
-                currentNode = currentNode.children.get(key.charAt(i));
-                if (currentNode == null) {
+                Character nodeKey = key.charAt(i);
+                if (!trieNode.children.containsKey(nodeKey)) {
+                    LOGGER.debug("-find(), contains:false");
                     return false;
                 }
+                trieNode = trieNode.children.get(nodeKey);
             }
 
-            return currentNode.leaf;
+            LOGGER.debug("-find(), leaf:{}", trieNode.isLeaf());
+            return trieNode.isLeaf();
         }
 
+        LOGGER.debug("-find(), false");
         return false;
     }
 
@@ -105,33 +132,48 @@ public class TrieNode {
     }
 
     /**
+     * Returns the size of the current node.
+     *
+     * @return
+     */
+    public int getSize() {
+        int size = 0;
+        if (!children.isEmpty()) {
+            for (Character key : children.keySet()) {
+                size += children.get(key).getSize();
+            }
+            size += children.size();
+        }
+
+        return size;
+    }
+
+    /**
      * Returns true if the key is deleted otherwise false.
      *
      * @param key
      * @return
      */
-    public boolean delete(TrieNode current, final String key) {
-        if (current != null) {
-            if (key != null) {
-                for (int i = 0; i < key.length(); i++) {
-                    if (current.hasChildren()) {
-                        current = current.children.get(key.charAt(i));
-                        // delete(current, key.substring(i + 1, key.length()));
-                    }
+    public boolean delete(final String key) {
+        boolean nodeDeleted = false;
+        if (key != null) {
+            TrieNode trieNode = this;
+            // iterate over all characters of the key
+            for (int i = 0; i < key.length(); i++) {
+                Character nodeKey = key.charAt(i);
+                if (trieNode.children.containsKey(nodeKey)) {
+                    trieNode = trieNode.children.get(nodeKey);
                 }
             }
 
-            if (key == null && current.isLeaf()) {
-                if (!current.hasChildren()) {
-                    return true;
-                } else {
-                    current.leaf = false;
-                    return false;
-                }
+            // if it's the last trieNode, mark the leaf trieNode = false
+            if (trieNode.isLeaf()) {
+                trieNode.leaf = false;
+                nodeDeleted = true;
             }
         }
 
-        return false;
+        return nodeDeleted;
     }
 
     /**
@@ -141,6 +183,10 @@ public class TrieNode {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return children.toString();
+        final ToString strBuilder = ToString.of(TrieNode.class, true);
+        strBuilder.add(children.toString());
+        strBuilder.add("leaf", isLeaf());
+        return strBuilder.toString();
     }
+
 }

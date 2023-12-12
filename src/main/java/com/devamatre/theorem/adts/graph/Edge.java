@@ -1,5 +1,6 @@
 package com.devamatre.theorem.adts.graph;
 
+import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.appsuite.core.ToString;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +17,12 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Edge<T extends Comparable> implements Comparable<Edge> {
+public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>> {
 
     public static final EdgeComparator SORT_BY_WEIGHT = new EdgeComparator();
 
-    private T source;
-    private T target;
+    private E source;
+    private E target;
     private BigDecimal weight;
     private boolean directed;
 
@@ -30,7 +31,7 @@ public class Edge<T extends Comparable> implements Comparable<Edge> {
      * @param target
      * @param weight
      */
-    public Edge(T source, T target, BigDecimal weight, boolean directed) {
+    public Edge(E source, E target, BigDecimal weight, boolean directed) {
         this.source = source;
         this.target = target;
         this.weight = weight;
@@ -42,7 +43,7 @@ public class Edge<T extends Comparable> implements Comparable<Edge> {
      * @param target
      * @param weight
      */
-    public Edge(T source, T target, BigDecimal weight) {
+    public Edge(E source, E target, BigDecimal weight) {
         this(source, target, weight, false);
     }
 
@@ -50,7 +51,7 @@ public class Edge<T extends Comparable> implements Comparable<Edge> {
      * @param source
      * @param target
      */
-    public Edge(T source, T target) {
+    public Edge(E source, E target) {
         this(source, target, BigDecimal.ZERO, false);
     }
 
@@ -72,8 +73,10 @@ public class Edge<T extends Comparable> implements Comparable<Edge> {
             return false;
         }
 
-        Edge<T> that = (Edge<T>) object;
-        return Objects.equals(getSource(), that.getSource()) && Objects.equals(getTarget(), that.getTarget()) && Objects.equals(getWeight(), that.getWeight());
+        Edge<E> that = (Edge<E>) object;
+        return Objects.equals(getSource(), that.getSource())
+               && Objects.equals(getTarget(), that.getTarget())
+               && Objects.equals(getWeight(), that.getWeight());
     }
 
     /**
@@ -84,11 +87,11 @@ public class Edge<T extends Comparable> implements Comparable<Edge> {
     @Override
     public String toString() {
         return ToString.of(Edge.class, true)
-                .add("source", getSource())
-                .add("target", getTarget())
-                .add("weight", getWeight())
-                .add("directed", isDirected())
-                .toString();
+            .add("source", getSource())
+            .add("target", getTarget())
+            .add("weight", getWeight())
+            .add("directed", isDirected())
+            .toString();
     }
 
     /**
@@ -123,12 +126,12 @@ public class Edge<T extends Comparable> implements Comparable<Edge> {
      * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
     @Override
-    public int compareTo(Edge edge) {
+    public int compareTo(Edge<E> edge) {
         int result = getSource().compareTo(edge.getSource());
         if (result == 0) {
             result = getTarget().compareTo(edge.getTarget());
-            if (result == 0) {
-                result = Objects.nonNull(getWeight()) ? getWeight().subtract(edge.getWeight()).intValue() : result;
+            if (result == 0 && BeanUtils.isNotNull(getWeight())) {
+                result = getWeight().subtract(edge.getWeight()).intValue();
             }
         }
 
@@ -136,11 +139,11 @@ public class Edge<T extends Comparable> implements Comparable<Edge> {
     }
 
     /**
-     * Returns the new <code>Edge<T></T></code> object by swapping the source and target values.
+     * Returns the new <code>Edge<E></E></code> object by swapping the source and target values.
      *
      * @return
      */
-    protected Edge<T> reverseEdge() {
+    protected Edge<E> reverseEdge() {
         return new Edge<>(getTarget(), getSource(), getWeight(), isDirected());
     }
 
@@ -182,7 +185,8 @@ public class Edge<T extends Comparable> implements Comparable<Edge> {
          */
         @Override
         public int compare(Edge o1, Edge o2) {
-            return (Objects.nonNull(o1.getWeight()) ? o1.getWeight().subtract(o2.getWeight()).intValue() : Objects.nonNull(o2.getWeight()) ? o2.getWeight().intValue() : 0);
+            return (Objects.nonNull(o1.getWeight()) ? o1.getWeight().subtract(o2.getWeight()).intValue()
+                                                    : Objects.nonNull(o2.getWeight()) ? o2.getWeight().intValue() : 0);
         }
     }
 }

@@ -31,22 +31,143 @@ package com.devamatre.theorem.adts.linkedlist;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.devamatre.theorem.adts.list.ListTest;
 import com.devamatre.theorem.adts.list.Node;
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Rohtash Singh Lakra
+ * @author Rohtash Lakra
  * @date 01/31/2017 03:49:55 PM
  */
-public class DoublyLinkedListTest {
+public class DoublyLinkedListTest extends AbstractLinkedListTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ListTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DoublyLinkedListTest.class);
 
-    @Test
-    public void testDoublyLinkedList() {
+    /**
+     * Tests <code>new LinkedList()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testBuildLinkedList() {
+
+    }
+
+    /**
+     * Tests <code>getSize()</code> method.
+     *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
+     * @return
+     */
+    @Override
+    public void testGetSize() {
+
+    }
+
+    /**
+     * Tests <code>isEmpty()</code> method.
+     *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
+     * @return
+     */
+    @Override
+    public void testIsEmpty() {
+
+    }
+
+    /**
+     * Tests <code>toString()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testToString() {
+
+    }
+
+    /**
+     * Tests <code>addHead()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testAddHead() {
+
+    }
+
+    /**
+     * Tests <code>addTail()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testAddTail() {
+
+    }
+
+    /**
+     * Tests <code>addNode()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testAddNode() {
+
+    }
+
+    /**
+     * Tests <code>findNode()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testFindNode() {
+
+    }
+
+    /**
+     * Tests <code>removeHead()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testRemoveHead() {
+
+    }
+
+    /**
+     * Tests <code>removeTail()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testRemoveTail() {
+
+    }
+
+    /**
+     * Tests <code>removeNode()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testRemoveNode() {
+
+    }
+
+    /**
+     * Tests <code>testAllOperations()</code> of the linkedList.
+     */
+    @Override
+    public void testAllOperations() {
         DoublyLinkedList<Integer> linkedList = new DoublyLinkedList<>();
         LOGGER.debug("Size:{}, linkedList:{}", linkedList.size(), linkedList);
         assertNotNull(linkedList);

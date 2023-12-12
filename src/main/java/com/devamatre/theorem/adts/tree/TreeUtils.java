@@ -24,9 +24,12 @@ package com.devamatre.theorem.adts.tree;
 
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.AlgoUtils;
+import com.devamatre.theorem.adts.Maths;
+import com.devamatre.theorem.adts.tree.meta.NodeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -69,9 +72,12 @@ public enum TreeUtils {
     public static final String NULL = "null";
     public static final String NEW_LINE = "\n";
     public static final String SPACE = " ";
+    public static final String COMMA = ",";
+    public static final String COMMA_SPACE = ", ";
     public static final String LEFT = "┌─";
     public static final String RIGHT = "─┐";
     public static final String DASH = "─";
+    public static final Integer MINUS_ONE = new Integer(-1);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeUtils.class);
 
@@ -141,7 +147,7 @@ public enum TreeUtils {
      * @param node
      * @return
      */
-    public static <E extends Comparable> boolean isLeaf(Node node) {
+    public static <E extends Comparable<? super E>> boolean isLeaf(Node node) {
         return (node != null && !node.hasLeft() && !node.hasRight());
     }
 
@@ -187,6 +193,54 @@ public enum TreeUtils {
     }
 
     /**
+     * Builds the tree recursively.
+     *
+     * @param inputData
+     * @param index
+     * @param <E>
+     * @return
+     */
+    private <E extends Comparable<? super E>> Node<E> buildTree(List<E> inputData, int index) {
+        LOGGER.debug("+buildTree({}, {})", inputData, index);
+        if (index < 0 || index >= inputData.size()) { // check index is valid or not
+            LOGGER.debug("-buildTree(), index:{}, newNode:null", index);
+            return null;
+        } else if (Maths.isEmptyOrMinusOne(inputData.get(index))) { // is null/empty/-1 data
+            LOGGER.debug("-buildTree(), index:{}, newNode:null", index);
+            return null;
+        }
+
+        Node<E> newNode = new Node<>(inputData.get(index));
+        newNode.setLeft(buildTree(inputData, TreeUtils.leftNodeIndex(index)));
+        newNode.setRight(buildTree(inputData, TreeUtils.rightNodeIndex(index)));
+
+        LOGGER.debug("-buildTree(), newNode:{}", newNode);
+        return newNode;
+    }
+
+    /**
+     * This method is to construct a normal binary tree.
+     * <p>
+     * The input reads like this for [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+     *
+     * <pre>
+     *             1
+     *           /   \
+     *          2     3
+     *         / \   / \
+     *        4   5 6   7
+     *       /\
+     *      8 9
+     * </pre>
+     *
+     * @param inputData
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Node<E> buildTree(List<E> inputData) {
+        return INSTANCE.buildTree(inputData, 0);
+    }
+
+    /**
      * This method is to construct a normal binary tree.
      * <p>
      * The input reads like this for [5, 3, 6, 2, 4, null, null, 1],
@@ -204,19 +258,23 @@ public enum TreeUtils {
      * @param treeValues
      * @return
      */
-    public static <E extends Comparable> TreeNode<E> buildBinaryTree(List<E> treeValues) {
-        TreeNode<E> treeNode = new TreeNode(treeValues.get(0));
-        Queue<TreeNode<E>> queue = new LinkedList<>();
-        queue.offer(treeNode);
-        for (int i = 1; i < treeValues.size(); i++) {
-            TreeNode<E> current = queue.poll();
-            if (Objects.nonNull(treeValues.get(i))) {
-                current.setLeft(new TreeNode(treeValues.get(i)));
-                queue.offer(current.getLeft());
-            }
-            if (++i < treeValues.size() && Objects.nonNull(treeValues.get(i))) {
-                current.setRight(new TreeNode(treeValues.get(i)));
-                queue.offer(current.getRight());
+    public static <E extends Comparable<? super E>> TreeNode<E> buildBinaryTree(List<E> treeValues) {
+        TreeNode<E> treeNode = null;
+        if (BeanUtils.isNotEmpty(treeValues)) {
+            treeNode = new TreeNode(treeValues.get(0));
+            Queue<TreeNode<E>> queue = new LinkedList<>();
+            queue.offer(treeNode);
+            for (int i = 1; i < treeValues.size(); i++) {
+                TreeNode<E> current = queue.poll();
+                if (Objects.nonNull(treeValues.get(i))) {
+                    current.setLeft(new TreeNode(treeValues.get(i)));
+                    queue.offer(current.getLeft());
+                }
+
+                if (++i < treeValues.size() && Objects.nonNull(treeValues.get(i))) {
+                    current.setRight(new TreeNode(treeValues.get(i)));
+                    queue.offer(current.getRight());
+                }
             }
         }
 
@@ -229,7 +287,7 @@ public enum TreeUtils {
      * @param inputCommaSeparated
      * @return
      */
-    public static <E extends Comparable> TreeNode<E> buildBinaryTree(String inputCommaSeparated) {
+    public static <E extends Comparable<? super E>> TreeNode<E> buildBinaryTree(String inputCommaSeparated) {
         if (BeanUtils.isEmpty(inputCommaSeparated)) {
             return null;
         }
@@ -283,6 +341,17 @@ public enum TreeUtils {
     }
 
     /**
+     * Prints the white space(s).
+     *
+     * @param count
+     */
+    public static void printWhiteSpaces(int count) {
+        for (int i = 0; i < count; i++) {
+            System.out.print(SPACE);
+        }
+    }
+
+    /**
      * <pre>
      *             1
      *           /   \
@@ -293,24 +362,30 @@ public enum TreeUtils {
      * </pre>
      *
      * @param nodes
-     * @param level
+     * @param minLevel
      * @param maxLevel
      */
-    private static void printNodeInternal(List<Node> nodes, int level, int maxLevel) {
+    private static void printNodeInternal(List<Node> nodes, int minLevel, int maxLevel) {
+        LOGGER.trace("+printNodeInternal({}, {}, {})", nodes, minLevel, maxLevel);
         if (nodes.isEmpty() || AlgoUtils.isAllNull(nodes)) {
             return;
         }
 
-        int floor = maxLevel - level;
-        int edgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
-        int firstSpaces = (int) Math.pow(2, (floor)) - 1;
-        int gapBetweenNodes = (int) Math.pow(2, (floor + 1)) - 1;
+        int level = maxLevel - minLevel;
+        int levelPower = (int) Math.pow(2, level);
+//        int nodePosition = (int) Math.pow(2, levelPower) - 1;
+        int nodePosition = (int) Math.pow(2, level) - 1;
+        int edgeLines = (int) Math.pow(2, (Math.max(level - 1, 0)));
+//        int gapBetweenNodes = (int) Math.pow(2, levelPower) + 1;
+        int gapBetweenNodes = (int) Math.pow(2, (level + 1)) - 1;
+        LOGGER.trace("level:{}, nodePosition:{}, edgeLines:{}, gapBetweenNodes:{}", level, nodePosition, edgeLines,
+                gapBetweenNodes);
 
-        AlgoUtils.printWhiteSpaces(firstSpaces);
+        printWhiteSpaces(nodePosition);
 
         List<Node> newNodes = new ArrayList<>();
         for (Node node : nodes) {
-            if (Objects.nonNull(node)) {
+            if (Objects.nonNull(node)) { // non-null node
                 System.out.print(node.getData());
                 newNodes.add(node.getLeft());
                 newNodes.add(node.getRight());
@@ -320,46 +395,50 @@ public enum TreeUtils {
                 System.out.print(SPACE);
             }
 
-            AlgoUtils.printWhiteSpaces(gapBetweenNodes);
+            printWhiteSpaces(gapBetweenNodes);
         }
-        System.out.println("");
+        System.out.println();
 
+        // print edge lines with gaps in-between
         for (int i = 1; i <= edgeLines; i++) {
             for (int j = 0; j < nodes.size(); j++) {
-                AlgoUtils.printWhiteSpaces(firstSpaces - i);
-                if (Objects.isNull(nodes.get(j))) {
-                    AlgoUtils.printWhiteSpaces(edgeLines + edgeLines + i + 1);
+                printWhiteSpaces(nodePosition - i);
+                if (Objects.isNull(nodes.get(j))) { // null node
+                    printWhiteSpaces((2 * edgeLines) + i + 1);
                     continue;
                 }
 
+                // left edge line
                 if (nodes.get(j).hasLeft()) {
                     System.out.print(BACK_SLASH);
                 } else {
-                    AlgoUtils.printWhiteSpaces(1);
+                    printWhiteSpaces(1);
                 }
 
-                AlgoUtils.printWhiteSpaces(i + i - 1);
+                // gap between edges
+                printWhiteSpaces((2 * i) - 1);
 
+                // right edge line
                 if (nodes.get(j).hasRight()) {
                     System.out.print(SLASH);
                 } else {
-                    AlgoUtils.printWhiteSpaces(1);
+                    printWhiteSpaces(1);
                 }
 
-                AlgoUtils.printWhiteSpaces(edgeLines + edgeLines - i);
+                printWhiteSpaces((2 * edgeLines) - i);
             }
 
-            System.out.println("");
+            System.out.println();
         }
 
-        printNodeInternal(newNodes, level + 1, maxLevel);
+        printNodeInternal(newNodes, minLevel + 1, maxLevel);
     }
 
     /**
      * @param treeNode
      */
-    public static void printBinaryTree(Node treeNode) {
-        AlgoUtils.println("\nPrinting out the binary tree in a very visual manner as below:\n");
+    public static <E extends Comparable<? super E>> void printBinaryTree(Node<E> treeNode) {
+        AlgoUtils.println("\nPrinting out the visual tree:\n");
         int maxLevel = TreeUtils.getHeight(treeNode);
         printNodeInternal(Collections.singletonList(treeNode), 1, maxLevel);
     }
@@ -426,34 +505,53 @@ public enum TreeUtils {
     }
 
     /**
-     * Returns the length of the path to its root.
+     * The height or maximum depth of a binary tree is the total number of edges on the longest path from the root node
+     * to the leaf node.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
      *
      * @param node
      * @return
      */
-    public static <E extends Comparable> int maxDepth(Node<E> node) {
-        return (node == null ? 0 : maxDepth(node.getParent()) + 1);
+    public static <E extends Comparable<? super E>> int maxDepth(Node<E> node) {
+        return (node == null ? 0 : Math.max(maxDepth(node.getLeft()), maxDepth(node.getRight())) + 1);
     }
 
     /**
      * Returns the length of the longest path to a leaf.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
      *
      * @param node
      * @return
      */
-    public static <E extends Comparable> int maxHeight(Node<E> node) {
+    public static <E extends Comparable<? super E>> int maxHeight(Node<E> node) {
         return (node == null ? 0 : Math.max(maxHeight(node.getLeft()), maxHeight(node.getRight())) + 1);
     }
 
     /**
-     * Adds the <code>totalSpaces</code>.
+     * Returns the count from the <code>node</code> and it's children.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
      *
-     * @param totalSpaces
-     * @param treeBuilder
+     * @param node
+     * @return
      */
-    public static void addSpaces(int totalSpaces, StringBuilder treeBuilder) {
+    public static <E extends Comparable<? super E>> int getCount(Node<E> node) {
+        return (node == null ? 0 : getCount(node.getLeft()) + getCount(node.getRight()) + 1);
+    }
+
+    /**
+     * Removes the last <code>separator</code> from the <code>strBuilder</code> object.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
+     *
+     * @param strBuilder
+     * @param separator
+     */
+    public static void addSeparator(int totalSpaces, StringBuilder strBuilder, String separator) {
         for (int i = 0; i < totalSpaces; i++) {
-            treeBuilder.append(SPACE);
+            strBuilder.append(separator);
         }
     }
 
@@ -463,7 +561,18 @@ public enum TreeUtils {
      * @param totalSpaces
      * @param treeBuilder
      */
-    private static <E extends Comparable> void addNode(int totalSpaces, StringBuilder treeBuilder, Node<E> node) {
+    public static void addSpaces(int totalSpaces, StringBuilder treeBuilder) {
+        addSeparator(totalSpaces, treeBuilder, SPACE);
+    }
+
+    /**
+     * Adds the <code>totalSpaces</code>.
+     *
+     * @param totalSpaces
+     * @param treeBuilder
+     */
+    private static <E extends Comparable<? super E>> void addNode(int totalSpaces, StringBuilder treeBuilder,
+                                                                  Node<E> node) {
         // left side
         treeBuilder.append(LEFT);
         for (int i = 0; i < totalSpaces; i++) {
@@ -486,11 +595,11 @@ public enum TreeUtils {
      * @param spaces
      * @return
      */
-    private static <E extends Comparable> String buildSpatialBlock(final Node<E> node, int spaces) {
+    private static <E extends Comparable<? super E>> String buildSpatialBlock(final Node<E> node, int spaces) {
         return (node == null ? String.format("%" + (2 * spaces + 1) + "s%n", "")
 //                : String.format("%" + (spaces + 1) + "s%" + spaces + "s", node.getValue(), "")
-                             : String.format("%" + (spaces + 1) + "s%" + spaces + "s", LEFT + node.getData() + RIGHT,
-                                             ""));
+                : String.format("%" + (spaces + 1) + "s%" + spaces + "s", LEFT + node.getData() + RIGHT,
+                ""));
     }
 
     /**
@@ -508,15 +617,15 @@ public enum TreeUtils {
      * @param maxHeight
      * @return
      */
-    public static <E extends Comparable> StringBuilder printPrettyTree(Node<E> node, int currentHeight, int maxHeight) {
+    public static <E extends Comparable<? super E>> StringBuilder printPrettyTree(Node<E> node, int currentHeight,
+                                                                                  int maxHeight) {
         final StringBuilder treeBuilder = new StringBuilder();
         int spaces = countSpaces(maxHeight - currentHeight + 1);
         if (Objects.isNull(node)) {
             // create a 'spatial' block and return it
             String row = buildSpatialBlock(node, spaces);
-            // now repeat this row space+1 times
-            final String block = new String(new char[spaces + 1]).replace("\0", row);
-            return new StringBuilder(block);
+            // now repeat this row (space+1) times
+            return new StringBuilder(new String(new char[spaces + 1]).replace("\0", row));
         }
 
         if (currentHeight == maxHeight) {
@@ -570,8 +679,8 @@ public enum TreeUtils {
      * @param <E   extends Comparable>
      * @return
      */
-    public static <E extends Comparable> StringBuilder printPrettyTree(Node<E> node) {
-        return printPrettyTree(node, 0, TreeUtils.maxHeight(node));
+    public static <E extends Comparable<? super E>> void printPrettyTree(Node<E> node) {
+        System.out.println("\n" + printPrettyTree(node, 0, TreeUtils.maxHeight(node)));
     }
 
     /**
@@ -586,20 +695,21 @@ public enum TreeUtils {
      * </pre>
      *
      * @param node
-     * @param level
+     * @param minLevel
      * @param maxLevel
      * @return
      */
-    public static <E extends Comparable> StringBuilder prettyTreeHorizontally(Node<E> node, int level, int maxLevel) {
+    public static <E extends Comparable<? super E>> StringBuilder prettyTreeHorizontally(Node<E> node, int minLevel,
+                                                                                         int maxLevel) {
         StringBuilder treeBuilder = new StringBuilder();
         if (Objects.isNull(node)) {
             return treeBuilder;
         }
 
-        int floor = maxLevel - level;
-        int edgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
-        int firstSpaces = (int) Math.pow(2, (floor)) - 1;
-        int gapBetweenNodes = (int) Math.pow(2, (floor + 1)) - 1;
+        int level = maxLevel - minLevel;
+        int edgeLines = (int) Math.pow(2, (Math.max(level - 1, 0)));
+        int firstSpaces = (int) Math.pow(2, (level)) - 1;
+        int gapBetweenNodes = (int) Math.pow(2, (level + 1)) - 1;
 
         addSpaces(firstSpaces, treeBuilder);
         treeBuilder.append(node.getData());
@@ -616,93 +726,194 @@ public enum TreeUtils {
 //                System.out.print(SPACE);
 //            }
 //
-//            AlgoUtils.printWhiteSpaces(gapBetweenNodes);
+//            printWhiteSpaces(gapBetweenNodes);
 //        }
 //        System.out.println("");
 
 //        for (int i = 1; i <= edgeLines; i++) {
 //            for (int j = 0; j < list.size(); j++) {
-//                AlgoUtils.printWhiteSpaces(firstSpaces - i);
+//                printWhiteSpaces(firstSpaces - i);
 //                if (list.get(j) == null) {
-//                    AlgoUtils.printWhiteSpaces(edgeLines + edgeLines + i + 1);
+//                    printWhiteSpaces(edgeLines + edgeLines + i + 1);
 //                    continue;
 //                }
 //
 //                if (list.get(j).hasLeft()) {
 //                    System.out.print(BACK_SLASH);
 //                } else {
-//                    AlgoUtils.printWhiteSpaces(1);
+//                    printWhiteSpaces(1);
 //                }
 //
-//                AlgoUtils.printWhiteSpaces(i + i - 1);
+//                printWhiteSpaces(i + i - 1);
 //
 //                if (list.get(j).hasRight()) {
 //                    System.out.print(SLASH);
 //                } else {
-//                    AlgoUtils.printWhiteSpaces(1);
+//                    printWhiteSpaces(1);
 //                }
 //
-//                AlgoUtils.printWhiteSpaces(edgeLines + edgeLines - i);
+//                printWhiteSpaces(edgeLines + edgeLines - i);
 //            }
 //
 //            System.out.println("");
 //        }
 
-        treeBuilder.append(prettyTreeHorizontally(node.getLeft(), level + 1, maxLevel));
-        treeBuilder.append(prettyTreeHorizontally(node.getRight(), level + 1, maxLevel));
+        treeBuilder.append(prettyTreeHorizontally(node.getLeft(), minLevel + 1, maxLevel));
+        treeBuilder.append(prettyTreeHorizontally(node.getRight(), minLevel + 1, maxLevel));
 
         return treeBuilder;
     }
 
     /**
+     * Prints the pretty tree horizontally.
+     * <pre>
+     *      	  ┌──────── 1 ────────┐
+     * 	     ┌─── 2 ───┐         ┌─── 3 ───┐
+     * 	 ┌── 4 ──┐ ┌── 5 ──┐ ┌── 6 ──┐ ┌── 7 ──┐
+     * 			   						   ┌── 8 ──┐
+     * </pre>
+     *
      * @param node
      * @param <E   extends Comparable>
      * @return
      */
-    public static <E extends Comparable> StringBuilder printPrettyTreeHorizontally(Node<E> node) {
+    public static <E extends Comparable<? super E>> StringBuilder printPrettyTreeHorizontally(Node<E> node) {
         /**
          * <pre>
-         *        ┌─     1     ─┐
-         *    ┌─  2  ─┐     ┌─  3  ─┐
+         *  Conventions:
+         *      L - Left Side
+         *      S - Spaces
+         *      D - Node Data
+         *      R - Right Side
+         *      C - Columns
+         * </pre>
          *
+         * <pre>
+         *
+         *  |              1                (Row:1 -> Spaces: L:14,D,R:0)                   - C:14
+         *  |            /  \               (Row:2 -> Spaces: L:12,/,S:2,\,R:0)             - C:16
+         *  |          /     \              (Row:3 -> Spaces: L:10,/,S:5,\,R:0)             - C:17
+         *  |        /        \             (Row:4 -> Spaces: L:8,/,S:8,\,R:0)              - C:18
+         *  |      2           3            (Row:5 -> Spaces: L:6,D,S:11,D,R:0)             - C:19
+         *  |    /  \        /  \           (Row:6 -> Spaces: L:4,/,S:2,\,S:8,/,S:2,\,:R:0) - C:20
+         *  |  /     \     /     \          (Row:7 -> Spaces: L:2,/,S:5,\,S:5,/,S:5,\,:R:0) - C:21
+         *  |4        5  6        7         (Row:8 -> Spaces: L:0,D,S:8,D,S:2,D,S:8,D,:R:0) - C:22
+         *
+         *  Height of Tree  : 3
+         *  Total Nodes     : 2 ^ h -1 (2 ^ 3 - 1 = 7)
+         *  Rows            : 2 ^ h (2 ^ 3 = 8)
+         *  Columns         : Height * Rows (3 * 8 = 24)
+         *  Left Spaces     : Nodes * (Height - 1) (7 * (3 - 1) = 14)
+         *
+         *  OR
+         *      ┌─── 1 ───┐
+         *  ┌── 2 ──┐ ┌── 3 ──┐
+         *                ┌── 4 ──┐
+         *  OR
+         *
+         *  ┌──────── 1 ────────┐
+         * 	┌─── 2 ───┐         ┌─── 3 ───┐
+         * 	┌── 4 ──┐ ┌── 5 ──┐ ┌── 6 ──┐ ┌── 7 ──┐
+         *                                    ┌── 8 ──┐ (34)
          * </pre>
          */
         final StringBuilder treeBuilder = new StringBuilder();
         if (Objects.nonNull(node)) {
-            int level = 0;
-            int maxLevels = maxHeight(node);
-            Queue<Node<E>> queue = new LinkedList<>();
-            queue.add(node);
-            while (!queue.isEmpty()) {
-                int floor = maxLevels - level;
-                int edgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
-                int size = queue.size();
-                level++;
-                while (size > 0) {
-                    Node<E> tempNode = queue.remove();
-                    int sideSpaces = floor * edgeLines;
-                    // print current tempNode
-                    int leftSpaces = (int) Math.pow(2, (edgeLines + 1)) - 1;
-                    addSpaces(leftSpaces, treeBuilder);
-                    addNode(sideSpaces, treeBuilder, tempNode);
-                    addSpaces(leftSpaces - 1, treeBuilder);
-
-                    // add left tempNode if available
-                    if (tempNode.getLeft() != null) {
-                        queue.add(tempNode.getLeft());
-                    }
-
-                    // add right tempNode if available
-                    if (tempNode.getRight() != null) {
-                        queue.add(tempNode.getRight());
-                    }
-                    size--;
+            /**
+             * <pre>
+             *
+             *         Height of Tree  : 3
+             *          Total Nodes     : 2 ^ h -1 (2 ^ 3 - 1 = 7)
+             *           Rows            : 2 ^ h (2 ^ 3 = 8)
+             *           Columns         : Height * Rows (3 * 8 = 24)
+             *           Left Spaces     : Nodes * (Height - 1) (7 * (3 - 1) = 14)
+             * -------------------------
+             *
+             *  |              1                (Row:1 -> Spaces: L:14,D,R:0)                   - C:14
+             *  |            /  \               (Row:2 -> Spaces: L:12,/,S:2,\,R:0)             - C:16
+             *  |          /     \              (Row:3 -> Spaces: L:10,/,S:5,\,R:0)             - C:17
+             *  |        /        \             (Row:4 -> Spaces: L:8,/,S:8,\,R:0)              - C:18
+             *  |      2           3            (Row:5 -> Spaces: L:6,D,S:11,D,R:0)             - C:19
+             *  |    /  \        /  \           (Row:6 -> Spaces: L:4,/,S:2,\,S:8,/,S:2,\,:R:0) - C:20
+             *  |  /     \     /     \          (Row:7 -> Spaces: L:2,/,S:5,\,S:5,/,S:5,\,:R:0) - C:21
+             *  |4        5  6        7         (Row:8 -> Spaces: L:0,D,S:8,D,S:2,D,S:8,D,:R:0) - C:22
+             * </pre>
+             */
+            final int maxHeight = maxHeight(node);
+            final int totalNodes = (int) Math.pow(2, maxHeight) - 1;
+            final int rows = (int) Math.pow(2, maxHeight);
+            final int leftSpaces = totalNodes * (maxHeight - 1);
+            LOGGER.debug("maxHeight:{}, totalNodes:{}, rows:{}, leftSpaces:{}", maxHeight, totalNodes, rows,
+                    leftSpaces);
+            List<List<E>> levelOrders = TreeUtils.getLevelOrders(node);
+            LOGGER.debug("levelOrders:{}", levelOrders);
+            for (int level = 0; level < levelOrders.size(); level++) {
+                // for each level order
+                List<E> levelOrder = levelOrders.get(level);
+                // find node value to print
+                for (int k = 0; k < levelOrder.size(); k++) {
+                    // print per row left spaces
+                    int perRowLeftSpaces = leftSpaces - (2 * level);
+//                    LOGGER.debug("perRowLeftSpaces:{}", perRowLeftSpaces);
+                    TreeUtils.printWhiteSpaces(perRowLeftSpaces);
+                    System.out.print(levelOrder.get(k));
                 }
-                treeBuilder.append(NEW_LINE);
+                System.out.println();
+
+                // find node value to print
+                for (int j = maxHeight; j > level; j--) {
+                    System.out.println();
+                }
             }
+
+//            Queue<Node<E>> queue = new LinkedList<>();
+//            queue.add(node);
+//            while (!queue.isEmpty()) {
+//                int size = queue.size();
+//                level++;
+//                while (size > 0) {
+//                    int floor = maxLevels - level;
+//                    int edgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
+//                    Node<E> tempNode = queue.remove();
+//                    int sideSpaces = floor * edgeLines;
+//                    // print current tempNode
+//                    int leftSpaces = (int) Math.pow(2, (edgeLines + 1)) - 1;
+//                    addSpaces(leftSpaces, treeBuilder);
+//                    addNode(sideSpaces, treeBuilder, tempNode);
+//                    addSpaces(leftSpaces - 1, treeBuilder);
+//
+//                    // add left tempNode if available
+//                    if (tempNode.getLeft() != null) {
+//                        queue.add(tempNode.getLeft());
+//                    }
+//
+//                    // add right tempNode if available
+//                    if (tempNode.getRight() != null) {
+//                        queue.add(tempNode.getRight());
+//                    }
+//                    size--;
+//                }
+//                treeBuilder.append(NEW_LINE);
+//            }
         }
 
         return treeBuilder;
+    }
+
+    /**
+     * Removes the last <code>separator</code> from the <code>nodeBuilder</code> object.
+     * <p>
+     * Time Complexity: <code>O(1)</code>
+     *
+     * @param nodeBuilder
+     * @param separator
+     */
+    public static void trimLastSeparator(final StringBuilder nodeBuilder, final String separator) {
+        // remove last white space.
+        int lastIndex = nodeBuilder.lastIndexOf(separator);
+        if (lastIndex != -1) {
+            nodeBuilder.delete(lastIndex, nodeBuilder.length());
+        }
     }
 
     /**
@@ -711,11 +922,7 @@ public enum TreeUtils {
      * @param nodeBuilder
      */
     public static void trimLastSpace(final StringBuilder nodeBuilder) {
-        // remove last white space.
-        int lastIndex = nodeBuilder.lastIndexOf(SPACE);
-        if (lastIndex != -1) {
-            nodeBuilder.deleteCharAt(lastIndex);
-        }
+        trimLastSeparator(nodeBuilder, SPACE);
     }
 
     /**
@@ -732,12 +939,14 @@ public enum TreeUtils {
      * <p>
      * Level Order Traversal <code>Leve 0 -> Level 1 -> Level N</code>
      * <p>
-     * InOrder: [[1], [2, 3], [4, 5, 6, 7]]
+     * Level Order: [[1], [2, 3], [4, 5, 6, 7]]
+     * <p>
+     * Time Complexity: <code>O(N)</code>
      *
      * @param treeNode
      * @return
      */
-    public static <E extends Comparable> List<List<E>> getLevelOrders(Node<E> treeNode) {
+    public static <E extends Comparable<? super E>> List<List<E>> getLevelOrders(Node<E> treeNode) {
         List<List<E>> levelOrders = new ArrayList<>();
         if (Objects.nonNull(treeNode)) {
             Queue<Node<E>> queue = new LinkedList<>();
@@ -768,6 +977,45 @@ public enum TreeUtils {
 
     /**
      * Returns the list of nodes using <code>in-order</code> traversal recursively.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
+     *
+     * <pre>
+     *             1
+     *           /   \
+     *          /     \
+     *         2       3
+     *        / \     / \
+     *       4  5    6   7
+     * </pre>
+     * <p>
+     * InOrder Traversal <code>Left -> Root -> Right</code>
+     * <p>
+     * i.e: [4, 2, 5, 1, 6, 3, 7]
+     *
+     * @param treeNode
+     * @param includeNullLeafs
+     */
+    public static <E extends Comparable<? super E>> List<E> inOrder(Node<E> treeNode, boolean includeNullLeafs) {
+        LOGGER.debug("+inOrder({})", treeNode);
+        List<E> inOrder = new ArrayList<>();
+        if (BeanUtils.isNull(treeNode)) {
+            if (includeNullLeafs) {
+                inOrder.add(null);
+            }
+        } else {
+            inOrder.addAll(inOrder(treeNode.getLeft(), includeNullLeafs));
+            LOGGER.debug("data:{}", treeNode.getData());
+            inOrder.add(treeNode.getData());
+            inOrder.addAll(inOrder(treeNode.getRight(), includeNullLeafs));
+        }
+
+        LOGGER.debug("-inOrder(), inOrder:{}", inOrder);
+        return inOrder;
+    }
+
+    /**
+     * Returns the list of nodes using <code>in-order</code> traversal recursively.
      *
      * <pre>
      *             1
@@ -784,22 +1032,14 @@ public enum TreeUtils {
      *
      * @param treeNode
      */
-    public static <E extends Comparable> List<E> inOrder(Node<E> treeNode) {
-        LOGGER.debug("+preOrder({})", treeNode);
-        List<E> inOrder = new ArrayList<>();
-        if (Objects.nonNull(treeNode)) {
-            inOrder.addAll(inOrder(treeNode.getLeft()));
-            LOGGER.debug("data:{}", treeNode.getData());
-            inOrder.add(treeNode.getData());
-            inOrder.addAll(inOrder(treeNode.getRight()));
-        }
-
-        LOGGER.debug("-preOrder(), inOrder:{}", inOrder);
-        return inOrder;
+    public static <E extends Comparable<? super E>> List<E> inOrder(Node<E> treeNode) {
+        return inOrder(treeNode, false);
     }
 
     /**
      * Returns the list of nodes using <code>pre-order</code> traversal recursively.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
      *
      * <pre>
      *             1
@@ -816,23 +1056,46 @@ public enum TreeUtils {
      *
      * @param treeNode
      */
-    public static <E extends Comparable> List<E> preOrder(Node<E> treeNode) {
+    public static <E extends Comparable<? super E>> List<E> preOrder(Node<E> treeNode, boolean includeNullLeafs) {
         LOGGER.debug("+preOrder({})", treeNode);
         List<E> preOrder = new ArrayList<>();
-        if (Objects.nonNull(treeNode)) {
+        if (BeanUtils.isNull(treeNode)) {
+            if (includeNullLeafs) {
+                preOrder.add(null);
+            }
+        } else {
             LOGGER.debug("data:{}", treeNode.getData());
             preOrder.add(treeNode.getData());
-            if (treeNode.hasLeft()) {
-                preOrder.addAll(preOrder(treeNode.getLeft()));
-            }
-
-            if (treeNode.hasRight()) {
-                preOrder.addAll(preOrder(treeNode.getRight()));
-            }
+            preOrder.addAll(preOrder(treeNode.getLeft(), includeNullLeafs));
+            preOrder.addAll(preOrder(treeNode.getRight(), includeNullLeafs));
         }
 
         LOGGER.debug("-preOrder(), preOrder:{}", preOrder);
         return preOrder;
+    }
+
+    /**
+     * Returns the list of nodes using <code>pre-order</code> traversal recursively.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
+     *
+     * <pre>
+     *             1
+     *           /   \
+     *          /     \
+     *         2       3
+     *        / \     / \
+     *       4  5    6   7
+     * </pre>
+     * <p>
+     * PreOrder Traversal <code>Left -> Root -> Right</code>
+     * <p>
+     * i.e: [1, 2, 4, 5, 3, 6, 7]
+     *
+     * @param treeNode
+     */
+    public static <E extends Comparable<? super E>> List<E> preOrder(Node<E> treeNode) {
+        return preOrder(treeNode, false);
     }
 
     /**
@@ -847,18 +1110,22 @@ public enum TreeUtils {
      *       4  5    6   7
      * </pre>
      * <p>
-     * InOrder Traversal <code>Left -> Right -> Root</code>
+     * PostOrder Traversal <code>Left -> Right -> Root</code>
      * <p>
      * i.e: [4, 5, 2, 6, 7, 3, 1]
      *
      * @param treeNode
      */
-    public static <E extends Comparable> List<E> postOrder(Node<E> treeNode) {
+    public static <E extends Comparable<? super E>> List<E> postOrder(Node<E> treeNode, boolean includeNullLeafs) {
         LOGGER.debug("+postOrder({})", treeNode);
         List<E> postOrder = new ArrayList<>();
-        if (Objects.nonNull(treeNode)) {
-            postOrder.addAll(postOrder(treeNode.getLeft()));
-            postOrder.addAll(postOrder(treeNode.getRight()));
+        if (BeanUtils.isNull(treeNode)) {
+            if (includeNullLeafs) {
+                postOrder.add(null);
+            }
+        } else {
+            postOrder.addAll(postOrder(treeNode.getLeft(), includeNullLeafs));
+            postOrder.addAll(postOrder(treeNode.getRight(), includeNullLeafs));
             LOGGER.debug("data:{}", treeNode.getData());
             postOrder.add(treeNode.getData());
         }
@@ -868,7 +1135,40 @@ public enum TreeUtils {
     }
 
     /**
+     * Returns the list of nodes using <code>post-order</code> traversal recursively.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
+     *
+     * <pre>
+     *             1
+     *           /   \
+     *          /     \
+     *         2       3
+     *        / \     / \
+     *       4  5    6   7
+     * </pre>
+     * <p>
+     * LevelOrder Traversal
+     * <pre>
+     *  Root - (Level 1)
+     *  Left Child (Level 2)
+     *  Right Child (Level 2)
+     *  Children (Level N)
+     * </pre>
+     *
+     * <p>
+     * i.e: [4, 5, 2, 6, 7, 3, 1]
+     *
+     * @param treeNode
+     */
+    public static <E extends Comparable<? super E>> List<E> postOrder(Node<E> treeNode) {
+        return postOrder(treeNode, false);
+    }
+
+    /**
      * Returns the list of nodes using <code>in-order</code> traversal recursively.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
      *
      * <pre>
      *             1
@@ -892,7 +1192,7 @@ public enum TreeUtils {
      *
      * @param node
      */
-    public static <E extends Comparable> String inOrderTraversal(Node<E> node) {
+    public static <E extends Comparable<? super E>> String inOrderTraversal(Node<E> node) {
         final boolean includeNullNode = false;
         final List<String> inOrder = new ArrayList<>();
         if (Objects.nonNull(node)) {
@@ -924,9 +1224,10 @@ public enum TreeUtils {
         return inOrder.toString();
     }
 
-
     /**
      * Returns the list of nodes using <code>pre-order</code> traversal recursively.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
      *
      * <pre>
      *             1
@@ -937,13 +1238,13 @@ public enum TreeUtils {
      *       4  5    6   7
      * </pre>
      * <p>
-     * InOrder Traversal <code>Root -> Left -> Right</code>
+     * PreOrder Traversal <code>Root -> Left -> Right</code>
      * <p>
      * i.e: [1, 2, 4, 5, 3, 6, 7]
      *
      * @param treeNode
      */
-    public static <E extends Comparable> String preOrderTraversal(Node<E> treeNode) {
+    public static <E extends Comparable<? super E>> String preOrderTraversal(Node<E> treeNode) {
         final boolean includeNullNode = false;
         final List<String> preOrder = new ArrayList<>();
         if (Objects.nonNull(treeNode)) {
@@ -972,6 +1273,8 @@ public enum TreeUtils {
 
     /**
      * Returns the list of nodes using <code>post-order</code> traversal recursively.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
      *
      * <pre>
      *             1
@@ -982,13 +1285,13 @@ public enum TreeUtils {
      *       4  5    6   7
      * </pre>
      * <p>
-     * InOrder Traversal <code>Left -> Right -> Root</code>
+     * PostOrder Traversal <code>Left -> Right -> Root</code>
      * <p>
      * i.e: [4, 5, 2, 6, 7, 3, 1]
      *
      * @param treeNode
      */
-    public static <E extends Comparable> String postOrderTraversal(Node<E> treeNode) {
+    public static <E extends Comparable<? super E>> String postOrderTraversal(Node<E> treeNode) {
         final boolean includeNullNode = false;
         final List<String> postOrder = new ArrayList<>();
         if (Objects.nonNull(treeNode)) {
@@ -1019,18 +1322,25 @@ public enum TreeUtils {
         return postOrder.toString();
     }
 
-
     /**
-     * Traverses a tree in a pre-order (ROOT-LEFT-RIGHT) manner.
+     * Traverses a tree in a pre-order (ROOT -> LEFT -> RIGHT) manner.
      * <p>
-     * Until all nodes are traversed: Step 1 − Visit root node. Step 2 − Recursively traverse left subtree. Step 3 −
-     * Recursively traverse right subtree.
+     * Time Complexity: <code>O(N)</code>
+     *
+     * <p>
+     * Until all nodes are traversed:
+     *
+     * <pre>
+     *  Step 1 − Visit root node.
+     *  Step 2 − Recursively traverse left subtree.
+     *  Step 3 − Recursively traverse right subtree.
+     * </pre>
      *
      * @param node
      * @param addBrackets
      * @return
      */
-    public static <E extends Comparable> String preOrderTraversal(Node<E> node, final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String preOrderTraversal(Node<E> node, final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1042,8 +1352,7 @@ public enum TreeUtils {
          * a) print it
          * b) push its right child
          * c) push its left child
-         * Note that right child is pushed first so that left is processed
-         * first.
+         * Note that right child is pushed first so that left is processed first.
          */
         if (node != null) {
             final Stack<Node<E>> stack = new Stack<>();
@@ -1076,12 +1385,19 @@ public enum TreeUtils {
     }
 
     /**
-     * Traverses a tree in an in-order (LEFT-ROOT-RIGHT) manner.
+     * Traverses a tree in an in-order (LEFT -> ROOT -> RIGHT) manner.
      * <p>
-     * Until all nodes are traversed: Step 1 − Recursively traverse left subtree. Step 2 − Visit root node. Step 3 −
-     * Recursively traverse right subtree.
+     * Time Complexity: <code>O(N)</code>
+     *
+     * <p>
+     * Until all nodes are traversed:
+     * <pre>
+     *  Step 1 − Recursively traverse left subtree.
+     *  Step 2 − Visit root node.
+     *  Step 3 − Recursively traverse right subtree.
+     * </pre>
      */
-    public static <E extends Comparable> String inOrderTraversal(Node<E> node, final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String inOrderTraversal(Node<E> node, final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1121,12 +1437,19 @@ public enum TreeUtils {
     }
 
     /**
-     * Traverses a tree in a post-order (LEFT-RIGHT-ROOT) manner.
+     * Traverses a tree in a post-order (LEFT -> RIGHT -> ROOT) manner.
      * <p>
-     * Until all nodes are traversed: Step 1 − Recursively traverse left subtree. Step 2 − Recursively traverse right
-     * subtree. Step 3 − Visit root node.
+     * Time Complexity: <code>O(N)</code>
+     *
+     * <p>
+     * Until all nodes are traversed:
+     * <pre>
+     *  Step 1 − Recursively traverse left subtree.
+     *  Step 2 − Recursively traverse right subtree.
+     *  Step 3 − Visit root node.
+     * </pre>
      */
-    public static <E extends Comparable> String postOrderTraversal(Node<E> node, final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String postOrderTraversal(Node<E> node, final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1179,10 +1502,18 @@ public enum TreeUtils {
     /**
      * Traverses a tree in a level order manner.
      * <p>
-     * Until all nodes are traversed: Step 1 − Visit root node. Step 2 − Traverse left and right siblings. Step 3 −
-     * Iterate till the leafs.
+     * Time Complexity: <code>O(N)</code>
+     *
+     * <p>
+     * Until all nodes are traversed:
+     * <pre>
+     *  Step 1 − Visit root node.
+     *  Step 2 − Traverse left and right siblings.
+     *  Step 3 − Iterate till the leafs.
+     * </pre>
      */
-    public static <E extends Comparable> String levelOrderTraversal(Node<E> node, final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String levelOrderTraversal(Node<E> node,
+                                                                               final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1224,25 +1555,16 @@ public enum TreeUtils {
     }
 
     /**
-     * @param <E>
-     */
-    private static class TempNode<E extends Comparable> {
-
-        private Node<E> node;
-        private int level;
-
-        TempNode(Node<E> node, int level) {
-            this.node = node;
-            this.level = level;
-        }
-    }
-
-    /**
+     * Steps:
+     * <pre>
+     *
+     * </pre>
+     *
      * @param node
      * @param addBrackets
      * @return
      */
-    public static <E extends Comparable> String treeViewTraversal(Node<E> node, final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String treeViewTraversal(Node<E> node, final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1250,7 +1572,7 @@ public enum TreeUtils {
 
         /*
          * Create empty Queue.
-         * Add root node into the queue.
+         * Add root node into the queue (as level node, node and level = 0)
          * Iterate until queue is empty
          * Poll node from the queue.
          * Visit node.
@@ -1258,28 +1580,28 @@ public enum TreeUtils {
          * If node's right child is not null, push into the queue.
          */
         if (node != null) {
-            final HashMap<Integer, Node<E>> treeView = new HashMap<>();
-            final Queue<TempNode> queue = new LinkedList<>();
-            queue.offer(new TempNode(node, 0));
+            final Map<Integer, Node<E>> treeView = new HashMap<>();
+            final Queue<NodeInfo<E>> queue = new LinkedList<>();
+            queue.offer(new NodeInfo(node, 0));
             while (!queue.isEmpty()) {
-                TempNode tempNode = queue.poll();
-                if (!treeView.containsKey(tempNode.level)) {
-                    // append node
-                    nodeBuilder.append(tempNode.node.getData()).append(" ");
-                    treeView.put(tempNode.level, tempNode.node);
+                NodeInfo<E> nodeInfo = queue.poll();
+                if (!treeView.containsKey(nodeInfo.getLevel())) {
+                    // append node to the string
+                    nodeBuilder.append(nodeInfo.getNode().getData()).append(COMMA_SPACE);
+                    treeView.put(nodeInfo.getLevel(), nodeInfo.getNode());
                 }
 
-                if (tempNode.node.hasLeft()) {
-                    queue.offer(new TempNode(tempNode.node.getLeft(), tempNode.level - 1));
+                if (nodeInfo.getNode().hasLeft()) {
+                    queue.offer(new NodeInfo(nodeInfo.getNode().getLeft(), nodeInfo.getLevel() - 1));
                 }
 
-                if (tempNode.node.hasRight()) {
-                    queue.offer(new TempNode(tempNode.node.getRight(), tempNode.level + 1));
+                if (nodeInfo.getNode().hasRight()) {
+                    queue.offer(new NodeInfo(nodeInfo.getNode().getRight(), nodeInfo.getLevel() + 1));
                 }
             }
 
             // remove last white space.
-            TreeUtils.trimLastSpace(nodeBuilder);
+            TreeUtils.trimLastSeparator(nodeBuilder, COMMA_SPACE);
         }
 
         if (addBrackets) {
@@ -1291,10 +1613,20 @@ public enum TreeUtils {
 
     /**
      * @param node
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> String treeViewTraversal(Node<E> node) {
+        return treeViewTraversal(node, true);
+    }
+
+    /**
+     * @param node
      * @param addBrackets
      * @return
      */
-    public static <E extends Comparable> String treeBottomViewTraversal(Node<E> node, final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String treeBottomViewTraversal(Node<E> node,
+                                                                                   final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1311,22 +1643,22 @@ public enum TreeUtils {
          */
         if (node != null) {
             final Map<Integer, Node<E>> treeBottomView = new TreeMap<>();
-            final Queue<TempNode> queue = new LinkedList<>();
-            queue.offer(new TempNode(node, 0));
+            final Queue<NodeInfo> queue = new LinkedList<>();
+            queue.offer(new NodeInfo(node, 0));
             while (!queue.isEmpty()) {
-                TempNode tempNode = queue.poll();
-                treeBottomView.put(tempNode.level, tempNode.node);
-                if (tempNode.node.hasLeft()) {
-                    queue.offer(new TempNode(tempNode.node.getLeft(), tempNode.level - 1));
+                NodeInfo<E> nodeInfo = queue.poll();
+                treeBottomView.put(nodeInfo.getLevel(), nodeInfo.getNode());
+                if (nodeInfo.getNode().hasLeft()) {
+                    queue.offer(new NodeInfo(nodeInfo.getNode().getLeft(), nodeInfo.getLevel() - 1));
                 }
 
-                if (tempNode.node.hasRight()) {
-                    queue.offer(new TempNode(tempNode.node.getRight(), tempNode.level + 1));
+                if (nodeInfo.getNode().hasRight()) {
+                    queue.offer(new NodeInfo(nodeInfo.getNode().getRight(), nodeInfo.getLevel() + 1));
                 }
             }
 
             treeBottomView.forEach((k, v) -> {
-                nodeBuilder.append(v.getData()).append(" ");
+                nodeBuilder.append(v.getData()).append(",");
             });
 
             // remove last white space.
@@ -1345,7 +1677,8 @@ public enum TreeUtils {
      * @param addBrackets
      * @return
      */
-    public static <E extends Comparable> String treeLeftViewTraversal(Node<E> node, final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String treeLeftViewTraversal(Node<E> node,
+                                                                                 final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1362,19 +1695,19 @@ public enum TreeUtils {
          */
         if (node != null) {
             final Map<Integer, Node<E>> treeLeftView = new TreeMap<>();
-            final Queue<TempNode> queue = new LinkedList<>();
-            queue.offer(new TempNode(node, 0));
+            final Queue<NodeInfo<E>> queue = new LinkedList<>();
+            queue.offer(new NodeInfo(node, 0));
             while (!queue.isEmpty()) {
-                TempNode tempNode = queue.poll();
-                if (!treeLeftView.containsKey(tempNode.level)) {
-                    treeLeftView.put(tempNode.level, tempNode.node);
+                NodeInfo<E> nodeInfo = queue.poll();
+                if (!treeLeftView.containsKey(nodeInfo.getLevel())) {
+                    treeLeftView.put(nodeInfo.getLevel(), nodeInfo.getNode());
                 }
-                if (tempNode.node.hasLeft()) {
-                    queue.offer(new TempNode(tempNode.node.getLeft(), tempNode.level + 1));
+                if (nodeInfo.getNode().hasLeft()) {
+                    queue.offer(new NodeInfo(nodeInfo.getNode().getLeft(), nodeInfo.getLevel() + 1));
                 }
 
-                if (tempNode.node.hasRight()) {
-                    queue.offer(new TempNode(tempNode.node.getRight(), tempNode.level + 1));
+                if (nodeInfo.getNode().hasRight()) {
+                    queue.offer(new NodeInfo(nodeInfo.getNode().getRight(), nodeInfo.getLevel() + 1));
                 }
             }
 
@@ -1398,7 +1731,8 @@ public enum TreeUtils {
      * @param addBrackets
      * @return
      */
-    public static <E extends Comparable> String treeRightViewTraversal(Node<E> node, final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String treeRightViewTraversal(Node<E> node,
+                                                                                  final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1415,17 +1749,20 @@ public enum TreeUtils {
          */
         if (node != null) {
             final Map<Integer, Node<E>> treeLeftView = new TreeMap<>();
-            final Queue<TempNode> queue = new LinkedList<>();
-            queue.offer(new TempNode(node, 0));
+            final Queue<NodeInfo<E>> queue = new LinkedList<>();
+            // add root node at level 0
+            queue.offer(new NodeInfo<>(node, 0));
+
+            // iterate till queue is not empty
             while (!queue.isEmpty()) {
-                TempNode tempNode = queue.poll();
-                treeLeftView.put(tempNode.level, tempNode.node);
-                if (tempNode.node.hasLeft()) {
-                    queue.offer(new TempNode(tempNode.node.getLeft(), tempNode.level + 1));
+                NodeInfo<E> nodeInfo = queue.poll();
+                treeLeftView.put(nodeInfo.getLevel(), nodeInfo.getNode());
+                if (nodeInfo.getNode().hasLeft()) {
+                    queue.offer(new NodeInfo(nodeInfo.getNode().getLeft(), nodeInfo.getLevel() + 1));
                 }
 
-                if (tempNode.node.hasRight()) {
-                    queue.offer(new TempNode(tempNode.node.getRight(), tempNode.level + 1));
+                if (nodeInfo.getNode().hasRight()) {
+                    queue.offer(new NodeInfo(nodeInfo.getNode().getRight(), nodeInfo.getLevel() + 1));
                 }
             }
 
@@ -1442,6 +1779,125 @@ public enum TreeUtils {
         }
 
         return nodeBuilder.toString();
+    }
+
+    /**
+     * Returns the count from the <code>node</code> and it's children.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
+     *
+     * @param node
+     * @return
+     */
+    public static <E extends Comparable<? super E>> BigDecimal getSum(Node<E> node) {
+        return (node == null ? BigDecimal.ZERO : getSum(node.getLeft()).add(getSum(node.getRight()))
+                .add(new BigDecimal(node.getData().toString())));
+    }
+
+    /**
+     * Returns the diameter of the tree. It also uses the <code>withRoot</code> property to decided if the diameter is
+     * with or without root.
+     * <p>
+     * Time Complexity: <code>O(N ^ 2)</code>
+     *
+     * @param node
+     * @return
+     */
+    public static <E extends Comparable<? super E>> long getDiameterNSquare(Node<E> node, boolean withRoot) {
+        long nodeDiameter = 0;
+        if (node != null) {
+            long leftDiameter = getDiameterNSquare(node.getLeft(), withRoot);
+            long rightDiameter = getDiameterNSquare(node.getRight(), withRoot);
+            long maxHeight = getHeight(node.getLeft()) + getHeight(node.getRight()) + 1;
+            nodeDiameter = Math.max(Math.max(leftDiameter, rightDiameter), maxHeight);
+        }
+
+        return nodeDiameter;
+    }
+
+    /**
+     * Returns the diameter of the tree. It also uses the <code>withRoot</code> property to decided if the diameter is
+     * with or without root.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
+     *
+     * @param node
+     * @return
+     */
+    public static <E extends Comparable<? super E>> NodeInfo<E> getDiameter(Node<E> node) {
+        // base case
+        NodeInfo<E> nodeInfo = null;
+        if (node == null) {
+            nodeInfo = new NodeInfo(0, 0);
+        } else {
+            NodeInfo<E> leftNode = getDiameter(node.getLeft());
+            NodeInfo<E> rightNode = getDiameter(node.getRight());
+            int myHeight = Math.max(leftNode.getHeight(), rightNode.getHeight()) + 1;
+            int nodeHeight = leftNode.getHeight() + rightNode.getHeight() + 1;
+            long myDiameter = Math.max(Math.max(leftNode.getDiameter(), rightNode.getDiameter()), nodeHeight);
+            LOGGER.debug("node:{}, myHeight:{}, myDiameter:{}", node, myHeight, myDiameter);
+            nodeInfo = new NodeInfo(myHeight, myDiameter);
+        }
+
+        return nodeInfo;
+    }
+
+    /**
+     * @param tree
+     * @param subTree
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> boolean treeContains(Node<E> tree, Node<E> subTree) {
+        // the leaf nodes of both tree should be null
+        if (tree == null && subTree == null) {
+            return true;
+        }
+
+        // only 1 node is not null
+        if (tree == null || subTree == null) {
+            return false;
+        }
+
+        // both nodes are same, check both left and right nodes of these nodes
+        if (tree.equals(subTree)) {
+            return (treeContains(tree.getLeft(), subTree.getLeft()) && treeContains(tree.getRight(),
+                    subTree.getRight()));
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the <code>subTree</code> exists the <code>tree</code> otherwise false.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
+     *
+     * @param tree
+     * @param subTree
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> boolean isSubtree(Node<E> tree, Node<E> subTree) {
+        // the subTree is null, means exists
+        if (subTree == null) {
+            return true;
+        }
+
+        // the tree is null, means not exists
+        if (tree == null) {
+            return false;
+        }
+
+        // both tree and subTree values matches
+        if (tree.equals(subTree)) {
+            // either left tree or right tree contains the subTree
+            if (treeContains(tree, subTree)) {
+                return true;
+            }
+        }
+
+        return treeContains(tree.getLeft(), subTree) || treeContains(tree.getRight(), subTree);
     }
 
 }

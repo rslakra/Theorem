@@ -28,6 +28,10 @@
  *****************************************************************************/
 package com.devamatre.theorem.adts.queue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 /**
@@ -36,21 +40,21 @@ import java.util.NoSuchElementException;
  * @created 2018-01-06 08:54:30 AM
  * @since 1.0.0
  */
-public class ArrayQueue<E> extends AbstractQueue<E> implements Queue<E> {
+public class ArrayQueue<E extends Comparable<? super E>> extends AbstractQueue<E> implements Queue<E> {
 
-    static final int DEFAULT_SIZE = 16;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArrayQueue.class);
 
-    protected int capacity;
-    protected Object[] items;
-    protected int lastIndex;
+    protected transient int capacity;
+    protected transient Object[] elements;
+    protected transient int tail;
 
     /**
      * @param capacity
      */
     public ArrayQueue(int capacity) {
         this.capacity = capacity;
-        items = new Object[capacity];
-        lastIndex = 0;
+        elements = new Object[capacity];
+        tail = -1;
     }
 
     /**
@@ -61,28 +65,77 @@ public class ArrayQueue<E> extends AbstractQueue<E> implements Queue<E> {
     }
 
     /**
-     * @param item
      * @return
-     * @see Queue#add(java.lang.Object)
+     * @see Queue#getSize()
+     */
+    @Override
+    public int getSize() {
+        return (tail < 0 ? 0 : tail + 1);
+    }
+
+    /**
+     * Returns true when the queue is full.
+     *
+     * @return
+     */
+    protected boolean isFull() {
+        return (tail == elements.length);
+    }
+
+    /**
+     * Checks the <code>Underflow</code>
+     *
+     * @return
+     */
+    protected void checkUnderflow() {
+        if (tail < 0) {
+            throw new NoSuchElementException("Underflow!");
+        }
+    }
+
+    /**
+     * Checks the <code>Overflow</code>
+     */
+    protected void checkOverflow() {
+        // check overflow (tail + 1) because the tail points the last element
+        if ((tail + 1) == elements.length) {
+            throw new IllegalStateException("Overflow!");
+        }
+    }
+
+    /**
+     * @param element
+     */
+    protected void checkNull(E element) {
+        // check if an element is null or not
+        if (element == null) {
+            throw new NullPointerException("Item is null!");
+        }
+    }
+
+
+    /**
+     * @param item the element to add
+     * @return
      */
     @Override
     public boolean add(E item) {
-        if (item == null) {
-            throw new NullPointerException("Item is null!");
+        checkNull(item);
+        // check overflow
+        checkOverflow();
+
+        if (isFull()) {
+            return false;
         }
 
-        if (lastIndex == capacity) {
-            throw new IllegalStateException("Overflow!");
-        }
-
-        items[lastIndex++] = item;
+        elements[++tail] = item;
         return true;
     }
 
     /**
      * @param item
      * @return
-     * @see Queue#offer(java.lang.Object)
+     * @see java.util.Queue#offer(java.lang.Object)
      */
     @Override
     public boolean offer(E item) {
@@ -95,16 +148,22 @@ public class ArrayQueue<E> extends AbstractQueue<E> implements Queue<E> {
      * @return
      */
     @SuppressWarnings("unchecked")
-    private E removeFirst() {
-        E item = null;
-        if (lastIndex >= 0) {
-            item = (E) items[0];
-            lastIndex--;
-            System.arraycopy(items, 1, items, 0, lastIndex);
-            items[lastIndex] = null;
+    protected E removeFirst() {
+        E element = null;
+        if (tail >= 0) {
+            element = (E) elements[0];
+            --tail;
+            LOGGER.trace("tail:{}", tail);
+            if (tail >= 0) {
+                LOGGER.trace("before arraycopy:{}", Arrays.toString(elements));
+                System.arraycopy(elements, 1, elements, 0, tail + 1);
+                LOGGER.trace("after arraycopy:{}", Arrays.toString(elements));
+            }
+            elements[tail + 1] = null;
+            LOGGER.trace("after marking last element as null:{}", Arrays.toString(elements));
         }
 
-        return item;
+        return element;
     }
 
     /**
@@ -113,10 +172,9 @@ public class ArrayQueue<E> extends AbstractQueue<E> implements Queue<E> {
      */
     @Override
     public E remove() {
-        if (lastIndex < 0) {
-            throw new NoSuchElementException("Underflow!");
-        } else if (lastIndex > getSize()) {
-            throw new ArrayIndexOutOfBoundsException("lastIndex:" + lastIndex);
+        checkUnderflow();
+        if (tail > elements.length) {
+            throw new ArrayIndexOutOfBoundsException("tail:" + tail);
         }
 
         return removeFirst();
@@ -138,11 +196,8 @@ public class ArrayQueue<E> extends AbstractQueue<E> implements Queue<E> {
     @SuppressWarnings("unchecked")
     @Override
     public E element() {
-        if (lastIndex <= 0) {
-            throw new NoSuchElementException("Underflow!");
-        }
-
-        return (E) items[0];
+        checkUnderflow();
+        return (E) elements[0];
     }
 
     /**
@@ -152,36 +207,28 @@ public class ArrayQueue<E> extends AbstractQueue<E> implements Queue<E> {
     @SuppressWarnings("unchecked")
     @Override
     public E peek() {
-        return (E) (lastIndex <= 0 ? null : items[0]);
+        return (E) (tail < 0 ? null : elements[0]);
     }
 
     /**
-     * @return
-     * @see Queue#getSize()
-     */
-    @Override
-    public int getSize() {
-        return lastIndex;
-    }
-
-    /**
+     * Returns the string representation of this object.
+     *
      * @return
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        StringBuilder sBuilder = new StringBuilder("[");
-        if (lastIndex > 0) {
-            for (int index = 0; index < lastIndex; index++) {
-                sBuilder.append(items[index].toString());
-                if (index < lastIndex - 1) {
-                    sBuilder.append(", ");
+        StringBuilder strBuilder = new StringBuilder("[");
+        if (!isEmpty()) {
+            for (int index = 0; index <= tail; index++) {
+                strBuilder.append(elements[index].toString());
+                if (index < tail) {
+                    strBuilder.append(", ");
                 }
             }
         }
+        strBuilder.append("]");
 
-        sBuilder.append("]");
-
-        return sBuilder.toString();
+        return strBuilder.toString();
     }
 
 }

@@ -35,6 +35,103 @@ import java.util.Objects;
 import java.util.Queue;
 
 /**
+ * The binary tree has the following properties:
+ *
+ * <pre>
+ *  1. The maximum number of nodes at level ‘l’ of a binary tree is 2 ^ l:
+ *      Note: Here level is the number of nodes on the path from the root to the node (including root and node).
+ *      The level of the root is 0.
+ *
+ *      This can be proved by induction:
+ *      For root, l = 0, number of nodes = 2 ^ 0 = 1
+ *      Assume that the maximum number of nodes on level ‘l’ is 2 ^ l
+ *      Since in a Binary tree every node has at most 2 children, the next level would have twice nodes, i.e. 2 * 2 ^ l
+ *
+ *  2. The Maximum number of nodes in a binary tree of height ‘h’ is 2 ^ h – 1.
+ *      Note: Here the height of a tree is the maximum number of nodes on the root-to-leaf path.
+ *      The height of a tree with a single node is considered as 1.
+ *
+ *      This result can be derived from point 2 above. A tree has maximum nodes if all levels have maximum nodes.
+ *      So the maximum number of nodes in a binary tree of height h is 1 + 2 + 4 + .. + 2^h-1. This is a simple geometric
+ *      series with h terms and the sum of this series is 2^h – 1.
+ *
+ *      In some books, the height of the root is considered as 0. In this convention, the above formula becomes 2^h+1 – 1
+ *
+ *  3. In a Binary Tree with N nodes, the minimum possible height or the minimum number of levels is log2(N+1):
+ *      Each level should have at least one element, so the height cannot be more than N. A binary tree of height ‘h’
+ *      can have a maximum of 2h – 1 nodes (previous property). So the number of nodes will be less than or equal to
+ *      this maximum value
+ *
+ *      N <=  2^h – 1
+ *      2^h >= N+1
+ *      log2(2^h) >= log2(N+1)      (Taking log both sides)
+ *      h log2 2 >= log2(N+1)       (h is an integer)
+ *      h  >= | log2(N+1) |
+ *
+ *      So the minimum height possible is | log2(N+1) |
+ *
+ *  4. A Binary Tree with L leaves has at least | Log2L |+ 1  levels:
+ *      A Binary tree has the maximum number of leaves (and a minimum number of levels) when all levels are fully
+ *      filled. Let all leaves be at level l, then below is valid for the number of leaves L
+ *
+ *      L   <=  2l-1  [From Point 1] [Note: Here, consider level of root node as 1]
+ *      l =   | Log2L | + 1
+ *      where l is the minimum number of levels
+ *
+ *  5. In a Binary tree where every node has 0 or 2 children, the number of leaf nodes is always one more than nodes
+ *  with two children:
+ *      L = T + 1
+ *      Where L = Number of leaf nodes
+ *      T = Number of internal nodes with two children
+ *
+ *      Proof:
+ *
+ *      No. of leaf nodes (L) i.e. total elements present at the bottom of tree = 2^h-1 (h is height of tree)
+ *      No. of internal nodes = {total no. of nodes} – {leaf nodes} = { 2^h – 1 } – {2^h-1} = 2^h-1 (2-1) – 1 = 2^h-1 – 1
+ *      So , L = 2^h-1
+ *         T = 2^h-1 – 1
+ *
+ *      Therefore L = T + 1
+ *      Hence proved
+ *
+ *  6. In a non-empty binary tree, if n is the total number of nodes and e is the total number of edges, then e = n-1:
+ *
+ *      Every node in a binary tree has exactly one parent with the exception of the root node. So if n is the total
+ *      number of nodes then n-1 nodes have exactly one parent. There is only one edge between any child and its parent.
+ *      So the total number of edges is n-1.
+ *
+ *  Some extra properties of binary tree are:
+ *  i) Each node in a binary tree can have at most two child nodes: In a binary tree, each node can have either zero,
+ *      one, or two child nodes. If a node has zero children, it is called a leaf node. If a node has one child, it is
+ *      called a unary node. If a node has two children, it is called a binary node.
+ *  ii) The node at the top of the tree is called the root node: The root node is the first node in a binary tree and
+ *      all other nodes are connected to it. All other nodes in the tree are either child nodes or descendant nodes of
+ *      the root node.
+ *  iii) Nodes that do not have any child nodes are called leaf nodes: Leaf nodes are the endpoints of the tree and have
+ *      no children. They represent the final result of the tree.
+ *  iv) The height of a binary tree is defined as the number of edges from the root node to the deepest leaf node: The
+ *      height of a binary tree is the length of the longest path from the root node to any of the leaf nodes. The
+ *      height of a binary tree is also known as its depth.
+ *  v) In a full binary tree, every node except the leaves has exactly two children: In a full binary tree, all non-leaf
+ *      nodes have exactly two children. This means that there are no unary nodes in a full binary tree.
+ *  vi) In a complete binary tree, every level of the tree is completely filled except for the last level, which can be
+ *      partially filled: In a complete binary tree, all levels of the tree except the last level are completely filled.
+ *      This means that there are no gaps in the tree and all nodes are connected to their parent nodes.
+ *  vii) In a balanced binary tree, the height of the left and right subtrees of every node differ by at most 1: In a
+ *      balanced binary tree, the height of the left and right subtrees of every node is similar. This ensures that the
+ *      tree is balanced and that the height of the tree is minimized.
+ *  viii) The in-order, pre-order, and post-order traversal of a binary tree are three common ways to traverse the
+ *      tree:
+ *      - In-order (In-order traversal visits the left subtree, the node itself, and then the right subtree.),
+ *      - pre-order (Pre-order traversal visits the node itself, the left subtree, and then the right subtree.), and
+ *      - post-order (Post-order traversal visits the left subtree, the right subtree, and then the node itself.)
+ *      are three different ways to traverse a binary tree.
+ *
+ * </pre>
+ *
+ * <url>https://www.geeksforgeeks.org/types-of-binary-tree</url>
+ * <url>https://www.geeksforgeeks.org/handshaking-lemma-and-interesting-tree-properties</url>
+ * <p>
  * Handle the binary tree management. This binary tree does not allow duplicate values.
  *
  * @author Rohtash Lakra
@@ -42,44 +139,10 @@ import java.util.Queue;
  * @created 2018-01-13 04:36:00 PM
  * @since 1.0.0
  */
-public class BinaryTree<E extends Comparable<E>> {
-
-    private Node<E> root;
-    private int size;
+public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E> {
 
     public BinaryTree() {
-        setRoot(null);
-        size = 0;
-    }
-
-    /**
-     * Returns the <code>root</code> node.
-     *
-     * @return
-     */
-    public Node<E> getRoot() {
-        return this.root;
-    }
-
-    /**
-     * The <code>root</code> node to be set.
-     *
-     * @return
-     */
-    private void setRoot(Node<E> root) {
-        this.root = root;
-        if (this.root != null) {
-            root.setParent(null);
-        }
-    }
-
-    /**
-     * Returns the size of the binary tree;
-     *
-     * @return
-     */
-    public int getSize() {
-        return size;
+        super();
     }
 
     /**
@@ -92,7 +155,7 @@ public class BinaryTree<E extends Comparable<E>> {
         // Case 1: The tree is empty - allocate the head
         if (BeanUtils.isNull(parentNode)) {
             setRoot(newNode);
-            size++;
+            incrementSize();
         } else {
             /* Case 2: The tree is not empty so find the right location to insert  */
 
@@ -105,7 +168,7 @@ public class BinaryTree<E extends Comparable<E>> {
                     // there is no left child, make it the new left node
                     parentNode.setLeft(newNode);
                     newNode.setParent(parentNode);
-                    size++;
+                    incrementSize();
                 }
             } else {
                 /**
@@ -117,7 +180,7 @@ public class BinaryTree<E extends Comparable<E>> {
                     // there is no right child, make it the new right node
                     parentNode.setRight(newNode);
                     newNode.setParent(parentNode);
-                    size++;
+                    incrementSize();
                 }
             }
         }
@@ -139,7 +202,7 @@ public class BinaryTree<E extends Comparable<E>> {
      * @param data
      */
     public void addNode(E data) {
-        addNode(getRoot(), new Node<E>(data));
+        addNode(root, new Node<E>(data));
     }
 
     /**
@@ -148,9 +211,10 @@ public class BinaryTree<E extends Comparable<E>> {
      * @param data
      * @return
      */
-    private Node<E> findNode(E data) {
+    @Override
+    protected Node<E> findNode(E data) {
         // find node's in the tree with the provided <code>value</code>
-        Node<E> current = getRoot();
+        Node<E> current = root;
         while (current != null) {
             if (current.isGreaterThan(data)) {
                 // if the current node is greater than data, find in left.
@@ -168,16 +232,6 @@ public class BinaryTree<E extends Comparable<E>> {
     }
 
     /**
-     * Returns true if the given node exists otherwise false.
-     *
-     * @param data
-     * @return
-     */
-    public boolean contain(E data) {
-        return (findNode(data) != null);
-    }
-
-    /**
      * Removes the node.
      *
      * @param delNode
@@ -185,7 +239,7 @@ public class BinaryTree<E extends Comparable<E>> {
      */
     private void removeNodeWithoutParentHandling(Node<E> delNode, Node<E> nextNode) {
         // if removing node is root node, the delNode should be equal to root.
-        if (getRoot() == delNode) {
+        if (root == delNode) {
             if (BeanUtils.isNotNull(nextNode)) {
                 nextNode.setParent(null);
                 nextNode.setLeft(delNode.getLeft());
@@ -210,7 +264,7 @@ public class BinaryTree<E extends Comparable<E>> {
      */
     public boolean removeNodeWithoutParentHandling(E nodeData) {
         boolean deleted = false;
-        if (Objects.nonNull(getRoot())) {
+        if (Objects.nonNull(root)) {
             // find node to be deleted.
             Node<E> delNode = findNode(nodeData);
             // if found
@@ -244,7 +298,7 @@ public class BinaryTree<E extends Comparable<E>> {
             }
 
             if (deleted) {
-                size--;
+                decrementSize();
             }
         }
 
@@ -262,7 +316,7 @@ public class BinaryTree<E extends Comparable<E>> {
         Node<E> delNode = findNode(nodeData);
         if (Objects.nonNull(delNode)) {
             // decrease the node count
-            size--;
+            decrementSize();
 
             // Get delNode's parent node
             final Node<E> parent = delNode.getParent();
@@ -410,7 +464,7 @@ public class BinaryTree<E extends Comparable<E>> {
      * @return
      */
     public Node<E> getLeftNode() {
-        return getRoot().getLeft();
+        return root.getLeft();
     }
 
     /**
@@ -419,9 +473,9 @@ public class BinaryTree<E extends Comparable<E>> {
      * @param newData
      */
     public void addLeftNode(E newData) {
-        if (Objects.isNull(getRoot())) {
+        if (Objects.isNull(root)) {
             setRoot(new Node<E>(newData));
-            size++;
+            incrementSize();
         } else {
             /**
              * <pre>
@@ -433,7 +487,7 @@ public class BinaryTree<E extends Comparable<E>> {
              * </pre>
              */
             Node<E> newNode = new Node<E>(newData);
-            Node<E> current = getRoot();
+            Node<E> current = root;
             while (Objects.nonNull(current) && Objects.nonNull(current.getLeft())) {
                 current = current.getLeft();
             }
@@ -441,7 +495,7 @@ public class BinaryTree<E extends Comparable<E>> {
             // set this node as the parent of the new node
             newNode.setParent(current);
             current.setLeft(newNode);
-            size++;
+            incrementSize();
         }
     }
 
@@ -451,7 +505,7 @@ public class BinaryTree<E extends Comparable<E>> {
      * @return
      */
     public Node<E> getRightNode() {
-        return getRoot().getRight();
+        return root.getRight();
     }
 
     /**
@@ -460,9 +514,9 @@ public class BinaryTree<E extends Comparable<E>> {
      * @param newData
      */
     public void addRightNode(E newData) {
-        if (Objects.isNull(getRoot())) {
+        if (Objects.isNull(root)) {
             setRoot(new Node<E>(newData));
-            size++;
+            incrementSize();
         } else {
             /**
              * <pre>
@@ -474,7 +528,7 @@ public class BinaryTree<E extends Comparable<E>> {
              * </pre>
              */
             Node<E> newNode = new Node<E>(newData);
-            Node<E> current = getRoot();
+            Node<E> current = root;
             while (Objects.nonNull(current) && Objects.nonNull(current.getRight())) {
                 current = current.getRight();
             }
@@ -482,7 +536,7 @@ public class BinaryTree<E extends Comparable<E>> {
             // set this node as the parent of the new node
             newNode.setParent(current);
             current.setRight(newNode);
-            size++;
+            incrementSize();
         }
     }
 

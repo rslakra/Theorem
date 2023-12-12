@@ -29,7 +29,10 @@
 package com.devamatre.theorem.adts.linkedlist;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.devamatre.theorem.adts.list.Node;
 import org.junit.jupiter.api.Test;
@@ -40,68 +43,263 @@ import org.slf4j.LoggerFactory;
  * @author Rohtash Lakra
  * @date 11/03/2016 04:45:23 PM
  */
-public class LinkedListTest {
+public class LinkedListTest extends AbstractLinkedListTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LinkedListTest.class);
 
     /**
+     * Tests <code>new LinkedList()</code> method.
+     *
      * @return
      */
-    private final static LinkedList<Integer> createIntegerLinkedList() {
-        LinkedList<Integer> linkedList = new LinkedList<Integer>();
+    @Override
+    public void testBuildLinkedList() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
         assertEquals(0, linkedList.getSize());
-        Node<Integer> secondNode = new Node<Integer>(2);
-        linkedList.addHead(1);
-        assertEquals(1, linkedList.getSize());
-        linkedList.addLast(secondNode);
-        assertEquals(2, linkedList.getSize());
-        linkedList.addHead(0);
-        assertEquals(3, linkedList.getSize());
-        linkedList.addTail(3);
-        assertEquals(4, linkedList.getSize());
-        linkedList.insertAfter(secondNode, new Node<Integer>(4));
-        assertEquals(5, linkedList.getSize());
-        LOGGER.debug("createIntegerLinkedList(), linkedList: {}", linkedList);
-        return linkedList;
+        assertEquals(null, linkedList.head);
     }
 
     /**
+     * Tests <code>getSize()</code> method.
+     *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
      * @return
      */
-    private final static LinkedList<String> createStringLinkedList() {
-        LinkedList<String> linkedList = new LinkedList<String>();
-        linkedList.addFirst(new Node<String>("One"));
-        Node<String> secondNode = new Node<String>("Two");
-        linkedList.addLast(secondNode);
-        linkedList.addHead("Zero");
-        linkedList.addTail("Three");
-        linkedList.insertAfter(secondNode, new Node<String>("Four"));
-        LOGGER.debug("createStringLinkedList(), linkedList:{}", linkedList);
-        return linkedList;
+    @Override
+    public void testGetSize() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertEquals(0, linkedList.getSize());
     }
 
     /**
-     * Tests the <code>toString</code> method.
+     * Tests <code>isEmpty()</code> method.
+     *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
+     * @return
+     */
+    @Override
+    public void testIsEmpty() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertTrue(linkedList.isEmpty());
+
+        buildIntRandomLinkedList(SIZE, UPPER_BOUND, linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertFalse(linkedList.isEmpty());
+        assertEquals(SIZE, linkedList.getSize());
+    }
+
+    /**
+     * Tests <code>toString()</code> method.
+     *
+     * @return
      */
     @Test
+    @Override
     public void testToString() {
-        LinkedList<Integer> linkedList = createIntegerLinkedList();
-        LOGGER.debug("linkedList: {}", linkedList);
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
         assertEquals(5, linkedList.getSize());
-        assertEquals("[0, 1, 2, 4, 3]", linkedList.toString());
+        assertEquals("[1, 0, 2, 4, 3]", linkedList.toString());
     }
 
     /**
-     * Tests the <code>reversedToString</code> method.
+     * Tests <code>addHead()</code> method.
+     *
+     * @return
      */
-    @Test
-    public void testReversedToString() {
-        LinkedList<Integer> linkedList = createIntegerLinkedList();
-        LOGGER.debug("linkedList: {}", linkedList);
-        assertEquals(5, linkedList.getSize());
-        LinkedList<Integer> reversed = linkedList.reversed();
-        LOGGER.debug("Reversed linkedList: {}", reversed);
-        assertEquals("[3, 4, 2, 1, 0]", reversed.toString());
+    @Override
+    public void testAddHead() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        boolean result = linkedList.addHead(6);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertEquals(true, result);
+        assertEquals(6, linkedList.getSize());
+        assertEquals(6, linkedList.head);
+        assertEquals("[6, 1, 0, 2, 4, 3]", linkedList.toString());
+    }
+
+    /**
+     * Tests <code>addTail()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testAddTail() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        boolean result = linkedList.addTail(6);
+        assertEquals(true, result);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertEquals(6, linkedList.getSize());
+        assertEquals(1, linkedList.head);
+        assertEquals("[1, 0, 2, 4, 3, 6]", linkedList.toString());
+    }
+
+    /**
+     * Tests <code>addNode()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testAddNode() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        boolean result = linkedList.addNode(6);
+        assertEquals(true, result);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertEquals(6, linkedList.getSize());
+        assertEquals(1, linkedList.head);
+        assertEquals("[1, 0, 2, 4, 3, 6]", linkedList.toString());
+    }
+
+    /**
+     * Tests <code>findNode()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testFindNode() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        // empty list
+        Integer result = linkedList.findNode(16);
+        LOGGER.debug("result:{}", result);
+        assertNull(result);
+
+        // list has only 1 item.
+        linkedList.addNode(16);
+        result = linkedList.findNode(16);
+        LOGGER.debug("result:{}", result);
+        assertNull(result);
+
+        linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+
+        // find 6 (not exists)
+        result = linkedList.findNode(6);
+        LOGGER.debug("result:{}", result);
+        assertNull(result);
+
+        // find 2 (exists)
+        result = linkedList.findNode(2);
+        LOGGER.debug("result:{}", result);
+        assertEquals(2, result);
+    }
+
+    /**
+     * Tests <code>removeHead()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testRemoveHead() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+
+        // find head (list is not empty)
+        boolean result = linkedList.removeHead();
+        LOGGER.debug("result:{}", result);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertTrue(result);
+        assertEquals(4, linkedList.getSize());
+        assertEquals(0, linkedList.head);
+        assertEquals("[0, 2, 4, 3]", linkedList.toString());
+
+        // find head (list is empty)
+        linkedList = new LinkedList<>();
+        result = linkedList.removeHead();
+        LOGGER.debug("result:{}", result);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertFalse(result);
+        assertEquals(0, linkedList.getSize());
+        assertNull(linkedList.head);
+        assertEquals("[]", linkedList.toString());
+    }
+
+    /**
+     * Tests <code>removeTail()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testRemoveTail() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+
+        // remove tail (list is not empty)
+        boolean result = linkedList.removeTail();
+        LOGGER.debug("result:{}", result);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertTrue(result);
+        assertEquals(4, linkedList.getSize());
+        assertEquals(0, linkedList.head);
+        assertEquals("[1, 0, 2, 4]", linkedList.toString());
+
+        // remove tail (list is empty)
+        linkedList = new LinkedList<>();
+        result = linkedList.removeTail();
+        LOGGER.debug("result:{}", result);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertFalse(result);
+        assertEquals(0, linkedList.getSize());
+        assertNull(linkedList.head);
+        assertEquals("[]", linkedList.toString());
+    }
+
+    /**
+     * Tests <code>removeNode()</code> method.
+     *
+     * @return
+     */
+    @Override
+    public void testRemoveNode() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+
+        // remove node (list is not empty and exists)
+        boolean result = linkedList.removeNode(2);
+        LOGGER.debug("result:{}", result);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertTrue(result);
+        assertEquals(4, linkedList.getSize());
+        assertEquals(0, linkedList.head);
+        assertEquals("[1, 0, 4, 3]", linkedList.toString());
+
+        // remove node (either list is not empty, but not exists
+        result = linkedList.removeNode(6);
+        LOGGER.debug("result:{}", result);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertFalse(result);
+        assertEquals(4, linkedList.getSize());
+        assertEquals(0, linkedList.head);
+        assertEquals("[1, 0, 4, 3]", linkedList.toString());
+
+        // remove node (either list is empty, but not exists
+        linkedList = new LinkedList<>();
+        result = linkedList.removeNode(2);
+        LOGGER.debug("result:{}", result);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertFalse(result);
+        assertEquals(0, linkedList.getSize());
+        assertNull(linkedList.head);
+        assertEquals("[]", linkedList.toString());
     }
 
     /**
@@ -109,14 +307,61 @@ public class LinkedListTest {
      */
     @Test
     public void testPrintLinkedList() {
-        LinkedList<Integer> intLinkedList = createIntegerLinkedList();
-        LOGGER.debug("intLinkedList: {}", intLinkedList);
-        LOGGER.debug("Size: {}", intLinkedList.getSize());
+        LinkedList<Integer> intLinkedList = new LinkedList<>();
+        buildIntRandomLinkedList(intLinkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", intLinkedList.getSize(), intLinkedList);
 
-        LinkedList<String> stringLinkedList = createStringLinkedList();
-        LOGGER.debug("stringLinkedList: {}", stringLinkedList);
-        LOGGER.debug("Size: {}", stringLinkedList.getSize());
-        LOGGER.debug("Size with recursion: {}", stringLinkedList.size());
+        LinkedList<String> stringLinkedList = new LinkedList<>();
+        buildStringLinkedList(stringLinkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", stringLinkedList.getSize(), stringLinkedList);
+    }
+
+    /**
+     * Tests the <code>reversedToString</code> method.
+     */
+    @Test
+    public void testNewReversedLinkedList() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("linkedList: {}", linkedList);
+        assertEquals(5, linkedList.getSize());
+        LinkedList<Integer> reversed = linkedList.newReversedLinkedList();
+        LOGGER.debug("Reversed linkedList: {}", reversed);
+        assertEquals("[3, 4, 2, 0, 1]", reversed.toString());
+    }
+
+    /**
+     * Tests the <code>reversedRecursively()</code> method.
+     */
+    @Test
+    public void testReversedRecursively() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+
+        // reverse the linkedList
+        linkedList.head = linkedList.reversedRecursively(linkedList.head);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertNotNull(linkedList);
+        assertEquals(5, linkedList.getSize());
+        assertEquals(3, linkedList.head.getData());
+    }
+
+    /**
+     * Lists the linked list.
+     */
+    @Test
+    public void testReversed() {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+
+        // reverse the linkedList
+        linkedList.reversed();
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+        assertNotNull(linkedList);
+        assertEquals(5, linkedList.getSize());
+        assertEquals(3, linkedList.head.getData());
     }
 
     /**
@@ -124,11 +369,9 @@ public class LinkedListTest {
      */
     @Test
     public void testRemoveNodes() {
-        LinkedList<Integer> linkedList = createIntegerLinkedList();
-        assertNotNull(linkedList);
-        LOGGER.debug("linkedList: {}", linkedList);
-        LOGGER.debug("Size: {}", linkedList.getSize());
-        assertEquals(5, linkedList.getSize());
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
 
         // remove
         linkedList.removeFirst();
@@ -149,27 +392,26 @@ public class LinkedListTest {
      */
     @Test
     public void testFindNodes() {
-        LinkedList<Integer> linkedList = createIntegerLinkedList();
-        assertNotNull(linkedList);
-        assertEquals(5, linkedList.getSize());
-        LOGGER.debug("linkedList: {}", linkedList);
-        LOGGER.debug("contain 3: {}", linkedList.contains(3));
-        LOGGER.debug("contain 16: {}", linkedList.contains(16));
-        LOGGER.debug("contain 2:{}", linkedList.contains(2));
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
+
+        assertTrue(linkedList.contains(3));
+        assertFalse(linkedList.contains(16));
+        assertTrue(linkedList.contains(2));
 
         // contain
-        System.out.println("contain using recursion 2:" + linkedList.contains(2));
-        System.out.println("contain using recursion 10:" + linkedList.contains(10));
-        System.out.println("contain using recursion 4:" + linkedList.contains(4));
-
-        // contain
-        LinkedList<String> stringLinkedList = createStringLinkedList();
+        LinkedList<String> stringLinkedList = new LinkedList<>();
+        buildStringLinkedList(stringLinkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
         assertNotNull(stringLinkedList);
         assertEquals(5, stringLinkedList.getSize());
-        System.out.println(stringLinkedList);
-        System.out.println("contain \"Four\":" + stringLinkedList.contains("Four"));
-        System.out.println("contain \"Zero\":" + stringLinkedList.contains("ZERO"));
-        System.out.println("contain \"Ten\":" + stringLinkedList.contains("Ten"));
+        assertEquals("[One, Zero, Two, Four, Three]", stringLinkedList.toString());
+
+        assertTrue(stringLinkedList.contains("Four"));
+        assertFalse(stringLinkedList.contains("Ten"));
+        assertFalse(stringLinkedList.contains("ZERO"));
+        assertTrue(stringLinkedList.contains("Zero"));
     }
 
     /**
@@ -177,10 +419,9 @@ public class LinkedListTest {
      */
     @Test
     public void testSwapNodes() {
-        LinkedList<Integer> linkedList = createIntegerLinkedList();
-        assertNotNull(linkedList);
-        assertEquals(5, linkedList.getSize());
-        System.out.println(linkedList);
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
 
         // swap nodes
         linkedList.swapNodes(1, 3);
@@ -198,10 +439,9 @@ public class LinkedListTest {
      */
     @Test
     public void testGetValue() {
-        LinkedList<Integer> linkedList = createIntegerLinkedList();
-        assertNotNull(linkedList);
-        assertEquals(5, linkedList.getSize());
-        System.out.println(linkedList);
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        buildIntRandomLinkedList(linkedList);
+        LOGGER.debug("Size:{}, linkedList:{}", linkedList.getSize(), linkedList);
         System.out.println(linkedList.getValue(0));
     }
 
@@ -225,9 +465,11 @@ public class LinkedListTest {
         System.out.println(linkedList);
     }
 
+    /**
+     *
+     */
     @Test
-
-    public void testLinkedList() {
+    public void testAllOperations() {
         /* Start with the empty list */
         LinkedList<Integer> linkedList = new LinkedList<>();
         linkedList.addHead(1);
@@ -236,17 +478,17 @@ public class LinkedListTest {
         linkedList.addHead(4);
         linkedList.addHead(5);
         linkedList.addHead(6);
-        linkedList.printList();
+        LOGGER.debug("linkedList:{}", linkedList);
 
         linkedList.removeHead();
         linkedList.removeFirst();
-        linkedList.printList();
-        System.out.println("Nodes Count:" + linkedList.getCount());
+        LOGGER.debug("linkedList:{}", linkedList);
+        LOGGER.debug("Nodes Count:{}", linkedList.getCount());
 
         linkedList.swapNodes(1, 5);
-        linkedList.reverse();
-        linkedList.reverseRecursively();
-        linkedList.printList();
+        linkedList.reversed();
+        linkedList.reversedRecursively();
+        LOGGER.debug("linkedList:{}", linkedList);
 
         LinkedList linkList1 = new LinkedList();
         linkList1.addTail(10);
@@ -255,7 +497,7 @@ public class LinkedListTest {
         linkList1.addTail(43);
         linkList1.addTail(50);
         linkList1.addTail(64);
-        linkList1.printList();
+        LOGGER.debug("linkList1:{}", linkList1);
 
         LinkedList linkList2 = new LinkedList();
         linkList2.addNode(11);
@@ -264,10 +506,10 @@ public class LinkedListTest {
         linkList2.addNode(34);
         linkList2.addNode(55);
         linkList2.addNode(60);
-        linkList2.printList();
+        LOGGER.debug("linkList2:{}", linkList2);
 
         LinkedList mergedLinkedList = LinkedList.mergeSortedLists(linkList1, linkList2);
-        mergedLinkedList.printList();
+        LOGGER.debug("mergedLinkedList:{}", mergedLinkedList);
     }
 
 

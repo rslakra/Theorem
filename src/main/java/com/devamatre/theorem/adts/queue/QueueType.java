@@ -35,5 +35,28 @@ package com.devamatre.theorem.adts.queue;
  * @since 1.0.0
  */
 public enum QueueType {
-    ARRAY_QUEUE, LIST_QUEUE, LINKED_LIST_QUEUE;
+    /**
+     * Array Queue
+     */
+    ARRAY_QUEUE,
+
+    /**
+     * Circular Queue
+     */
+    CIRCULAR_QUEUE,
+
+    /**
+     * Circular Queue
+     */
+    DEQUE_QUEUE,
+
+    /**
+     * List Queue
+     */
+    LIST_QUEUE,
+
+    /**
+     * ListedList Queue
+     */
+    LINKED_LIST_QUEUE;
 }

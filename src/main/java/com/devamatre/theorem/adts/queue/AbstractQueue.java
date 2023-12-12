@@ -4,7 +4,7 @@ package com.devamatre.theorem.adts.queue;
  * @author Rohtash Lakra
  * @created 11/17/23 6:43 PM
  */
-public abstract class AbstractQueue<E> implements Queue<E> {
+public abstract class AbstractQueue<E extends Comparable<? super E>> implements Queue<E> {
 
     private int size;
 

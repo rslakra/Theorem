@@ -3,7 +3,7 @@ package com.devamatre.theorem.leetcode;
 import java.util.Arrays;
 
 /**
- * @author Rohtash Lakra (rslakra.work@gmail.com)
+ * @author Rohtash Lakra
  * @version 1.0.0
  * @since 11/13/2023 7:05 PM
  */

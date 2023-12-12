@@ -494,7 +494,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * accessed by arr[2 * i] and its right child can be accessed by arr[2 * i + 1]. Index of root will be 1 in an
      * array.
      * <p>
-     * Time Complexity: O(N)
+     * Time Complexity: <code>O(N)</code>
      */
     protected void buildMaxHeap() {
         for (int i = getSize() / 2; i >= 0; i--) {
@@ -570,7 +570,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * accessed by arr[2 * i] and its right child can be accessed by arr[2 * i + 1]. Index of root will be 1 in an
      * array.
      * <p>
-     * Time Complexity: O(N)
+     * Time Complexity: <code>O(N)</code>
      */
     protected void buildMinHeap() {
         for (int i = getSize() / 2; i >= 0; i--) {

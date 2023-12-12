@@ -27,7 +27,7 @@ public enum GraphUtils {
      * @param visited
      * @param stack
      */
-    public static <T extends Comparable> void dfs(Graph<T> graph, T current, Set<T> visited, Set<T> stack) {
+    public static <E extends Comparable<? super E>> void dfs(Graph<E> graph, E current, Set<E> visited, Set<E> stack) {
         LOGGER.debug("+dfs({}, {}, {}, {})", graph, current, visited, stack);
         LOGGER.debug(current.toString());
         visited.add(current);
@@ -35,9 +35,9 @@ public enum GraphUtils {
         stack.add(current);
         if (graph.getAdjList().containsKey(current)) {
             // visit neighbors of current vertex
-            Iterator<Edge<T>> itr = graph.getNeighbors(current).iterator();
+            Iterator<Edge<E>> itr = graph.getNeighbors(current).iterator();
             while (itr.hasNext()) {
-                Edge<T> edge = itr.next();
+                Edge<E> edge = itr.next();
                 if (!visited.contains(edge.getTarget())) {
                     dfs(graph, edge.getTarget(), visited, stack);
                 }
@@ -49,14 +49,14 @@ public enum GraphUtils {
     /**
      * Run DFS on the <code>graph</code>.
      */
-    public static <T extends Comparable> Set<T> dfs(Graph<T> graph) {
+    public static <E extends Comparable<? super E>> Set<E> dfs(Graph<E> graph) {
         LOGGER.debug("+dfs({})", graph);
-        final Set<T> visited = new HashSet<>();
-        final Set<T> stack = new HashSet<>();
+        final Set<E> visited = new HashSet<>();
+        final Set<E> stack = new HashSet<>();
         // traverse each vertex of the graph
-        Iterator<T> itr = graph.keySet().iterator();
+        Iterator<E> itr = graph.keySet().iterator();
         while (itr.hasNext()) {
-            T current = itr.next();
+            E current = itr.next();
             if (!visited.contains(current)) {
                 dfs(graph, current, visited, stack);
             }
@@ -75,13 +75,13 @@ public enum GraphUtils {
      *
      * @return
      */
-    public static <T extends Comparable> void topSort(Graph<T> graph, T current, Set<T> visited, Stack<T> stack) {
+    public static <E extends Comparable<? super E>> void topSort(Graph<E> graph, E current, Set<E> visited, Stack<E> stack) {
         visited.add(current);
         if (graph.getAdjList().containsKey(current)) {
             // visit all neighbors of the current vertex
-            Iterator<Edge<T>> itr = graph.getAdjList().get(current).iterator();
+            Iterator<Edge<E>> itr = graph.getAdjList().get(current).iterator();
             while (itr.hasNext()) {
-                Edge<T> edge = itr.next();
+                Edge<E> edge = itr.next();
                 if (!visited.contains(edge.getTarget())) {
                     topSort(graph, edge.getTarget(), visited, stack);
                 }
@@ -102,14 +102,14 @@ public enum GraphUtils {
      * @param graph
      * @return
      */
-    public static <T extends Comparable> List<T> topSort(Graph<T> graph) {
-        List<T> topSort = new ArrayList<>();
-        final Set<T> visited = new HashSet<>();
-        final Stack<T> stack = new Stack<>();
+    public static <E extends Comparable<? super E>> List<E> topSort(Graph<E> graph) {
+        List<E> topSort = new ArrayList<>();
+        final Set<E> visited = new HashSet<>();
+        final Stack<E> stack = new Stack<>();
         // traverse each vertex of the graph
-        Iterator<T> itr = graph.keySet().iterator();
+        Iterator<E> itr = graph.keySet().iterator();
         while (itr.hasNext()) {
-            T current = itr.next();
+            E current = itr.next();
             if (!visited.contains(current)) {
                 topSort(graph, current, visited, stack);
             }

@@ -28,6 +28,8 @@
  *****************************************************************************/
 package com.devamatre.theorem.adts;
 
+import com.devamatre.appsuite.core.BeanUtils;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -41,7 +43,6 @@ public enum Maths {
 
     INSTANCE;
     public static final String SPACE = " ";
-
 
     public static final BigDecimal ZERO = BigDecimal.ZERO;
     public static final BigDecimal ONE = BigDecimal.ONE;
@@ -58,7 +59,7 @@ public enum Maths {
     public static final BigDecimal TWENTY = BigDecimal.valueOf(20);
     public static final BigDecimal TWENTY_FIVE = BigDecimal.valueOf(25);
     public static final BigDecimal THIRTY = BigDecimal.valueOf(30);
-    public static final BigDecimal FOURTY = BigDecimal.valueOf(40);
+    public static final BigDecimal FORTY = BigDecimal.valueOf(40);
     public static final BigDecimal FIFTY = BigDecimal.valueOf(50);
     public static final BigDecimal SIXTY = BigDecimal.valueOf(60);
 
@@ -130,6 +131,24 @@ public enum Maths {
         placeValues.put(61, "Novemdecillion");
         placeValues.put(64, "Vigintillion");
         placeValues.put(304, "Centillion");
+    }
+
+    /**
+     * Returns true if the
+     *
+     * @param element
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> boolean isEmptyOrMinusOne(E element) {
+        if (BeanUtils.isEmpty(element)) { // is null/empty data
+            return true;
+        } else if (BeanUtils.isKindOf(element, Integer.class)
+                   && ((Integer) element).compareTo(-1) == 0) { // is data -1 integer.
+            return true;
+        }
+
+        return false;
     }
 
     /**

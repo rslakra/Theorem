@@ -109,14 +109,13 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
             return false;
         }
 
-        Node node = (Node) object;
-        if (!isEquals(node)) {
-            return false;
-        }
-
-        boolean result = Objects.equals(getPrevious(), node.getPrevious());
+        Node<E> listNode = (Node<E>) object;
+        boolean result = Objects.equals(getData(), listNode.getData());
         if (!result) {
-            result = Objects.equals(getNext(), node.getNext());
+            result = Objects.equals(getPrevious(), listNode.getPrevious());
+            if (!result) {
+                result = Objects.equals(getNext(), listNode.getNext());
+            }
         }
 
         return result;
@@ -129,11 +128,7 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      */
     @Override
     public String toString() {
-        return ToString.of(Node.class)
-            .add("previous", getPrevious())
-            .add("data", getData())
-            .add("next", getNext())
-            .toString();
+        return ToString.of(Node.class, true).add("previous", getPrevious()).add("data", getData()).add("next", getNext()).toString();
     }
 
     /**
@@ -230,5 +225,48 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      */
     public boolean isEquals(E other) {
         return (getData().compareTo(other) == 0);
+    }
+
+    /**
+     * Returns the string representation of the <code>headNode</code> linkedList.
+     *
+     * @param headNode
+     * @param addBrackets
+     * @return
+     */
+    public static <E extends Comparable<? super E>> String toString(Node<E> headNode, boolean addBrackets) {
+        StringBuilder sBuilder = new StringBuilder();
+        if (addBrackets) {
+            sBuilder.append("[");
+        }
+
+        if (headNode != null) {
+            Node<E> current = headNode;
+            while (current != null) {
+                sBuilder.append(current.getData());
+                if (current.hasNext()) {
+                    sBuilder.append(", ");
+                }
+
+                current = current.getNext();
+            }
+        }
+
+        if (addBrackets) {
+            sBuilder.append("]");
+        }
+
+        return sBuilder.toString();
+    }
+
+    /**
+     * Returns the string representation of the <code>headNode</code> linkedList.
+     *
+     * @param headNode
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> String toString(Node<E> headNode) {
+        return toString(headNode, true);
     }
 }

@@ -21,7 +21,7 @@ import java.util.TreeSet;
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
  */
-public class GraphWithAdjacencyMatrix<E extends Comparable> extends AbstractGraph<E> {
+public class GraphWithAdjacencyMatrix<E extends Comparable<? super E>> extends AbstractGraph<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GraphWithAdjacencyMatrix.class);
 
@@ -36,8 +36,9 @@ public class GraphWithAdjacencyMatrix<E extends Comparable> extends AbstractGrap
      */
     public GraphWithAdjacencyMatrix(boolean weighted, boolean directed) {
         super(weighted, directed);
+        LOGGER.debug("GraphWithAdjacencyMatrix({}, {})", weighted, directed);
         this.vertices = new ArrayList<>();
-        adjList = new HashMap<>();
+        this.adjList = new HashMap<>();
     }
 
     /**

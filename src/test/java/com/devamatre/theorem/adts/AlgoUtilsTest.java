@@ -168,11 +168,6 @@ public class AlgoUtilsTest {
     }
 
     @Test
-    public void testPrintWhiteSpaces() {
-        AlgoUtils.printWhiteSpaces(16);
-    }
-
-    @Test
     public void testHashCode() {
         List<String> strings = Arrays.asList("abc", "acb", "bac", "cab");
         strings.forEach(str -> System.out.println("str:" + str + ", hashCode: " + Objects.hash(str)));

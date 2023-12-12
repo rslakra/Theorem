@@ -7,11 +7,10 @@ import java.util.Objects;
  * @author Rohtash Lakra
  * @created 5/13/22 5:18 PM
  */
-public class PairBinaryTree<K extends Comparable, V extends Comparable> extends AbstractTree
+public class PairBinaryTree<K extends Comparable<K>, V extends Comparable<V>> extends AbstractTree
     implements Iterable, Comparable {
 
     private PairNode<K, V> root;
-    private int size;
 
     public PairBinaryTree() {
     }
@@ -24,14 +23,7 @@ public class PairBinaryTree<K extends Comparable, V extends Comparable> extends 
     }
 
     /**
-     * @return
-     */
-    public int getSize() {
-        return size;
-    }
-
-    /**
-     * Adds the <code>value</code> to the binary tree.
+     * Adds the <code>key</code>/<code>value</code> pair node to the binary tree.
      *
      * @param value
      * @return
@@ -65,17 +57,17 @@ public class PairBinaryTree<K extends Comparable, V extends Comparable> extends 
      * @param value
      * @return
      */
-    public void addNode(final V value) {
+    public void addNode(K key, V value) {
         // Case 1: The tree is empty - allocate the head
         if (Objects.isNull(getRoot())) {
-            root = new PairNode<>(null, value);
+            root = new PairNode<>(key, value);
         } else {
             // Case 2: The tree is not empty so find the right location to insert
             addNode(getRoot(), value);
         }
 
         //increment the node count
-        size++;
+        incrementSize();
     }
 
     /**
@@ -85,7 +77,7 @@ public class PairBinaryTree<K extends Comparable, V extends Comparable> extends 
      * @param value
      * @return
      */
-    protected PairNode findNode(final V value) {
+    protected PairNode findNode(K key, V value) {
         // find node's in the tree with the provided <code>value</code>
         PairNode current = getRoot();
         while (current != null) {
@@ -119,14 +111,14 @@ public class PairBinaryTree<K extends Comparable, V extends Comparable> extends 
      *
      * @param value
      */
-    public boolean remove(V value) {
-        PairNode current = findNode(value);
+    public boolean remove(K key, V value) {
+        PairNode<K, V> current = findNode(key, value);
         if (Objects.isNull(current)) {
             return false;
         }
 
         // decrease the node count
-        size--;
+        decrementSize();
 
         // Get current's parent node
         final PairNode parent = current.getParent();
@@ -208,8 +200,18 @@ public class PairBinaryTree<K extends Comparable, V extends Comparable> extends 
      * Removes all items from the tree
      */
     public void clear() {
+        clear();
         root = null;
-        size = 0;
+    }
+
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator iterator() {
+        return null;
     }
 
     /**
@@ -237,24 +239,14 @@ public class PairBinaryTree<K extends Comparable, V extends Comparable> extends 
      * {@code 0}, or {@code 1} according to whether the value of
      * <i>expression</i> is negative, zero, or positive, respectively.
      *
-     * @param other the object to be compared.
+     * @param o the object to be compared.
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than
      * the specified object.
      * @throws NullPointerException if the specified object is null
      * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
     @Override
-    public int compareTo(Object other) {
+    public int compareTo(Object o) {
         return 0;
-    }
-
-    /**
-     * Returns an iterator over elements of type {@code T}.
-     *
-     * @return an Iterator.
-     */
-    @Override
-    public Iterator iterator() {
-        return null;
     }
 }

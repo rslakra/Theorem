@@ -1,6 +1,8 @@
 package com.devamatre.theorem.adts.tree;
 
-import lombok.Data;
+import com.devamatre.appsuite.core.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
@@ -8,14 +10,15 @@ import java.util.Objects;
  * @author Rohtash Lakra
  * @created 8/17/20 3:32 PM
  */
-@Data
-public class PairNode<K extends Comparable, V extends Comparable> implements Comparable<PairNode> {
+@Getter
+@Setter
+public class PairNode<K extends Comparable<K>, V extends Comparable<V>> implements Comparable<PairNode<K, V>> {
 
-    private PairNode parent;
+    private PairNode<K, V> parent;
     private K key;
     private V value;
-    private PairNode left;
-    private PairNode right;
+    private PairNode<K, V> left;
+    private PairNode<K, V> right;
 
     /**
      * @param key
@@ -45,6 +48,19 @@ public class PairNode<K extends Comparable, V extends Comparable> implements Com
      */
     public boolean isLeafNode() {
         return (Objects.isNull(getLeft()) && Objects.isNull(getRight()));
+    }
+
+    /**
+     * Returns the string representation of this object.
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return ToString.of(PairNode.class, true)
+            .add("key", getKey())
+            .add("value", getValue())
+            .toString();
     }
 
     /**
@@ -79,7 +95,7 @@ public class PairNode<K extends Comparable, V extends Comparable> implements Com
      * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
     @Override
-    public int compareTo(PairNode other) {
+    public int compareTo(PairNode<K, V> other) {
         return (Objects.nonNull(getKey()) ? getKey().compareTo(other.getKey()) == 0 ? getValue().compareTo(
             other.getValue()) : getKey().compareTo(other.getKey()) : getValue().compareTo(other.getValue()));
     }

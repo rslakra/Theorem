@@ -14,7 +14,7 @@ import java.util.Set;
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
  */
-public class GraphWithVertices<E extends Comparable> extends AbstractGraph<E> {
+public class GraphWithVertices<E extends Comparable<? super E>> extends AbstractGraph<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Graph.class);
 
@@ -26,6 +26,7 @@ public class GraphWithVertices<E extends Comparable> extends AbstractGraph<E> {
      */
     public GraphWithVertices(boolean weighted, boolean directed) {
         super(weighted, directed);
+        LOGGER.debug("GraphWithVertices({}, {})", weighted, directed);
         graph = new Graph<>(weighted, directed);
     }
 

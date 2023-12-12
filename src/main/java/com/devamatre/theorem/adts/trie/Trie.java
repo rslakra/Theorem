@@ -23,93 +23,54 @@
 package com.devamatre.theorem.adts.trie;
 
 /**
-
-    // keys
-    // keys with wildcard
-    // keys with prefix
-    // longest prefix keys
-
+ * A prefix trie is an ordered tree data structure used in the representation of a set of strings over a finite alphabet
+ * set, which allows efficient storage of words with common prefixes.
+ *
+ * <url>https://en.wikipedia.org/wiki/Trie</url>
+ * <p>
+ * Handle the following scenario's:
+ * <pre>
+ *  - keys
+ *  - keys with wildcard
+ *  - keys with prefix
+ *  - longest prefix keys
+ * </pre>
+ *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-09-11 05:07:59 PM
  * @since 1.0.0
  */
-public class Trie {
-
-    /* head */
-    private TrieNode head;
-
-    public Trie() {
-        head = new TrieNode();
-    }
+public interface Trie {
 
     /**
-     * Inserts the given key int the trie structure.
+     * Returns the size of the trie.
+     *
+     * @return
+     */
+    int getSize();
+
+    /**
+     * Inserts the <code>key</code> in the trie.
      *
      * @param key
      */
-    public void insert(String key) {
-        head.insert(key);
-    }
+    void insert(String key);
 
     /**
-     * Returns true if the key exists otherwise false.
+     * Returns true if the <code>key</code> exists otherwise false.
      *
      * @param key
      * @return
      */
-    public boolean find(String key) {
-        return head.find(key);
-    }
+    boolean find(String key);
 
     /**
-     * Returns true if the key is deleted otherwise false.
+     * Returns true if the <code>key</code> is deleted otherwise false.
      *
      * @param key
      * @return
      */
-    public boolean delete(String key) {
-        return head.delete(head, key);
-    }
+    boolean delete(String key);
 
-    /**
-     * Returns the string representation of this object.
-     *
-     * @return
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        return head.toString();
-    }
-
-    /**
-     * Maintains the trie data structure.
-     * </pre>
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        Trie trie = new Trie();
-        trie.insert("an");
-        trie.insert("and");
-        trie.insert("are");
-        trie.insert("am");
-        trie.insert("any");
-        trie.insert("lakra");
-        trie.insert("lion");
-        trie.insert("leo");
-        System.out.println(trie);
-        System.out.println();
-
-        // find key
-        System.out.println("Found:" + trie.find("may"));
-        System.out.println("Found:" + trie.find("lakra"));
-        System.out.println("Found:" + trie.find("leo"));
-        System.out.println();
-
-        // delete key
-        System.out.println("Deleted:" + trie.delete("leo"));
-        System.out.println("Deleted:" + trie.delete("an"));
-        System.out.println();
-    }
 }

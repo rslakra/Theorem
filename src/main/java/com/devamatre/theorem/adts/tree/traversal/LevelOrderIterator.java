@@ -7,14 +7,16 @@ import java.util.NoSuchElementException;
 
 /**
  * @author Rohtash Lakra
- * @created 10/18/23 1:57 PM
+ * @version 1.0.0
+ * @created 2018-01-07 03:36:00 PM
+ * @since 1.0.0
  */
-public class LevelOrderIterator extends AbstractTreeIterator implements TreeIterator {
+public class LevelOrderIterator<E extends Comparable<? super E>> extends AbstractTreeIterator<E> implements TreeIterator<E> {
 
     /**
      * @param node
      */
-    public LevelOrderIterator(Node node) {
+    public LevelOrderIterator(Node<E> node) {
         super(node);
     }
 
@@ -24,7 +26,7 @@ public class LevelOrderIterator extends AbstractTreeIterator implements TreeIter
      * @param node
      */
     @Override
-    public void pushLeft(Node node) {
+    public void pushLeft(Node<E> node) {
         while (node != null) {
             stack.push(node);
             node = node.getLeft();
@@ -43,12 +45,12 @@ public class LevelOrderIterator extends AbstractTreeIterator implements TreeIter
      * @throws NoSuchElementException if the iteration has no more elements
      */
     @Override
-    public Node next() {
+    public Node<E> next() {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        Node current = stack.pop();
+        Node<E> current = stack.pop();
         pushLeft(current.getRight());
         return current;
     }

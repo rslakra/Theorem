@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.devamatre.theorem.adts;
 
 import com.devamatre.appsuite.core.BeanUtils;

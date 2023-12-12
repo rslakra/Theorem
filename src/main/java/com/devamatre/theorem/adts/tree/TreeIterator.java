@@ -4,30 +4,40 @@ import java.util.Iterator;
 
 /**
  * @author Rohtash Lakra
- * @created 10/18/23 1:54 PM
+ * @version 1.0.0
+ * @created 2018-01-07 03:36:00 PM
+ * @since 1.0.0
  */
-public interface TreeIterator extends Iterator<Node> {
+public interface TreeIterator<E extends Comparable<? super E>> extends Iterator<Node<E>> {
 
     /**
+     * Time Complexity: <code>O(N)</code>
+     *
      * @return
      */
-    Iterator<Node> inOrderIterator();
+    Iterator<Node<E>> inOrderIterator();
 
     /**
+     * Time Complexity: <code>O(N)</code>
+     *
      * @return
      */
-    Iterator<Node> preOrderIterator();
+    Iterator<Node<E>> preOrderIterator();
 
     /**
+     * Time Complexity: <code>O(N)</code>
+     *
      * @return
      */
-    Iterator<Node> postOrderIterator();
+    Iterator<Node<E>> postOrderIterator();
 
     /**
      * Iterates the tree in the level order traversal (or Breadth First Search)/BFS
      *
+     * Time Complexity: <code>O(N)</code>
+     *
      * @return
      */
-    Iterator<Node> levelOrderIterator();
+    Iterator<Node<E>> levelOrderIterator();
 
 }
