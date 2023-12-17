@@ -1,7 +1,7 @@
 package com.devamatre.theorem.algos.tree;
 
 import com.devamatre.theorem.adts.tree.Node;
-import com.devamatre.theorem.adts.tree.meta.NodeInfo;
+import com.devamatre.theorem.adts.tree.data.NodeInfo;
 
 import java.util.LinkedList;
 import java.util.Queue;

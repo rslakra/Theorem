@@ -25,7 +25,7 @@ package com.devamatre.theorem.adts.tree;
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.AlgoUtils;
 import com.devamatre.theorem.adts.Maths;
-import com.devamatre.theorem.adts.tree.meta.NodeInfo;
+import com.devamatre.theorem.adts.tree.data.NodeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -255,24 +255,24 @@ public enum TreeUtils {
      *      1 #
      * </pre>
      *
-     * @param treeValues
+     * @param inputData
      * @return
      */
-    public static <E extends Comparable<? super E>> TreeNode<E> buildBinaryTree(List<E> treeValues) {
-        TreeNode<E> treeNode = null;
-        if (BeanUtils.isNotEmpty(treeValues)) {
-            treeNode = new TreeNode(treeValues.get(0));
-            Queue<TreeNode<E>> queue = new LinkedList<>();
+    public static <E extends Comparable<? super E>> Node<E> buildBinaryTree(List<E> inputData) {
+        Node<E> treeNode = null;
+        if (BeanUtils.isNotEmpty(inputData)) {
+            treeNode = new Node(inputData.get(0));
+            Queue<Node<E>> queue = new LinkedList<>();
             queue.offer(treeNode);
-            for (int i = 1; i < treeValues.size(); i++) {
-                TreeNode<E> current = queue.poll();
-                if (Objects.nonNull(treeValues.get(i))) {
-                    current.setLeft(new TreeNode(treeValues.get(i)));
+            for (int i = 1; i < inputData.size(); i++) {
+                Node<E> current = queue.poll();
+                if (Objects.nonNull(inputData.get(i))) {
+                    current.setLeft(new Node(inputData.get(i)));
                     queue.offer(current.getLeft());
                 }
 
-                if (++i < treeValues.size() && Objects.nonNull(treeValues.get(i))) {
-                    current.setRight(new TreeNode(treeValues.get(i)));
+                if (++i < inputData.size() && Objects.nonNull(inputData.get(i))) {
+                    current.setRight(new Node(inputData.get(i)));
                     queue.offer(current.getRight());
                 }
             }
@@ -287,7 +287,7 @@ public enum TreeUtils {
      * @param inputCommaSeparated
      * @return
      */
-    public static <E extends Comparable<? super E>> TreeNode<E> buildBinaryTree(String inputCommaSeparated) {
+    public static <E extends Comparable<? super E>> Node<E> buildBinaryTree(String inputCommaSeparated) {
         if (BeanUtils.isEmpty(inputCommaSeparated)) {
             return null;
         }
@@ -295,14 +295,14 @@ public enum TreeUtils {
         String[] inputs = inputCommaSeparated.split(",");
         // consider first element as the root element
         String item = inputs[0].trim();
-        TreeNode<E> rootNode = new TreeNode(item);
-        Queue<TreeNode<E>> queue = new LinkedList<>();
+        Node<E> rootNode = new Node(item);
+        Queue<Node<E>> queue = new LinkedList<>();
         queue.add(rootNode);
 
         int index = 1; // the next element of the input is the child of the root.
         while (!queue.isEmpty()) {
             // removes head of the queue
-            TreeNode<E> treeNode = queue.remove();
+            Node<E> treeNode = queue.remove();
 
             // check more elements exist
             if (index == inputs.length) {
@@ -311,7 +311,7 @@ public enum TreeUtils {
 
             item = inputs[index++].trim();
             if (!NULL.equals(item)) {
-                treeNode.setLeft(new TreeNode(item));
+                treeNode.setLeft(new Node(item));
                 queue.add(treeNode.getLeft());
             }
 
@@ -322,7 +322,7 @@ public enum TreeUtils {
 
             item = inputs[index++].trim();
             if (!NULL.equals(item)) {
-                treeNode.setRight(new TreeNode(item));
+                treeNode.setRight(new Node(item));
                 queue.add(treeNode.getRight());
             }
         }
@@ -379,7 +379,7 @@ public enum TreeUtils {
 //        int gapBetweenNodes = (int) Math.pow(2, levelPower) + 1;
         int gapBetweenNodes = (int) Math.pow(2, (level + 1)) - 1;
         LOGGER.trace("level:{}, nodePosition:{}, edgeLines:{}, gapBetweenNodes:{}", level, nodePosition, edgeLines,
-                gapBetweenNodes);
+                     gapBetweenNodes);
 
         printWhiteSpaces(nodePosition);
 
@@ -598,8 +598,8 @@ public enum TreeUtils {
     private static <E extends Comparable<? super E>> String buildSpatialBlock(final Node<E> node, int spaces) {
         return (node == null ? String.format("%" + (2 * spaces + 1) + "s%n", "")
 //                : String.format("%" + (spaces + 1) + "s%" + spaces + "s", node.getValue(), "")
-                : String.format("%" + (spaces + 1) + "s%" + spaces + "s", LEFT + node.getData() + RIGHT,
-                ""));
+                             : String.format("%" + (spaces + 1) + "s%" + spaces + "s", LEFT + node.getData() + RIGHT,
+                                             ""));
     }
 
     /**
@@ -714,8 +714,8 @@ public enum TreeUtils {
         addSpaces(firstSpaces, treeBuilder);
         treeBuilder.append(node.getData());
 
-//        List<TreeNode> newNodes = new ArrayList<>();
-//        for (TreeNode node : list) {
+//        List<Node> newNodes = new ArrayList<>();
+//        for (Node node : list) {
 //            if (node != null) {
 //                System.out.print(node.getValue());
 //                newNodes.add(node.getLeft());
@@ -844,7 +844,7 @@ public enum TreeUtils {
             final int rows = (int) Math.pow(2, maxHeight);
             final int leftSpaces = totalNodes * (maxHeight - 1);
             LOGGER.debug("maxHeight:{}, totalNodes:{}, rows:{}, leftSpaces:{}", maxHeight, totalNodes, rows,
-                    leftSpaces);
+                         leftSpaces);
             List<List<E>> levelOrders = TreeUtils.getLevelOrders(node);
             LOGGER.debug("levelOrders:{}", levelOrders);
             for (int level = 0; level < levelOrders.size(); level++) {
@@ -1791,7 +1791,7 @@ public enum TreeUtils {
      */
     public static <E extends Comparable<? super E>> BigDecimal getSum(Node<E> node) {
         return (node == null ? BigDecimal.ZERO : getSum(node.getLeft()).add(getSum(node.getRight()))
-                .add(new BigDecimal(node.getData().toString())));
+            .add(new BigDecimal(node.getData().toString())));
     }
 
     /**
@@ -1862,7 +1862,7 @@ public enum TreeUtils {
         // both nodes are same, check both left and right nodes of these nodes
         if (tree.equals(subTree)) {
             return (treeContains(tree.getLeft(), subTree.getLeft()) && treeContains(tree.getRight(),
-                    subTree.getRight()));
+                                                                                    subTree.getRight()));
         }
 
         return false;

@@ -226,7 +226,7 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     }
 
     /**
-     * Returns the node of the <code>data</code>.
+     * Finds the node with the provided <code>data</code>. If exists return node otherwise null.
      *
      * @param data
      * @return

@@ -128,7 +128,11 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      */
     @Override
     public String toString() {
-        return ToString.of(Node.class, true).add("previous", getPrevious()).add("data", getData()).add("next", getNext()).toString();
+        return ToString.of(Node.class, true)
+            .add("previous", getPrevious())
+            .add("data", getData())
+            .add("next", getNext())
+            .toString();
     }
 
     /**

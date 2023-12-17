@@ -6,7 +6,6 @@ import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeUtils;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**

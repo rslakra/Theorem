@@ -30,6 +30,7 @@ package com.devamatre.theorem.adts.tree;
 
 import com.devamatre.appsuite.core.BeanUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -40,38 +41,39 @@ import java.util.Objects;
  * @created 2018-08-22 09:42:10 PM
  * @since 1.0.0
  */
-public class NaryNode<T> {
+public class NaryNode<E extends Comparable<? super E>> {
 
     private final static boolean SHOW_DEPTH = true;
     private NaryNode parent;
-    private final T value;
-    private List<NaryNode<T>> children;
+    private final E data;
+    private List<NaryNode<E>> children;
 
     /**
      * Creates the new node.
      *
      * @param parent
-     * @param value
+     * @param data
      */
-    public NaryNode(NaryNode parent, T value) {
+    public NaryNode(NaryNode<E> parent, E data) {
         this.parent = parent;
-        if (BeanUtils.isEmpty(value)) {
+        if (BeanUtils.isEmpty(data)) {
             throw new IllegalArgumentException("The value is null!");
         }
-        this.value = value;
+        this.data = data;
+        this.children = new ArrayList<>();
     }
 
     /**
      * @param data
      */
-    public NaryNode(T data) {
+    public NaryNode(E data) {
         this(null, data);
     }
 
     /**
      * return a N-ary tree based on the preorder values
      */
-    public static <T> Node createNaryTree(List<T> nodeValues) {
+    public static <E> Node createNaryTree(List<E> nodeValues) {
         return null;
     }
 
@@ -82,11 +84,7 @@ public class NaryNode<T> {
      * @return
      */
     public static int maxDepth(final NaryNode naryNode) {
-        if (naryNode == null) {
-            return 0;
-        } else {
-            return (maxDepth(naryNode.getParent()) + 1);
-        }
+        return (BeanUtils.isNull(naryNode) ? 0 : (maxDepth(naryNode.getParent()) + 1));
     }
 
     /**
@@ -95,40 +93,33 @@ public class NaryNode<T> {
      * @param naryNode
      * @return
      */
-    public static <T> int maxHeight(NaryNode<T> naryNode) {
-        if (naryNode == null) {
-            return 1;
-        } else {
-            int maxDepth = 1;
-            if (naryNode.hasChildren()) {
-                for (NaryNode<T> child : naryNode.getChildren()) {
-                    maxDepth = Math.max(maxHeight(child) + 1, maxDepth);
-                }
+    public static <E> int maxHeight(NaryNode naryNode) {
+        int maxHeight = 1;
+        if (BeanUtils.isNotNull(naryNode) && naryNode.hasChildren()) {
+            for (int i = 0; i < naryNode.getChildren().size(); i++) {
+                NaryNode childNode = (NaryNode) naryNode.getChildren().get(i);
+                maxHeight = Math.max(maxHeight(childNode) + 1, maxHeight);
             }
-
-            return maxDepth;
         }
+
+        return maxHeight;
     }
 
     /**
      * Returns the edge count of the node.
      *
-     * @param naryNode
+     * @param treeNode
      * @return
      */
-    public static <T> int maxEdges(NaryNode<T> naryNode) {
-        if (naryNode == null) {
-            return 0;
-        } else {
-            int edgeCount = 0;
-            if (naryNode.hasChildren()) {
-                for (NaryNode<T> child : naryNode.getChildren()) {
-                    edgeCount += (maxEdges(child) + 1);
-                }
+    public static <E> int maxEdges(NaryNode treeNode) {
+        int maxEdges = 0;
+        if (BeanUtils.isNotNull(treeNode) && treeNode.hasChildren()) {
+            for (NaryNode childNode : (List<NaryNode>) treeNode.getChildren()) {
+                maxEdges += maxEdges(childNode) + 1;
             }
-
-            return edgeCount;
         }
+
+        return maxEdges;
     }
 
     /**
@@ -159,8 +150,8 @@ public class NaryNode<T> {
     /**
      * @return
      */
-    public T getValue() {
-        return value;
+    public E getData() {
+        return data;
     }
 
     /**
@@ -169,35 +160,68 @@ public class NaryNode<T> {
      * @return
      */
     public boolean hasChildren() {
-        return (getChildren() != null && getChildren().size() > 0);
+        return BeanUtils.isNotEmpty(getChildren());
     }
 
     /**
      * @return
      */
-    public List<NaryNode<T>> getChildren() {
+    public List<NaryNode<E>> getChildren() {
         return children;
     }
 
     /**
-     * @param naryNode
+     * Adds the <code>treeNode</code> as children of the tree.
+     *
+     * @param treeNode
      */
-    public void addChild(final NaryNode naryNode) {
-        if (children == null) {
+    public void addChild(final NaryNode<E> treeNode) {
+        if (BeanUtils.isNull(children)) {
             children = new LinkedList<>();
         }
 
-        if (naryNode != null) {
-            children.add(naryNode);
+        // check the treeNode is not null
+        if (BeanUtils.isNotNull(treeNode)) {
+            if (!treeNode.hasParent()) {
+                treeNode.setParent(this);
+            }
+            children.add(treeNode);
         }
     }
 
     /**
-     * Adds the new child for this node.
+     * Adds the <code>child</code> as children of the <code>parent</code> tree.
+     *
+     * @param parent
+     * @param child
+     */
+    public void addChild(NaryNode<E> parent, NaryNode<E> child) {
+        if (BeanUtils.isNull(parent)) {
+            addChild(child);
+        } else {
+            if (!child.hasParent()) {
+                child.setParent(parent);
+            }
+            parent.addChild(child);
+        }
+    }
+
+    /**
+     * Adds the <code>data</code> as children of the <code>parent</code> tree.
+     *
+     * @param parent
+     * @param data
+     */
+    public void addChild(NaryNode<E> parent, E data) {
+        addChild(new NaryNode<>(parent, data));
+    }
+
+    /**
+     * Adds the <code>data</code> as children of the tree.
      *
      * @param data
      */
-    public void addChild(final String data) {
+    public void addChild(E data) {
         addChild(new NaryNode(this, data));
     }
 
@@ -224,8 +248,8 @@ public class NaryNode<T> {
         // nodeString.append("|\n");
         // }
 
-        if (getValue() != null) {
-            nodeString.append(getValue());
+        if (getData() != null) {
+            nodeString.append(getData());
             if (SHOW_DEPTH) {
                 nodeString.append(" [").append(maxHeight(this)).append("]");
             }
@@ -234,8 +258,8 @@ public class NaryNode<T> {
 
         if (hasChildren()) {
             for (NaryNode child : getChildren()) {
-                int nodeLevel = maxDepth(child);
-                for (int i = 1; i < nodeLevel - 1; i++) {
+                int maxDepth = maxDepth(child);
+                for (int i = 1; i < maxDepth - 1; i++) {
                     nodeString.append("|   ");
                 }
                 nodeString.append("|-- ").append(child.toString());
@@ -260,7 +284,7 @@ public class NaryNode<T> {
         }
 
         NaryNode treeNode = (NaryNode) object;
-        return (getValue() == treeNode.getValue() && Objects.equals(children, treeNode.getChildren()));
+        return (getData() == treeNode.getData() && Objects.equals(children, treeNode.getChildren()));
     }
 
     /**
@@ -268,7 +292,7 @@ public class NaryNode<T> {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getValue(), children);
+        return Objects.hash(getData(), children);
     }
 
 

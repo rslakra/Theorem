@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.traversal;
+package com.devamatre.theorem.adts.tree.iterator;
 
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TreeIterator;
@@ -7,6 +7,15 @@ import java.util.Iterator;
 import java.util.Stack;
 
 /**
+ * Iterator is the API interface. A class which implements Iterator should implement three methods
+ * <p>
+ * boolean hasNext() - Returns true if the iteration has more elements. Object next() - Returns the next element in the
+ * iteration. void remove() - (optional operation) Removes from the underlying collection the last element returned by
+ * next().
+ * <p>
+ * We implement a pre-order traversal by adding a new method iterator to the BSTree class. This method returns an
+ * iterator over the nodes of a binary tree in pre-order.
+ *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-07 03:36:00 PM

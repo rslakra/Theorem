@@ -11,11 +11,12 @@ import org.testng.annotations.Test;
  * @author Rohtash Lakra
  * @created 11/16/23 8:44 PM
  */
-public class TreeNodeTest {
+public class NaryNodeTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TreeNodeTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NaryNodeTest.class);
 
     /**
+     * NaryNode
      * <pre>
      * CEO
      * |-- CTO
@@ -26,27 +27,26 @@ public class TreeNodeTest {
      * |   |-- Android
      * |-- CFO
      * </pre>
-     * TreeNode
      */
     @Test
     public void testTreeNode() {
         // ROOT
-        TreeNode<String> root = new TreeNode("CEO");
+        NaryNode<String> root = new NaryNode("CEO");
         LOGGER.debug("root:{}", root);
         assertNotNull(root);
         assertEquals("CEO", root.getData());
-        LOGGER.debug("Edges:{}", TreeNode.maxEdges(root));
-        assertEquals(0, TreeNode.maxEdges(root));
+        LOGGER.debug("Edges:{}", NaryNode.maxEdges(root));
+        assertEquals(0, NaryNode.maxEdges(root));
         System.out.println();
 
         // CTO
-        TreeNode cto = new TreeNode("CTO");
+        NaryNode cto = new NaryNode("CTO");
         assertNotNull(cto);
         root.addChild(cto);
         // Server
         cto.addChild("Server");
         // IOS
-        TreeNode iOS = new TreeNode("iOS");
+        NaryNode iOS = new NaryNode("iOS");
         assertNotNull(iOS);
         cto.addChild(iOS);
         iOS.addChild("Objective-C");
@@ -55,12 +55,12 @@ public class TreeNodeTest {
         cto.addChild("Android");
 
         // CFO
-        TreeNode cfo = new TreeNode("CFO");
+        NaryNode cfo = new NaryNode("CFO");
         assertNotNull(cfo);
         assertEquals("CFO", cfo.getData());
         root.addChild(cfo);
-        LOGGER.debug("Edges:{}", TreeNode.maxEdges(root));
-        assertEquals(7, TreeNode.maxEdges(root));
+        LOGGER.debug("Edges:{}", NaryNode.maxEdges(root));
+        assertEquals(7, NaryNode.maxEdges(root));
         System.out.println();
     }
 }

@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.traversal;
+package com.devamatre.theorem.adts.tree.iterator;
 
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TreeIterator;
@@ -6,17 +6,20 @@ import com.devamatre.theorem.adts.tree.TreeIterator;
 import java.util.NoSuchElementException;
 
 /**
+ * Implements the post-order iterator of the tree.
+ *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-07 03:36:00 PM
  * @since 1.0.0
  */
-public class InOrderIterator<E extends Comparable<? super E>> extends AbstractTreeIterator<E> implements TreeIterator<E> {
+public class PostOrderIterator<E extends Comparable<? super E>> extends AbstractTreeIterator<E>
+    implements TreeIterator<E> {
 
     /**
      * @param node
      */
-    public InOrderIterator(Node<E> node) {
+    public PostOrderIterator(Node<E> node) {
         super(node);
     }
 
@@ -31,8 +34,16 @@ public class InOrderIterator<E extends Comparable<? super E>> extends AbstractTr
             stack.push(node);
             node = node.getLeft();
         }
-    }
 
+        if (stack.isEmpty()) {
+            return;
+        }
+
+        node = stack.peek();
+        if (node.hasRight()) {
+            pushLeft(node.getRight());
+        }
+    }
 
     /**
      * Returns the next element in the iteration.
@@ -50,8 +61,14 @@ public class InOrderIterator<E extends Comparable<? super E>> extends AbstractTr
             throw new NoSuchElementException();
         }
 
-        Node<E> current = stack.pop();
-        pushLeft(current.getRight());
-        return current;
+        Node<E> popNode = stack.pop();
+        if (hasNext()) {
+            Node<E> peekNode = stack.peek();
+            if (popNode != peekNode.getRight()) {
+                pushLeft(peekNode.getRight());
+            }
+        }
+
+        return popNode;
     }
 }

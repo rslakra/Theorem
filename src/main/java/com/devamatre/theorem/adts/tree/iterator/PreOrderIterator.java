@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.traversal;
+package com.devamatre.theorem.adts.tree.iterator;
 
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TreeIterator;
@@ -6,12 +6,15 @@ import com.devamatre.theorem.adts.tree.TreeIterator;
 import java.util.NoSuchElementException;
 
 /**
+ * Implements the pre-order iterator of the tree.
+ *
  * @author Rohtash Lakra
  * @version 1.0.0
- * @created 2018-01-07 03:36:00 PM
+ * @created 2018-01-07 10:36:00 PM
  * @since 1.0.0
  */
-public class PreOrderIterator<E extends Comparable<? super E>> extends AbstractTreeIterator<E> implements TreeIterator<E> {
+public class PreOrderIterator<E extends Comparable<? super E>> extends AbstractTreeIterator<E>
+    implements TreeIterator<E> {
 
     /**
      * @param node

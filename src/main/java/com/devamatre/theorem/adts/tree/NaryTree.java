@@ -1,5 +1,8 @@
 package com.devamatre.theorem.adts.tree;
 
+import com.devamatre.appsuite.core.BeanUtils;
+
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -7,7 +10,7 @@ import java.util.Queue;
  */
 public class NaryTree<E extends Comparable<? super E>> {
 
-    private Node<E> root;
+    private NaryNode<E> root;
     private int size;
 
     public NaryTree() {
@@ -22,42 +25,60 @@ public class NaryTree<E extends Comparable<? super E>> {
         return size;
     }
 
-    public void add(E data) {
-        Node<E> newNode = new Node<>(data);
-        if (root == null) {
-            root = newNode;
-            size++;
+    /**
+     * Adds the <code>child</code> as children of the <code>parent</code> tree.
+     *
+     * @param parent
+     * @param child
+     */
+    public void addChild(NaryNode<E> parent, NaryNode<E> child) {
+        if (BeanUtils.isNull(parent)) {
+            if (BeanUtils.isNull(root)) {
+                this.root = child;
+            } else {
+                root.addChild(child);
+            }
         } else {
-            insert(root, newNode);
+            parent.addChild(child);
         }
+        size += child.getChildren().size() + 1;
     }
 
     /**
+     * Adds the <code>data</code> as children of the <code>parent</code> tree.
+     *
      * @param parent
-     * @param child
-     * @return
+     * @param data
      */
-    private void insert(Node<E> parent, Node<E> child) {
-        // check, if node need to add in left side.
-        if (child.getData().compareTo(parent.getData()) < 0) {
-            if (child.getLeft() == null) {
-                parent.setLeft(child);
-                child.setParent(parent);
-                size++;
-            } else {
-                insert(child.getLeft(), child);
-            }
-        } else if (child.getData().compareTo(parent.getData()) > 0) {
-            if (child.getRight() == null) {
-                parent.setRight(child);
-                child.setParent(parent);
-                size++;
-            } else {
-                insert(child.getRight(), child);
-            }
-        } else {
-            // same data, don't allow duplicates in binary tree.
-        }
+    public void addChild(NaryNode<E> parent, E data) {
+        this.addChild(parent, new NaryNode<E>(parent, data));
+    }
+
+    /**
+     * Adds the <code>child</code> as children of the <code>parent</code> tree.
+     *
+     * @param child
+     */
+    public void addChild(NaryNode<E> child) {
+        addChild(root, child);
+    }
+
+    /**
+     * Adds the <code>data</code> as children of the tree.
+     *
+     * @param data
+     */
+    public void addChild(E data) {
+        this.addChild(root, new NaryNode<E>(root, data));
+    }
+
+    /**
+     * Adds the <code>data</code> as children of the tree.
+     *
+     * @param data
+     */
+    public void add(E data) {
+        this.addChild(root, new NaryNode<E>(root, data));
     }
 
     /**
@@ -71,45 +92,39 @@ public class NaryTree<E extends Comparable<? super E>> {
     }
 
     /**
+     * Finds the node with the provided <code>data</code>.
+     *
+     * @param parentNode
+     * @param data
+     * @return
+     */
+    private NaryNode<E> findNode(NaryNode<E> parentNode, E data) {
+        // base case, if parentNode is null, return null.
+        if (parentNode == null) {
+            return null;
+        }
+
+        // check the data matches with the parentNode or not
+        if (parentNode.getData().compareTo(data) == 0) {
+            return parentNode;
+        } else {
+            // check children of the parentNode
+            for (NaryNode treeNode : parentNode.getChildren()) {
+                return findNode(treeNode, data);
+            }
+
+            return null;
+        }
+    }
+
+    /**
      * Returns the node for the given data.
      *
      * @param data
      * @return
      */
-    private Node<E> findNode(E data) {
-        if (data != null) {
-            Node<E> current = root;
-            while (current != null) {
-                int result = data.compareTo(current.getData());
-                if (result < 0) {
-                    current = current.getLeft();
-                } else if (result > 0) {
-                    current = current.getRight();
-                } else {
-                    return current;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @param current
-     * @param newNode
-     */
-    private void unlink(Node<E> current, Node<E> newNode) {
-        if (root == current) {
-            if (newNode != null) {
-                newNode.setLeft(current.getLeft());
-                newNode.setRight(current.getRight());
-                root = newNode;
-            }
-        } else if (current.getParent().getRight() == current) {
-            current.getParent().setRight(newNode);
-        } else if (current.getParent().getLeft() == current) {
-            current.getParent().setLeft(newNode);
-        }
+    private NaryNode<E> findNode(E data) {
+        return (data == null ? null : findNode(root, data));
     }
 
     /**
@@ -120,52 +135,20 @@ public class NaryTree<E extends Comparable<? super E>> {
      */
     public boolean delete(E data) {
         boolean deleted = false;
-
         // if not empty, check which node to delete.
         if (root != null) {
-            Node<E> delNode = findNode(data);
-
+            NaryNode<E> delNode = findNode(data);
             // if node exists, delete it.
             if (delNode != null) {
-                // check, if it's a leaf node
-                if (delNode.isLeafNode()) {
-                    unlink(delNode, null);
-                    deleted = true;
+                NaryNode<E> parent = delNode.getParent();
+                // update tree's size
+                int childCount = delNode.getChildren().size() + 1;
+                deleted = parent.getChildren().remove(delNode);
+                if (deleted) {
+                    size -= childCount;
                 }
-                // check if it only has right child.
-                else if (delNode.hasLeft()) {
-                    unlink(delNode, delNode.getRight());
-                    deleted = true;
-                }
-                // check if it only has left child.
-                else if (delNode.hasLeft()) {
-                    unlink(delNode, delNode.getLeft());
-                    deleted = true;
-                }
-                // node has both children
-                else {
-                    Node<E> child = delNode;
-                    // find right most child
-                    if (child.hasRight() && child.hasLeft()) {
-                        child = child.getRight();
-                    }
-
-                    // now replace it's right node.
-                    child.getParent().setRight(null);
-
-                    child.setLeft(delNode.getLeft());
-                    child.setRight(delNode.getRight());
-
-                    unlink(delNode, child);
-                    deleted = true;
-                }
+                delNode.setParent(null);
             }
-
-            delNode = null;
-        }
-
-        if (deleted) {
-            size--;
         }
 
         return deleted;
@@ -176,20 +159,17 @@ public class NaryTree<E extends Comparable<? super E>> {
      */
     public String toString() {
         StringBuilder sBuilder = new StringBuilder("[");
-        if (root != null) {
-            Queue<Node<E>> queue = new java.util.LinkedList<Node<E>>();
+        if (BeanUtils.isNotNull(root)) {
+            Queue<NaryNode<E>> queue = new LinkedList<>();
             queue.add(root);
             while (!queue.isEmpty()) {
-                Node<E> node = queue.poll();
-                sBuilder.append(node.getData().toString());
-                if (node.hasLeft()) {
-                    queue.add(node.getLeft());
+                NaryNode<E> pollNode = queue.poll();
+                sBuilder.append(pollNode.getData().toString());
+                if (pollNode.hasChildren()) {
+                    for (NaryNode<E> treeNode : pollNode.getChildren()) {
+                        queue.add(treeNode);
+                    }
                 }
-
-                if (node.hasRight()) {
-                    queue.add(node.getRight());
-                }
-
                 if (!queue.isEmpty()) {
                     sBuilder.append(", ");
                 }

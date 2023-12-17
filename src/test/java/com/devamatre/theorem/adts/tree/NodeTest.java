@@ -12,9 +12,9 @@ import org.testng.annotations.Test;
  * @author Rohtash Lakra
  * @created 11/16/23 8:51 PM
  */
-public class TrieNodeTest {
+public class NodeTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TrieNodeTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NodeTest.class);
 
     /**
      * <pre>

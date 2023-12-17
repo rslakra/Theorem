@@ -1,6 +1,9 @@
 package com.devamatre.theorem.adts.tree;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.testng.AssertJUnit.assertNull;
 
 import com.devamatre.appsuite.core.BeanUtils;
 import org.slf4j.Logger;
@@ -24,12 +27,12 @@ public class IntBinaryTreeTest {
      * @return
      */
     static IntBinaryTree buildIntBinaryTree(List<Integer> list) {
-        final IntBinaryTree binaryTree = new IntBinaryTree();
+        final IntBinaryTree tree = new IntBinaryTree();
         if (BeanUtils.isNotEmpty(list)) {
-            list.forEach(value -> binaryTree.insertNode(value));
+            list.forEach(item -> tree.addNode(item));
         }
 
-        return binaryTree;
+        return tree;
     }
 
     @Test
@@ -39,7 +42,7 @@ public class IntBinaryTreeTest {
         LOGGER.debug("binaryTree: {}", binaryTree);
         System.out.println();
 
-        Node<Integer> nodeFound = binaryTree.searchNode(16);
+        Node<Integer> nodeFound = binaryTree.findNode(16);
         assertNotNull(nodeFound);
         LOGGER.debug("nodeFound: {}", nodeFound);
         System.out.println();
@@ -80,58 +83,86 @@ public class IntBinaryTreeTest {
 
     @Test
     public void testIntegerBinaryTree() {
-        IntBinaryTree bst = buildIntBinaryTree(Arrays.asList(50, 76, 21, 4, 16, 3, 32, 100, 64, 52, 102));
+        IntBinaryTree tree = buildIntBinaryTree(Arrays.asList(50, 76, 21, 4, 16, 3, 32, 100, 64, 52, 102));
+        LOGGER.debug("tree:{}", tree);
+        assertNotNull(tree);
+        assertEquals(11, tree.getSize());
+        System.out.println();
 
         // Add Nodes
-        bst.addNode(50);
-        // bst.addNode(76);
+        tree.addNode(50);
+        assertEquals(12, tree.getSize());
+        System.out.println();
 
-        bst.addNode(21);
-        bst.addNode(4);
-        bst.addNode(16);
-        bst.addNode(3);
-        bst.addNode(32);
+        // add duplicates
+        tree.addNode(21);
+        tree.addNode(4);
+        tree.addNode(16);
+        tree.addNode(3);
+        tree.addNode(32);
+        assertEquals(17, tree.getSize());
+        LOGGER.debug("tree:{}", tree);
+        System.out.println();
 
-        // bst.addNode(100);
-        // bst.addNode(64);
-        // bst.addNode(52);
-        // bst.addNode(102);
-        System.out.println(bst);
-
-        // Find PairNode
-        System.out.println("Finding ... 32");
-        Node found = bst.findNode(32);
-        System.out.println("Found:" + found);
-
-        System.out.println("Finding ... 64");
-        found = bst.findNode(64);
-        System.out.println("Found:" + found);
-
-        System.out.println("Finding ... 80");
-        found = bst.findNode(80);
-        System.out.println("Found:" + found);
-
-        // Delete PairNode.
-        // bst.removeNode(50);
-        System.out.println(bst);
-
-        System.out.println("PreOrder:" + bst.preOrderTraversal(true));
-        System.out.println("\nPreOrderIterator Results:");
-        Iterator<Node> itr = bst.preOrderIterator();
-        while (itr.hasNext()) {
-            System.out.println(itr.next());
+        // Find values that exists
+        Integer[] findNumbers = new Integer[]{32, 21, 16};
+        for (Integer findWhat : findNumbers) {
+            LOGGER.debug("Finding {} ...", findWhat);
+            Node foundNode = tree.findNode(findWhat);
+            LOGGER.debug("foundNode:{}", foundNode);
+            assertNotNull(foundNode);
+            assertEquals(findWhat, foundNode.getData());
         }
 
-        System.out.println("\nInOrderIterator Results:");
-        itr = bst.inOrderIterator();
-        while (itr.hasNext()) {
-            System.out.println(itr.next());
-        }
+        System.out.println();
+        // Find value that doesn't exist
+        Integer findWhat = 80;
+        LOGGER.debug("Finding {} ...", findWhat);
+        Node notFound = tree.findNode(findWhat);
+        LOGGER.debug("notFound:{}", notFound);
+        assertNull(notFound);
 
-        System.out.println("\nPostOrderIterator Results:");
-        itr = bst.postOrderIterator();
-        while (itr.hasNext()) {
-            System.out.println(itr.next());
+        // Delete node.
+        // tree.removeNode(50);
+        LOGGER.debug("tree:{}", tree);
+
+        System.out.println();
+        // validate preOrderTraversal
+        LOGGER.debug("preOrderTraversal ...");
+        String preOrderTraversal = tree.preOrderTraversal(true);
+        LOGGER.debug("preOrderTraversal:{}", preOrderTraversal);
+        assertNotNull(preOrderTraversal);
+        assertEquals("[50 21 4 3 3 4 16 16 21 32 32 50 76 64 52 100 102]", preOrderTraversal);
+        System.out.println();
+
+        LOGGER.debug("preOrderIterator ...");
+        Iterator<Node<Integer>> preOrderItr = tree.preOrderIterator();
+        while (preOrderItr.hasNext()) {
+            Node<Integer> itrNode = preOrderItr.next();
+            LOGGER.debug("itrNode:{}", itrNode);
+            assertTrue(preOrderTraversal.contains(itrNode.getData().toString()));
+        }
+        System.out.println();
+
+        // validate inOrderTraversal
+        LOGGER.debug("inOrderTraversal ...");
+        tree.inOrderTraversal();
+
+        LOGGER.debug("inOrderIterator ...");
+        Iterator<Node<Integer>> inOrderItr = tree.inOrderIterator();
+        while (inOrderItr.hasNext()) {
+            LOGGER.debug("inOrderItr:{}", inOrderItr.next());
+        }
+        System.out.println();
+
+        // validate inOrderTraversal
+        LOGGER.debug("postOrderTraversal ...");
+        tree.postOrderTraversal();
+
+        LOGGER.debug("postOrderIterator ...");
+        Iterator<Node<Integer>> postOrderItr = tree.postOrderIterator();
+        while (postOrderItr.hasNext()) {
+            LOGGER.debug("postOrderItr:{}", postOrderItr.next());
         }
     }
 }

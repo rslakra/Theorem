@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.meta;
+package com.devamatre.theorem.adts.tree.data;
 
 import com.devamatre.theorem.adts.tree.Node;
 import lombok.Getter;
@@ -37,6 +37,14 @@ public class NodeInfo<E extends Comparable<? super E>> {
      */
     public NodeInfo(Node<E> node, int height, long diameter) {
         this(node, 0, height, diameter);
+    }
+
+    /**
+     * @param level
+     * @param height
+     */
+    public NodeInfo(int level, int height) {
+        this(null, level, height, 0);
     }
 
     /**

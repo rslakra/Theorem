@@ -1,10 +1,16 @@
 package com.devamatre.theorem.algos.pattern;
 
+import com.devamatre.theorem.adts.AlgoUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Rohtash Lakra
  * @created 12/8/23 10:56 AM
  */
 public class Pattern {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Pattern.class);
 
     private static final String SPACE = " ";
     private static final String STAR = "*";
@@ -348,7 +354,7 @@ public class Pattern {
     }
 
     /**
-     * Prints the following solid rhombus pattern of the provided <code>rows</code> and <code>character</code>.
+     * Prints the following solid rhombus pattern of the provided <code>rows</code>.
      * <pre>
      *     1
      *    2 2
@@ -359,18 +365,321 @@ public class Pattern {
      *
      * @param rows
      */
-    public void printNumberPyramid(int rows, char cChar) {
-        int cols = rows * 2;
-        // print butterfly top part
+    public void printNumberPyramid(int rows) {
         for (int i = 1; i <= rows; i++) {
             // print spaces
             for (int j = 1; j <= rows - i; j++) {
                 System.out.print(SPACE);
             }
 
-            // print stars
-            for (int j = 1; j <= 5; j++) {
+            // print numbers
+            for (int j = 1; j <= i; j++) {
+                System.out.print(i);
+                if (j <= i - 1) {
+                    System.out.print(SPACE);
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the following palindromic pyramid of the provided <code>rows</code>.
+     * <pre>
+     *         1
+     *       2 1 2
+     *     3 2 1 2 3
+     *   4 3 2 1 2 3 4
+     * 5 4 3 2 1 2 3 4 5
+     * </pre>
+     *
+     * @param rows
+     */
+    public void printPalindromicPyramid(int rows) {
+        for (int i = 1; i <= rows; i++) {
+            // print spaces
+            for (int j = 1; j <= (rows - i) * 2; j++) {
+                System.out.print(SPACE);
+            }
+
+            // print left palindromic pyramid
+            for (int j = i; j >= 1; j--) {
+                System.out.print(j);
+                if (j >= 1) {
+                    System.out.print(SPACE);
+                }
+            }
+
+            // print right palindromic pyramid
+            for (int j = 2; j <= i; j++) {
+                System.out.print(j);
+                if (j <= i - 1) {
+                    System.out.print(SPACE);
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the following diamond pyramid of the provided <code>rows</code> and <code>cChar</code>.
+     * <pre>
+     *     *
+     *    ***
+     *   *****
+     *  *******
+     * *********
+     * *********
+     *  *******
+     *   *****
+     *    ***
+     *     *
+     * </pre>
+     *
+     * @param rows
+     */
+    public void printDiamondPyramid(int rows, char cChar) {
+        // print top part of the diamond
+        for (int i = 1; i <= rows; i++) {
+            // print spaces
+            for (int j = 1; j <= rows - i; j++) {
+                System.out.print(SPACE);
+            }
+
+            // print left palindromic pyramid
+            for (int j = 1; j <= (2 * i) - 1; j++) {
                 System.out.print(cChar);
+            }
+            System.out.println();
+        }
+
+        // print bottom part of the diamond
+        for (int i = rows; i >= 1; i--) {
+            // print spaces
+            for (int j = 1; j <= rows - i; j++) {
+                System.out.print(SPACE);
+            }
+
+            // print left palindromic pyramid
+            for (int j = 1; j <= (2 * i) - 1; j++) {
+                System.out.print(cChar);
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the following hollow butterfly of the provided <code>rows</code> and <code>cChar</code>.
+     * <pre>
+     *  *        *
+     *  **      **
+     *  * *    * *
+     *  *  *  *  *
+     *  *   **   *
+     *  *   **   *
+     *  *  *  *  *
+     *  * *    * *
+     *  **      **
+     *  *        *
+     * </pre>
+     *
+     * @param rows
+     */
+    public void printHollowButterfly(int rows, char cChar) {
+        // print top part of the hollow butterfly
+        for (int i = 1; i <= rows; i++) {
+            // print left star
+            System.out.print(cChar);
+            // print left side spaces
+            for (int j = 1; j <= i - 2; j++) {
+                System.out.print(SPACE);
+            }
+
+            // print left side inner star
+            if (i > 1) {
+                System.out.print(cChar);
+            }
+
+            // print center spaces
+            for (int j = 1; j <= (rows - i) * 2; j++) {
+                System.out.print(SPACE);
+            }
+
+            // print right inner star
+            if (i > 1) {
+                System.out.print(cChar);
+            }
+
+            // print right side spaces
+            for (int j = 1; j <= i - 2; j++) {
+                System.out.print(SPACE);
+            }
+            // print last star
+            System.out.print(cChar);
+            System.out.println();
+        }
+
+        // print bottom part of the hollow butterfly
+        for (int i = rows; i >= 1; i--) {
+            // print left star
+            System.out.print(cChar);
+            // print left side spaces
+            for (int j = 1; j <= i - 2; j++) {
+                System.out.print(SPACE);
+            }
+
+            // print left side inner star
+            if (i > 1) {
+                System.out.print(cChar);
+            }
+
+            // print center spaces
+            for (int j = 1; j <= (rows - i) * 2; j++) {
+                System.out.print(SPACE);
+            }
+
+            // print right inner star
+            if (i > 1) {
+                System.out.print(cChar);
+            }
+
+            // print right side spaces
+            for (int j = 1; j <= i - 2; j++) {
+                System.out.print(SPACE);
+            }
+            // print last star
+            System.out.print(cChar);
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the following hollow rhombus of the provided <code>rows</code> and <code>cChar</code>.
+     * <pre>
+     *     *****
+     *    *   *
+     *   *   *
+     *  *   *
+     * *****
+     * </pre>
+     *
+     * @param rows
+     */
+    public void printHollowRhombus(int rows, char cChar) {
+        // print hollow rhombus
+        for (int i = 1; i <= rows; i++) {
+            // print left side spaces
+            for (int j = 1; j <= rows - i; j++) {
+                System.out.print(SPACE);
+            }
+
+            System.out.print(cChar);
+            // print center spaces or star
+            for (int j = 1; j <= 3; j++) {
+                if (i > 1 && i < 5) {
+                    System.out.print(SPACE);
+                } else {
+                    System.out.print(cChar);
+                }
+            }
+            System.out.print(cChar);
+
+            // move to next line
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the following pascal's triangle of the provided <code>rows</code>.
+     * <pre>
+     *     1
+     *    1 1
+     *   1 2 1
+     *  1 3 3 1
+     * 1 4 6 4 1
+     * </pre>
+     *
+     * @param rows
+     */
+    public void printPascalsTriangle(int rows) {
+        int[][] m = new int[rows * 2][rows * 2];
+        // fill zero
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                // set the first center value as 1
+                if (i == 0 && j == rows - 1) {
+                    m[i][j] = 1;
+                } else if (i == m.length - 1 && j == m[0].length - 1) { /* calculate the values of other cells */
+                    m[i][j] = m[i - 1][j - 1];
+                } else if (i > 0 && j == 0) { /* calculate the values of other cells */
+                    m[i][j] = m[i - 1][j + 1];
+                } else if (i > 0 && j > 0 && i < m.length - 1
+                           && j < m[0].length - 1) { /* calculate the values of other cells */
+                    m[i][j] = m[i - 1][j - 1] + m[i - 1][j + 1];
+                } else {
+                    m[i][j] = 0;
+                }
+            }
+        }
+
+        AlgoUtils.printMatrix(m);
+
+        // print pascal's triangle
+        for (int i = 0; i < m.length; i++) {
+            // print spaces
+            for (int j = 0; i < (rows - (i + 1)) * 2; i++) {
+                System.out.print(SPACE);
+            }
+
+            for (int j = 0; j < m[0].length; j++) {
+                if (m[i][j] != 0) {
+                    System.out.print(m[i][j]);
+                }
+            }
+            System.out.println();
+        }
+//        AlgoUtils.printMatrix(m);
+    }
+
+    /**
+     * Prints the following number's half pyramid of the provided <code>rows</code>.
+     * <pre>
+     * 5
+     * 44
+     * 333
+     * 2222
+     * 11111
+     * </pre>
+     *
+     * @param rows
+     */
+    public void printNumberHalfPyramid(int rows) {
+        // print number's half pyramid
+        for (int i = rows; i >= 1; i--) {
+            for (int j = i; j <= rows; j++) {
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the following inverted number's half pyramid of the provided <code>rows</code>.
+     * <pre>
+     * 1
+     * 22
+     * 333
+     * 4444
+     * 55555
+     * </pre>
+     *
+     * @param rows
+     */
+    public void printInvertedNumberHalfPyramid(int rows) {
+        // print inverted number half pyramid
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(i);
             }
             System.out.println();
         }

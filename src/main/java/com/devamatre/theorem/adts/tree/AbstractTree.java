@@ -2,10 +2,12 @@ package com.devamatre.theorem.adts.tree;
 
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.tree.handler.PreOrderHandler;
-import com.devamatre.theorem.adts.tree.traversal.InOrderIterator;
-import com.devamatre.theorem.adts.tree.traversal.LevelOrderIterator;
-import com.devamatre.theorem.adts.tree.traversal.PostOrderIterator;
-import com.devamatre.theorem.adts.tree.traversal.PreOrderIterator;
+import com.devamatre.theorem.adts.tree.iterator.InOrderIterator;
+import com.devamatre.theorem.adts.tree.iterator.LevelOrderIterator;
+import com.devamatre.theorem.adts.tree.iterator.PostOrderIterator;
+import com.devamatre.theorem.adts.tree.iterator.PreOrderIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,6 +19,8 @@ import java.util.Queue;
  */
 public abstract class AbstractTree<E extends Comparable<? super E>>
     implements TreeIterator<E>, Iterable<E>, Comparable<E> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTree.class);
 
     protected Node<E> root;
     private int size;
@@ -312,7 +316,6 @@ public abstract class AbstractTree<E extends Comparable<? super E>>
         return sBuilder.append("]").toString();
     }
 
-
     /**
      * @return
      */
@@ -369,7 +372,6 @@ public abstract class AbstractTree<E extends Comparable<? super E>>
         return inOrderIterator().next();
     }
 
-
     /**
      * Compares this object with the specified object for order.  Returns a negative integer, zero, or a positive
      * integer as this object is less than, equal to, or greater than the specified object.
@@ -414,6 +416,71 @@ public abstract class AbstractTree<E extends Comparable<? super E>>
     @Override
     public Iterator<E> iterator() {
         return null;
+    }
+
+    /**
+     * Traverses a tree in a pre-order (ROOT-LEFT-RIGHT) manner.
+     * <p>
+     * Until all nodes are traversed: Step 1 − Visit root node. Step 2 − Recursively traverse left subtree. Step 3 −
+     * Recursively traverse right subtree.
+     */
+    public void preOrderTraversal() {
+        LOGGER.debug(TreeUtils.preOrderTraversal(root, true));
+    }
+
+    /**
+     * Traverses a tree in an in-order (LEFT-ROOT-RIGHT) manner.
+     * <p>
+     * Until all nodes are traversed: Step 1 − Recursively traverse left subtree. Step 2 − Visit root node. Step 3 −
+     * Recursively traverse right subtree.
+     */
+    public void inOrderTraversal() {
+        LOGGER.debug(TreeUtils.inOrderTraversal(root, true));
+    }
+
+    /**
+     * Traverses a tree in a post-order (LEFT-RIGHT-ROOT) manner.
+     * <p>
+     * Until all nodes are traversed: Step 1 − Recursively traverse left subtree. Step 2 − Recursively traverse right
+     * subtree. Step 3 − Visit root node.
+     */
+    public void postOrderTraversal() {
+        LOGGER.debug(TreeUtils.postOrderTraversal(root, true));
+    }
+
+    /**
+     * Prints the level order traversal order manner.
+     */
+    public void levelOrderTraversal() {
+        LOGGER.debug(TreeUtils.levelOrderTraversal(root, true));
+    }
+
+    /**
+     * @return
+     */
+    public void treeViewTraversal() {
+        LOGGER.debug(TreeUtils.treeViewTraversal(root, true));
+    }
+
+    /**
+     * @return
+     */
+    public void treeBottomViewTraversal() {
+        LOGGER.debug(TreeUtils.treeBottomViewTraversal(root, true));
+    }
+
+    /**
+     * @return
+     */
+    public void treeLeftViewTraversal() {
+        LOGGER.debug(TreeUtils.treeLeftViewTraversal(root, true));
+    }
+
+    /**
+     * @return
+     */
+    public void treeRightViewTraversal() {
+        LOGGER.debug(TreeUtils.treeRightViewTraversal(root, true));
     }
 
 }

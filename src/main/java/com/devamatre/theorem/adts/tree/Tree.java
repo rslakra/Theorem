@@ -30,6 +30,15 @@ public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
     }
 
     /**
+     * Returns the <code>binary</code> value.
+     *
+     * @return
+     */
+    public boolean isBinary() {
+        return binary;
+    }
+
+    /**
      * Builds the tree representation of the binary tree.
      *
      * @param parent

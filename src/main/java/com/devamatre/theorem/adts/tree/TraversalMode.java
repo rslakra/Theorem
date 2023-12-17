@@ -61,7 +61,9 @@ public enum TraversalMode {
      * @return
      */
     public static TraversalMode ofString(final String traversalMode) {
-        return Arrays.stream(values()).filter(entry -> entry.name().equalsIgnoreCase(traversalMode)).findFirst()
+        return Arrays.stream(values())
+            .filter(entry -> entry.name().equalsIgnoreCase(traversalMode))
+            .findFirst()
             .orElse(null);
     }
 }
