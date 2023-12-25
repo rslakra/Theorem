@@ -331,6 +331,30 @@ public enum TreeUtils {
     }
 
     /**
+     * Builds the <code>N-ary</code> tree of the <code>inputData</code>.
+     * <p>
+     * After adding 3 nodes, the next parents is picked randomly.
+     */
+    public static <E extends Comparable<? super E>> Node<E> buildNaryTree(List<E> inputData) {
+        Node<E> rootNode = null;
+        if (Objects.nonNull(inputData)) {
+            // add 1st node as the root node and rest as the child nodes
+            rootNode = new Node<>(inputData.get(0));
+            Node<E> parentNode = rootNode;
+            for (int i = 1; i < inputData.size(); i++) {
+                int index = i % 3;
+                LOGGER.trace("index:{}", index);
+                if (rootNode.getChildren().size() > index) {
+                    parentNode = rootNode.getChildren().get(index);
+                }
+                parentNode.addChild(inputData.get(i));
+            }
+        }
+
+        return rootNode;
+    }
+
+    /**
      * Returns the max level (height) of the node.
      *
      * @param node
@@ -505,16 +529,16 @@ public enum TreeUtils {
     }
 
     /**
-     * The height or maximum depth of a binary tree is the total number of edges on the longest path from the root node
-     * to the leaf node.
+     * The height or maximum depth of a binary tree is the total number of edges on the longest path from the root
+     * rootNode to the leaf rootNode.
      * <p>
      * Time Complexity: <code>O(N)</code>
      *
-     * @param node
+     * @param rootNode
      * @return
      */
-    public static <E extends Comparable<? super E>> int maxDepth(Node<E> node) {
-        return (node == null ? 0 : Math.max(maxDepth(node.getLeft()), maxDepth(node.getRight())) + 1);
+    public static <E extends Comparable<? super E>> int maxDepth(Node<E> rootNode) {
+        return (rootNode == null ? 0 : Math.max(maxDepth(rootNode.getLeft()), maxDepth(rootNode.getRight())) + 1);
     }
 
     /**
@@ -522,23 +546,75 @@ public enum TreeUtils {
      * <p>
      * Time Complexity: <code>O(N)</code>
      *
-     * @param node
+     * @param rootNode
      * @return
      */
-    public static <E extends Comparable<? super E>> int maxHeight(Node<E> node) {
-        return (node == null ? 0 : Math.max(maxHeight(node.getLeft()), maxHeight(node.getRight())) + 1);
+    public static <E extends Comparable<? super E>> int maxHeight(Node<E> rootNode) {
+        return (rootNode == null ? 0 : Math.max(maxHeight(rootNode.getLeft()), maxHeight(rootNode.getRight())) + 1);
     }
 
     /**
-     * Returns the count from the <code>node</code> and it's children.
+     * Returns the count from the <code>rootNode</code> and it's children.
      * <p>
      * Time Complexity: <code>O(N)</code>
      *
-     * @param node
+     * @param rootNode
      * @return
      */
-    public static <E extends Comparable<? super E>> int getCount(Node<E> node) {
-        return (node == null ? 0 : getCount(node.getLeft()) + getCount(node.getRight()) + 1);
+    public static <E extends Comparable<? super E>> int getCount(Node<E> rootNode) {
+        return (rootNode == null ? 0 : getCount(rootNode.getLeft()) + getCount(rootNode.getRight()) + 1);
+    }
+
+    /**
+     * Returns the length of the path to its root.
+     *
+     * @param treeNode
+     * @return
+     */
+    public static <E extends Comparable<? super E>> int maxAncestorDepth(Node<E> treeNode) {
+        if (Objects.isNull(treeNode)) {
+            return 0;
+        } else if (Objects.isNull(treeNode.getParent())) {
+            return 1;
+        }
+
+        return maxAncestorDepth(treeNode.getParent()) + 1;
+    }
+
+    /**
+     * Returns the edge count of the node.
+     *
+     * @param rootNode
+     * @return
+     */
+    public static <E extends Comparable<? super E>> int maxEdges(Node<E> rootNode) {
+        int maxEdges = 0;
+        if (Objects.nonNull(rootNode) && rootNode.hasChildren()) {
+            for (Node childNode : rootNode.getChildren()) {
+                maxEdges += maxEdges(childNode) + 1;
+            }
+        }
+
+        return maxEdges;
+    }
+
+    /**
+     * Returns the length of the longest path to a leaf.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
+     *
+     * @param rootNode
+     * @return
+     */
+    public static <E extends Comparable<? super E>> int maxNaryHeight(Node<E> rootNode) {
+        int maxHeight = 1;
+        if (Objects.nonNull(rootNode) && rootNode.hasChildren()) {
+            for (Node childNode : rootNode.getChildren()) {
+                maxHeight = Math.max(maxHeight, maxNaryHeight(childNode)) + 1;
+            }
+        }
+
+        return maxHeight;
     }
 
     /**
@@ -675,12 +751,11 @@ public enum TreeUtils {
     }
 
     /**
-     * @param node
-     * @param <E   extends Comparable>
+     * @param rootNode
      * @return
      */
-    public static <E extends Comparable<? super E>> void printPrettyTree(Node<E> node) {
-        System.out.println("\n" + printPrettyTree(node, 0, TreeUtils.maxHeight(node)));
+    public static <E extends Comparable<? super E>> void printPrettyTree(Node<E> rootNode) {
+        System.out.println("\n" + printPrettyTree(rootNode, 0, maxHeight(rootNode)));
     }
 
     /**
@@ -1071,6 +1146,47 @@ public enum TreeUtils {
         }
 
         LOGGER.debug("-preOrder(), preOrder:{}", preOrder);
+        return preOrder;
+    }
+
+
+    /**
+     * Returns the list of nodes using <code>pre-order</code> traversal recursively.
+     * <p>
+     * Time Complexity: <code>O(N)</code>
+     *
+     * <pre>
+     *             1
+     *           /   \
+     *          /     \
+     *         2       3
+     *        / \     / \
+     *       4  5    6   7
+     * </pre>
+     * <p>
+     * InOrder Traversal <code>Root -> Left -> Right</code>
+     * <p>
+     * i.e: [1, 2, 4, 5, 3, 6, 7]
+     *
+     * @param treeNode
+     */
+    public static <E extends Comparable<? super E>> List<E> preOrderChildren(Node<E> treeNode,
+                                                                             boolean includeNullLeafs) {
+        LOGGER.debug("+preOrderChildren({}, {})", treeNode, includeNullLeafs);
+        List<E> preOrder = new ArrayList<>();
+        if (Objects.isNull(treeNode)) {
+            if (includeNullLeafs) {
+                preOrder.add(null);
+            }
+        } else {
+            LOGGER.debug("data:{}", treeNode.getData());
+            preOrder.add(treeNode.getData());
+            for (Node<E> childNode : treeNode.getChildren()) {
+                preOrder.addAll(preOrderChildren(childNode, includeNullLeafs));
+            }
+        }
+
+        LOGGER.debug("-preOrderChildren(), preOrder:{}", preOrder);
         return preOrder;
     }
 
@@ -1779,6 +1895,89 @@ public enum TreeUtils {
         }
 
         return nodeBuilder.toString();
+    }
+
+    /**
+     * Returns the string representation of this object. For Example:
+     *
+     * <pre>
+     * CEO
+     * |-- CTO
+     * |   |-- Server
+     * |   |-- iOS
+     * |   |   |-- Objective-C
+     * |   |   |-- Swift
+     * |   |-- Android
+     * |-- CFO
+     * </pre>
+     *
+     * @return
+     * @see java.lang.Object#toString()
+     */
+    public static <E extends Comparable<? super E>> String toStringNaryTree(Node<E> rootNode, boolean showDepth) {
+        StringBuilder strBuilder = new StringBuilder();
+        if (Objects.nonNull(rootNode)) {
+            if (!rootNode.hasParent()) {
+//                strBuilder.append("|").append(NEW_LINE);
+                strBuilder.append(NEW_LINE);
+            }
+            strBuilder.append(rootNode.getData());
+            if (showDepth) {
+                strBuilder.append(" [").append(maxNaryHeight(rootNode)).append("]");
+            }
+            strBuilder.append(NEW_LINE);
+
+            // traverse children
+            if (rootNode.hasChildren()) {
+                for (Node child : rootNode.getChildren()) {
+                    int maxDepth = maxAncestorDepth(child);
+                    for (int i = 1; i < maxDepth - 1; i++) {
+                        strBuilder.append("|   ");
+                    }
+                    strBuilder.append("|-- ").append(toStringNaryTree(child, showDepth));
+                }
+            }
+        }
+
+        return strBuilder.toString();
+    }
+
+    /**
+     * Returns the left-most child of the provided <code>rootNode</code>.
+     *
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Node<E> findLeftMostChild(Node<E> rootNode) {
+        Node<E> leftMostChild = rootNode;
+        while (leftMostChild != null && leftMostChild.hasLeft()) {
+            leftMostChild = leftMostChild.getLeft();
+        }
+
+        return leftMostChild;
+    }
+
+    /**
+     * Returns the right-most child of the provided <code>rootNode</code>.
+     *
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Node<E> findRightMostChild(Node<E> rootNode) {
+        Node<E> rightMostChild = rootNode;
+        while (rightMostChild != null && rightMostChild.hasRight()) {
+            rightMostChild = rightMostChild.getRight();
+        }
+
+        return rightMostChild;
+    }
+
+    /**
+     * Returns the in-order successor of the provided <code>rootNode</code>. The in-order successor of the
+     * <code>rootNode</code> is left-most node of the right node.
+     *
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Node<E> findInOrderSuccessor(Node<E> rootNode) {
+        return (rootNode != null && rootNode.hasRight() ? findLeftMostChild(rootNode.getRight()) : null);
     }
 
     /**

@@ -1,41 +1,45 @@
 package com.devamatre.theorem.adts.tree.iterator;
 
 import com.devamatre.theorem.adts.tree.Node;
-import com.devamatre.theorem.adts.tree.TreeIterator;
 
 import java.util.NoSuchElementException;
 
 /**
- * Implements the in-order iterator of the tree.
+ * Traverses a tree in an in-order (LEFT-ROOT-RIGHT) manner.
+ * <p>
+ * Until all nodes are traversed:
+ * <pre>
+ * Step 1 − Recursively traverse left subtree.
+ * Step 2 − Visit root node.
+ * Step 3 − Recursively traverse right subtree.
+ * </pre>
  *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-07 03:36:00 PM
  * @since 1.0.0
  */
-public class InOrderIterator<E extends Comparable<? super E>> extends AbstractTreeIterator<E>
-    implements TreeIterator<E> {
+public class InOrderIterator<E extends Comparable<? super E>> extends AbstractTreeIterator<E> {
 
     /**
-     * @param node
+     * @param rootNode
      */
-    public InOrderIterator(Node<E> node) {
-        super(node);
+    public InOrderIterator(Node<E> rootNode) {
+        super(rootNode);
     }
 
     /**
      * Pushes the left nodes to stack.
      *
-     * @param node
+     * @param rootNode
      */
     @Override
-    public void pushLeft(Node<E> node) {
-        while (node != null) {
-            stack.push(node);
-            node = node.getLeft();
+    public void pushLeft(Node<E> rootNode) {
+        while (rootNode != null) {
+            stack.push(rootNode);
+            rootNode = rootNode.getLeft();
         }
     }
-
 
     /**
      * Returns the next element in the iteration.
@@ -48,13 +52,14 @@ public class InOrderIterator<E extends Comparable<? super E>> extends AbstractTr
      * @throws java.util.NoSuchElementException if the iteration has no more elements
      */
     @Override
-    public Node<E> next() {
+    public E next() {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        Node<E> current = stack.pop();
-        pushLeft(current.getRight());
-        return current;
+        Node<E> nextNode = stack.pop();
+        pushLeft(nextNode.getRight());
+        return nextNode.getData();
     }
+
 }

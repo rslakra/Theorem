@@ -2,7 +2,7 @@ package com.devamatre.theorem.adts.tree.traversal;
 
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
-import com.devamatre.theorem.adts.tree.TreeTraversal;
+import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,8 +18,9 @@ import java.util.Queue;
  * @created 2018-01-07 03:36:00 PM
  * @since 1.0.0
  */
-public class LevelOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E>
-    implements TreeTraversal<E> {
+public class LevelOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E> {
+
+    private Queue<Node<E>> queue = new LinkedList<>();
 
     /**
      * @param node
@@ -35,38 +36,41 @@ public class LevelOrderTraversal<E extends Comparable<? super E>> extends Abstra
      */
     @Override
     public void pushLeft(Node<E> node) {
-        while (node != null) {
-            stack.push(node);
-            node = node.getLeft();
-        }
+        // ignore me
+//        while (node != null) {
+//            stack.push(node);
+//            node = node.getLeft();
+//        }
     }
+
 
     /**
      * Traverses the tree in the <code>TraversalMode</code> traversal.
      *
-     * @param treeNode
+     * @param rootNode
+     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public List<Node<E>> treeTraversal(Node<E> treeNode, boolean includeNullLeafs) {
+    public List<Node<E>> traverseNodes(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
         List<Node<E>> levelOrder = new ArrayList<>();
-        if (Objects.nonNull(treeNode)) {
+        if (Objects.nonNull(rootNode)) {
             Queue<Node<E>> queue = new LinkedList<>();
-            queue.add(treeNode);
+            queue.add(rootNode);
             while (!queue.isEmpty()) {
                 int size = queue.size();
                 while (size > 0) {
-                    Node<E> node = queue.remove();
-                    // print current node
-                    levelOrder.add(node);
-                    // add left node if available
-                    if (node.hasLeft()) {
-                        queue.add(node.getLeft());
+                    Node<E> nextNode = queue.remove();
+                    // print current nextNode
+                    levelOrder.add(nextNode);
+                    // add left nextNode if available
+                    if (nextNode.hasLeft()) {
+                        queue.add(nextNode.getLeft());
                     }
-                    // add right node if available
-                    if (node.hasRight()) {
-                        queue.add(node.getRight());
+                    // add right nextNode if available
+                    if (nextNode.hasRight()) {
+                        queue.add(nextNode.getRight());
                     }
                     size--;
                 }
@@ -76,8 +80,4 @@ public class LevelOrderTraversal<E extends Comparable<? super E>> extends Abstra
         return levelOrder;
     }
 
-    @Override
-    public List<Node<E>> treeNodesTraversal() {
-        return super.treeNodesTraversal();
-    }
 }

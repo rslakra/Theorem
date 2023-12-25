@@ -4,9 +4,10 @@ import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TreeIterator;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
- * Implements the pre-order iterator of the tree.
+ * Traverses a tree in a pre-order (ROOT-LEFT-RIGHT) manner.
  *
  * @author Rohtash Lakra
  * @version 1.0.0
@@ -30,12 +31,12 @@ public class PreOrderIterator<E extends Comparable<? super E>> extends AbstractT
      * check for a right child. If there is a right child, we push the right child on a stack and return a parent node.
      * If there is no right child, we move back up the tree (while-loop) until we find a node with a right child.
      *
-     * @param node
+     * @param rootNode
      */
     @Override
-    public void pushLeft(Node<E> node) {
-        if (node != null) {
-            stack.push(node);
+    public void pushLeft(Node<E> rootNode) {
+        if (rootNode != null) {
+            stack.push(rootNode);
         }
     }
 
@@ -46,20 +47,20 @@ public class PreOrderIterator<E extends Comparable<? super E>> extends AbstractT
      * @throws NoSuchElementException if the iteration has no more elements
      */
     @Override
-    public Node<E> next() {
+    public E next() {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        Node<E> current = stack.peek();
-        if (current != null) {
-            if (current.hasLeft()) {
-                stack.push(current.getLeft());
+        Node<E> nextNode = stack.peek();
+        if (Objects.nonNull(nextNode)) {
+            if (nextNode.hasLeft()) {
+                stack.push(nextNode.getLeft());
             } else {
                 Node<E> popNode = stack.pop();
                 while (popNode.getRight() == null) {
                     if (stack.isEmpty()) {
-                        return current;
+                        return nextNode.getData();
                     }
                     popNode = stack.pop();
                 }
@@ -68,6 +69,8 @@ public class PreOrderIterator<E extends Comparable<? super E>> extends AbstractT
             }
         }
 
-        return current;
+        return nextNode.getData();
     }
+
+
 }

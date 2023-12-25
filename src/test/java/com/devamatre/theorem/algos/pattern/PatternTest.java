@@ -328,7 +328,6 @@ public class PatternTest {
         instance.printPascalsTriangle(rows);
     }
 
-
     /**
      * The inputData and expected results.
      *

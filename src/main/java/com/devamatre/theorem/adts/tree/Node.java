@@ -28,9 +28,25 @@
  *****************************************************************************/
 package com.devamatre.theorem.adts.tree;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
+ * In computer science, a tree is a widely used abstract data type that represents a hierarchical tree structure with a
+ * set of connected nodes. Each node in the tree can be connected to many children (depending on the type of tree), but
+ * must be connected to exactly one parent, except for the root node, which has no parent (i.e., the root node as the
+ * top-most node in the tree hierarchy). These constraints mean there are no cycles or "loops" (no node can be its own
+ * ancestor), and also that each child can be treated like the root node of its own subtree, making recursion a useful
+ * technique for tree traversal. In contrast to linear data structures, many trees cannot be represented by
+ * relationships between neighboring nodes (parent and children nodes of a node under consideration if they exist) in a
+ * single straight line (called edge or link between two adjacent nodes).
+ * <p>
+ * I'm using only 1 node class for all implementations, which might differ based on <code>TreeType</code> values.
+ *
+ * <url>https://en.wikipedia.org/wiki/Tree_(data_structure)</url>
+ * <url>https://www.geeksforgeeks.org/types-of-binary-tree</url>
+ *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-13 04:35:49 PM
@@ -39,9 +55,13 @@ import java.util.Objects;
 public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>> {
 
     private Node<E> parent;
-    private final E data;
+    private E data;
+    /* handles duplicate nodes in the binary search tree. */
+    private int count;
     private Node<E> left;
     private Node<E> right;
+    private List<Node<E>> children;
+    private int size;
 
     /**
      * @param data
@@ -49,17 +69,11 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     public Node(E data) {
         this.parent = null;
         this.data = data;
+        this.count = 1;
         this.left = null;
         this.right = null;
-    }
-
-    /**
-     * Returns the value of data.
-     *
-     * @return the data
-     */
-    public E getData() {
-        return data;
+        this.children = new LinkedList<>();
+        this.size = 1;
     }
 
     /**
@@ -78,6 +92,69 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      */
     public void setParent(Node<E> parent) {
         this.parent = parent;
+    }
+
+    /**
+     * Returns true if the parent node is not null otherwise false.
+     *
+     * @return
+     */
+    public boolean hasParent() {
+        return Objects.nonNull(getParent());
+    }
+
+    /**
+     * Returns the value of data.
+     *
+     * @return the data
+     */
+    public E getData() {
+        return data;
+    }
+
+    /**
+     * The <code>data</code> to be set.
+     *
+     * @param data
+     */
+    public void setData(E data) {
+        this.data = data;
+    }
+
+    /**
+     * Returns the <code>count</code> of the node.
+     *
+     * @return
+     */
+    public int getCount() {
+        return count;
+    }
+
+    /**
+     * The <code>count</code> of the node to be set.
+     *
+     * @param count
+     */
+    public void setCount(int count) {
+        if (count >= 0) {
+            this.count = count;
+        }
+    }
+
+    /**
+     * Increases the <code>count</code> by 1.
+     */
+    protected void increaseCount() {
+        count++;
+    }
+
+    /**
+     * Increases the <code>count</code> by 1.
+     */
+    protected void decreaseCount() {
+        if (this.count > 0) {
+            this.count--;
+        }
     }
 
     /**
@@ -161,12 +238,28 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     }
 
     /**
-     * Returns true if this is leaf node (means both left and right nodes are empty of this node).
+     * Returns true if the node neither has left child nor the right child otherwise false.
+     * <p>
+     * The leaf node has both left and right children as null.
      *
      * @return
      */
-    public boolean isLeafNode() {
+    public boolean isLeaf() {
         return (left == null && right == null);
+    }
+
+    /**
+     * @return
+     */
+    public List<Node<E>> getChildren() {
+        return children;
+    }
+
+    /**
+     * @param children
+     */
+    public void setChildren(List<Node<E>> children) {
+        this.children = children;
     }
 
     /**
@@ -175,7 +268,63 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      * @return
      */
     public boolean hasChildren() {
-        return (hasLeft() && hasRight());
+        return (children.size() > 0);
+    }
+
+    /**
+     * Returns the <code>size</code>.
+     *
+     * @return
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * The <code>size</code> to be set.
+     *
+     * @param size
+     */
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    /**
+     * Increases the size by 1.
+     */
+    protected void increaseSize(int size) {
+        this.size += size;
+    }
+
+    /**
+     * Increases the <code>count</code> by 1.
+     */
+    protected void increaseSize() {
+        increaseSize(1);
+    }
+
+    /**
+     * Decreases the size by 1.
+     */
+    protected void decreaseSize(int size) {
+        if ((this.size - size) >= 0) {
+            this.size -= size;
+        }
+    }
+
+    /**
+     * Decreases the <code>count</code> by 1.
+     */
+    protected void decreaseSize() {
+        decreaseSize(1);
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getData());
     }
 
     /**
@@ -197,32 +346,30 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     }
 
     /**
-     * Returns the string representation of this object.
-     * <p>
-     * TODO: DUPLICATE METHOD (JUST KEEPING FOR NEXT REFACTORING)
+     * Adds the <code>rootNode</code> as children of the tree.
      *
-     * @return
-     * @see java.lang.Object#toString()
+     * @param rootNode
      */
-    public String toStringBuilder() {
-        final StringBuilder strBuilder = new StringBuilder();
-        // add left node.
-        if (this.hasLeft()) {
-            strBuilder.append(left.toString());
-        }
+    protected void addChild(Node<E> rootNode) {
+        if (Objects.nonNull(rootNode)) {
+            if (!rootNode.hasParent()) {
+                rootNode.setParent(this);
+            }
 
-        // add root node.
-        if (this.hasLeft()) {
-            strBuilder.append(" ");
+//            // if duplicate node exists, increase the count of that node.
+//            if (children.contains(rootNode)) {
+//                rootNode.increaseCount();
+//            }
+            children.add(rootNode);
+            increaseSize(rootNode.getSize());
         }
-        strBuilder.append(this.data);
+    }
 
-        // add right node.
-        if (this.hasRight()) {
-            strBuilder.append(" ").append(this.right.toString());
-        }
-
-        return strBuilder.toString();
+    /**
+     * @param data
+     */
+    void addChild(E data) {
+        addChild(new Node<>(data));
     }
 
     /**
@@ -231,16 +378,65 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      * @param data
      * @return
      */
-    public Node<E> findNode(E data) {
-        if (hasLeft() && getData().compareTo(data) > 0) {
-            return getLeft().findNode(data);
-        } else if (hasRight() && getData().compareTo(data) < 0) {
-            return getRight().findNode(data);
-        } else if (getData().compareTo(data) == 0) {
-            return this;
+    protected Node<E> findNode(Node<E> rootNode, E data) {
+        if (rootNode != null) {
+            if (rootNode.isEquals(data)) {
+                return rootNode;
+            } else if (rootNode.isGreaterThan(data)) {
+                return findNode(rootNode.getLeft(), data);
+            } else if (rootNode.isLessThan(data)) {
+                return findNode(rootNode.getRight(), data);
+            }
         }
 
         return null;
+    }
+
+    /**
+     * Finds the child with the provided <code>data</code>. If exists return node otherwise null.
+     *
+     * @param rootNode
+     * @param data
+     * @return
+     */
+    protected Node<E> findChild(Node<E> rootNode, E data) {
+        // base case, check if rootNode is not null otherwise return null.
+        if (Objects.nonNull(rootNode)) {
+            // check the data matches with the rootNode or not
+            if (rootNode.isEquals(data)) {
+                return rootNode;
+            } else {
+                // check if any children of the rootNode contains the data node
+                for (Node<E> childNode : rootNode.getChildren()) {
+                    Node<E> nodeFound = findChild(childNode, data);
+                    if (Objects.nonNull(nodeFound)) {
+                        return nodeFound;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Finds the child with the provided <code>data</code>. If exists return node otherwise null.
+     *
+     * @param data
+     * @return
+     */
+    protected Node<E> findChild(E data) {
+        return findChild(this, data);
+    }
+
+    /**
+     * Finds the node with the provided <code>data</code>. If exists return node otherwise null.
+     *
+     * @param data
+     * @return
+     */
+    protected Node<E> findNode(E data) {
+        return findNode(this, data);
     }
 
     /**
@@ -325,42 +521,6 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      */
     public boolean isEquals(E data) {
         return (getData().compareTo(data) == 0);
-    }
-
-    /**
-     * Returns the left-most children of the <code>current</code> node.
-     *
-     * @return
-     */
-    public Node<E> findLeftMost() {
-        Node<E> current = this;
-        Node<E> leftMost = null;
-        if (Objects.nonNull(current) && current.hasLeft()) {
-            leftMost = current.getLeft();
-            while (leftMost.hasLeft()) {
-                leftMost = leftMost.getLeft();
-            }
-        }
-
-        return leftMost;
-    }
-
-    /**
-     * Returns the right-most children of the <code>current</code> node.
-     *
-     * @return
-     */
-    public Node<E> findRightMost() {
-        Node<E> rightMost = null;
-        Node<E> current = this;
-        if (Objects.nonNull(current) && current.hasRight()) {
-            rightMost = current.getRight();
-            while (rightMost.hasRight()) {
-                rightMost = rightMost.getRight();
-            }
-        }
-
-        return rightMost;
     }
 
 }

@@ -1,16 +1,15 @@
 package com.devamatre.theorem.adts.tree;
 
-import java.util.Iterator;
 import java.util.Objects;
 
 /**
  * @author Rohtash Lakra
  * @created 5/13/22 5:18 PM
  */
-public class PairBinaryTree<K extends Comparable<K>, V extends Comparable<V>> extends AbstractTree
-    implements Iterable, Comparable {
+public class PairBinaryTree<K extends Comparable<K>, V extends Comparable<V>> {
 
     private PairNode<K, V> root;
+    private int size;
 
     public PairBinaryTree() {
     }
@@ -20,6 +19,13 @@ public class PairBinaryTree<K extends Comparable<K>, V extends Comparable<V>> ex
      */
     public PairNode<K, V> getRoot() {
         return root;
+    }
+
+    /**
+     * @return
+     */
+    public int getSize() {
+        return size;
     }
 
     /**
@@ -67,7 +73,7 @@ public class PairBinaryTree<K extends Comparable<K>, V extends Comparable<V>> ex
         }
 
         //increment the node count
-        incrementSize();
+        size++;
     }
 
     /**
@@ -96,15 +102,19 @@ public class PairBinaryTree<K extends Comparable<K>, V extends Comparable<V>> ex
         return current;
     }
 
-    /**
-     * Determines if the specified value exists in the binary tree.
-     *
-     * @param value
-     * @return
-     */
-    public boolean contains(final V value) {
-        return (Objects.nonNull(getRoot()) && Objects.nonNull(findNode(value)));
+    protected PairNode findNode(K key) {
+        return null;
     }
+
+//    /**
+//     * Determines if the specified value exists in the binary tree.
+//     *
+//     * @param value
+//     * @return
+//     */
+//    public boolean contains(final V value) {
+//        return (Objects.nonNull(getRoot()) && Objects.nonNull(findNode(value)));
+//    }
 
     /**
      * Removes the first occurrence of the provided value from the tree.
@@ -118,7 +128,7 @@ public class PairBinaryTree<K extends Comparable<K>, V extends Comparable<V>> ex
         }
 
         // decrease the node count
-        decrementSize();
+        size--;
 
         // Get current's parent node
         final PairNode parent = current.getParent();
@@ -204,49 +214,4 @@ public class PairBinaryTree<K extends Comparable<K>, V extends Comparable<V>> ex
         root = null;
     }
 
-    /**
-     * Returns an iterator over elements of type {@code T}.
-     *
-     * @return an Iterator.
-     */
-    @Override
-    public Iterator iterator() {
-        return null;
-    }
-
-    /**
-     * Compares this object with the specified object for order.  Returns a negative integer, zero, or a positive
-     * integer as this object is less than, equal to, or greater than the specified object.
-     *
-     * <p>The implementor must ensure
-     * {@code sgn(x.compareTo(y)) == -sgn(y.compareTo(x))} for all {@code x} and {@code y}.  (This implies that
-     * {@code x.compareTo(y)} must throw an exception iff {@code y.compareTo(x)} throws an exception.)
-     *
-     * <p>The implementor must also ensure that the relation is transitive:
-     * {@code (x.compareTo(y) > 0 && y.compareTo(z) > 0)} implies {@code x.compareTo(z) > 0}.
-     *
-     * <p>Finally, the implementor must ensure that {@code x.compareTo(y)==0}
-     * implies that {@code sgn(x.compareTo(z)) == sgn(y.compareTo(z))}, for all {@code z}.
-     *
-     * <p>It is strongly recommended, but <i>not</i> strictly required that
-     * {@code (x.compareTo(y)==0) == (x.equals(y))}.  Generally speaking, any class that implements the
-     * {@code Comparable} interface and violates this condition should clearly indicate this fact.  The recommended
-     * language is "Note: this class has a natural ordering that is inconsistent with equals."
-     *
-     * <p>In the foregoing description, the notation
-     * {@code sgn(}<i>expression</i>{@code )} designates the mathematical
-     * <i>signum</i> function, which is defined to return one of {@code -1},
-     * {@code 0}, or {@code 1} according to whether the value of
-     * <i>expression</i> is negative, zero, or positive, respectively.
-     *
-     * @param o the object to be compared.
-     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than
-     * the specified object.
-     * @throws NullPointerException if the specified object is null
-     * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
-     */
-    @Override
-    public int compareTo(Object o) {
-        return 0;
-    }
 }

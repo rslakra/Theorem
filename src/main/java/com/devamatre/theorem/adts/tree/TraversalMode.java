@@ -66,4 +66,12 @@ public enum TraversalMode {
             .findFirst()
             .orElse(null);
     }
+
+    /**
+     * @param traversalMode
+     * @return
+     */
+    public static boolean isLevelOrderTraversal(TraversalMode traversalMode) {
+        return (LEVEL_ORDER_TRAVERSAL == traversalMode);
+    }
 }

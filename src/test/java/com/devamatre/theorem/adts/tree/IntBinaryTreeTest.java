@@ -2,7 +2,6 @@ package com.devamatre.theorem.adts.tree;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testng.AssertJUnit.assertNull;
 
 import com.devamatre.appsuite.core.BeanUtils;
@@ -18,7 +17,7 @@ import java.util.List;
  * @author Rohtash Lakra
  * @created 11/16/23 9:22 PM
  */
-public class IntBinaryTreeTest {
+public class IntBinaryTreeTest extends AbstractTreeTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IntBinaryTreeTest.class);
 
@@ -80,7 +79,6 @@ public class IntBinaryTreeTest {
         System.out.println();
     }
 
-
     @Test
     public void testIntegerBinaryTree() {
         IntBinaryTree tree = buildIntBinaryTree(Arrays.asList(50, 76, 21, 4, 16, 3, 32, 100, 64, 52, 102));
@@ -125,44 +123,50 @@ public class IntBinaryTreeTest {
         // Delete node.
         // tree.removeNode(50);
         LOGGER.debug("tree:{}", tree);
-
         System.out.println();
+
         // validate preOrderTraversal
         LOGGER.debug("preOrderTraversal ...");
-        String preOrderTraversal = tree.preOrderTraversal(true);
+//        String preOrderTraversal = tree.preOrderTraversal(true);
+        TreeTraversal<Integer>
+            treeTraversal =
+            TreeTraversal.treeTraverser(TraversalMode.PRE_ORDER_TRAVERSAL, tree.getRoot());
+        LOGGER.debug("treeTraversal:{}", treeTraversal);
+        List<Integer> preOrderTraversal = treeTraversal.traverse(TreeType.BINARY, false);
         LOGGER.debug("preOrderTraversal:{}", preOrderTraversal);
         assertNotNull(preOrderTraversal);
-        assertEquals("[50 21 4 3 3 4 16 16 21 32 32 50 76 64 52 100 102]", preOrderTraversal);
+        assertEquals("[50, 50, 21, 21, 4, 4, 3, 3, 16, 16, 32, 32, 76, 64, 52, 100, 102]",
+                     preOrderTraversal.toString());
         System.out.println();
 
         LOGGER.debug("preOrderIterator ...");
-        Iterator<Node<Integer>> preOrderItr = tree.preOrderIterator();
-        while (preOrderItr.hasNext()) {
-            Node<Integer> itrNode = preOrderItr.next();
-            LOGGER.debug("itrNode:{}", itrNode);
-            assertTrue(preOrderTraversal.contains(itrNode.getData().toString()));
-        }
+        Iterator<Integer> preOrderItr = tree.preOrderIterator();
+        assertIteratorWithTraversal(preOrderItr, preOrderTraversal);
         System.out.println();
 
         // validate inOrderTraversal
         LOGGER.debug("inOrderTraversal ...");
-        tree.inOrderTraversal();
+        treeTraversal = TreeTraversal.treeTraverser(TraversalMode.IN_ORDER_TRAVERSAL, tree.getRoot());
+        LOGGER.debug("treeTraversal:{}", treeTraversal);
+        List<Integer> inOrderTraversal = treeTraversal.traverse(TreeType.BINARY, false);
+        LOGGER.debug("inOrderTraversal:{}", inOrderTraversal);
+//        tree.inOrderTraversal();
 
         LOGGER.debug("inOrderIterator ...");
-        Iterator<Node<Integer>> inOrderItr = tree.inOrderIterator();
-        while (inOrderItr.hasNext()) {
-            LOGGER.debug("inOrderItr:{}", inOrderItr.next());
-        }
+        Iterator<Integer> inOrderItr = tree.inOrderIterator();
+        assertIteratorWithTraversal(inOrderItr, inOrderTraversal);
         System.out.println();
 
         // validate inOrderTraversal
         LOGGER.debug("postOrderTraversal ...");
-        tree.postOrderTraversal();
+        treeTraversal = TreeTraversal.treeTraverser(TraversalMode.POST_ORDER_TRAVERSAL, tree.getRoot());
+        LOGGER.debug("treeTraversal:{}", treeTraversal);
+        List<Integer> postOrderTraversal = treeTraversal.traverse(TreeType.BINARY, false);
+        LOGGER.debug("postOrderTraversal:{}", postOrderTraversal);
+//        tree.postOrderTraversal();
 
         LOGGER.debug("postOrderIterator ...");
-        Iterator<Node<Integer>> postOrderItr = tree.postOrderIterator();
-        while (postOrderItr.hasNext()) {
-            LOGGER.debug("postOrderItr:{}", postOrderItr.next());
-        }
+        Iterator<Integer> postOrderItr = tree.postOrderIterator();
+        assertIteratorWithTraversal(postOrderItr, postOrderTraversal);
     }
 }

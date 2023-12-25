@@ -7,7 +7,7 @@ import com.devamatre.theorem.adts.tree.Node;
  * @version 1.0.0
  * @since 12/17/2023 1:51 PM
  */
-public class PrintPrettyTreeHorizontally extends AbstractPrintPrintPrettyTree {
+public class PrintPrettyTreeHorizontally<E extends Comparable<? super E>> extends AbstractPrintPrintPrettyTree<E> {
 
     /**
      * Prints the pretty tree of the <code>rootNode</code>.
@@ -15,7 +15,17 @@ public class PrintPrettyTreeHorizontally extends AbstractPrintPrintPrettyTree {
      * @param rootNode
      */
     @Override
-    public void printPrettyTree(Node rootNode) {
-        
+    public void printPrettyTree(Node<E> rootNode) {
+
+    }
+
+    /**
+     * Prints the pretty tree of the <code>rootNode</code>.
+     *
+     * @param rootNode
+     */
+    @Override
+    public void printBinaryPrettyTree(Node<E> rootNode) {
+
     }
 }

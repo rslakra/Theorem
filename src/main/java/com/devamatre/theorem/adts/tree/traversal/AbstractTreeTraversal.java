@@ -3,8 +3,10 @@ package com.devamatre.theorem.adts.tree.traversal;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeTraversal;
+import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -36,7 +38,8 @@ public abstract class AbstractTreeTraversal<E extends Comparable<? super E>> imp
     protected AbstractTreeTraversal(TraversalMode traversalMode, Node<E> rootNode) {
         this.traversalMode = traversalMode;
         this.rootNode = rootNode;
-        if (this.rootNode != null) {
+        // in case of BFS no need to fill the stack
+        if (Objects.nonNull(this.rootNode) && !TraversalMode.isLevelOrderTraversal(traversalMode)) {
             pushLeft(this.rootNode);
         }
     }
@@ -75,19 +78,38 @@ public abstract class AbstractTreeTraversal<E extends Comparable<? super E>> imp
     /**
      * Traverses the tree in the <code>TraversalMode</code> traversal.
      *
-     * @param treeNode
+     * @param rootNode
+     * @param treeType
      * @param includeNullLeafs
      * @return
      */
-    public abstract List<Node<E>> treeTraversal(Node<E> treeNode, boolean includeNullLeafs);
+    public abstract List<Node<E>> traverseNodes(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs);
 
     /**
-     * Traverses the tree in the <code>TraversalMode</code> traversal.
+     * Traverses the <code>treeType</code> tree with the provided <code>includeNullLeafs</code> in the
+     * <code>TraversalMode</code> traversal.
+     *
+     * <pre>
+     *  Time Complexity: <code>O(N)</code>
+     *  Space Complexity: <code>O(N)</code>
+     * </pre>
+     *
+     * @param treeType
+     * @param includeNullLeafs
+     * @return
+     */
+    @Override
+    public List<Node<E>> traverseNodes(TreeType treeType, boolean includeNullLeafs) {
+        return traverseNodes(rootNode, treeType, includeNullLeafs);
+    }
+
+    /**
+     * Returns the string representation of this object.
      *
      * @return
      */
     @Override
-    public List<Node<E>> treeNodesTraversal() {
-        return treeTraversal(rootNode, false);
+    public String toString() {
+        return traverseNodes(TreeType.BINARY, false).toString();
     }
 }

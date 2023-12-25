@@ -3,8 +3,6 @@ package com.devamatre.theorem.adts.tree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Stack;
 
 /**
@@ -16,16 +14,6 @@ import java.util.Stack;
 public class IntBinaryTree extends BinaryTree<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IntBinaryTree.class);
-
-    /**
-     * Finds the node with the provided <code>data</code>. If exists return node otherwise null.
-     *
-     * @param data
-     * @return
-     */
-    public Node<Integer> findNode(Integer data) {
-        return (root == null ? null : root.findNode(data));
-    }
 
     /**
      * Traverses a tree in a pre-order (ROOT-LEFT-RIGHT) manner.
@@ -51,9 +39,9 @@ public class IntBinaryTree extends BinaryTree<Integer> {
          * Note that right child is pushed first so that left is processed
          * first.
          */
-        if (root != null) {
+        if (getRoot() != null) {
             final Stack<Node> stack = new Stack<>();
-            stack.push(root);
+            stack.push(getRoot());
             while (!stack.isEmpty()) {
                 Node node = stack.pop();
                 // append root node

@@ -3,27 +3,33 @@ package com.devamatre.theorem.adts.tree.traversal;
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
-import com.devamatre.theorem.adts.tree.TreeTraversal;
+import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implements the in-order traversal of the tree.
+ * Traverses a tree in an in-order (LEFT-ROOT-RIGHT) manner.
+ * <p>
+ * Until all nodes are traversed:
+ * <pre>
+ * Step 1 − Recursively traverse left subtree.
+ * Step 2 − Visit root node.
+ * Step 3 − Recursively traverse right subtree.
+ * </pre>
  *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-07 03:36:00 PM
  * @since 1.0.0
  */
-public class InOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E>
-    implements TreeTraversal<E> {
+public class InOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E> {
 
     /**
-     * @param node
+     * @param rootNode
      */
-    public InOrderTraversal(Node<E> node) {
-        super(TraversalMode.IN_ORDER_TRAVERSAL, node);
+    public InOrderTraversal(Node<E> rootNode) {
+        super(TraversalMode.IN_ORDER_TRAVERSAL, rootNode);
     }
 
     /**
@@ -40,7 +46,11 @@ public class InOrderTraversal<E extends Comparable<? super E>> extends AbstractT
     }
 
     /**
+     * Traverses the <code>treeType</code> tree with the provided <code>includeNullLeafs</code> in the
+     * <code>TraversalMode</code> traversal.
+     * <p>
      * Returns the list of nodes using <code>in-order</code> traversal recursively.
+     *
      * <p>
      * Time Complexity: <code>O(N)</code>
      *
@@ -57,21 +67,29 @@ public class InOrderTraversal<E extends Comparable<? super E>> extends AbstractT
      * <p>
      * i.e: [4, 2, 5, 1, 6, 3, 7]
      *
-     * @param treeNode
+     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public List<Node<E>> treeTraversal(Node<E> treeNode, boolean includeNullLeafs) {
+    public List<Node<E>> traverseNodes(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
         List<Node<E>> inOrder = new ArrayList<>();
-        if (BeanUtils.isNull(treeNode)) {
+        if (BeanUtils.isNull(rootNode)) {
             if (includeNullLeafs) {
                 inOrder.add(null);
             }
         } else {
-            inOrder.addAll(treeTraversal(treeNode.getLeft(), includeNullLeafs));
-            inOrder.add(treeNode);
-            inOrder.addAll(treeTraversal(treeNode.getRight(), includeNullLeafs));
+            // handle binary tree representation
+            if (TreeType.BINARY == treeType) {
+                inOrder.addAll(traverseNodes(rootNode.getLeft(), treeType, includeNullLeafs));
+                inOrder.add(rootNode);
+                inOrder.addAll(traverseNodes(rootNode.getRight(), treeType, includeNullLeafs));
+            } else {
+                inOrder.add(rootNode);
+                for (Node<E> childNode : rootNode.getChildren()) {
+                    inOrder.addAll(traverseNodes(childNode, treeType, includeNullLeafs));
+                }
+            }
         }
 
         return inOrder;

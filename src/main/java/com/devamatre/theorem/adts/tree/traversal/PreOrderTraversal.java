@@ -3,21 +3,20 @@ package com.devamatre.theorem.adts.tree.traversal;
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
-import com.devamatre.theorem.adts.tree.TreeTraversal;
+import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implements the pre-order traversal of the tree.
+ * Traverses a tree in a pre-order (ROOT-LEFT-RIGHT) manner.
  *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-07 10:36:00 PM
  * @since 1.0.0
  */
-public class PreOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E>
-    implements TreeTraversal<E> {
+public class PreOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E> {
 
     /**
      * @param node
@@ -62,21 +61,30 @@ public class PreOrderTraversal<E extends Comparable<? super E>> extends Abstract
      * <p>
      * i.e: [1, 2, 4, 5, 3, 6, 7]
      *
-     * @param treeNode
+     * @param rootNode
+     * @param treeType
      * @param includeNullLeafs
      * @return
      */
-    @Override
-    public List<Node<E>> treeTraversal(Node<E> treeNode, boolean includeNullLeafs) {
+    public List<Node<E>> traverseNodes(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
         List<Node<E>> preOrder = new ArrayList<>();
-        if (BeanUtils.isNull(treeNode)) {
+        if (BeanUtils.isNull(rootNode)) {
             if (includeNullLeafs) {
                 preOrder.add(null);
             }
         } else {
-            preOrder.add(treeNode);
-            preOrder.addAll(treeTraversal(treeNode.getLeft(), includeNullLeafs));
-            preOrder.addAll(treeTraversal(treeNode.getRight(), includeNullLeafs));
+            if (TreeType.BINARY == treeType) {
+                for (int i = 0; i < rootNode.getCount(); i++) {
+                    preOrder.add(rootNode);
+                }
+                preOrder.addAll(traverseNodes(rootNode.getLeft(), treeType, includeNullLeafs));
+                preOrder.addAll(traverseNodes(rootNode.getRight(), treeType, includeNullLeafs));
+            } else {
+                preOrder.add(rootNode);
+                for (Node<E> childNode : rootNode.getChildren()) {
+                    preOrder.addAll(traverseNodes(childNode, treeType, includeNullLeafs));
+                }
+            }
         }
 
         return preOrder;

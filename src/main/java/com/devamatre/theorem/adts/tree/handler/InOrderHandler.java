@@ -3,7 +3,8 @@ package com.devamatre.theorem.adts.tree.handler;
 import com.devamatre.theorem.adts.array.ArrayUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
-import com.devamatre.theorem.adts.tree.TreeUtils;
+import com.devamatre.theorem.adts.tree.TreeTraversal;
+import com.devamatre.theorem.adts.tree.TreeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,14 +86,15 @@ public class InOrderHandler<E extends Comparable<? super E>> extends AbstractTre
      * @return
      */
     public Node<E> buildInOrderTreeWithPreOrder(E[] inOrder, E[] preOrder) {
+        Node<E> rootNode = null;
         if (TraversalMode.IN_ORDER_TRAVERSAL == getTraversalMode()) {
             setIndex(0); // index in preOrder (Root - Left - Right)
             fillNodeIndices(inOrder);
-            setRoot(buildInOrderWithPreOrder(preOrder, 0, preOrder.length - 1));
-            setSize(TreeUtils.getCount(root));
-            return root;
+            rootNode = buildInOrderWithPreOrder(preOrder, 0, preOrder.length - 1);
+//            rootNode.setSize(TreeUtils.getCount(rootNode));
         }
-        return null;
+
+        return rootNode;
     }
 
     /**
@@ -132,59 +134,49 @@ public class InOrderHandler<E extends Comparable<? super E>> extends AbstractTre
      * @return
      */
     public Node<E> buildInOrderTreeWithPostOrder(E[] inOrder, E[] postOrder) {
+        Node rootNode = null;
         if (TraversalMode.IN_ORDER_TRAVERSAL == getTraversalMode()) {
             setIndex(inOrder.length - 1); // index in postOrder (Left - Right - Root)
             fillNodeIndices(inOrder);
-            setRoot(buildInOrderWithPostOrder(postOrder, 0, inOrder.length - 1));
-            setSize(TreeUtils.getCount(root));
-            return root;
+            rootNode = buildInOrderWithPostOrder(postOrder, 0, inOrder.length - 1);
+//            setSize(TreeUtils.getCount(rootNode));
         }
 
-        return null;
+        return rootNode;
     }
 
     /**
-     * Returns the <code>treeNode</code> builds with an array of <code>E</code> data.
-     *
      * @param elements
      * @return
      */
     @Override
-    public Node<E> buildTree(E[] elements) {
+    public Node<E> buildBinaryTree(E[] elements) {
+        Node rootNode = null;
 //        if (TraversalMode.IN_ORDER_TRAVERSAL == getTraversalMode() && BeanUtils.isNotEmpty(elements)) {
 //            int maxIndex = ArrayUtils.findMaxIndex((Integer[]) elements);
-//            setRoot(buildInOrder(elements, null, elements.length - 1, maxIndex));
-//            setSize(TreeUtils.getCount(root));
-//            return root;
+//            rootNode = buildInOrder(elements, null, elements.length - 1, maxIndex);
+//            setSize(TreeUtils.getCount(rootNode));
 //        }
 
-        return null;
+        return rootNode;
     }
 
     /**
      * Converts the <code>treeNode</code> into an array of <code>E</code> type. If the <code>includeNullLeafs</code> is
      * set to be true, the leafs with null included in the results.
      *
-     * @param treeNode
+     * @param rootNode
+     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public E[] treeConverter(Node<E> treeNode, boolean includeNullLeafs) {
-        List<E> data = TreeUtils.inOrder(treeNode, includeNullLeafs);
+    public E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
+//        List<E> data = TreeUtils.inOrder(rootNode, includeNullLeafs);
+        TreeTraversal treeTraverser = TreeTraversal.treeTraverser(getTraversalMode(), rootNode);
+        List<E> data = treeTraverser.traverse(treeType, includeNullLeafs);
         ArrayUtils.replaceNullWithMinus(data);
         return ArrayUtils.toIntArray(data);
-    }
-
-    /**
-     * Converts the <code>treeNode</code> into an array of <code>E</code> type.
-     *
-     * @param treeNode
-     * @return
-     */
-    @Override
-    public E[] treeConverter(Node<E> treeNode) {
-        return treeConverter(treeNode, false);
     }
 
 }

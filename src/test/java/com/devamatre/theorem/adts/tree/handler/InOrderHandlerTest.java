@@ -94,7 +94,7 @@ public class InOrderHandlerTest extends AbstractTreeHandlerTest {
         assertEquals(inOrderData.length, TreeUtils.getCount(rootNode));
 
         // treeConverter validation
-        Integer[] excludeNullLeafs = treeHandler.treeConverter(rootNode, false);
+        Integer[] excludeNullLeafs = treeHandler.treeConverter(rootNode);
         LOGGER.debug("excludeNullLeafs:{}", Arrays.toString(excludeNullLeafs));
         assertNotNull(excludeNullLeafs);
         assertEquals(inOrderData.length, excludeNullLeafs.length);

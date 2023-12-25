@@ -2,6 +2,7 @@ package com.devamatre.theorem.adts.tree.handler;
 
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
+import com.devamatre.theorem.adts.tree.TreeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,39 +23,16 @@ public class LevelOrderHandler<E extends Comparable<? super E>> extends Abstract
     }
 
     /**
-     * Returns the <code>treeNode</code> builds with an array of <code>E</code> data.
-     *
-     * @param elements
-     * @return
-     */
-    @Override
-    public Node<E> buildTree(E[] elements) {
-        return null;
-    }
-
-    /**
-     * Converts the <code>treeNode</code> into an array of <code>E</code> type. If the <code>includeNullLeafs</code> is
+     * Converts the <code>rootNode</code> into an array of <code>E</code> type. If the <code>includeNullLeafs</code> is
      * set to be true, the leafs with null included in the results.
      *
-     * @param treeNode
+     * @param rootNode
+     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public E[] treeConverter(Node<E> treeNode, boolean includeNullLeafs) {
+    public E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
         return null;
     }
-
-    /**
-     * Converts the <code>treeNode</code> into an array of <code>E</code> type.
-     *
-     * @param treeNode
-     * @return
-     */
-    @Override
-    public E[] treeConverter(Node<E> treeNode) {
-        return null;
-    }
-
-
 }

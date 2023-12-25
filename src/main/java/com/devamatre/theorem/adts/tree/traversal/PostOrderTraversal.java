@@ -3,21 +3,20 @@ package com.devamatre.theorem.adts.tree.traversal;
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
-import com.devamatre.theorem.adts.tree.TreeTraversal;
+import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implements the post-order traversal of the tree.
+ * Traverses a tree in a post-order (LEFT-RIGHT-ROOT) manner.
  *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-07 03:36:00 PM
  * @since 1.0.0
  */
-public class PostOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E>
-    implements TreeTraversal<E> {
+public class PostOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E> {
 
     /**
      * @param node
@@ -66,21 +65,28 @@ public class PostOrderTraversal<E extends Comparable<? super E>> extends Abstrac
      * <p>
      * i.e: [4, 5, 2, 6, 7, 3, 1]
      *
-     * @param treeNode
+     * @param rootNode
      * @param includeNullLeafs
      * @return
      */
-    @Override
-    public List<Node<E>> treeTraversal(Node<E> treeNode, boolean includeNullLeafs) {
+    public List<Node<E>> traverseNodes(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
         List<Node<E>> postOrder = new ArrayList<>();
-        if (BeanUtils.isNull(treeNode)) {
+        if (BeanUtils.isNull(rootNode)) {
             if (includeNullLeafs) {
                 postOrder.add(null);
             }
         } else {
-            postOrder.addAll(treeTraversal(treeNode.getLeft(), includeNullLeafs));
-            postOrder.addAll(treeTraversal(treeNode.getRight(), includeNullLeafs));
-            postOrder.add(treeNode);
+            // handle binary tree representation
+            if (TreeType.BINARY == treeType) {
+                postOrder.addAll(traverseNodes(rootNode.getLeft(), treeType, includeNullLeafs));
+                postOrder.addAll(traverseNodes(rootNode.getRight(), treeType, includeNullLeafs));
+                postOrder.add(rootNode);
+            } else {
+                for (Node<E> childNode : rootNode.getChildren()) {
+                    postOrder.addAll(traverseNodes(childNode, treeType, includeNullLeafs));
+                    postOrder.add(rootNode);
+                }
+            }
         }
 
         return postOrder;

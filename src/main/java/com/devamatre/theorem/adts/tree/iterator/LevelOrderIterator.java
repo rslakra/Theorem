@@ -26,13 +26,13 @@ public class LevelOrderIterator<E extends Comparable<? super E>> extends Abstrac
     /**
      * Pushes the left nodes to stack.
      *
-     * @param node
+     * @param rootNode
      */
     @Override
-    public void pushLeft(Node<E> node) {
-        while (node != null) {
-            stack.push(node);
-            node = node.getLeft();
+    public void pushLeft(Node<E> rootNode) {
+        while (rootNode != null) {
+            stack.push(rootNode);
+            rootNode = rootNode.getLeft();
         }
     }
 
@@ -48,13 +48,14 @@ public class LevelOrderIterator<E extends Comparable<? super E>> extends Abstrac
      * @throws NoSuchElementException if the iteration has no more elements
      */
     @Override
-    public Node<E> next() {
+    public E next() {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        Node<E> current = stack.pop();
-        pushLeft(current.getRight());
-        return current;
+        Node<E> nextNode = stack.pop();
+        pushLeft(nextNode.getRight());
+        return nextNode.getData();
     }
+
 }

@@ -1,12 +1,13 @@
 package com.devamatre.theorem.algos.pattern;
 
-import com.devamatre.theorem.adts.AlgoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author Rohtash Lakra
- * @created 12/8/23 10:56 AM
+ * @version 1.0.0
+ * @created 12/08/2023 10:36 PM
+ * @since 1.0.0
  */
 public class Pattern {
 
@@ -590,58 +591,6 @@ public class Pattern {
     }
 
     /**
-     * Prints the following pascal's triangle of the provided <code>rows</code>.
-     * <pre>
-     *     1
-     *    1 1
-     *   1 2 1
-     *  1 3 3 1
-     * 1 4 6 4 1
-     * </pre>
-     *
-     * @param rows
-     */
-    public void printPascalsTriangle(int rows) {
-        int[][] m = new int[rows * 2][rows * 2];
-        // fill zero
-        for (int i = 0; i < m.length; i++) {
-            for (int j = 0; j < m[0].length; j++) {
-                // set the first center value as 1
-                if (i == 0 && j == rows - 1) {
-                    m[i][j] = 1;
-                } else if (i == m.length - 1 && j == m[0].length - 1) { /* calculate the values of other cells */
-                    m[i][j] = m[i - 1][j - 1];
-                } else if (i > 0 && j == 0) { /* calculate the values of other cells */
-                    m[i][j] = m[i - 1][j + 1];
-                } else if (i > 0 && j > 0 && i < m.length - 1
-                           && j < m[0].length - 1) { /* calculate the values of other cells */
-                    m[i][j] = m[i - 1][j - 1] + m[i - 1][j + 1];
-                } else {
-                    m[i][j] = 0;
-                }
-            }
-        }
-
-        AlgoUtils.printMatrix(m);
-
-        // print pascal's triangle
-        for (int i = 0; i < m.length; i++) {
-            // print spaces
-            for (int j = 0; i < (rows - (i + 1)) * 2; i++) {
-                System.out.print(SPACE);
-            }
-
-            for (int j = 0; j < m[0].length; j++) {
-                if (m[i][j] != 0) {
-                    System.out.print(m[i][j]);
-                }
-            }
-            System.out.println();
-        }
-//        AlgoUtils.printMatrix(m);
-    }
-
-    /**
      * Prints the following number's half pyramid of the provided <code>rows</code>.
      * <pre>
      * 5
@@ -680,6 +629,43 @@ public class Pattern {
         for (int i = 1; i <= rows; i++) {
             for (int j = 1; j <= i; j++) {
                 System.out.print(i);
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the following pascal's triangle of the provided <code>rows</code>.
+     * <url>https://www.mathsisfun.com/pascals-triangle.html</url>
+     * <pre>
+     *     1
+     *    1 1
+     *   1 2 1
+     *  1 3 3 1
+     * 1 4 6 4 1
+     * </pre>
+     *
+     * @param rows
+     */
+    public void printPascalsTriangle(int rows) {
+        int lastDigit = 1;
+        // print pascal's triangle
+        for (int i = 0; i < rows; i++) {
+            // print spaces
+            for (int j = 0; j < (rows - i); j++) {
+                System.out.print(SPACE);
+            }
+
+            // print digit
+            for (int j = 0; j <= i; j++) {
+                // for the left side first digit
+                if (i == 0 || j == 0) {
+                    lastDigit = 1;
+                } else {
+                    // for the rest of the digits
+                    lastDigit = lastDigit * (i - j + 1) / j;
+                }
+                System.out.print(SPACE + lastDigit);
             }
             System.out.println();
         }

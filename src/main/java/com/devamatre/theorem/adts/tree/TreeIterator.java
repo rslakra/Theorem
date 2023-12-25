@@ -17,7 +17,7 @@ import java.util.Iterator;
  * @created 2018-01-07 03:36:00 PM
  * @since 1.0.0
  */
-public interface TreeIterator<E extends Comparable<? super E>> extends Iterator<Node<E>> {
+public interface TreeIterator<E extends Comparable<? super E>> extends Iterator<E> {
 
     /**
      * Iterates the tree in the in-order traversal (or Breadth First Search)/BFS
@@ -28,7 +28,7 @@ public interface TreeIterator<E extends Comparable<? super E>> extends Iterator<
      *
      * @return
      */
-    Iterator<Node<E>> inOrderIterator();
+    Iterator<E> inOrderIterator();
 
     /**
      * Iterates the tree in the pre-order traversal (or Breadth First Search)/BFS
@@ -39,7 +39,7 @@ public interface TreeIterator<E extends Comparable<? super E>> extends Iterator<
      *
      * @return
      */
-    Iterator<Node<E>> preOrderIterator();
+    Iterator<E> preOrderIterator();
 
     /**
      * Iterates the tree in the post-order traversal (or Breadth First Search)/BFS
@@ -50,7 +50,7 @@ public interface TreeIterator<E extends Comparable<? super E>> extends Iterator<
      *
      * @return
      */
-    Iterator<Node<E>> postOrderIterator();
+    Iterator<E> postOrderIterator();
 
     /**
      * Iterates the tree in the level order traversal (or Breadth First Search)/BFS
@@ -62,6 +62,6 @@ public interface TreeIterator<E extends Comparable<? super E>> extends Iterator<
      *
      * @return
      */
-    Iterator<Node<E>> levelOrderIterator();
+    Iterator<E> levelOrderIterator();
 
 }

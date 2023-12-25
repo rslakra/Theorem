@@ -4,6 +4,7 @@ import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TreeIterator;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -24,18 +25,18 @@ import java.util.Stack;
 public abstract class AbstractTreeIterator<E extends Comparable<? super E>> implements TreeIterator<E> {
 
     // node to be iterated.
-    protected Node<E> node;
+    protected Node<E> rootNode;
 
     // stack
     protected Stack<Node<E>> stack = new Stack<>();
 
     /**
-     * @param node
+     * @param rootNode
      */
-    protected AbstractTreeIterator(Node<E> node) {
-        this.node = node;
-        if (node != null) {
-            pushLeft(node);
+    protected AbstractTreeIterator(Node<E> rootNode) {
+        this.rootNode = rootNode;
+        if (rootNode != null) {
+            pushLeft(rootNode);
         }
     }
 
@@ -70,15 +71,15 @@ public abstract class AbstractTreeIterator<E extends Comparable<? super E>> impl
     /**
      * Pushes the left nodes to stack.
      *
-     * @param node
+     * @param rootNode
      */
-    public abstract void pushLeft(Node<E> node);
+    public abstract void pushLeft(Node<E> rootNode);
 
     /**
      * @return
      */
     @Override
-    public Iterator<Node<E>> inOrderIterator() {
+    public Iterator<E> inOrderIterator() {
         return null;
     }
 
@@ -86,7 +87,7 @@ public abstract class AbstractTreeIterator<E extends Comparable<? super E>> impl
      * @return
      */
     @Override
-    public Iterator<Node<E>> preOrderIterator() {
+    public Iterator<E> preOrderIterator() {
         return null;
     }
 
@@ -94,7 +95,7 @@ public abstract class AbstractTreeIterator<E extends Comparable<? super E>> impl
      * @return
      */
     @Override
-    public Iterator<Node<E>> postOrderIterator() {
+    public Iterator<E> postOrderIterator() {
         return null;
     }
 
@@ -104,7 +105,17 @@ public abstract class AbstractTreeIterator<E extends Comparable<? super E>> impl
      * @return
      */
     @Override
-    public Iterator<Node<E>> levelOrderIterator() {
+    public Iterator<E> levelOrderIterator() {
         return null;
+    }
+
+    /**
+     * Returns the string representation of this object.
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return Objects.toString(rootNode);
     }
 }

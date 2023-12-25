@@ -2,11 +2,14 @@ package com.devamatre.theorem.adts.tree;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.devamatre.appsuite.core.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,94 +21,70 @@ public abstract class AbstractTreeTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTreeTest.class);
 
     /**
+     * Builds the <code>BinarySearchTree</code>.
+     *
+     * @param inputData
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> void fillTree(final AbstractTree<E> tree, List<E> inputData) {
+        LOGGER.debug("+fillTree({}, {})", tree, inputData);
+        if (BeanUtils.isNotEmpty(inputData)) {
+            inputData.forEach(data -> {
+                LOGGER.debug("data:{}", data);
+                tree.addNode(data);
+            });
+        }
+
+        LOGGER.debug("-fillTree(), tree:{}", tree);
+    }
+
+    /**
      * Fills the tree with american the names of American presidents.
      *
-     * @param binaryTree
+     * @param tree
      */
-    public static void fillTreeWithPresidents(BinaryTree<String> binaryTree) {
-        binaryTree.addNode("Lincoin");
-        binaryTree.addNode("Jefferson");
-        binaryTree.addNode("Jackson");
-        binaryTree.addNode("Adams");
-        binaryTree.addNode("Kennedy");
-        binaryTree.addNode("Washington");
-        binaryTree.addNode("Madison");
-        binaryTree.addNode("Roosevelt");
-        binaryTree.addNode("Buchanan");
+    public static void fillTreeWithPresidents(AbstractTree<String> tree) {
+        fillTree(tree, Arrays.asList("Lincoin", "Jefferson", "Jackson", "Adams", "Kennedy", "Washington", "Madison",
+                                     "Roosevelt", "Buchanan"));
     }
 
     /**
      * Fills the tree with the animal species.
      *
-     * @param binaryTree
+     * @param tree
      */
-    public static void fillTreeWithAnimalSpecies(BinaryTree<String> binaryTree) {
-        binaryTree.addNode("Anamilia");
-        binaryTree.addNode("Chordate");
-        binaryTree.addNode("Mammal");
-        binaryTree.addNode("Arthropoda");
-        binaryTree.addNode("Insect");
-        binaryTree.addNode("Primate");
-        binaryTree.addNode("Carnivora");
-        binaryTree.addNode("Diptera");
-        binaryTree.addNode("Hominidac");
-        binaryTree.addNode("Pongidae");
-        binaryTree.addNode("Felidae");
-        binaryTree.addNode("Muscidae");
-        binaryTree.addNode("Homo");
-        binaryTree.addNode("Pan");
-        binaryTree.addNode("Felis");
-        binaryTree.addNode("Musca");
-        binaryTree.addNode("Sapiens");
-        binaryTree.addNode("Troglodytes");
-        binaryTree.addNode("Domestica");
-        binaryTree.addNode("Leo");
-        binaryTree.addNode("Domestica");
-        binaryTree.addNode("Human");
-        binaryTree.addNode("Chimpanzee");
-        binaryTree.addNode("House Cat");
-        binaryTree.addNode("Lion");
-        binaryTree.addNode("Housefly");
-    }
+    public static void fillTreeWithSpecies(AbstractTree<String> tree) {
+        fillTree(tree, Arrays.asList("Anamilia", "Chordate", "Mammal", "Arthropoda", "Insect", "Primate", "Carnivora",
+                                     "Diptera", "Hominidac", "Pongidae", "Felidae", "Muscidae", "Homo", "Pan", "Felis",
+                                     "Musca", "Sapiens", "Troglodytes", "Domestica", "Leo", "Domestica", "Human",
+                                     "Chimpanzee", "House Cat", "Lion", "Housefly"));
 
-
-    /**
-     * Builds the binary tree from the provided <code>inputData</code>.
-     *
-     * @param inputData
-     * @return
-     */
-    public static <E extends Comparable<? super E>> Tree<E> buildTree(List<E> inputData, boolean isBinary) {
-        LOGGER.debug("+buildTree({}, {})", inputData, isBinary);
-        final Tree<E> tree = new Tree<>(isBinary);
-        if (BeanUtils.isNotEmpty(inputData)) {
-            inputData.forEach(data -> {
-                LOGGER.debug("data:{}", data);
-                tree.addNode(data);
-            });
-        }
-
-        LOGGER.debug("-buildTree(), tree:{}", tree);
-        return tree;
     }
 
     /**
-     * Builds the binary tree from the provided <code>inputData</code>.
+     * Builds the tree with the provided <code>inputData</code>
      *
      * @param inputData
+     * @param <E>
      * @return
      */
-    public static <E extends Comparable<? super E>> BinaryTree<E> buildBinaryTree(List<E> inputData) {
-        LOGGER.debug("+buildBinaryTree({})", inputData);
-        final BinaryTree<E> tree = new BinaryTree<>();
-        if (BeanUtils.isNotEmpty(inputData)) {
-            inputData.forEach(data -> {
-                LOGGER.debug("data:{}", data);
-                tree.addNode(data);
-            });
-        }
+    public <E extends Comparable<? super E>> AbstractTree<E> buildTree(List<E> inputData) {
+        LOGGER.debug("buildTree({})", inputData);
+        return null;
+    }
 
-        LOGGER.debug("-buildBinaryTree(), tree:{}", tree);
+    /**
+     * Fills the provided <code>tree</code> with the hierarchical data.
+     *
+     * @param tree
+     * @return
+     * @param <E>
+     */
+    public <E extends Comparable<? super E>> AbstractTree<E> fillHierarchicalTree(AbstractTree<E> tree) {
+        LOGGER.debug("+fillHierarchicalTree({})", tree);
+
+        LOGGER.debug("-fillHierarchicalTree({})", tree);
         return tree;
     }
 
@@ -114,7 +93,11 @@ public abstract class AbstractTreeTest {
      * @return
      */
     public static Integer[] treeToPreOrderArray(AbstractTree<Integer> tree) {
-        return TreeUtils.preOrder(tree.root).toArray(new Integer[0]);
+        if (tree instanceof Tree) {
+            return TreeUtils.preOrderChildren(tree.getRoot(), false).toArray(new Integer[0]);
+        }
+
+        return TreeUtils.preOrder(tree.getRoot()).toArray(new Integer[0]);
     }
 
     /**
@@ -148,10 +131,25 @@ public abstract class AbstractTreeTest {
      * @param tree
      * @param expected
      */
-    public static void assertTreePreOrder(AbstractTree<Integer> tree, Integer[] expected) {
-        assertEquals(tree.getSize(), expected.length, "Tree count is incorrect");
+    public static void assertPreOrderTree(AbstractTree<Integer> tree, Integer[] expected) {
+        assertEquals(tree.getSize(), expected.length, "Invalid tree size!");
         Integer[] actual = treeToPreOrderArray(tree);
+        assertEquals(actual.length, expected.length, "Invalid tree size!");
         assertArraysEquals(actual, expected);
+    }
+
+    /**
+     * Asserts the iterator node exists in <code>treeTraversal</code> list.
+     *
+     * @param itr
+     * @param treeTraversal
+     */
+    public static void assertIteratorWithTraversal(Iterator<Integer> itr, List<Integer> treeTraversal) {
+        while (itr.hasNext()) {
+            Integer nextData = itr.next();
+            LOGGER.debug("nextData:{}", nextData);
+            assertTrue(treeTraversal.contains(nextData));
+        }
     }
 
     /**

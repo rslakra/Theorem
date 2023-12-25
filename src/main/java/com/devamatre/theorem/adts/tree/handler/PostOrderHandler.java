@@ -4,6 +4,8 @@ import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.array.ArrayUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
+import com.devamatre.theorem.adts.tree.TreeTraversal;
+import com.devamatre.theorem.adts.tree.TreeType;
 import com.devamatre.theorem.adts.tree.TreeUtils;
 
 import java.util.List;
@@ -49,40 +51,32 @@ public class PostOrderHandler<E extends Comparable<? super E>> extends AbstractT
      */
     @Override
     public Node<E> buildTree(E[] elements) {
+        Node rootNode = null;
         if (TraversalMode.POST_ORDER_TRAVERSAL == getTraversalMode() && BeanUtils.isNotEmpty(elements)) {
             setIndex(elements.length);
-            setRoot(buildPostOrder(elements));
-            setSize(TreeUtils.getCount(root));
-            return root;
+            rootNode = buildPostOrder(elements);
+            rootNode.setSize(TreeUtils.getCount(rootNode));
         }
 
-        return null;
+        return rootNode;
     }
 
     /**
-     * Converts the <code>treeNode</code> into an array of <code>E</code> type. If the <code>includeNullLeafs</code> is
+     * Converts the <code>rootNode</code> into an array of <code>E</code> type. If the <code>includeNullLeafs</code> is
      * set to be true, the leafs with null included in the results.
      *
-     * @param treeNode
+     * @param rootNode
+     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public E[] treeConverter(Node<E> treeNode, boolean includeNullLeafs) {
-        List<E> data = TreeUtils.postOrder(treeNode, includeNullLeafs);
+    public E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
+//        List<E> data = TreeUtils.postOrder(rootNode, includeNullLeafs);
+        TreeTraversal treeTraverser = TreeTraversal.treeTraverser(getTraversalMode(), rootNode);
+        List<E> data = treeTraverser.traverse(treeType, includeNullLeafs);
         ArrayUtils.replaceNullWithMinus(data);
         return ArrayUtils.toIntArray(data);
-    }
-
-    /**
-     * Converts the <code>treeNode</code> into an array of <code>E</code> type.
-     *
-     * @param treeNode
-     * @return
-     */
-    @Override
-    public E[] treeConverter(Node<E> treeNode) {
-        return treeConverter(treeNode, false);
     }
 
 }

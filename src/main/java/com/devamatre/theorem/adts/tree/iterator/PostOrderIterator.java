@@ -6,7 +6,7 @@ import com.devamatre.theorem.adts.tree.TreeIterator;
 import java.util.NoSuchElementException;
 
 /**
- * Implements the post-order iterator of the tree.
+ * Traverses a tree in a post-order (LEFT-RIGHT-ROOT) manner.
  *
  * @author Rohtash Lakra
  * @version 1.0.0
@@ -26,22 +26,22 @@ public class PostOrderIterator<E extends Comparable<? super E>> extends Abstract
     /**
      * Pushes the left nodes to stack.
      *
-     * @param node
+     * @param rootNode
      */
     @Override
-    public void pushLeft(Node<E> node) {
-        while (node != null) {
-            stack.push(node);
-            node = node.getLeft();
+    public void pushLeft(Node<E> rootNode) {
+        while (rootNode != null) {
+            stack.push(rootNode);
+            rootNode = rootNode.getLeft();
         }
 
         if (stack.isEmpty()) {
             return;
         }
 
-        node = stack.peek();
-        if (node.hasRight()) {
-            pushLeft(node.getRight());
+        rootNode = stack.peek();
+        if (rootNode.hasRight()) {
+            pushLeft(rootNode.getRight());
         }
     }
 
@@ -56,19 +56,20 @@ public class PostOrderIterator<E extends Comparable<? super E>> extends Abstract
      * @throws java.util.NoSuchElementException if the iteration has no more elements
      */
     @Override
-    public Node<E> next() {
+    public E next() {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        Node<E> popNode = stack.pop();
+        Node<E> nextNode = stack.pop();
         if (hasNext()) {
             Node<E> peekNode = stack.peek();
-            if (popNode != peekNode.getRight()) {
+            if (nextNode != peekNode.getRight()) {
                 pushLeft(peekNode.getRight());
             }
         }
 
-        return popNode;
+        return nextNode.getData();
     }
+
 }

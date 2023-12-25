@@ -1,8 +1,189 @@
 package com.devamatre.theorem.adts.tree;
 
-import java.util.Iterator;
+import com.devamatre.appsuite.core.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
 
 /**
+ * <url>https://en.wikipedia.org/wiki/Tree_structure</url>
+ * <p>
+ * Hypothetical animal labelled tree
+ *
+ * <pre>
+ * Tree of Life
+ * |-- Vertebrates
+ * |   |-- Amphibian
+ * |   |   |-- Frog
+ * |   |-- Birds
+ * |   |   |-- Peacock
+ * |   |-- Mammals
+ * |   |   |-- Cow
+ * |   |   |-- Human
+ * |   |   |-- Zebra
+ * |   |-- Fishes
+ * |   |-- Reptiles
+ * |   |    |-- Lizard
+ * |   |    |-- Snake
+ * |-- Seaweed
+ * </pre>
+ * <p>
+ * An example of the biological classification of some animals.
+ * <pre>
+ * Kingdom
+ * |-- Animalia
+ * |   |-- Arthropod
+ * |   |   |-- Insect
+ * |   |   |   |-- Diptera
+ * |   |   |   |   |-- Muscidae
+ * |   |   |   |   |   |-- Musca
+ * |   |   |   |   |   |   |-- Domestica
+ * |   |   |   |   |   |   |   |-- Housefly
+ * |   |-- Chordate
+ * |   |   |-- Mammal
+ * |   |   |   |-- Carnivora
+ * |   |   |   |   |-- Falidae
+ * |   |   |   |   |   |-- Felis
+ * |   |   |   |   |   |   |-- Domestica
+ * |   |   |   |   |   |   |   |-- House Cat
+ * |   |   |   |   |   |   |-- Leo
+ * |   |   |   |   |   |   |   |-- Lion
+ * |   |   |   |-- Primate
+ * |   |   |   |   |-- Hominidae
+ * |   |   |   |   |   |-- Homo
+ * |   |   |   |   |   |   |-- Sapiens
+ * |   |   |   |   |   |   |   |-- Human
+ * |   |   |   |   |-- Pongidae
+ * |   |   |   |   |   |-- Pan
+ * |   |   |   |   |   |   |-- Troglodytes
+ * |   |   |   |   |   |   |   |-- Chimpanzee
+ * </pre>
+ * <p>
+ * An example of a web page tree
+ * <pre>
+ * <html>
+ * |-- <head>
+ * |   |-- <meta>
+ * |   |-- <title>
+ * |-- <body>
+ * |   |-- <h1>
+ * |   |   |-- <p>
+ * |   |-- <h2>
+ * |   |   |-- <p>
+ * |   |-- <p>
+ * |   |-- <ul>
+ * |   |   |-- <li>
+ * |   |-- <ol>
+ * |   |   |-- <li>
+ * |   |-- <button>
+ * |   |-- <code>
+ * |   |-- <table>
+ * |   |   |-- <thead>
+ * |   |   |   |-- <tr>
+ * |   |   |   |   |-- <th>
+ * |   |   |   |   |-- <td>
+ * |   |   |-- <tbody>
+ * |   |   |   |-- <tr>
+ * |   |   |   |   |-- <th>
+ * |   |   |   |   |-- <td>
+ * |   |   |-- <tr>
+ * |   |   |   |-- <th>
+ * |   |   |   |-- <td>
+ * |   |-- <div>
+ * |-- <footer>
+ * </pre>
+ * <p>
+ * <p>
+ * An example of a cluster diagram
+ * <pre>
+ * Cluster
+ * |-- Analytics
+ * |   |-- Cluster
+ * |   |    |-- Hierarchical
+ * |   |-- Graph
+ * |   |    |-- Tree
+ * |   |-- Optimization
+ * |   |    |-- Aspect Ratio
+ * |-- Animate
+ * |   |-- Pause
+ * |   |-- Parallel
+ * |   |-- Interpolate
+ * |   |   |-- Array
+ * |   |   |-- Matrix
+ * |-- Data
+ * |   |-- Schema
+ * |   |   |-- Table
+ * |   |   |   |-- Field
+ * |-- Query
+ * |   |-- Create
+ * |   |-- Select
+ * |   |   |-- Field
+ * |   |-- Update
+ * |   |-- Delete
+ * |   |-- <div>
+ * |-- Operator
+ * |   |   |-- Unary
+ * |   |   |-- Binary
+ * |   |   |   |-- Addition
+ * |   |   |   |-- Division
+ * |   |   |   |-- Multiply
+ * |   |   |   |-- Subtract
+ * |   |   |-- Logical
+ * |   |   |   |-- And
+ * |   |   |   |-- Or
+ * |   |   |   |-- Not
+ * </pre>
+ * <p>
+ * The polygon hierarchy
+ * <pre>
+ * Polygon
+ * |-- Hexagon
+ * |   |-- 6 Sides
+ * |-- Pentagon
+ * |   |-- 5 Sides
+ * |-- Triangle
+ * |   |-- 3 Sides
+ * |   |   |-- Equilateral
+ * |   |   |-- Isosceles
+ * |   |   |-- Scalene
+ * |   |-- Angles
+ * |   |   |-- Acute
+ * |   |   |-- Right
+ * |   |   |-- Obtuse
+ * |-- Quadrilateral
+ * |   |-- Sides
+ * |   |   |-- Parallelogram
+ * |   |   |   |-- Rectangle
+ * |   |   |   |-- Rhombus
+ * |   |   |   |-- Square
+ * |   |   |   |-- Trapezoid
+ * |   |-- Kite
+ * *
+ * </pre>
+ * <p>
+ * Continents Hierarchy
+ *
+ * <pre>
+ * Continent
+ * |-- Asia
+ * |   |-- India
+ * |   |   |-- Delhi
+ * |   |   |-- Kolkata
+ * |   |   |-- Mumbai
+ * |   |   |-- Rohtak
+ * |   |-- China
+ * |   |   |-- Bejing
+ * |   |   |-- Guangzhou
+ * |   |   |-- Shanghai
+ * |   |-- Japan
+ * |   |-- Indonesia
+ * |-- North America
+ * |   |-- United States
+ * </pre>
+ *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-07 03:36:00 PM
@@ -10,108 +191,181 @@ import java.util.Iterator;
  */
 public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
 
-    private final boolean binary;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Tree.class);
 
     /**
-     * Builds the tree based on the <code>binary</code> property.
+     * Helps to handle if the binary tree allows duplicates or not.
+     * <p>
+     * By default, this binary search tree allows duplicates.
      *
-     * @param binary
+     * @param allowDuplicates
      */
-    public Tree(boolean binary) {
-        super();
-        this.binary = binary;
+    public Tree(boolean allowDuplicates) {
+        super(allowDuplicates);
     }
 
     /**
-     * Builds the non-binary tree.
+     * Helps to handle if the binary tree allows duplicates or not.
+     * <p>
+     * By default, this binary search tree allows duplicates.
      */
     public Tree() {
-        this(false);
+        this(true);
     }
 
     /**
-     * Returns the <code>binary</code> value.
-     *
-     * @return
+     * Removes all items from the tree
      */
-    public boolean isBinary() {
-        return binary;
+    @Override
+    public void clear() {
+
     }
 
     /**
-     * Builds the tree representation of the binary tree.
+     * Adds the <code>childNode</code> node as the child node of the <code>rootNode</code> node.
+     * <p>
+     * By default, tree allows duplicate values, so a binary tree should handle it separately if it doesn't allow
+     * duplicate values.
      *
-     * @param parent
-     * @param child
+     * @param rootNode
+     * @param childNode
      * @return
      */
     @Override
-    protected void insert(Node<E> parent, Node<E> child) {
-        // check, if node need to add in left side.
-        if (parent.compareTo(child) > 0) {
-            if (child.getLeft() == null) {
-                parent.setLeft(child);
-                child.setParent(parent);
-                incrementSize();
-            } else {
-                insert(child.getLeft(), child);
-            }
-        } else if (child.getData().compareTo(parent.getData()) < 0) {
-            if (child.getRight() == null) {
-                parent.setRight(child);
-                child.setParent(parent);
-                incrementSize();
-            } else {
-                insert(child.getRight(), child);
-            }
+    public Node<E> addNode(Node<E> rootNode, Node<E> childNode) {
+        LOGGER.debug("addNode({}, {})", rootNode, childNode);
+        if (Objects.isNull(rootNode)) {
+            rootNode = childNode;
         } else {
-            // same data, don't allow duplicates in binary tree.
+            rootNode.addChild(childNode);
         }
+        setSize(rootNode.getSize());
+//        increaseSize(rootNode.getSize());
+
+        return rootNode;
     }
 
     /**
-     * Compares this object with the specified object for order.  Returns a negative integer, zero, or a positive
-     * integer as this object is less than, equal to, or greater than the specified object.
+     * Adds the <code>childNode</code> as children of the tree.
      *
-     * <p>The implementor must ensure
-     * {@code sgn(x.compareTo(y)) == -sgn(y.compareTo(x))} for all {@code x} and {@code y}.  (This implies that
-     * {@code x.compareTo(y)} must throw an exception iff {@code y.compareTo(x)} throws an exception.)
-     *
-     * <p>The implementor must also ensure that the relation is transitive:
-     * {@code (x.compareTo(y) > 0 && y.compareTo(z) > 0)} implies {@code x.compareTo(z) > 0}.
-     *
-     * <p>Finally, the implementor must ensure that {@code x.compareTo(y)==0}
-     * implies that {@code sgn(x.compareTo(z)) == sgn(y.compareTo(z))}, for all {@code z}.
-     *
-     * <p>It is strongly recommended, but <i>not</i> strictly required that
-     * {@code (x.compareTo(y)==0) == (x.equals(y))}.  Generally speaking, any class that implements the
-     * {@code Comparable} interface and violates this condition should clearly indicate this fact.  The recommended
-     * language is "Note: this class has a natural ordering that is inconsistent with equals."
-     *
-     * <p>In the foregoing description, the notation
-     * {@code sgn(}<i>expression</i>{@code )} designates the mathematical
-     * <i>signum</i> function, which is defined to return one of {@code -1},
-     * {@code 0}, or {@code 1} according to whether the value of
-     * <i>expression</i> is negative, zero, or positive, respectively.
-     *
-     * @param other the object to be compared.
-     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than
-     * the specified object.
-     * @throws NullPointerException if the specified object is null
-     * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
+     * @param childNode
      */
-    @Override
-    public int compareTo(E other) {
-        return 0;
+    public void addChild(Node<E> childNode) {
+        if (Objects.isNull(getRoot())) {
+            setRoot(childNode);
+        } else {
+            getRoot().addChild(childNode);
+        }
+        increaseSize(getRoot().getSize());
     }
 
     /**
-     * Returns an iterator over elements of type {@code T}.
+     * Adds the <code>data</code> as children of the tree.
      *
-     * @return an Iterator.
+     * @param data
+     */
+    public void addChild(E data) {
+        setRoot(addNode(getRoot(), data));
+    }
+
+    /**
+     * Returns the node of the provided <code>data</code> if exists in the tree otherwise null.
+     *
+     * @param rootNode
+     * @param data
+     * @return
      */
     @Override
-    public Iterator<E> iterator() {
-        return null;
+    protected Node<E> findNode(Node<E> rootNode, E data) {
+        return (Objects.isNull(rootNode) ? null : rootNode.findChild(data));
+    }
+
+    /**
+     * @param rootNode
+     * @param data
+     * @return
+     */
+    @Override
+    public boolean contains(Node<E> rootNode, E data) {
+        return Objects.nonNull(findNode(rootNode, data));
+    }
+
+    /**
+     * Returns true if the node is deleted otherwise false.
+     *
+     * @param rootNode
+     * @param data
+     * @return
+     */
+    @Override
+    public boolean removeNode(Node<E> rootNode, E data) {
+        Node<E> nodeFound = findNode(rootNode, data);
+//        return Objects.nonNull(nodeFound);
+        return false;
+    }
+
+    /**
+     * Returns true if the node is deleted otherwise false.
+     *
+     * @param data
+     * @return
+     */
+    public boolean delete(E data) {
+        boolean deleted = false;
+        // if not empty, check which node to delete.
+        if (getRoot() != null) {
+            Node<E> delNode = findNode(getRoot(), data);
+            // if node exists, delete it.
+            if (delNode != null) {
+                Node<E> parent = delNode.getParent();
+                // update tree's size
+                int childSize = delNode.getChildren().size() + 1;
+                deleted = parent.getChildren().remove(delNode);
+                if (deleted) {
+                    decreaseSize();
+                    decreaseSize(childSize);
+                }
+                delNode.setParent(null);
+            }
+        }
+
+        return deleted;
+    }
+
+    /**
+     * Returns the string representation of this object.
+     *
+     * @return
+     */
+    public String toString() {
+        inOrderTraversal();
+        StringBuilder sBuilder = new StringBuilder("[");
+        if (BeanUtils.isNotNull(getRoot())) {
+            Queue<Node<E>> queue = new LinkedList<>();
+            queue.add(getRoot());
+            while (!queue.isEmpty()) {
+                Node<E> pollNode = queue.poll();
+                sBuilder.append(pollNode.getData().toString());
+                if (pollNode.hasChildren()) {
+                    for (Node<E> treeNode : pollNode.getChildren()) {
+                        queue.add(treeNode);
+                    }
+                }
+                // append separator if queue is not empty
+                if (!queue.isEmpty()) {
+                    sBuilder.append(", ");
+                }
+            }
+        }
+
+        return sBuilder.append("]").toString();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void printPrettyTree() {
+        LOGGER.debug("{}", TreeUtils.toStringNaryTree(getRoot(), true));
     }
 }

@@ -24,7 +24,9 @@ public class TreeUtilsTest {
     // LOGGER
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeUtilsTest.class);
 
-
+    /**
+     * Tests the <code>printWhiteSpaces()</code> method.
+     */
     @Test
     public void testPrintWhiteSpaces() {
         TreeUtils.printWhiteSpaces(16);
@@ -51,7 +53,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Parent Index
+     * Tests the <code>parentIndex()</code> method.
      */
     @Test(dataProvider = "parentIndexData")
     public void testParentIndex(int index, int result) {
@@ -76,7 +78,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left PairNode Index
+     * Tests the <code>leftNodeIndex()</code> method.
      */
     @Test(dataProvider = "leftNodeIndexData")
     public void testLeftNodeIndex(int index, int result) {
@@ -103,7 +105,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left PairNode Index
+     * Tests the <code>rightNodeIndex()</code> method.
      */
     @Test(dataProvider = "rightNodeIndexData")
     public void testRightNodeIndex(int index, int result) {
@@ -130,7 +132,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left PairNode Index
+     * Tests the <code>leftSiblingIndex()</code> method.
      */
     @Test(dataProvider = "leftSiblingIndexData")
     public void testLeftSiblingIndex(int index, int result) {
@@ -157,7 +159,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left PairNode Index
+     * Tests the <code>rightSiblingIndex()</code> method.
      */
     @Test(dataProvider = "rightSiblingIndexData")
     public void testRightSiblingIndex(int index, int result) {
@@ -185,7 +187,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left PairNode Index
+     * Tests the <code>isLeaf()</code> method.
      */
     @Test(dataProvider = "isLeafData")
     public void testIsLeaf(Node index, boolean result) {
@@ -213,7 +215,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left PairNode Index
+     * Tests the <code>getMidIndex()</code> method.
      */
     @Test(dataProvider = "getMidIndexData")
     public void testGetMidIndex(int start, int end, int result) {
@@ -244,7 +246,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left PairNode Index
+     * Tests the <code>getHeightByInputSize()</code> method.
      */
     @Test(dataProvider = "heightByInputSizeData")
     public void testGetHeightByInputSize(int size, int result) {
@@ -271,7 +273,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left PairNode Index
+     * Tests the <code>getMemoryAllotmentByTreeHeight()</code> method.
      */
     @Test(dataProvider = "memoryAllotmentByTreeHeightData")
     public void testGetMemoryAllotmentByTreeHeight(int index, int result) {
@@ -298,7 +300,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Left PairNode Index
+     * Tests the <code>getMemoryAllotmentByInputSize()</code> method.
      */
     @Test(dataProvider = "memoryAllotmentByInputSizeData")
     public void testGetMemoryAllotmentByInputSize(int index, int result) {
@@ -329,7 +331,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Tests the <code>buildTree</code> method.
+     * Tests the <code>buildTree()</code> method.
      */
     @Test(dataProvider = "buildTreeData")
     public void testBuildTree(List<Integer> inputData, Integer expected) {
@@ -360,7 +362,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Tests <code>buildBinaryTree</code> method.
+     * Tests <code>buildBinaryTree()</code> method.
      */
     @Test(dataProvider = "buildBinaryTreeData")
     public void testBuildBinaryTreeWithList(List<Integer> inputData) {
@@ -370,7 +372,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Tests <code>buildBinaryTree</code> method.
+     * Tests <code>buildBinaryTree()</code> method.
      */
     @Test
     public void testBuildBinaryTreeWithString() {
@@ -380,7 +382,34 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Tests the <code>buildBinaryTree</code> method. Tests the <code>printBinaryTree</code> method.
+     * In-Order input data and expected results.
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> buildNaryTreeData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{Arrays.asList(1)});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3)});
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1)});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Tests <code>buildNaryTree()</code> method.
+     */
+    @Test(dataProvider = "buildNaryTreeData")
+    public void testBuildNaryTree(List<Integer> inputData) {
+        Node<Integer> rootNode = TreeUtils.buildNaryTree(inputData);
+        assertNotNull(rootNode);
+        LOGGER.debug("rootNode:{}, Children:{}", rootNode, rootNode.getChildren().size());
+        LOGGER.debug("rootNode:{}", TreeUtils.toStringNaryTree(rootNode, true));
+    }
+
+    /**
+     * Tests the <code>printBinaryTree()</code> method.
      */
     @Test
     public void testPrintBinaryTree() {
@@ -391,7 +420,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Tests the <code>printPrettyTreeVertically</code> method.
+     * Tests the <code>printPrettyTreeVertically()</code> method.
      */
     @Test
     public void testPrintPrettyTreeVertically() {
@@ -402,7 +431,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Tests the <code>printPrettyTree</code> method.
+     * Tests the <code>printPrettyTree()</code> method.
      */
     @Test
     public void testPrintPrettyTree() {
@@ -428,7 +457,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Tests the <code>printPrettyTree</code> method.
+     * Tests the <code>printPrettyTree()</code> method.
      */
     @Test
     public void testPrettyTreeHorizontally() {
@@ -454,7 +483,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Tests the <code>printPrettyTreeHorizontally</code> method.
+     * Tests the <code>printPrettyTreeHorizontally()</code> method.
      */
     @Test
     public void testPrintPrettyTreeHorizontally() {
@@ -481,7 +510,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>countSpaces</code> method.
+     * Test <code>countSpaces()</code> method.
      */
     @Test
     public void testCountSpaces() {
@@ -514,7 +543,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>countSlashes</code> method.
+     * Test <code>countSlashes()</code> method.
      */
     @Test(dataProvider = "countSlashesData")
     public void testCountSlashes(List<Integer> inputData, Integer expected) {
@@ -544,7 +573,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>maxDepth</code> method.
+     * Test <code>maxDepth()</code> method.
      */
     @Test(dataProvider = "maxDepthData")
     public void testMaxDepth(List<Integer> inputData, Integer expected) {
@@ -573,7 +602,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>getHeight</code> method.
+     * Test <code>getHeight()</code> method.
      */
     @Test(dataProvider = "getHeightData")
     public void testGetHeight(List<Integer> inputData, Integer expected) {
@@ -603,7 +632,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>getCount</code> method.
+     * Test <code>getCount()</code> method.
      */
     @Test(dataProvider = "getCountData")
     public void testGetCount(List<Integer> inputData, Integer expected) {
@@ -615,7 +644,6 @@ public class TreeUtilsTest {
         LOGGER.debug("nodeCount:{}", nodeCount);
         assertEquals(expected, nodeCount);
     }
-
 
     /**
      * In-Order input data and expected results.
@@ -639,7 +667,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>addSeparator</code> method.
+     * Test <code>addSeparator()</code> method.
      */
     @Test(dataProvider = "addSeparatorData")
     public void testAddSeparator(Integer totalSpaces, String separator, Integer expected) {
@@ -676,7 +704,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>inOrder</code> method.
+     * Test <code>getLevelOrders()</code> method.
      */
     @Test(dataProvider = "levelOrdersData")
     public void testGetLevelOrders(List<Integer> inputData, List<List<Integer>> expected) {
@@ -709,7 +737,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>inOrder</code> method.
+     * Test <code>inOrder()</code> method.
      */
     @Test(dataProvider = "inOrderData")
     public void testInOrder(List<Integer> inputData, List<Integer> expected) {
@@ -739,7 +767,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>preOrder</code> method.
+     * Test <code>preOrder()</code> method.
      */
     @Test(dataProvider = "preOrderData")
     public void testPreOrder(List<Integer> inputData, List<Integer> expected) {
@@ -784,7 +812,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>inOrderTraversal</code> method.
+     * Test <code>inOrderTraversal()</code> method.
      */
     @Test(dataProvider = "inOrderData")
     public void testInOrderTraversal(List<Integer> inputData, List<Integer> expected) {
@@ -799,7 +827,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>preOrderTraversal</code> method.
+     * Test <code>preOrderTraversal()</code> method.
      */
     @Test(dataProvider = "preOrderData")
     public void testPreOrderTraversal(List<Integer> inputData, List<Integer> expected) {
@@ -814,7 +842,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>preOrderTraversal</code> method.
+     * Test <code>postOrderTraversal()</code> method.
      */
     @Test(dataProvider = "postOrderData")
     public void testPostOrderTraversal(List<Integer> inputData, List<Integer> expected) {
@@ -843,7 +871,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>preOrderTraversal</code> method.
+     * Test <code>treeViewTraversal()</code> method.
      */
     @Test(dataProvider = "treeViewTraversalData")
     public void testTreeViewTraversal(List<Integer> inputData, List<Integer> expected) {
@@ -857,6 +885,112 @@ public class TreeUtilsTest {
         LOGGER.debug("treeViewTraversal:{}", treeViewTraversal);
         assertNotNull(treeViewTraversal);
         assertEquals(expected.toString(), treeViewTraversal);
+    }
+
+    /**
+     * The inputData and expected results.
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> findLeftMostChildData() {
+        List<Object[]> inputs = new ArrayList<>();
+        // through root (with root)
+        inputs.add(new Object[]{Arrays.asList(1), 1});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3), 2});
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1), 2});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7), 4});
+        inputs.add(new Object[]{Arrays.asList(6, 2, 3, 4, 5, 7), 4});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>findLeftMostChild()</code> method.
+     */
+    @Test(dataProvider = "findLeftMostChildData")
+    public void testFindLeftMostChild(List<Integer> inputData, Integer expected) {
+        LOGGER.debug("testFindLeftMostChild({}, {})", inputData, expected);
+        Node<Integer> rootNode = TreeUtils.buildBinaryTree(inputData);
+        LOGGER.debug("rootNode:{}", rootNode);
+        assertNotNull(rootNode);
+        TreeUtils.printBinaryTree(rootNode);
+
+        Node<Integer> leftMostChild = TreeUtils.findLeftMostChild(rootNode);
+        LOGGER.debug("leftMostChild:{}", leftMostChild);
+        assertEquals(expected, leftMostChild.getData());
+    }
+
+    /**
+     * The inputData and expected results.
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> findRightMostChildData() {
+        List<Object[]> inputs = new ArrayList<>();
+        // through root (with root)
+        inputs.add(new Object[]{Arrays.asList(1), 1});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3), 3});
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1), 3});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7), 7});
+        inputs.add(new Object[]{Arrays.asList(6, 2, 3, 4, 5, 7), 3});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>findRightMostChild()</code> method.
+     */
+    @Test(dataProvider = "findRightMostChildData")
+    public void testFindRightMostChild(List<Integer> inputData, Integer expected) {
+        LOGGER.debug("testFindRightMostChild({}, {})", inputData, expected);
+        Node<Integer> rootNode = TreeUtils.buildBinaryTree(inputData);
+        LOGGER.debug("rootNode:{}", rootNode);
+        assertNotNull(rootNode);
+        TreeUtils.printBinaryTree(rootNode);
+
+        Node<Integer> leftMostChild = TreeUtils.findRightMostChild(rootNode);
+        LOGGER.debug("leftMostChild:{}", leftMostChild);
+        assertEquals(expected, leftMostChild.getData());
+    }
+
+    /**
+     * The inputData and expected results.
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> findInOrderSuccessorData() {
+        List<Object[]> inputs = new ArrayList<>();
+        // through root (with root)
+        inputs.add(new Object[]{Arrays.asList(1), null});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3), 3});
+        inputs.add(new Object[]{Arrays.asList(5, 4, 3, 2, 1), 3});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7), 6});
+        inputs.add(new Object[]{Arrays.asList(6, 2, 3, 4, 5, 7), 7});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>findInOrderSuccessor()</code> method.
+     */
+    @Test(dataProvider = "findInOrderSuccessorData")
+    public void testFindInOrderSuccessor(List<Integer> inputData, Integer expected) {
+        LOGGER.debug("testFindInOrderSuccessor({}, {})", inputData, expected);
+        Node<Integer> rootNode = TreeUtils.buildBinaryTree(inputData);
+        LOGGER.debug("rootNode:{}", rootNode);
+        assertNotNull(rootNode);
+        TreeUtils.printBinaryTree(rootNode);
+
+        Node<Integer> leftMostChild = TreeUtils.findInOrderSuccessor(rootNode);
+        LOGGER.debug("leftMostChild:{}", leftMostChild);
+        if (expected == null) {
+            assertEquals(expected, leftMostChild);
+        } else {
+            assertEquals(expected, leftMostChild.getData());
+        }
     }
 
     /**
@@ -876,7 +1010,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>getHeight</code> method.
+     * Test <code>getSum()</code> method.
      */
     @Test(dataProvider = "getSumData")
     public void testGetSum(List<Integer> inputData, Integer expected) {
@@ -907,7 +1041,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>getDiameter</code> method.
+     * Test <code>getDiameter()</code> method.
      */
     @Test(dataProvider = "getDiameterData")
     public void testGetDiameter(List<Integer> inputData, Long expected) {
@@ -949,7 +1083,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>getDiameter</code> method.
+     * Test <code>isSubtree()</code> method.
      */
     @Test(dataProvider = "isSubtreeData")
     public void testIsSubtree(List<Integer> bigTreeInputData, List<Integer> smallTreeInputData, boolean expected) {

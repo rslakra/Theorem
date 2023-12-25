@@ -12,4 +12,24 @@ package com.devamatre.theorem.adts.tree;
  */
 public class BinarySearchTree<E extends Comparable<? super E>> extends BinaryTree<E> {
 
+    /**
+     * Helps to handle if the binary tree allows duplicates or not.
+     * <p>
+     * By default, this binary search tree doesn't allow duplicates.
+     *
+     * @param allowDuplicates
+     */
+    public BinarySearchTree(boolean allowDuplicates) {
+        super(allowDuplicates);
+    }
+
+    /**
+     * Helps to handle if the binary tree allows duplicates or not.
+     * <p>
+     * By default, this binary search tree doesn't allow duplicates.
+     */
+    public BinarySearchTree() {
+        this(false);
+    }
+
 }

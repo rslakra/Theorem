@@ -1,7 +1,9 @@
-package com.devamatre.theorem.adts.tree;
+package com.devamatre.theorem.adts.tree.print;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.devamatre.theorem.adts.tree.Node;
+import com.devamatre.theorem.adts.tree.TreeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
@@ -10,7 +12,7 @@ import org.testng.annotations.Test;
  * @author Rohtash Lakra
  * @created 12/6/23 4:44 PM
  */
-public class PrintPrettyTreeHorizontallyTest {
+public class PrintPrettyTreeHorizontallyTest extends PrintPrettyTreeTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PrintPrettyTreeHorizontallyTest.class);
 

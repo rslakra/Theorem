@@ -23,6 +23,20 @@ public class BinaryTreeTest extends AbstractTreeTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(BinaryTreeTest.class);
 
     /**
+     * Builds the <code>BinaryTree</code>.
+     *
+     * @param inputData
+     * @param <E>
+     * @return
+     */
+    @Override
+    public <E extends Comparable<? super E>> BinaryTree<E> buildTree(List<E> inputData) {
+        BinaryTree<E> tree = new BinaryTree<>(true);
+        fillTree(tree, inputData);
+        return tree;
+    }
+
+    /**
      * Build binary tree with strings.
      */
     @Test
@@ -32,7 +46,7 @@ public class BinaryTreeTest extends AbstractTreeTest {
         assertNotNull(tree);
         assertEquals(9, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
-        assertTrue(tree.contain("Jackson"));
+        assertTrue(tree.contains("Jackson"));
     }
 
     /**
@@ -101,7 +115,7 @@ public class BinaryTreeTest extends AbstractTreeTest {
         tree.addNode(1);
         assertEquals(1, tree.getSize());
 
-        assertTreePreOrder(tree, new Integer[]{1});
+        assertPreOrderTree(tree, new Integer[]{1});
     }
 
     /**
@@ -117,16 +131,16 @@ public class BinaryTreeTest extends AbstractTreeTest {
     @Test
     public void testBuildBinaryTree() {
         Integer[] inputData = new Integer[]{3, 1, 2, 4};
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(inputData));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(inputData));
         assertNotNull(tree);
         assertEquals(inputData.length, tree.getSize());
         LOGGER.debug("tree:{}", tree);
 
-        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
     }
 
     /**
@@ -142,38 +156,38 @@ public class BinaryTreeTest extends AbstractTreeTest {
     @Test
     public void testRemoveLeaf() {
         Integer[] inputData = new Integer[]{3, 1, 2, 4};
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(inputData));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(inputData));
         assertNotNull(tree);
         assertEquals(inputData.length, tree.getSize());
         LOGGER.debug("tree:{}", tree);
 
-        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
 
         // remove node
         tree.removeNodeWithoutParentHandling(2);
-        expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
 
         tree.removeNodeWithoutParentHandling(4);
-        expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
 
         tree.removeNodeWithoutParentHandling(1);
-        expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
     }
 
     /**
@@ -189,18 +203,18 @@ public class BinaryTreeTest extends AbstractTreeTest {
     @Test
     public void testRemoveRightChild() {
         Integer[] inputData = new Integer[]{3, 1, 2, 4};
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(inputData));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(inputData));
         assertNotNull(tree);
         assertEquals(inputData.length, tree.getSize());
         LOGGER.debug("tree:{}", tree);
 
         tree.removeNodeWithoutParentHandling(1);
-        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
-        assertTreePreOrder(tree, expected);
+        TreeUtils.printBinaryTree(tree.getRoot());
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
     }
 
@@ -216,18 +230,18 @@ public class BinaryTreeTest extends AbstractTreeTest {
      */
     @Test
     public void testRemoveLeftChild() {
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(3, 1, 2, 4));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(3, 1, 2, 4));
         assertNotNull(tree);
         assertEquals(4, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
 
         tree.removeNodeWithoutParentHandling(2);
-        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
     }
 
     /**
@@ -247,11 +261,11 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *  3   6
          * </pre>
          */
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(10, 7, 5, 9, 6, 3, 16));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(10, 7, 5, 9, 6, 3, 16));
         assertNotNull(tree);
         assertEquals(7, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
 
 //        tree.remove(5);
         tree.removeNodeWithParentHandling(5);
@@ -268,11 +282,11 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *  3
          * </pre>
          */
-        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
     }
 
     /**
@@ -297,11 +311,11 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *                  14
          * </pre>
          */
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(10, 5, 4, 6, 20, 15, 12, 13, 14));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(10, 5, 4, 6, 20, 15, 12, 13, 14));
         assertNotNull(tree);
         assertEquals(9, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
 
         tree.removeNodeWithoutParentHandling(10);
         /**
@@ -320,11 +334,11 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *                14
          * </pre>
          */
-        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
 
         tree.removeNodeWithoutParentHandling(12);
         /**
@@ -341,11 +355,11 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *  3   8      14
          * </pre>
          */
-        expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
     }
 
     /**
@@ -362,11 +376,11 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *   1
          * </pre>
          */
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(3, 2, 1));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(3, 2, 1));
         assertNotNull(tree);
         assertEquals(3, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
 
 //        tree.remove(3);
         tree.removeNodeWithParentHandling(3);
@@ -378,13 +392,13 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *   1
          * </pre>
          */
-        List<Integer> preOrder = TreeUtils.preOrder(tree.root);
+        List<Integer> preOrder = TreeUtils.preOrder(tree.getRoot());
         LOGGER.debug("preOrder:{}", preOrder);
         Integer[] expected = BeanUtils.toType(preOrder, Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
     }
 
     /**
@@ -401,11 +415,11 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *        5
          * </pre>
          */
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(3, 4, 5));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(3, 4, 5));
         assertNotNull(tree);
         assertEquals(3, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
 
 //        tree.remove(3);
         tree.removeNodeWithParentHandling(3);
@@ -417,13 +431,13 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *      5
          * </pre>
          */
-        List<Integer> preOrder = TreeUtils.preOrder(tree.root);
+        List<Integer> preOrder = TreeUtils.preOrder(tree.getRoot());
         LOGGER.debug("preOrder:{}", preOrder);
         Integer[] expected = BeanUtils.toType(preOrder, Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
     }
 
     /**
@@ -431,12 +445,12 @@ public class BinaryTreeTest extends AbstractTreeTest {
      */
     @Test
     public void testRemoveRootOnly() {
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(3));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(3));
         assertNotNull(tree);
         assertEquals(1, tree.getSize());
 
         tree.removeNodeWithoutParentHandling(3);
-        assertTreePreOrder(tree, new Integer[]{});
+        assertPreOrderTree(tree, new Integer[]{});
         assertEquals(0, tree.getSize());
     }
 
@@ -462,15 +476,15 @@ public class BinaryTreeTest extends AbstractTreeTest {
          *                   14
          * </pre>
          */
-        BinaryTree<Integer> tree = buildBinaryTree(Arrays.asList(10, 5, 4, 6, 20, 15, 12, 13, 14));
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(10, 5, 4, 6, 20, 15, 12, 13, 14));
         assertNotNull(tree);
         assertEquals(9, tree.getSize());
 
-        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.root), Integer[].class);
+        Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertTreePreOrder(tree, expected);
+        assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
-        TreeUtils.printBinaryTree(tree.root);
+        TreeUtils.printBinaryTree(tree.getRoot());
     }
 
 }

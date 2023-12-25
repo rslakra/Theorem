@@ -29,10 +29,10 @@
 package com.devamatre.theorem.adts.tree;
 
 import com.devamatre.appsuite.core.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Queue;
 
 /**
  * The binary tree has the following properties:
@@ -141,94 +141,101 @@ import java.util.Queue;
  */
 public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E> {
 
-    public BinaryTree() {
-        super();
+    private static final Logger LOGGER = LoggerFactory.getLogger(BinaryTree.class);
+
+    /**
+     * Helps to handle if the binary tree allows duplicates or not.
+     * <p>
+     * By default, this binary search tree allows duplicates.
+     *
+     * @param allowDuplicates
+     */
+    public BinaryTree(boolean allowDuplicates) {
+        super(allowDuplicates);
     }
 
     /**
-     * Adds the new node at its respective position.
-     *
-     * @param parentNode
-     * @param newNode
+     * Helps to handle if the binary tree allows duplicates or not.
+     * <p>
+     * By default, this binary search tree allows duplicates.
      */
-    public void addNode(Node<E> parentNode, Node<E> newNode) {
-        // Case 1: The tree is empty - allocate the head
-        if (BeanUtils.isNull(parentNode)) {
-            setRoot(newNode);
-            incrementSize();
-        } else {
-            /* Case 2: The tree is not empty so find the right location to insert  */
+    public BinaryTree() {
+        this(true);
+    }
 
-            // Case 1: if the parentNode's data >= newNode, then add newNode as left child.
-            if (parentNode.compareTo(newNode) >= 0) {
-                // if parent node has left child, add it to the left node
-                if (parentNode.hasLeft()) {
-                    addNode(parentNode.getLeft(), newNode);
-                } else {
-                    // there is no left child, make it the new left node
-                    parentNode.setLeft(newNode);
-                    newNode.setParent(parentNode);
-                    incrementSize();
-                }
-            } else {
+    /**
+     * Removes all items from the tree
+     */
+    @Override
+    public void clear() {
+
+    }
+
+    /**
+     * Adds the <code>childNode</code> node as the child node of the <code>rootNode</code> node.
+     * <p>
+     * By default, tree allows duplicate values, so a binary tree should handle it separately if it doesn't allow
+     * duplicate values.
+     *
+     * @param rootNode
+     * @param childNode
+     * @return
+     */
+    @Override
+    public Node<E> addNode(Node<E> rootNode, Node<E> childNode) {
+        LOGGER.debug("+addNode({}, {})", rootNode, childNode);
+        // Case 1: The tree is empty - create the root node.
+        if (Objects.isNull(rootNode)) {
+            rootNode = childNode;
+            increaseSize(rootNode.getSize());
+        } else if (rootNode.compareTo(childNode) < 0) {
+            /* Case 2: The tree is not empty, and the root's data < data, then add data as right child.*/
+            rootNode.setRight(addNode(rootNode.getRight(), childNode));
+        } else if (rootNode.compareTo(childNode) > 0) {
+            /* Case 3: The tree is not empty, and the root's data > data, then add data as left child.*/
+            rootNode.setLeft(addNode(rootNode.getLeft(), childNode));
+        } else {
+            /* Case 4: The tree is not empty, and the root's data == data, and the tree allow duplicates, just increase the count.*/
+            if (isAllowDuplicates()) {
                 /**
-                 Case 2: if the parentNode's data < newNode, then add newNode as right child.
+                 * Case 4: Handling duplicates and binary tree allows duplicates, just increase the count.
+                 * Duplicate values creates complexity and need to handle separately at multiple levels like:
+                 * 1. removing the nodes.
+                 * 2. counting the nodes, etc.
                  */
-                if (parentNode.hasRight()) {
-                    addNode(parentNode.getRight(), newNode);
-                } else {
-                    // there is no right child, make it the new right node
-                    parentNode.setRight(newNode);
-                    newNode.setParent(parentNode);
-                    incrementSize();
+                if (isAllowDuplicates() && rootNode.compareTo(childNode) == 0) {
+                    rootNode.increaseCount();
+                    increaseSize(rootNode.getSize());
                 }
             }
         }
+
+        LOGGER.debug("-addNode(), root:{}", rootNode);
+        return rootNode;
     }
 
     /**
-     * Adds the <code>data</code> to the binary tree.
+     * Returns the node of the provided <code>data</code> if exists in the tree otherwise null.
      *
-     * @param data
-     * @return
-     */
-    public void addNode(final Node<E> parentNode, final E data) {
-        addNode(parentNode, new Node<E>(data));
-    }
-
-    /**
-     * Add the given node in the binary tree.
-     *
-     * @param data
-     */
-    public void addNode(E data) {
-        addNode(root, new Node<E>(data));
-    }
-
-    /**
-     * Finds and returns the node for the given data, if exists otherwise null.
-     *
+     * @param rootNode
      * @param data
      * @return
      */
     @Override
-    protected Node<E> findNode(E data) {
-        // find node's in the tree with the provided <code>value</code>
-        Node<E> current = root;
-        while (current != null) {
-            if (current.isGreaterThan(data)) {
-                // if the current node is greater than data, find in left.
-                current = current.getLeft();
-            } else if (current.isLessThan(data)) {
-                // if the current node is less than data, find in right.
-                current = current.getRight();
-            } else {
-                // find a match
-                break;
-            }
-        }
+    protected Node<E> findNode(Node<E> rootNode, E data) {
+        return (Objects.isNull(rootNode) ? null : rootNode.findNode(data));
+    }
 
-        return current;
+    /**
+     * Returns true if the node is deleted otherwise false.
+     *
+     * @param rootNode
+     * @param data
+     * @return
+     */
+    @Override
+    public boolean removeNode(Node<E> rootNode, E data) {
+        return false;
     }
 
     /**
@@ -239,7 +246,7 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
      */
     private void removeNodeWithoutParentHandling(Node<E> delNode, Node<E> nextNode) {
         // if removing node is root node, the delNode should be equal to root.
-        if (root == delNode) {
+        if (getRoot().equals(delNode)) {
             if (BeanUtils.isNotNull(nextNode)) {
                 nextNode.setParent(null);
                 nextNode.setLeft(delNode.getLeft());
@@ -264,13 +271,13 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
      */
     public boolean removeNodeWithoutParentHandling(E nodeData) {
         boolean deleted = false;
-        if (Objects.nonNull(root)) {
+        if (Objects.nonNull(getRoot())) {
             // find node to be deleted.
             Node<E> delNode = findNode(nodeData);
             // if found
             if (delNode != null) {
                 // easy, if it's the leaf node.
-                if (delNode.isLeafNode()) {
+                if (delNode.isLeaf()) {
                     removeNodeWithoutParentHandling(delNode, null);
                     deleted = true;
                 } else if (delNode.hasRight() && !delNode.hasLeft()) {
@@ -284,7 +291,7 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
                 } else {
                     // the node to be deleted has both left and right nodes.
                     Node<E> tempNode = delNode.getLeft();
-                    while (tempNode != null && tempNode.hasChildren()) {
+                    while (tempNode != null && !tempNode.isLeaf()) {
                         tempNode = tempNode.getRight();
                     }
 
@@ -298,11 +305,29 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
             }
 
             if (deleted) {
-                decrementSize();
+                decreaseSize();
             }
         }
 
         return deleted;
+    }
+
+    /**
+     * @param current
+     * @param newNode
+     */
+    protected void unlink(Node<E> current, Node<E> newNode) {
+        if (getRoot().equals(current)) {
+            if (newNode != null) {
+                newNode.setLeft(current.getLeft());
+                newNode.setRight(current.getRight());
+                setRoot(newNode);
+            }
+        } else if (current.getParent().getRight() == current) {
+            current.getParent().setRight(newNode);
+        } else if (current.getParent().getLeft() == current) {
+            current.getParent().setLeft(newNode);
+        }
     }
 
     /**
@@ -316,13 +341,13 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
         Node<E> delNode = findNode(nodeData);
         if (Objects.nonNull(delNode)) {
             // decrease the node count
-            decrementSize();
+            decreaseSize();
 
             // Get delNode's parent node
             final Node<E> parent = delNode.getParent();
 
             //Case 1: if the delNode is a leaf node (no children), just remove it (easy)
-            if (delNode.isLeafNode()) {
+            if (delNode.isLeaf()) {
                 delNode = null;
             } else if (!delNode.hasRight()) {
                 /* Case 2: If delNode node has no right child (only left), then delNode's left replaces delNode node.*/
@@ -364,45 +389,45 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
                         parent.setRight(delNode.getRight());
                     }
                 }
-            } else if (delNode.hasChildren()) {
+            } else if (!delNode.isLeaf()) {
                 /**
                  * Case 4: If delNode's right child has a left child, replace delNode with delNode's right child's left-most child
                  */
                 // find the right's left-most child
 //                ListNode<E> leftMostParent = delNode.getRight();
-//                ListNode<E> leftMost = delNode.getRight().getLeft();
-//                while (leftMost.hasLeft()) {
-//                    leftMostParent = leftMost;
-//                    leftMost = leftMost.getLeft();
+//                ListNode<E> inOrderSuccessor = delNode.getRight().getLeft();
+//                while (inOrderSuccessor.hasLeft()) {
+//                    leftMostParent = inOrderSuccessor;
+//                    inOrderSuccessor = inOrderSuccessor.getLeft();
 //                }
 
-                Node<E> leftMost = delNode.getRight().findLeftMost();
+                Node<E> inOrderSuccessor = TreeUtils.findInOrderSuccessor(delNode);
 
                 // the parent's left subtree becomes the left-most's right subtree
-//                leftMostParent.setLeft(leftMost.getRight());
-                leftMost.getParent().setLeft(leftMost.getRight());
+//                leftMostParent.setLeft(inOrderSuccessor.getRight());
+                inOrderSuccessor.getParent().setLeft(inOrderSuccessor.getRight());
 
                 // assign left-most's left and right to delNode's left and right children
-                leftMost.setLeft(delNode.getLeft());
-                leftMost.setRight(delNode.getRight());
+                inOrderSuccessor.setLeft(delNode.getLeft());
+                inOrderSuccessor.setRight(delNode.getRight());
 
                 // if parent is null, it's root node.
                 if (Objects.isNull(parent)) {
                     // then the left-most node becomes the root
-                    setRoot(leftMost);
+                    setRoot(inOrderSuccessor);
                 } else {
                     if (parent.isGreaterThan(nodeData)) {
                         /**
-                         * if parent's nodeData is greater than delNode's nodeData; make the leftMost,
+                         * if parent's nodeData is greater than delNode's nodeData; make the inOrderSuccessor,
                          * a left child of parent.
                          */
-                        parent.setLeft(leftMost);
+                        parent.setLeft(inOrderSuccessor);
                     } else if (parent.isLessThan(nodeData)) {
                         /**
-                         * if parent's nodeData is less than delNode's nodeData; make the leftMost, a right
+                         * if parent's nodeData is less than delNode's nodeData; make the inOrderSuccessor, a right
                          * child of parent.
                          */
-                        parent.setRight(leftMost);
+                        parent.setRight(inOrderSuccessor);
                     }
                 }
             }
@@ -427,45 +452,36 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
 
     }
 
-    /**
-     * Returns the string representation of this object.
-     *
-     * @return
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        StringBuilder sBuilder = new StringBuilder("[");
-        if (root != null) {
-            Queue<Node<E>> queue = new LinkedList<>();
-            queue.add(root);
-            while (!queue.isEmpty()) {
-                Node<E> node = queue.poll();
-                sBuilder.append(node.getData().toString());
-                if (node.hasLeft()) {
-                    queue.add(node.getLeft());
-                }
-
-                if (node.hasRight()) {
-                    queue.add(node.getRight());
-                }
-
-                if (!queue.isEmpty()) {
-                    sBuilder.append(", ");
-                }
-            }
-        }
-
-        return sBuilder.append("]").toString();
-    }
-
-    /**
-     * Returns the left node of the root node, if root node is not null otherwise root node.
-     *
-     * @return
-     */
-    public Node<E> getLeftNode() {
-        return root.getLeft();
-    }
+//    /**
+//     * Returns the string representation of this object.
+//     *
+//     * @return
+//     * @see java.lang.Object#toString()
+//     */
+//    public String toString() {
+//        StringBuilder sBuilder = new StringBuilder("[");
+//        if (root != null) {
+//            Queue<Node<E>> queue = new LinkedList<>();
+//            queue.add(root);
+//            while (!queue.isEmpty()) {
+//                Node<E> node = queue.poll();
+//                sBuilder.append(node.getData().toString());
+//                if (node.hasLeft()) {
+//                    queue.add(node.getLeft());
+//                }
+//
+//                if (node.hasRight()) {
+//                    queue.add(node.getRight());
+//                }
+//
+//                if (!queue.isEmpty()) {
+//                    sBuilder.append(", ");
+//                }
+//            }
+//        }
+//
+//        return sBuilder.append("]").toString();
+//    }
 
     /**
      * Adds the new node as the left child of the root node if root is not null otherwise as root node.
@@ -473,9 +489,9 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
      * @param newData
      */
     public void addLeftNode(E newData) {
-        if (Objects.isNull(root)) {
+        if (Objects.isNull(getRoot())) {
             setRoot(new Node<E>(newData));
-            incrementSize();
+            increaseSize();
         } else {
             /**
              * <pre>
@@ -487,7 +503,7 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
              * </pre>
              */
             Node<E> newNode = new Node<E>(newData);
-            Node<E> current = root;
+            Node<E> current = getRoot();
             while (Objects.nonNull(current) && Objects.nonNull(current.getLeft())) {
                 current = current.getLeft();
             }
@@ -495,17 +511,8 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
             // set this node as the parent of the new node
             newNode.setParent(current);
             current.setLeft(newNode);
-            incrementSize();
+            increaseSize();
         }
-    }
-
-    /**
-     * Returns the right node of the root node, if root node is not null otherwise root node.
-     *
-     * @return
-     */
-    public Node<E> getRightNode() {
-        return root.getRight();
     }
 
     /**
@@ -514,9 +521,9 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
      * @param newData
      */
     public void addRightNode(E newData) {
-        if (Objects.isNull(root)) {
+        if (Objects.isNull(getRoot())) {
             setRoot(new Node<E>(newData));
-            incrementSize();
+            increaseSize();
         } else {
             /**
              * <pre>
@@ -528,7 +535,7 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
              * </pre>
              */
             Node<E> newNode = new Node<E>(newData);
-            Node<E> current = root;
+            Node<E> current = getRoot();
             while (Objects.nonNull(current) && Objects.nonNull(current.getRight())) {
                 current = current.getRight();
             }
@@ -536,7 +543,7 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
             // set this node as the parent of the new node
             newNode.setParent(current);
             current.setRight(newNode);
-            incrementSize();
+            increaseSize();
         }
     }
 
