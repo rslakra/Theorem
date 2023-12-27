@@ -1,16 +1,16 @@
 package com.devamatre.theorem.adts.tree;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.testng.AssertJUnit.assertNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.testng.AssertJUnit.assertNull;
 
 /**
  * @author Rohtash Lakra
@@ -56,7 +56,7 @@ public class NodeTest {
 
         // add child
         Node<Integer> childNode = new Node(2);
-        rootNode.addChild(childNode);
+        rootNode.addNode(childNode);
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
         assertEquals(1, rootNode.getChildren().size());
@@ -71,17 +71,21 @@ public class NodeTest {
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
         assertEquals(1, rootNode.getCount());
+        assertEquals(1, rootNode.getSize());
 
         // add child
-        rootNode.addChild(2);
+        rootNode.addNode(2);
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
         assertEquals(1, rootNode.getCount());
+        assertEquals(2, rootNode.getSize());
 
         // add child
-        rootNode.addChild(1);
+        rootNode.addNode(1);
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
+        assertEquals(1, rootNode.getCount());
+        assertEquals(3, rootNode.getSize());
         // TODO - FIX ME
 //        assertEquals(2, rootNode.getCount());
     }
@@ -95,16 +99,14 @@ public class NodeTest {
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
         assertEquals(1, rootNode.getCount());
-        String nodeString = TreeUtils.toStringNaryTree(rootNode, false);
-        LOGGER.debug("nodeString:{}", nodeString);
+        TreeUtils.printPrettyTree(rootNode);
 
         // add child
-        rootNode.addChild(2);
+        rootNode.addNode(2);
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
         assertEquals(1, rootNode.getChildren().size());
-        nodeString = TreeUtils.toStringNaryTree(rootNode, false);
-        LOGGER.debug("nodeString:{}", nodeString);
+        TreeUtils.printPrettyTree(rootNode);
     }
 
     /**
@@ -158,22 +160,22 @@ public class NodeTest {
     }
 
     /**
-     * Tests the <code>findChild()</code> method.
+     * Tests the <code>findNode()</code> method.
      */
     @Test
-    public void testFindChild() {
+    public void testFindNaryTreeNode() {
         Node<Integer> rootNode = TreeUtils.buildNaryTree(Arrays.asList(4, 1, 3, 7, 4, 5, 8));
         LOGGER.debug("rootNode:{}, children:{}", rootNode, rootNode.getChildren().size());
         assertNotNull(rootNode);
 
         // find node
-        Node<Integer> findChild = rootNode.findChild(rootNode, 4);
+        Node<Integer> findChild = rootNode.findNode(rootNode, 4);
         LOGGER.debug("findChild:{}", findChild);
         assertNotNull(findChild);
         assertEquals(4, findChild.getData());
 
         // find node
-        Node<Integer> notFound = rootNode.findChild(rootNode, 16);
+        Node<Integer> notFound = rootNode.findNode(rootNode, 16);
         LOGGER.debug("notFound:{}", notFound);
         assertNull(notFound);
     }
@@ -380,28 +382,28 @@ public class NodeTest {
         // CTO
         Node cto = new Node("CTO");
         assertNotNull(cto);
-        rootNode.addChild(cto);
+        rootNode.addNode(cto);
         // Server
-        cto.addChild("Server");
+        cto.addNode("Server");
         // IOS
         Node iOS = new Node("iOS");
         assertNotNull(iOS);
-        cto.addChild(iOS);
-        iOS.addChild("Objective-C");
-        iOS.addChild("Swift");
+        cto.addNode(iOS);
+        iOS.addNode("Objective-C");
+        iOS.addNode("Swift");
         // Android
-        cto.addChild("Android");
+        cto.addNode("Android");
 
         // CFO
         Node cfo = new Node("CFO");
         assertNotNull(cfo);
         assertEquals("CFO", cfo.getData());
-        rootNode.addChild(cfo);
+        rootNode.addNode(cfo);
         maxEdges = TreeUtils.maxEdges(rootNode);
         LOGGER.debug("Edges:{}", maxEdges);
         assertEquals(7, maxEdges);
         System.out.println();
-        LOGGER.debug("rootNode:{}", TreeUtils.toStringNaryTree(rootNode, true));
+        TreeUtils.printPrettyTree(rootNode, true);
     }
 
     /**
@@ -420,7 +422,8 @@ public class NodeTest {
         Tree<String> tree = new Tree<>();
         assertNotNull(tree);
         assertEquals(0, tree.getSize());
-        tree.addChild("Lakra");
+        Node<String> lakraNode = new Node<>(false, "Lakra");
+        tree.addNode(null, lakraNode);
         assertEquals(1, tree.getSize());
         LOGGER.debug("tree:{}", tree);
 
@@ -428,10 +431,10 @@ public class NodeTest {
         Node<String> rohtashTree = new Node<>("Rohtash");
         assertNotNull(rohtashTree);
         assertEquals(0, rohtashTree.getChildren().size());
-        rohtashTree.addChild("R Singh");
-        rohtashTree.addChild("RS Lakra");
+        rohtashTree.addNode("R Singh");
+        rohtashTree.addNode("RS Lakra");
         LOGGER.debug("rohtashTree:{}", rohtashTree);
-        tree.addChild(rohtashTree);
+        tree.addNode(lakraNode, rohtashTree);
         assertEquals(4, tree.getSize());
         LOGGER.debug("tree:{}", tree);
 
@@ -439,11 +442,11 @@ public class NodeTest {
         Node<String> singhTree = new Node<>("Singh");
         assertNotNull(singhTree);
         assertEquals(0, singhTree.getChildren().size());
-        singhTree.addChild("RS");
+        singhTree.addNode("RS");
         LOGGER.debug("singhTree:{}", singhTree);
-        tree.addChild(singhTree);
+        tree.addNode(lakraNode, singhTree);
         assertEquals(6, tree.getSize());
         LOGGER.debug("tree:{}", tree);
-        LOGGER.debug("rootNode:{}", TreeUtils.toStringNaryTree(tree.getRoot(), true));
+        tree.printPrettyTree();
     }
 }

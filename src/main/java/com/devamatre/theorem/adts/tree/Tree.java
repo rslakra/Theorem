@@ -214,14 +214,6 @@ public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
     }
 
     /**
-     * Removes all items from the tree
-     */
-    @Override
-    public void clear() {
-
-    }
-
-    /**
      * Adds the <code>childNode</code> node as the child node of the <code>rootNode</code> node.
      * <p>
      * By default, tree allows duplicate values, so a binary tree should handle it separately if it doesn't allow
@@ -233,52 +225,33 @@ public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
      */
     @Override
     public Node<E> addNode(Node<E> rootNode, Node<E> childNode) {
-        LOGGER.debug("addNode({}, {})", rootNode, childNode);
+        LOGGER.debug("+addNode({}, {})", rootNode, childNode);
         if (Objects.isNull(rootNode)) {
+            childNode.setBinary(false);
             rootNode = childNode;
+            // make sure the root of the tree is set
+            if (Objects.isNull(getRoot())) {
+                setRoot(rootNode);
+            }
         } else {
-            rootNode.addChild(childNode);
+            rootNode.addNode(childNode);
         }
-        setSize(rootNode.getSize());
-//        increaseSize(rootNode.getSize());
-
+        setSize(getRoot().getSize());
+        LOGGER.debug("-addNode(), rootNode:{}, count:{}, size:{}", rootNode, rootNode.getCount(), rootNode.getSize());
         return rootNode;
     }
 
-    /**
-     * Adds the <code>childNode</code> as children of the tree.
-     *
-     * @param childNode
-     */
-    public void addChild(Node<E> childNode) {
-        if (Objects.isNull(getRoot())) {
-            setRoot(childNode);
-        } else {
-            getRoot().addChild(childNode);
-        }
-        increaseSize(getRoot().getSize());
-    }
-
-    /**
-     * Adds the <code>data</code> as children of the tree.
-     *
-     * @param data
-     */
-    public void addChild(E data) {
-        setRoot(addNode(getRoot(), data));
-    }
-
-    /**
-     * Returns the node of the provided <code>data</code> if exists in the tree otherwise null.
-     *
-     * @param rootNode
-     * @param data
-     * @return
-     */
-    @Override
-    protected Node<E> findNode(Node<E> rootNode, E data) {
-        return (Objects.isNull(rootNode) ? null : rootNode.findChild(data));
-    }
+//    /**
+//     * Returns the node of the provided <code>data</code> if exists in the tree otherwise null.
+//     *
+//     * @param rootNode
+//     * @param data
+//     * @return
+//     */
+//    @Override
+//    protected Node<E> findNode(Node<E> rootNode, E data) {
+//        return (Objects.isNull(rootNode) ? null : rootNode.findNode(data));
+//    }
 
     /**
      * @param rootNode
@@ -366,6 +339,6 @@ public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
      */
     @Override
     public void printPrettyTree() {
-        LOGGER.debug("{}", TreeUtils.toStringNaryTree(getRoot(), true));
+        TreeUtils.printPrettyTree(getRoot(), true);
     }
 }

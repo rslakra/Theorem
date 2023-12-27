@@ -1,16 +1,15 @@
 package com.devamatre.theorem.adts.tree;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.devamatre.appsuite.core.BeanUtils;
+import com.devamatre.theorem.adts.tree.data.loader.TreeHierarchicalDataLoader;
+import com.devamatre.theorem.adts.tree.data.loader.TreeHierarchicalType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -40,29 +39,6 @@ public abstract class AbstractTreeTest {
     }
 
     /**
-     * Fills the tree with american the names of American presidents.
-     *
-     * @param tree
-     */
-    public static void fillTreeWithPresidents(AbstractTree<String> tree) {
-        fillTree(tree, Arrays.asList("Lincoin", "Jefferson", "Jackson", "Adams", "Kennedy", "Washington", "Madison",
-                                     "Roosevelt", "Buchanan"));
-    }
-
-    /**
-     * Fills the tree with the animal species.
-     *
-     * @param tree
-     */
-    public static void fillTreeWithSpecies(AbstractTree<String> tree) {
-        fillTree(tree, Arrays.asList("Anamilia", "Chordate", "Mammal", "Arthropoda", "Insect", "Primate", "Carnivora",
-                                     "Diptera", "Hominidac", "Pongidae", "Felidae", "Muscidae", "Homo", "Pan", "Felis",
-                                     "Musca", "Sapiens", "Troglodytes", "Domestica", "Leo", "Domestica", "Human",
-                                     "Chimpanzee", "House Cat", "Lion", "Housefly"));
-
-    }
-
-    /**
      * Builds the tree with the provided <code>inputData</code>
      *
      * @param inputData
@@ -78,13 +54,24 @@ public abstract class AbstractTreeTest {
      * Fills the provided <code>tree</code> with the hierarchical data.
      *
      * @param tree
-     * @return
      * @param <E>
+     * @return
      */
     public <E extends Comparable<? super E>> AbstractTree<E> fillHierarchicalTree(AbstractTree<E> tree) {
-        LOGGER.debug("+fillHierarchicalTree({})", tree);
+        LOGGER.debug("fillHierarchicalTree({})", tree);
+        return tree;
+    }
 
-        LOGGER.debug("-fillHierarchicalTree({})", tree);
+    /**
+     * @param tree
+     * @return
+     */
+    public AbstractTree<String> fillContinents(AbstractTree<String> tree) {
+        LOGGER.debug("+fillContinents({})", tree);
+        TreeHierarchicalDataLoader dataPopulator = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.CONTINENT);
+        dataPopulator.fillHierarchicalData(tree);
+        tree.printPrettyTree();
+        LOGGER.debug("-fillContinents(), tree:{}", tree);
         return tree;
     }
 

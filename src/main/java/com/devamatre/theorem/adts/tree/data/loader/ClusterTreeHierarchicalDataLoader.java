@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.data.populate;
+package com.devamatre.theorem.adts.tree.data.loader;
 
 import com.devamatre.theorem.adts.tree.AbstractTree;
 import com.devamatre.theorem.adts.tree.Node;
@@ -46,7 +46,7 @@ import com.devamatre.theorem.adts.tree.Node;
  * @author Rohtash Lakra
  * @created 12/21/23 8:47 AM
  */
-public class ClusterTreeHierarchicalDataPopulator implements TreeHierarchicalDataPopulator<String> {
+public class ClusterTreeHierarchicalDataLoader implements TreeHierarchicalDataLoader<String> {
 
     /**
      * Fills the provided <code>tree</code> with the hierarchical data.
@@ -57,20 +57,23 @@ public class ClusterTreeHierarchicalDataPopulator implements TreeHierarchicalDat
     @Override
     public AbstractTree<String> fillHierarchicalData(AbstractTree<String> tree) {
         // add rootNode
-        tree.addNode("Cluster");
-
+        Node<String> rootNode = new Node<>("Cluster");
+        tree.addNode(null, rootNode);
         // add next level children
-        Node<String> cluster = tree.findNode("Cluster");
-        tree.addNode(cluster, "Analytics");
-        tree.addNode(cluster, "Animate");
-        tree.addNode(cluster, "Data");
-        tree.addNode(cluster, "Query");
-        tree.addNode(cluster, "Operator");
-
+        Node<String> analytics = new Node<>("Analytics");
+        Node<String> animate = new Node<>("Animate");
+        Node<String> data = new Node<>("Data");
+        Node<String> query = new Node<>("Query");
+        Node<String> operator = new Node<>("Operator");
+        tree.addNode(rootNode, analytics);
+        tree.addNode(rootNode, animate);
+        tree.addNode(rootNode, data);
+        tree.addNode(rootNode, query);
+        tree.addNode(rootNode, operator);
         // add next level children
-        Node<String> analytics = tree.findNode("Analytics");
-        tree.addNode(analytics, "Cluster");
-        tree.addNode(tree.findNode("Cluster"), "Hierarchical");
+        Node<String> cluster = new Node<>("Cluster");
+        tree.addNode(analytics, cluster);
+        tree.addNode(cluster, "Hierarchical");
         // add next level children
         tree.addNode(analytics, "Graph");
         tree.addNode(tree.findNode("Graph"), "Tree");
@@ -78,28 +81,24 @@ public class ClusterTreeHierarchicalDataPopulator implements TreeHierarchicalDat
         tree.addNode(analytics, "Optimization");
         tree.addNode(tree.findNode("Optimization"), "Aspect Ratio");
         // add next level children
-        Node<String> animate = tree.findNode("Animate");
         tree.addNode(animate, "Pause");
         tree.addNode(animate, "Parallel");
-        tree.addNode(animate, "Interpolate");
+        Node<String> interpolate = new Node<>("Interpolate");
+        tree.addNode(animate, interpolate);
         // add next level children
-        Node<String> interpolate = tree.findNode("Interpolate");
         tree.addNode(interpolate, "Array");
         tree.addNode(interpolate, "Matrix");
         // add next level children
-        Node<String> data = tree.findNode("Data");
         tree.addNode(data, "Schema");
         tree.addNode(tree.findNode("Schema"), "Table");
         tree.addNode(tree.findNode("Table"), "Field");
         // add next level children
-        Node<String> query = tree.findNode("Query");
         tree.addNode(query, "Create");
         tree.addNode(query, "Select");
         tree.addNode(tree.findNode("Select"), "Field");
         tree.addNode(query, "Update");
         tree.addNode(query, "Delete");
         // add next level children
-        Node<String> operator = tree.findNode("Operator");
         tree.addNode(operator, "Unary");
         tree.addNode(operator, "Binary");
         tree.addNode(operator, "Logical");

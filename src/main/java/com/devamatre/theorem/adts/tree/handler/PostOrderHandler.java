@@ -55,7 +55,7 @@ public class PostOrderHandler<E extends Comparable<? super E>> extends AbstractT
         if (TraversalMode.POST_ORDER_TRAVERSAL == getTraversalMode() && BeanUtils.isNotEmpty(elements)) {
             setIndex(elements.length);
             rootNode = buildPostOrder(elements);
-            rootNode.setSize(TreeUtils.getCount(rootNode));
+            rootNode.setSize(TreeUtils.countNodes(rootNode));
         }
 
         return rootNode;

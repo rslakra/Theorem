@@ -14,8 +14,7 @@ import java.util.Objects;
  * @author Rohtash Lakra
  * @created 5/17/22 2:05 PM
  */
-public abstract class AbstractTree<E extends Comparable<? super E>>
-    implements TreeIterator<E>, Iterable<E>, Comparable<E> {
+public abstract class AbstractTree<E extends Comparable<? super E>> implements TreeIterator<E>, Iterable<E>, Comparable<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTree.class);
 
@@ -79,7 +78,9 @@ public abstract class AbstractTree<E extends Comparable<? super E>>
      * Decreases the size by 1.
      */
     protected void increaseSize(int size) {
+        LOGGER.debug("+increaseSize({})", size);
         this.size += size;
+        LOGGER.debug("-increaseSize(), size:{}", getSize());
     }
 
     /**
@@ -169,7 +170,9 @@ public abstract class AbstractTree<E extends Comparable<? super E>>
     /**
      * Removes all items from the tree
      */
-    public abstract void clear();
+    public void clear() {
+
+    }
 
     /**
      * Adds the <code>childNode</code> node as the child node of the <code>rootNode</code> node.
@@ -193,7 +196,12 @@ public abstract class AbstractTree<E extends Comparable<? super E>>
      * @param data
      */
     public Node<E> addNode(Node<E> rootNode, E data) {
-        return addNode(rootNode, new Node<>(data));
+        Node<E> newNode = addNode(rootNode, new Node<>(data));
+        if (Objects.isNull(getRoot())) {
+            setRoot(newNode);
+        }
+
+        return newNode;
     }
 
 //    protected Node<E> addNode(Node<E> root, E data) {
@@ -317,7 +325,9 @@ public abstract class AbstractTree<E extends Comparable<? super E>>
      * @param data
      * @return
      */
-    protected abstract Node<E> findNode(Node<E> rootNode, E data);
+    protected Node<E> findNode(Node<E> rootNode, E data) {
+        return (Objects.isNull(rootNode) ? null : rootNode.findNode(data));
+    }
 
     /**
      * Returns the node of the provided <code>data</code> if exists in the tree otherwise null. It finds the node using

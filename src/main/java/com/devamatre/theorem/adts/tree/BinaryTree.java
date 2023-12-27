@@ -164,14 +164,6 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
     }
 
     /**
-     * Removes all items from the tree
-     */
-    @Override
-    public void clear() {
-
-    }
-
-    /**
      * Adds the <code>childNode</code> node as the child node of the <code>rootNode</code> node.
      * <p>
      * By default, tree allows duplicate values, so a binary tree should handle it separately if it doesn't allow
@@ -186,7 +178,14 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
         LOGGER.debug("+addNode({}, {})", rootNode, childNode);
         // Case 1: The tree is empty - create the root node.
         if (Objects.isNull(rootNode)) {
+            if (!childNode.isBinary()) {
+                childNode.setBinary(true);
+            }
             rootNode = childNode;
+            // make sure the root of the tree is set
+            if (Objects.isNull(getRoot())) {
+                setRoot(rootNode);
+            }
             increaseSize(rootNode.getSize());
         } else if (rootNode.compareTo(childNode) < 0) {
             /* Case 2: The tree is not empty, and the root's data < data, then add data as right child.*/
@@ -223,7 +222,18 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
      */
     @Override
     protected Node<E> findNode(Node<E> rootNode, E data) {
-        return (Objects.isNull(rootNode) ? null : rootNode.findNode(data));
+//        return (Objects.isNull(rootNode) ? null : rootNode.findNode(data));
+        if (Objects.nonNull(rootNode)) {
+            if (rootNode.isEquals(data)) {
+                return rootNode;
+            } else if (rootNode.isGreaterThan(data)) {
+                return findNode(rootNode.getLeft(), data);
+            } else if (rootNode.isLessThan(data)) {
+                return findNode(rootNode.getRight(), data);
+            }
+        }
+
+        return null;
     }
 
     /**

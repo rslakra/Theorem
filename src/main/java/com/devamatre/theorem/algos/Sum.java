@@ -284,7 +284,7 @@ public class Sum {
      * @return
      */
     public static void sumOfProduct(int n, int check) {
-        // populate values
+        // loader values
         int sum = 0;
         int[] prods = new int[n];
         int[] numbers = new int[n];

@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.data.populate;
+package com.devamatre.theorem.adts.tree.data.loader;
 
 import com.devamatre.theorem.adts.tree.AbstractTree;
 import com.devamatre.theorem.adts.tree.Node;
@@ -41,7 +41,7 @@ import com.devamatre.theorem.adts.tree.Node;
  * @author Rohtash Lakra
  * @created 12/21/23 8:46 AM
  */
-public class WebPageTreeHierarchicalDataPopulator implements TreeHierarchicalDataPopulator<String> {
+public class WebPageTreeHierarchicalDataLoader implements TreeHierarchicalDataLoader<String> {
 
     /**
      * Fills the provided <code>tree</code> with the hierarchical data.
@@ -52,12 +52,13 @@ public class WebPageTreeHierarchicalDataPopulator implements TreeHierarchicalDat
     @Override
     public AbstractTree<String> fillHierarchicalData(AbstractTree<String> tree) {
         // add rootNode
-        tree.addNode("<html>");
+        Node<String> rootNode = new Node<>("<html>");
+        tree.addNode(null, rootNode);
+
         // add next level children
-        Node<String> html = tree.findNode("<html>");
-        tree.addNode(html, "<head>");
-        tree.addNode(html, "<body>");
-        tree.addNode(html, "<footer>");
+        tree.addNode(rootNode, "<head>");
+        tree.addNode(rootNode, "<body>");
+        tree.addNode(rootNode, "<footer>");
         // add next level children
         Node<String> head = tree.findNode("<head>");
         tree.addNode(head, "<meta>");
@@ -71,7 +72,8 @@ public class WebPageTreeHierarchicalDataPopulator implements TreeHierarchicalDat
         tree.addNode(body, "<ol>");
         tree.addNode(body, "<button>");
         tree.addNode(body, "<code>");
-        tree.addNode(body, "<table>");
+        Node<String> table = new Node<>("<table>");
+        tree.addNode(body, table);
         tree.addNode(body, "<div>");
         // add next level children
         tree.addNode(tree.findNode("<h1>"), "<p>");
@@ -82,16 +84,24 @@ public class WebPageTreeHierarchicalDataPopulator implements TreeHierarchicalDat
         // add next level children
         tree.addNode(tree.findNode("<ol>"), "<li>");
         // add next level children
-        Node<String> table = tree.findNode("<table>");
-        tree.addNode(table, "<thead>");
-        tree.addNode(table, "<tbody>");
-        tree.addNode(table, "<tr>");
+        Node<String> thead = new Node<>("<thead>");
+        Node<String> tbody = new Node<>("<tbody>");
+        Node<String> tr = new Node<>("<tr>");
+        tree.addNode(table, thead);
+        tree.addNode(table, tbody);
+        tree.addNode(table, tr);
         // add next level children
-        tree.addNode(tree.findNode("<thead>"), "<tr>");
-        Node<String> tr = tree.findNode("<tr>");
-        tree.addNode(tr, "<th>");
-        tree.addNode(tr, "<td>");
-        tree.addNode(tree.findNode("<tbody>"), "<tr>");
+        Node<String> thTr = new Node<>("<tr>");
+        tree.addNode(thead, thTr);
+        // add next level children
+        tree.addNode(thTr, "<th>");
+        tree.addNode(thTr, "<td>");
+        // add next level children
+        Node<String> tbTr = new Node<>("<tr>");
+        tree.addNode(tbody, tbTr);
+        tree.addNode(tbTr, "<th>");
+        tree.addNode(tbTr, "<td>");
+        // add next level children
         tree.addNode(tr, "<th>");
         tree.addNode(tr, "<td>");
 

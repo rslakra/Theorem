@@ -64,7 +64,7 @@ public class PostOrderHandlerTest extends AbstractTreeHandlerTest {
         assertNotNull(rootNode);
         LOGGER.debug("rootNode:{}", rootNode);
         Integer[] expected = new Integer[]{4, 5, 2, 7, 8, 6, 3, 1};
-        assertEquals(expected.length, TreeUtils.getCount(rootNode));
+        assertEquals(expected.length, TreeUtils.countNodes(rootNode));
         TreeUtils.printBinaryTree(rootNode);
     }
 
@@ -83,7 +83,7 @@ public class PostOrderHandlerTest extends AbstractTreeHandlerTest {
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         Integer[] expected = new Integer[]{4, 5, 2, 7, 8, 6, 3, 1};
-        assertEquals(expected.length, TreeUtils.getCount(rootNode));
+        assertEquals(expected.length, TreeUtils.countNodes(rootNode));
 
         Integer[] excludeNullLeafs = treeHandler.treeConverter(rootNode, false);
         assertNotNull(excludeNullLeafs);
@@ -113,7 +113,7 @@ public class PostOrderHandlerTest extends AbstractTreeHandlerTest {
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         Integer[] expected = new Integer[]{4, 5, 2, 7, 8, 6, 3, 1};
-        assertEquals(expected.length, TreeUtils.getCount(rootNode));
+        assertEquals(expected.length, TreeUtils.countNodes(rootNode));
 
         Integer[] excludeNullLeafs = treeHandler.treeConverter(rootNode, false);
         assertNotNull(excludeNullLeafs);

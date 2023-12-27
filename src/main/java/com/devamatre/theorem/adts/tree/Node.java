@@ -28,6 +28,9 @@
  *****************************************************************************/
 package com.devamatre.theorem.adts.tree;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +57,9 @@ import java.util.Objects;
  */
 public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Node.class);
+
+    private boolean binary;
     private Node<E> parent;
     private E data;
     /* handles duplicate nodes in the binary search tree. */
@@ -66,7 +72,9 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     /**
      * @param data
      */
-    public Node(E data) {
+    public Node(boolean binary, E data) {
+        LOGGER.debug("+Node({}, {})", binary, data);
+        this.binary = binary;
         this.parent = null;
         this.data = data;
         this.count = 1;
@@ -74,6 +82,32 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
         this.right = null;
         this.children = new LinkedList<>();
         this.size = 1;
+        LOGGER.debug("-Node(), count:{} size:{}", count, size);
+    }
+
+    /**
+     * @param data
+     */
+    public Node(E data) {
+        this(true, data);
+    }
+
+    /**
+     * Returns the <code>binary</code> value.
+     *
+     * @return
+     */
+    public boolean isBinary() {
+        return binary;
+    }
+
+    /**
+     * The <code>binary</code> to be set.
+     *
+     * @param binary
+     */
+    public void setBinary(boolean binary) {
+        this.binary = binary;
     }
 
     /**
@@ -268,7 +302,11 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      * @return
      */
     public boolean hasChildren() {
-        return (children.size() > 0);
+        if (isBinary()) {
+            return (hasLeft() || hasRight());
+        } else {
+            return (children.size() > 0);
+        }
     }
 
     /**
@@ -336,6 +374,15 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     }
 
     /**
+     * Logs the details of the current node.
+     *
+     * @return
+     */
+    public void logNode() {
+        LOGGER.debug("parent:{}, data:{}, count:{}, left:{}, right:{}, children:{}, size:{}", getParent(), getData(), getCount(), getLeft(), getRight(), getChildren(), getSize());
+    }
+
+    /**
      * Returns the string representation of this object.
      *
      * @return
@@ -346,30 +393,59 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     }
 
     /**
+     * Increases the size of <code>rootNode</code> and let the parent know it's size.
+     *
+     * @param rootNode
+     * @return
+     */
+    private void increaseParentSize(Node<E> rootNode, int newSize) {
+        LOGGER.debug("+increaseParentSize({}, {})", rootNode, newSize);
+        if (Objects.nonNull(rootNode)) {
+            rootNode.increaseSize(newSize);
+            rootNode.logNode();
+            increaseParentSize(rootNode.getParent(), newSize);
+        }
+        LOGGER.debug("-increaseParentSize(), rootNode:{}", rootNode);
+    }
+
+    /**
      * Adds the <code>rootNode</code> as children of the tree.
      *
      * @param rootNode
      */
-    protected void addChild(Node<E> rootNode) {
+    protected void addNode(Node<E> rootNode) {
+        LOGGER.debug("+addNode({})", rootNode);
         if (Objects.nonNull(rootNode)) {
             if (!rootNode.hasParent()) {
                 rootNode.setParent(this);
             }
 
-//            // if duplicate node exists, increase the count of that node.
-//            if (children.contains(rootNode)) {
-//                rootNode.increaseCount();
-//            }
-            children.add(rootNode);
-            increaseSize(rootNode.getSize());
+            // binary & nary handling
+            if (!isBinary()) {
+                // if duplicate node exists, increase only the count of that node.
+                if (children.contains(rootNode)) {
+                    rootNode.increaseCount();
+                } else {
+                    // make sure the binary value of all the nodes of the tree are same.
+                    if (isBinary() != rootNode.isBinary()) {
+                        rootNode.setBinary(isBinary());
+                    }
+                    // add as child of this node.
+                    children.add(rootNode);
+                }
+            }
+
+            increaseParentSize(rootNode.getParent(), rootNode.getSize());
+            logNode();
         }
+        LOGGER.debug("-addNode(), rootNode:{}", rootNode);
     }
 
     /**
      * @param data
      */
-    void addChild(E data) {
-        addChild(new Node<>(data));
+    protected void addNode(E data) {
+        addNode(new Node<>(data));
     }
 
     /**
@@ -379,36 +455,22 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      * @return
      */
     protected Node<E> findNode(Node<E> rootNode, E data) {
-        if (rootNode != null) {
-            if (rootNode.isEquals(data)) {
-                return rootNode;
-            } else if (rootNode.isGreaterThan(data)) {
-                return findNode(rootNode.getLeft(), data);
-            } else if (rootNode.isLessThan(data)) {
-                return findNode(rootNode.getRight(), data);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Finds the child with the provided <code>data</code>. If exists return node otherwise null.
-     *
-     * @param rootNode
-     * @param data
-     * @return
-     */
-    protected Node<E> findChild(Node<E> rootNode, E data) {
         // base case, check if rootNode is not null otherwise return null.
         if (Objects.nonNull(rootNode)) {
             // check the data matches with the rootNode or not
             if (rootNode.isEquals(data)) {
                 return rootNode;
+            } else if (rootNode.isBinary()) {
+                // find the node in binary tree
+                if (rootNode.isGreaterThan(data)) {
+                    return findNode(rootNode.getLeft(), data);
+                } else if (rootNode.isLessThan(data)) {
+                    return findNode(rootNode.getRight(), data);
+                }
             } else {
-                // check if any children of the rootNode contains the data node
+                // find the node in nary if any children of the rootNode contains the data node
                 for (Node<E> childNode : rootNode.getChildren()) {
-                    Node<E> nodeFound = findChild(childNode, data);
+                    Node<E> nodeFound = findNode(childNode, data);
                     if (Objects.nonNull(nodeFound)) {
                         return nodeFound;
                     }
@@ -417,16 +479,6 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
         }
 
         return null;
-    }
-
-    /**
-     * Finds the child with the provided <code>data</code>. If exists return node otherwise null.
-     *
-     * @param data
-     * @return
-     */
-    protected Node<E> findChild(E data) {
-        return findChild(this, data);
     }
 
     /**

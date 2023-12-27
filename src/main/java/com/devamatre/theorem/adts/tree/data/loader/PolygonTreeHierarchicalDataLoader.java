@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.data.populate;
+package com.devamatre.theorem.adts.tree.data.loader;
 
 import com.devamatre.theorem.adts.tree.AbstractTree;
 import com.devamatre.theorem.adts.tree.Node;
@@ -34,7 +34,7 @@ import com.devamatre.theorem.adts.tree.Node;
  * @author Rohtash Lakra
  * @created 12/21/23 8:49 AM
  */
-public class PolygonTreeHierarchicalDataPopulator implements TreeHierarchicalDataPopulator<String> {
+public class PolygonTreeHierarchicalDataLoader implements TreeHierarchicalDataLoader<String> {
 
     /**
      * Fills the provided <code>tree</code> with the hierarchical data.
@@ -45,13 +45,14 @@ public class PolygonTreeHierarchicalDataPopulator implements TreeHierarchicalDat
     @Override
     public AbstractTree<String> fillHierarchicalData(AbstractTree<String> tree) {
         // add rootNode
-        tree.addNode("Polygon");
+        Node<String> rootNode = new Node<>(false, "Polygon");
+        tree.addNode(null, rootNode);
+
         // add next level children
-        Node<String> polygon = tree.findNode("Polygon");
-        tree.addNode(polygon, "Hexagon");
-        tree.addNode(polygon, "Pentagon");
-        tree.addNode(polygon, "Triangle");
-        tree.addNode(polygon, "Quadrilateral");
+        tree.addNode(rootNode, "Hexagon");
+        tree.addNode(rootNode, "Pentagon");
+        tree.addNode(rootNode, "Triangle");
+        tree.addNode(rootNode, "Quadrilateral");
 
         // add next level children
         tree.addNode(tree.findNode("Hexagon"), "6 Sides");

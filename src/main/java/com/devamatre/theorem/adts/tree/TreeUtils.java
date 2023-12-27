@@ -259,11 +259,11 @@ public enum TreeUtils {
      * @return
      */
     public static <E extends Comparable<? super E>> Node<E> buildBinaryTree(List<E> inputData) {
-        Node<E> treeNode = null;
+        Node<E> rootNode = null;
         if (BeanUtils.isNotEmpty(inputData)) {
-            treeNode = new Node(inputData.get(0));
+            rootNode = new Node(inputData.get(0));
             Queue<Node<E>> queue = new LinkedList<>();
-            queue.offer(treeNode);
+            queue.offer(rootNode);
             for (int i = 1; i < inputData.size(); i++) {
                 Node<E> current = queue.poll();
                 if (Objects.nonNull(inputData.get(i))) {
@@ -278,7 +278,7 @@ public enum TreeUtils {
             }
         }
 
-        return treeNode;
+        return rootNode;
     }
 
     /**
@@ -334,34 +334,41 @@ public enum TreeUtils {
      * Builds the <code>N-ary</code> tree of the <code>inputData</code>.
      * <p>
      * After adding 3 nodes, the next parents is picked randomly.
+     * <pre>
+     *  1
+     *  |-- 2
+     *  |   |-- 4
+     *  |   |   |-- 7
+     *  |   |   |   |-- 10
+     *  |   |   |   |   |-- 13
+     *  |   |   |   |   |-- 14
+     *  |   |   |   |   |-- 15
+     *  |   |   |   |-- 11
+     *  |   |   |   |-- 12
+     *  |   |   |-- 8
+     *  |   |   |-- 9
+     *  |   |-- 5
+     *  |   |-- 6
+     *  |-- 3
+     * </pre>
      */
     public static <E extends Comparable<? super E>> Node<E> buildNaryTree(List<E> inputData) {
         Node<E> rootNode = null;
         if (Objects.nonNull(inputData)) {
             // add 1st node as the root node and rest as the child nodes
-            rootNode = new Node<>(inputData.get(0));
+            rootNode = new Node<>(false, inputData.get(0));
             Node<E> parentNode = rootNode;
             for (int i = 1; i < inputData.size(); i++) {
                 int index = i % 3;
                 LOGGER.trace("index:{}", index);
-                if (rootNode.getChildren().size() > index) {
-                    parentNode = rootNode.getChildren().get(index);
+                if (parentNode.getChildren().size() > index) {
+                    parentNode = parentNode.getChildren().get(index);
                 }
-                parentNode.addChild(inputData.get(i));
+                parentNode.addNode(new Node<>(false, inputData.get(i)));
             }
         }
 
         return rootNode;
-    }
-
-    /**
-     * Returns the max level (height) of the node.
-     *
-     * @param node
-     * @return
-     */
-    public static int getHeight(Node node) {
-        return (node == null ? 0 : (Math.max(getHeight(node.getLeft()), getHeight(node.getRight())) + 1));
     }
 
     /**
@@ -402,8 +409,7 @@ public enum TreeUtils {
         int edgeLines = (int) Math.pow(2, (Math.max(level - 1, 0)));
 //        int gapBetweenNodes = (int) Math.pow(2, levelPower) + 1;
         int gapBetweenNodes = (int) Math.pow(2, (level + 1)) - 1;
-        LOGGER.trace("level:{}, nodePosition:{}, edgeLines:{}, gapBetweenNodes:{}", level, nodePosition, edgeLines,
-                     gapBetweenNodes);
+        LOGGER.trace("level:{}, nodePosition:{}, edgeLines:{}, gapBetweenNodes:{}", level, nodePosition, edgeLines, gapBetweenNodes);
 
         printWhiteSpaces(nodePosition);
 
@@ -529,7 +535,7 @@ public enum TreeUtils {
     }
 
     /**
-     * The height or maximum depth of a binary tree is the total number of edges on the longest path from the root
+     * The height or maximum depth of a tree is the total number of edges on the longest path from the root
      * rootNode to the leaf rootNode.
      * <p>
      * Time Complexity: <code>O(N)</code>
@@ -538,19 +544,41 @@ public enum TreeUtils {
      * @return
      */
     public static <E extends Comparable<? super E>> int maxDepth(Node<E> rootNode) {
-        return (rootNode == null ? 0 : Math.max(maxDepth(rootNode.getLeft()), maxDepth(rootNode.getRight())) + 1);
+        if (Objects.isNull(rootNode)) {
+            return 0;
+        } else if (rootNode.isBinary()) {
+            return (Math.max(maxDepth(rootNode.getLeft()), maxDepth(rootNode.getRight())) + 1);
+        } else {
+            int maxDepth = 0;
+            for (Node<E> childNode : rootNode.getChildren()) {
+                maxDepth = Math.max(maxDepth, maxDepth(childNode));
+            }
+
+            return (maxDepth + 1);
+        }
     }
 
     /**
-     * Returns the length of the longest path to a leaf.
+     * Returns the max level (height) of the provided <code>rootNode</code>. It's kind of longest path to the leaf.
      * <p>
      * Time Complexity: <code>O(N)</code>
      *
      * @param rootNode
      * @return
      */
-    public static <E extends Comparable<? super E>> int maxHeight(Node<E> rootNode) {
-        return (rootNode == null ? 0 : Math.max(maxHeight(rootNode.getLeft()), maxHeight(rootNode.getRight())) + 1);
+    public static <E extends Comparable<? super E>> int getHeight(Node<E> rootNode) {
+        if (Objects.isNull(rootNode)) {
+            return 0;
+        } else if (rootNode.isBinary()) {
+            return Math.max(getHeight(rootNode.getLeft()), getHeight(rootNode.getRight())) + 1;
+        } else {
+            int maxHeight = 0;
+            for (Node<E> childNode : rootNode.getChildren()) {
+                maxHeight = Math.max(maxHeight, getHeight(childNode));
+            }
+
+            return (maxHeight + 1);
+        }
     }
 
     /**
@@ -561,60 +589,51 @@ public enum TreeUtils {
      * @param rootNode
      * @return
      */
-    public static <E extends Comparable<? super E>> int getCount(Node<E> rootNode) {
-        return (rootNode == null ? 0 : getCount(rootNode.getLeft()) + getCount(rootNode.getRight()) + 1);
+    public static <E extends Comparable<? super E>> int countNodes(Node<E> rootNode) {
+        if (Objects.isNull(rootNode)) {
+            return 0;
+        } else if (rootNode.isBinary()) {
+            return (countNodes(rootNode.getLeft()) + countNodes(rootNode.getRight()) + 1);
+        } else {
+            int nodeCount = 1;
+            for (Node<E> childNode : rootNode.getChildren()) {
+                nodeCount += countNodes(childNode);
+            }
+
+            return nodeCount;
+        }
     }
 
     /**
      * Returns the length of the path to its root.
      *
-     * @param treeNode
+     * @param rootNode
      * @return
      */
-    public static <E extends Comparable<? super E>> int maxAncestorDepth(Node<E> treeNode) {
-        if (Objects.isNull(treeNode)) {
-            return 0;
-        } else if (Objects.isNull(treeNode.getParent())) {
-            return 1;
-        }
-
-        return maxAncestorDepth(treeNode.getParent()) + 1;
+    public static <E extends Comparable<? super E>> int maxAncestorDepth(Node<E> rootNode) {
+        return (Objects.isNull(rootNode) ? 0 : maxAncestorDepth(rootNode.getParent()) + 1);
     }
 
     /**
-     * Returns the edge count of the node.
+     * Returns the edge count of the provided <code>rootNode</code>.
+     * A tree with n nodes should have <code>n-1</code> edges.
      *
      * @param rootNode
      * @return
      */
     public static <E extends Comparable<? super E>> int maxEdges(Node<E> rootNode) {
-        int maxEdges = 0;
-        if (Objects.nonNull(rootNode) && rootNode.hasChildren()) {
+        if (Objects.isNull(rootNode)) {
+            return 0;
+        } else if (rootNode.isBinary()) {
+            return (maxEdges(rootNode.getLeft()) + maxEdges(rootNode.getRight()) + 1);
+        } else {
+            int maxEdges = 0;
             for (Node childNode : rootNode.getChildren()) {
                 maxEdges += maxEdges(childNode) + 1;
             }
+
+            return maxEdges;
         }
-
-        return maxEdges;
-    }
-
-    /**
-     * Returns the length of the longest path to a leaf.
-     * <p>
-     * Time Complexity: <code>O(N)</code>
-     *
-     * @param rootNode
-     * @return
-     */
-    public static <E extends Comparable<? super E>> int maxNaryHeight(Node<E> rootNode) {
-        int maxHeight = 1;
-        if (Objects.nonNull(rootNode) && rootNode.hasChildren()) {
-            for (Node childNode : rootNode.getChildren()) {
-                maxHeight = Math.max(maxHeight, maxNaryHeight(childNode)) + 1;
-            }
-        }
-
-        return maxHeight;
     }
 
     /**
@@ -647,8 +666,7 @@ public enum TreeUtils {
      * @param totalSpaces
      * @param treeBuilder
      */
-    private static <E extends Comparable<? super E>> void addNode(int totalSpaces, StringBuilder treeBuilder,
-                                                                  Node<E> node) {
+    private static <E extends Comparable<? super E>> void addNode(int totalSpaces, StringBuilder treeBuilder, Node<E> node) {
         // left side
         treeBuilder.append(LEFT);
         for (int i = 0; i < totalSpaces; i++) {
@@ -674,8 +692,7 @@ public enum TreeUtils {
     private static <E extends Comparable<? super E>> String buildSpatialBlock(final Node<E> node, int spaces) {
         return (node == null ? String.format("%" + (2 * spaces + 1) + "s%n", "")
 //                : String.format("%" + (spaces + 1) + "s%" + spaces + "s", node.getValue(), "")
-                             : String.format("%" + (spaces + 1) + "s%" + spaces + "s", LEFT + node.getData() + RIGHT,
-                                             ""));
+                : String.format("%" + (spaces + 1) + "s%" + spaces + "s", LEFT + node.getData() + RIGHT, ""));
     }
 
     /**
@@ -693,8 +710,7 @@ public enum TreeUtils {
      * @param maxHeight
      * @return
      */
-    public static <E extends Comparable<? super E>> StringBuilder printPrettyTree(Node<E> node, int currentHeight,
-                                                                                  int maxHeight) {
+    public static <E extends Comparable<? super E>> StringBuilder printPrettyTree(Node<E> node, int currentHeight, int maxHeight) {
         final StringBuilder treeBuilder = new StringBuilder();
         int spaces = countSpaces(maxHeight - currentHeight + 1);
         if (Objects.isNull(node)) {
@@ -751,11 +767,31 @@ public enum TreeUtils {
     }
 
     /**
+     * Prints the pretty tree.
+     *
      * @param rootNode
+     * @param showDepth
      * @return
      */
+    public static <E extends Comparable<? super E>> void printPrettyTree(Node<E> rootNode, boolean showDepth) {
+        if (Objects.nonNull(rootNode)) {
+            System.out.println();
+            if (rootNode.isBinary()) {
+                System.out.println(printPrettyTree(rootNode, 0, getHeight(rootNode)));
+            } else {
+                System.out.println(toStringNaryTree(rootNode, showDepth));
+            }
+        }
+    }
+
+    /**
+     * Prints the pretty tree.
+     *
+     * @param rootNode
+     * @param <E>
+     */
     public static <E extends Comparable<? super E>> void printPrettyTree(Node<E> rootNode) {
-        System.out.println("\n" + printPrettyTree(rootNode, 0, maxHeight(rootNode)));
+        printPrettyTree(rootNode, false);
     }
 
     /**
@@ -774,8 +810,7 @@ public enum TreeUtils {
      * @param maxLevel
      * @return
      */
-    public static <E extends Comparable<? super E>> StringBuilder prettyTreeHorizontally(Node<E> node, int minLevel,
-                                                                                         int maxLevel) {
+    public static <E extends Comparable<? super E>> StringBuilder prettyTreeHorizontally(Node<E> node, int minLevel, int maxLevel) {
         StringBuilder treeBuilder = new StringBuilder();
         if (Objects.isNull(node)) {
             return treeBuilder;
@@ -848,11 +883,11 @@ public enum TreeUtils {
      * 			   						   ┌── 8 ──┐
      * </pre>
      *
-     * @param node
-     * @param <E   extends Comparable>
+     * @param rootNode
+     * @param <E       extends Comparable>
      * @return
      */
-    public static <E extends Comparable<? super E>> StringBuilder printPrettyTreeHorizontally(Node<E> node) {
+    public static <E extends Comparable<? super E>> StringBuilder printPrettyTreeHorizontally(Node<E> rootNode) {
         /**
          * <pre>
          *  Conventions:
@@ -893,7 +928,7 @@ public enum TreeUtils {
          * </pre>
          */
         final StringBuilder treeBuilder = new StringBuilder();
-        if (Objects.nonNull(node)) {
+        if (Objects.nonNull(rootNode)) {
             /**
              * <pre>
              *
@@ -914,18 +949,17 @@ public enum TreeUtils {
              *  |4        5  6        7         (Row:8 -> Spaces: L:0,D,S:8,D,S:2,D,S:8,D,:R:0) - C:22
              * </pre>
              */
-            final int maxHeight = maxHeight(node);
+            final int maxHeight = getHeight(rootNode);
             final int totalNodes = (int) Math.pow(2, maxHeight) - 1;
             final int rows = (int) Math.pow(2, maxHeight);
             final int leftSpaces = totalNodes * (maxHeight - 1);
-            LOGGER.debug("maxHeight:{}, totalNodes:{}, rows:{}, leftSpaces:{}", maxHeight, totalNodes, rows,
-                         leftSpaces);
-            List<List<E>> levelOrders = TreeUtils.getLevelOrders(node);
+            LOGGER.debug("maxHeight:{}, totalNodes:{}, rows:{}, leftSpaces:{}", maxHeight, totalNodes, rows, leftSpaces);
+            List<List<E>> levelOrders = TreeUtils.getLevelOrders(rootNode);
             LOGGER.debug("levelOrders:{}", levelOrders);
             for (int level = 0; level < levelOrders.size(); level++) {
                 // for each level order
                 List<E> levelOrder = levelOrders.get(level);
-                // find node value to print
+                // find rootNode value to print
                 for (int k = 0; k < levelOrder.size(); k++) {
                     // print per row left spaces
                     int perRowLeftSpaces = leftSpaces - (2 * level);
@@ -935,14 +969,14 @@ public enum TreeUtils {
                 }
                 System.out.println();
 
-                // find node value to print
+                // find rootNode value to print
                 for (int j = maxHeight; j > level; j--) {
                     System.out.println();
                 }
             }
 
 //            Queue<Node<E>> queue = new LinkedList<>();
-//            queue.add(node);
+//            queue.add(rootNode);
 //            while (!queue.isEmpty()) {
 //                int size = queue.size();
 //                level++;
@@ -1170,8 +1204,7 @@ public enum TreeUtils {
      *
      * @param treeNode
      */
-    public static <E extends Comparable<? super E>> List<E> preOrderChildren(Node<E> treeNode,
-                                                                             boolean includeNullLeafs) {
+    public static <E extends Comparable<? super E>> List<E> preOrderChildren(Node<E> treeNode, boolean includeNullLeafs) {
         LOGGER.debug("+preOrderChildren({}, {})", treeNode, includeNullLeafs);
         List<E> preOrder = new ArrayList<>();
         if (Objects.isNull(treeNode)) {
@@ -1628,8 +1661,7 @@ public enum TreeUtils {
      *  Step 3 − Iterate till the leafs.
      * </pre>
      */
-    public static <E extends Comparable<? super E>> String levelOrderTraversal(Node<E> node,
-                                                                               final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String levelOrderTraversal(Node<E> node, final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1741,8 +1773,7 @@ public enum TreeUtils {
      * @param addBrackets
      * @return
      */
-    public static <E extends Comparable<? super E>> String treeBottomViewTraversal(Node<E> node,
-                                                                                   final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String treeBottomViewTraversal(Node<E> node, final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1793,8 +1824,7 @@ public enum TreeUtils {
      * @param addBrackets
      * @return
      */
-    public static <E extends Comparable<? super E>> String treeLeftViewTraversal(Node<E> node,
-                                                                                 final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String treeLeftViewTraversal(Node<E> node, final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1847,8 +1877,7 @@ public enum TreeUtils {
      * @param addBrackets
      * @return
      */
-    public static <E extends Comparable<? super E>> String treeRightViewTraversal(Node<E> node,
-                                                                                  final boolean addBrackets) {
+    public static <E extends Comparable<? super E>> String treeRightViewTraversal(Node<E> node, final boolean addBrackets) {
         final StringBuilder nodeBuilder = new StringBuilder();
         if (addBrackets) {
             nodeBuilder.append("[");
@@ -1923,7 +1952,7 @@ public enum TreeUtils {
             }
             strBuilder.append(rootNode.getData());
             if (showDepth) {
-                strBuilder.append(" [").append(maxNaryHeight(rootNode)).append("]");
+                strBuilder.append(" [height:").append(getHeight(rootNode)).append(", size:").append(rootNode.getSize()).append(", count:").append(rootNode.getCount()).append("]");
             }
             strBuilder.append(NEW_LINE);
 
@@ -1989,8 +2018,7 @@ public enum TreeUtils {
      * @return
      */
     public static <E extends Comparable<? super E>> BigDecimal getSum(Node<E> node) {
-        return (node == null ? BigDecimal.ZERO : getSum(node.getLeft()).add(getSum(node.getRight()))
-            .add(new BigDecimal(node.getData().toString())));
+        return (node == null ? BigDecimal.ZERO : getSum(node.getLeft()).add(getSum(node.getRight())).add(new BigDecimal(node.getData().toString())));
     }
 
     /**
@@ -2060,8 +2088,7 @@ public enum TreeUtils {
 
         // both nodes are same, check both left and right nodes of these nodes
         if (tree.equals(subTree)) {
-            return (treeContains(tree.getLeft(), subTree.getLeft()) && treeContains(tree.getRight(),
-                                                                                    subTree.getRight()));
+            return (treeContains(tree.getLeft(), subTree.getLeft()) && treeContains(tree.getRight(), subTree.getRight()));
         }
 
         return false;

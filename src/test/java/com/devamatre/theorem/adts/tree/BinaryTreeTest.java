@@ -1,9 +1,5 @@
 package com.devamatre.theorem.adts.tree;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.devamatre.appsuite.core.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +7,8 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The <code>BinaryTree</code> tests.
@@ -42,11 +40,11 @@ public class BinaryTreeTest extends AbstractTreeTest {
     @Test
     public void testBinaryTree() {
         BinaryTree<String> tree = new BinaryTree<>();
-        fillTreeWithPresidents(tree);
-        assertNotNull(tree);
-        assertEquals(9, tree.getSize());
+        fillContinents(tree);
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
-        assertTrue(tree.contains("Jackson"));
+        assertNotNull(tree);
+        assertEquals(15, tree.getSize());
+        assertTrue(tree.contains("India"));
     }
 
     /**

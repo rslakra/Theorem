@@ -1,11 +1,7 @@
 package com.devamatre.theorem.adts.tree;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import com.devamatre.theorem.adts.tree.data.populate.TreeHierarchicalDataPopulator;
-import com.devamatre.theorem.adts.tree.data.populate.TreeHierarchicalType;
+import com.devamatre.theorem.adts.tree.data.loader.TreeHierarchicalDataLoader;
+import com.devamatre.theorem.adts.tree.data.loader.TreeHierarchicalType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -15,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -37,6 +35,7 @@ public class TreeTest extends AbstractTreeTest {
         final Tree<E> tree = new Tree<>();
         fillTree(tree, inputData);
         LOGGER.debug("-buildTree(), tree:{}", tree);
+        tree.printPrettyTree();
         return tree;
     }
 
@@ -46,11 +45,11 @@ public class TreeTest extends AbstractTreeTest {
     @Test
     public void testBuildStringTree() {
         final Tree<String> tree = new Tree<>();
-        fillTreeWithPresidents(tree);
-        assertNotNull(tree);
-        assertEquals(9, tree.getSize());
+        fillContinents(tree);
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
-        assertTrue(tree.contains("Jackson"));
+        assertNotNull(tree);
+        assertEquals(15, tree.getSize());
+        assertTrue(tree.contains("India"));
     }
 
     /**
@@ -118,7 +117,7 @@ public class TreeTest extends AbstractTreeTest {
         inputs.add(new Object[]{TreeHierarchicalType.ANIMAL_HYPOTHETICAL});
         inputs.add(new Object[]{TreeHierarchicalType.CLUSTER});
         inputs.add(new Object[]{TreeHierarchicalType.CONTINENT});
-//        inputs.add(new Object[]{TreeHierarchicalType.NUMERIC});
+        inputs.add(new Object[]{TreeHierarchicalType.OPERATOR});
         inputs.add(new Object[]{TreeHierarchicalType.POLYGON});
         inputs.add(new Object[]{TreeHierarchicalType.WEB_PAGE});
 
@@ -131,10 +130,9 @@ public class TreeTest extends AbstractTreeTest {
     @Test(dataProvider = "treeHierarchicalData")
     public void testTreeHierarchicalStringDataPopulator(TreeHierarchicalType hierarchicalType) {
         Tree<String> tree = new Tree<>();
-        TreeHierarchicalDataPopulator
-            dataPopulator =
-            TreeHierarchicalDataPopulator.createHierarchicalDataPopulator(hierarchicalType);
+        TreeHierarchicalDataLoader dataPopulator = TreeHierarchicalDataLoader.createDataLoader(hierarchicalType);
         dataPopulator.fillHierarchicalData(tree);
+        tree.printPrettyTree();
         LOGGER.debug("tree:{}", tree);
     }
 
@@ -144,9 +142,7 @@ public class TreeTest extends AbstractTreeTest {
     @Test
     public void testTreeHierarchicalNumericDataPopulator() {
         Tree<Integer> tree = new Tree<>();
-        TreeHierarchicalDataPopulator
-            dataPopulator =
-            TreeHierarchicalDataPopulator.createHierarchicalDataPopulator(TreeHierarchicalType.NUMERIC);
+        TreeHierarchicalDataLoader dataPopulator = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataPopulator.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
         tree.printPrettyTree();

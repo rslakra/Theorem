@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.data.populate;
+package com.devamatre.theorem.adts.tree.data.loader;
 
 /**
  * @author Rohtash Lakra
@@ -10,6 +10,7 @@ public enum TreeHierarchicalType {
     CLUSTER,
     CONTINENT,
     NUMERIC,
+    OPERATOR,
     POLYGON,
     WEB_PAGE,
     ;

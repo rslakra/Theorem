@@ -25,7 +25,7 @@ public class PrintPrettyTreeHorizontallyTest extends PrintPrettyTreeTest {
         root.setLeft(new Node<>(2));
         root.setRight(new Node<>(3));
 
-        int maxHeight = TreeUtils.maxHeight(root);
+        int maxHeight = TreeUtils.getHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(2, maxHeight);
 
@@ -35,7 +35,7 @@ public class PrintPrettyTreeHorizontallyTest extends PrintPrettyTreeTest {
 
         // add new node
         root.getLeft().setLeft(new Node<>(4));
-        maxHeight = TreeUtils.maxHeight(root);
+        maxHeight = TreeUtils.getHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(3, maxHeight);
 

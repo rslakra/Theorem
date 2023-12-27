@@ -64,7 +64,7 @@ public class InOrderHandlerTest extends AbstractTreeHandlerTest {
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         assertNotNull(rootNode);
-        assertEquals(inOrderData.length, TreeUtils.getCount(rootNode));
+        assertEquals(inOrderData.length, TreeUtils.countNodes(rootNode));
 
         // treeConverter validation
         Integer[] excludeNullLeafs = treeHandler.treeConverter(rootNode);
@@ -91,7 +91,7 @@ public class InOrderHandlerTest extends AbstractTreeHandlerTest {
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         assertNotNull(rootNode);
-        assertEquals(inOrderData.length, TreeUtils.getCount(rootNode));
+        assertEquals(inOrderData.length, TreeUtils.countNodes(rootNode));
 
         // treeConverter validation
         Integer[] excludeNullLeafs = treeHandler.treeConverter(rootNode);
@@ -125,7 +125,7 @@ public class InOrderHandlerTest extends AbstractTreeHandlerTest {
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         assertNotNull(rootNode);
-        assertEquals(inOrderData.length, TreeUtils.getCount(rootNode));
+        assertEquals(inOrderData.length, TreeUtils.countNodes(rootNode));
 
         // treeConverter validation
         Integer[] excludeNullLeafs = treeHandler.treeConverter(rootNode);
@@ -152,7 +152,7 @@ public class InOrderHandlerTest extends AbstractTreeHandlerTest {
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         assertNotNull(rootNode);
-        assertEquals(inOrderData.length, TreeUtils.getCount(rootNode));
+        assertEquals(inOrderData.length, TreeUtils.countNodes(rootNode));
 
         // treeConverter validation
         Integer[] excludeNullLeafs = treeHandler.treeConverter(rootNode, false);
@@ -186,7 +186,7 @@ public class InOrderHandlerTest extends AbstractTreeHandlerTest {
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         assertNotNull(rootNode);
-        assertEquals(inOrderData.length, TreeUtils.getCount(rootNode));
+        assertEquals(inOrderData.length, TreeUtils.countNodes(rootNode));
 
         Integer[] expected = new Integer[]{-1, 4, -1, 2, -1, 5, -1, 1, -1, 3, -1, 7, -1, 6, -1, 8, -1};
         Integer[] includeNullLeafs = treeHandler.treeConverter(rootNode, true);
@@ -213,7 +213,7 @@ public class InOrderHandlerTest extends AbstractTreeHandlerTest {
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         assertNotNull(rootNode);
-        assertEquals(inOrderData.length, TreeUtils.getCount(rootNode));
+        assertEquals(inOrderData.length, TreeUtils.countNodes(rootNode));
 
         // treeConverter validation
         Integer[] excludeNullLeafs = treeHandler.treeConverter(rootNode);

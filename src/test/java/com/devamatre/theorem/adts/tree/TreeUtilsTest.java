@@ -1,8 +1,5 @@
 package com.devamatre.theorem.adts.tree;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -12,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The <code>TreeUtils</code> tests.
@@ -340,7 +339,7 @@ public class TreeUtilsTest {
         assertNotNull(rootNode);
         TreeUtils.printBinaryTree(rootNode);
 
-        int nodeCount = TreeUtils.getCount(rootNode);
+        int nodeCount = TreeUtils.countNodes(rootNode);
         LOGGER.debug("nodeCount:{}", nodeCount);
         assertEquals(expected, nodeCount);
     }
@@ -403,9 +402,9 @@ public class TreeUtilsTest {
     @Test(dataProvider = "buildNaryTreeData")
     public void testBuildNaryTree(List<Integer> inputData) {
         Node<Integer> rootNode = TreeUtils.buildNaryTree(inputData);
-        assertNotNull(rootNode);
         LOGGER.debug("rootNode:{}, Children:{}", rootNode, rootNode.getChildren().size());
-        LOGGER.debug("rootNode:{}", TreeUtils.toStringNaryTree(rootNode, true));
+        assertNotNull(rootNode);
+        TreeUtils.printPrettyTree(rootNode, true);
     }
 
     /**
@@ -438,7 +437,7 @@ public class TreeUtilsTest {
         final Node<Integer> root = new Node<Integer>(1);
         root.setLeft(new Node<>(2));
         root.setRight(new Node<>(3));
-        int maxHeight = TreeUtils.maxHeight(root);
+        int maxHeight = TreeUtils.getHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(2, maxHeight);
 
@@ -447,7 +446,7 @@ public class TreeUtilsTest {
 
         // add new node
         root.getLeft().setLeft(new Node<>(4));
-        maxHeight = TreeUtils.maxHeight(root);
+        maxHeight = TreeUtils.getHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(3, maxHeight);
 
@@ -464,7 +463,7 @@ public class TreeUtilsTest {
         final Node<Integer> root = new Node<Integer>(1);
         root.setLeft(new Node<>(2));
         root.setRight(new Node<>(3));
-        int maxHeight = TreeUtils.maxHeight(root);
+        int maxHeight = TreeUtils.getHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(2, maxHeight);
 
@@ -473,7 +472,7 @@ public class TreeUtilsTest {
 
         // add new node
         root.getLeft().setLeft(new Node<>(4));
-        maxHeight = TreeUtils.maxHeight(root);
+        maxHeight = TreeUtils.getHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(3, maxHeight);
 
@@ -491,7 +490,7 @@ public class TreeUtilsTest {
         root.setLeft(new Node<>(2));
         root.setRight(new Node<>(3));
 
-        int maxHeight = TreeUtils.maxHeight(root);
+        int maxHeight = TreeUtils.getHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(2, maxHeight);
 
@@ -501,7 +500,7 @@ public class TreeUtilsTest {
 
         // add new node
         root.getLeft().setLeft(new Node<>(4));
-        maxHeight = TreeUtils.maxHeight(root);
+        maxHeight = TreeUtils.getHeight(root);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(3, maxHeight);
 
@@ -517,7 +516,7 @@ public class TreeUtilsTest {
         Node<Integer> treeNode = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
         assertNotNull(treeNode);
         LOGGER.debug("treeNode:{}", treeNode);
-        int maxHeight = TreeUtils.maxHeight(treeNode);
+        int maxHeight = TreeUtils.getHeight(treeNode);
         LOGGER.debug("maxHeight:{}", maxHeight);
         assertEquals(3, maxHeight);
 
@@ -621,7 +620,7 @@ public class TreeUtilsTest {
      * @return
      */
     @DataProvider
-    public Iterator<Object[]> getCountData() {
+    public Iterator<Object[]> countNodesData() {
         List<Object[]> inputs = new ArrayList<>();
         inputs.add(new Object[]{Arrays.asList(1), 1});
         inputs.add(new Object[]{Arrays.asList(1, 2, 3), 3});
@@ -632,17 +631,151 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Test <code>getCount()</code> method.
+     * Test <code>countNodes()</code> method.
      */
-    @Test(dataProvider = "getCountData")
-    public void testGetCount(List<Integer> inputData, Integer expected) {
-        LOGGER.debug("testGetCount({}, {})", inputData, expected);
+    @Test(dataProvider = "countNodesData")
+    public void testCountNodes(List<Integer> inputData, Integer expected) {
+        LOGGER.debug("testCountNodes({}, {})", inputData, expected);
         Node<Integer> treeNode = TreeUtils.buildBinaryTree(inputData);
         assertNotNull(treeNode);
         LOGGER.debug("treeNode:{}", treeNode);
-        int nodeCount = TreeUtils.getCount(treeNode);
+        int nodeCount = TreeUtils.countNodes(treeNode);
         LOGGER.debug("nodeCount:{}", nodeCount);
         assertEquals(expected, nodeCount);
+    }
+
+    /**
+     * Nary-Tree input data and expected results.
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> maxAncestorDepthData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{Arrays.asList(1), 1, 1});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3), 2, 2});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3), 3, 2});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6), 5, 3});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9), 9, 4});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 11, 5});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), 14, 6});
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>maxAncestorDepth()</code> method.
+     */
+    @Test(dataProvider = "maxAncestorDepthData")
+    public void testMaxAncestorDepth(List<Integer> inputData, Integer findWhat, int expected) {
+        LOGGER.debug("testMaxAncestorDepth({}, {})", inputData);
+        Node<Integer> rootNode = TreeUtils.buildNaryTree(inputData);
+        LOGGER.debug("rootNode:{}", rootNode);
+        assertNotNull(rootNode);
+        TreeUtils.printPrettyTree(rootNode);
+        Node<Integer> findNode = rootNode.findNode(findWhat);
+        LOGGER.debug("findNode:{}", findNode);
+        int maxAncestorDepth = TreeUtils.maxAncestorDepth(findNode);
+        LOGGER.debug("maxAncestorDepth:{}", maxAncestorDepth);
+        assertEquals(expected, maxAncestorDepth);
+    }
+
+    /**
+     * Nary-Tree input data and expected results.
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> maxEdgesData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{Arrays.asList(1), 0});
+        inputs.add(new Object[]{Arrays.asList(1, 2), 1});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3), 2});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4), 3});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5), 4});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6), 5});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7), 6});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8), 7});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9), 8});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 9});
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13), 12});
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>maxEdges()</code> method.
+     */
+    @Test(dataProvider = "maxEdgesData")
+    public void testMaxEdges(List<Integer> inputData, int expected) {
+        LOGGER.debug("testMaxEdges({}, {})", inputData);
+        Node<Integer> rootNode = TreeUtils.buildNaryTree(inputData);
+        LOGGER.debug("rootNode:{}", rootNode);
+        assertNotNull(rootNode);
+        TreeUtils.printPrettyTree(rootNode);
+        int maxEdges = TreeUtils.maxEdges(rootNode);
+        LOGGER.debug("maxEdges:{}", maxEdges);
+        assertEquals(expected, maxEdges);
+    }
+
+    /**
+     * Nary-Tree input data and expected results.
+     *
+     * <pre>
+     *  1
+     *  |-- 2
+     *  |   |-- 4
+     *  |   |   |-- 7
+     *  |   |   |   |-- 10
+     *  |   |   |   |   |-- 13
+     *  |   |   |   |   |-- 14
+     *  |   |   |   |   |-- 15
+     *  |   |   |   |-- 11
+     *  |   |   |   |-- 12
+     *  |   |   |-- 8
+     *  |   |   |-- 9
+     *  |   |-- 5
+     *  |   |-- 6
+     *  |-- 3
+     * </pre>
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> getHeightOfNaryTreeData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), 6});
+        return inputs.iterator();
+    }
+
+    /**
+     * Test <code>getHeight()</code> method.
+     * <pre>
+     *  1
+     *  |-- 2
+     *  |   |-- 4
+     *  |   |   |-- 7
+     *  |   |   |   |-- 10
+     *  |   |   |   |   |-- 13
+     *  |   |   |   |   |-- 14
+     *  |   |   |   |   |-- 15
+     *  |   |   |   |-- 11
+     *  |   |   |   |-- 12
+     *  |   |   |-- 8
+     *  |   |   |-- 9
+     *  |   |-- 5
+     *  |   |-- 6
+     *  |-- 3
+     * </pre>
+     */
+    @Test(dataProvider = "getHeightOfNaryTreeData")
+    public void testGetHeightOfNaryTree(List<Integer> inputData, int expected) {
+        LOGGER.debug("testNaryTreeMaxHeight({}, {})", inputData);
+        Node<Integer> rootNode = TreeUtils.buildNaryTree(inputData);
+        LOGGER.debug("rootNode:{}", rootNode);
+        assertNotNull(rootNode);
+        TreeUtils.printPrettyTree(rootNode);
+        int maxHeight = TreeUtils.getHeight(rootNode);
+        LOGGER.debug("maxHeight:{}", maxHeight);
+        assertEquals(expected, maxHeight);
     }
 
     /**

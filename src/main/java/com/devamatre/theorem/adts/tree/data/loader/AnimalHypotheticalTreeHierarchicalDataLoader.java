@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.data.populate;
+package com.devamatre.theorem.adts.tree.data.loader;
 
 import com.devamatre.theorem.adts.tree.AbstractTree;
 import com.devamatre.theorem.adts.tree.Node;
@@ -27,7 +27,7 @@ import com.devamatre.theorem.adts.tree.Node;
  * @author Rohtash Lakra
  * @created 12/21/23 8:43 AM
  */
-public class AnimalHypotheticalTreeHierarchicalDataPopulator implements TreeHierarchicalDataPopulator<String> {
+public class AnimalHypotheticalTreeHierarchicalDataLoader implements TreeHierarchicalDataLoader<String> {
 
     /**
      * Fills the provided <code>tree</code> with the hierarchical data.
@@ -38,12 +38,12 @@ public class AnimalHypotheticalTreeHierarchicalDataPopulator implements TreeHier
     @Override
     public AbstractTree<String> fillHierarchicalData(AbstractTree<String> tree) {
         // add rootNode
-        tree.addNode("Tree of Life");
+        Node<String> rootNode = new Node<>(false, "Tree of Life");
+        tree.addNode(null, rootNode);
 
         // add next level children
-        Node<String> treeOfLife = tree.findNode("Tree of Life");
-        tree.addNode(treeOfLife, "Vertebrates");
-        tree.addNode(treeOfLife, "Seaweed");
+        tree.addNode(rootNode, "Vertebrates");
+        tree.addNode(rootNode, "Seaweed");
 
         // add next level children
         Node<String> vertebrates = tree.findNode("Vertebrates");
