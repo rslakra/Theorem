@@ -222,18 +222,7 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
      */
     @Override
     protected Node<E> findNode(Node<E> rootNode, E data) {
-//        return (Objects.isNull(rootNode) ? null : rootNode.findNode(data));
-        if (Objects.nonNull(rootNode)) {
-            if (rootNode.isEquals(data)) {
-                return rootNode;
-            } else if (rootNode.isGreaterThan(data)) {
-                return findNode(rootNode.getLeft(), data);
-            } else if (rootNode.isLessThan(data)) {
-                return findNode(rootNode.getRight(), data);
-            }
-        }
-
-        return null;
+        return (Objects.isNull(rootNode) ? null : rootNode.findNode(data));
     }
 
     /**
