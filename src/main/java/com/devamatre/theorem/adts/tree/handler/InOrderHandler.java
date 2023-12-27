@@ -172,7 +172,6 @@ public class InOrderHandler<E extends Comparable<? super E>> extends AbstractTre
      */
     @Override
     public E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
-//        List<E> data = TreeUtils.inOrder(rootNode, includeNullLeafs);
         TreeTraversal treeTraverser = TreeTraversal.treeTraverser(getTraversalMode(), rootNode);
         List<E> data = treeTraverser.traverse(treeType, includeNullLeafs);
         ArrayUtils.replaceNullWithMinus(data);

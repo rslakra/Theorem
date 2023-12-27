@@ -13,7 +13,7 @@ import com.devamatre.theorem.adts.tree.Node;
  * |   |   |-- 24
  * |   |   |   |-- 23
  * |   |   |-- 29
- * |   |   |   |-- 24
+ * |   |   |   |-- 26
  * |   |-- 25
  * |-- 10
  * |   |-- 6
@@ -79,7 +79,7 @@ public class NumericTreeHierarchicalDataLoader implements TreeHierarchicalDataLo
         tree.addNode(twentyFour, 23);
         Node<Integer> twentyNine = new Node<>(29);
         tree.addNode(twentyEight, twentyNine);
-        tree.addNode(twentyNine, 24);
+        tree.addNode(twentyNine, 26);
 
         // add next level children
         Node<Integer> six = new Node<>(6);

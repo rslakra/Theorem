@@ -447,6 +447,6 @@ public class NodeTest {
         tree.addNode(lakraNode, singhTree);
         assertEquals(6, tree.getSize());
         LOGGER.debug("tree:{}", tree);
-        tree.printPrettyTree();
+        tree.printPrettyTree(false);
     }
 }

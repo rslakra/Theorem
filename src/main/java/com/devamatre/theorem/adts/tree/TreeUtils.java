@@ -770,16 +770,16 @@ public enum TreeUtils {
      * Prints the pretty tree.
      *
      * @param rootNode
-     * @param showDepth
+     * @param showDetails
      * @return
      */
-    public static <E extends Comparable<? super E>> void printPrettyTree(Node<E> rootNode, boolean showDepth) {
+    public static <E extends Comparable<? super E>> void printPrettyTree(Node<E> rootNode, boolean showDetails) {
         if (Objects.nonNull(rootNode)) {
             System.out.println();
             if (rootNode.isBinary()) {
                 System.out.println(printPrettyTree(rootNode, 0, getHeight(rootNode)));
             } else {
-                System.out.println(toStringNaryTree(rootNode, showDepth));
+                System.out.println(toStringNaryTree(rootNode, showDetails));
             }
         }
     }

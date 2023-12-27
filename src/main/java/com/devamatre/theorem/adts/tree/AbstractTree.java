@@ -261,7 +261,6 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
 //            size = treeHandler.getSize();
 //        }
 //    }
-//
 
     /**
      * Returns the node of the provided <code>data</code> if exists in the tree otherwise null. It finds the node using
@@ -467,8 +466,8 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
     /**
      * Prints the pretty tree.
      */
-    public void printPrettyTree() {
-        TreeUtils.printPrettyTree(getRoot());
+    public void printPrettyTree(boolean showDetails) {
+        TreeUtils.printPrettyTree(getRoot(), showDetails);
     }
 
     /**

@@ -68,9 +68,9 @@ public abstract class AbstractTreeTest {
      */
     public AbstractTree<String> fillContinents(AbstractTree<String> tree) {
         LOGGER.debug("+fillContinents({})", tree);
-        TreeHierarchicalDataLoader dataPopulator = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.CONTINENT);
-        dataPopulator.fillHierarchicalData(tree);
-        tree.printPrettyTree();
+        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.CONTINENT);
+        dataLoader.fillHierarchicalData(tree);
+        tree.printPrettyTree(false);
         LOGGER.debug("-fillContinents(), tree:{}", tree);
         return tree;
     }
@@ -150,6 +150,13 @@ public abstract class AbstractTreeTest {
      * Tests <code>addNode()</code> method.
      */
     public void testAddNode() {
+
+    }
+
+    /**
+     * Tests <code>addNode()</code> method.
+     */
+    public void testRemoveNode() {
 
     }
 

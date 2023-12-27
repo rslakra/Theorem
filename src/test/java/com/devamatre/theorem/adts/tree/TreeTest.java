@@ -35,7 +35,7 @@ public class TreeTest extends AbstractTreeTest {
         final Tree<E> tree = new Tree<>();
         fillTree(tree, inputData);
         LOGGER.debug("-buildTree(), tree:{}", tree);
-        tree.printPrettyTree();
+        tree.printPrettyTree(false);
         return tree;
     }
 
@@ -106,6 +106,86 @@ public class TreeTest extends AbstractTreeTest {
         assertPreOrderTree(tree, new Integer[]{1, 2, 3});
     }
 
+    /**
+     * Tests <code>removeNode()</code> method.
+     */
+    @Test
+    @Override
+    public void testRemoveNode() {
+        Tree<Integer> tree = new Tree<>();
+        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        dataLoader.fillHierarchicalData(tree);
+        LOGGER.debug("tree:{}", tree);
+        tree.printPrettyTree(false);
+        assertNotNull(tree);
+        assertEquals(34, tree.getSize());
+
+        // remove node
+        boolean result = tree.removeNode(26);
+        assertTrue(result);
+        tree.printPrettyTree(false);
+        assertEquals(33, tree.getSize());
+    }
+
+    /**
+     * Tests <code>removeNode()</code> method.
+     */
+    @Test
+    public void testRemoveNodeWithNoChildren() {
+        Tree<Integer> tree = new Tree<>();
+        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        dataLoader.fillHierarchicalData(tree);
+        LOGGER.debug("tree:{}", tree);
+        tree.printPrettyTree(false);
+        assertNotNull(tree);
+        assertEquals(34, tree.getSize());
+
+        // remove node
+        boolean result = tree.removeNode(26);
+        assertTrue(result);
+        tree.printPrettyTree(false);
+        assertEquals(33, tree.getSize());
+    }
+
+    /**
+     * Tests <code>removeNode()</code> method.
+     */
+    @Test
+    public void testRemoveNodeWithChildren() {
+        Tree<Integer> tree = new Tree<>();
+        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        dataLoader.fillHierarchicalData(tree);
+        LOGGER.debug("tree:{}", tree);
+        tree.printPrettyTree(true);
+        assertNotNull(tree);
+        assertEquals(34, tree.getSize());
+
+        // remove node
+        boolean result = tree.removeNode(28);
+        assertTrue(result);
+        tree.printPrettyTree(true);
+        assertEquals(33, tree.getSize());
+    }
+
+    /**
+     * Tests <code>removeNode()</code> method.
+     */
+    @Test
+    public void testRemoveNodeRootNode() {
+        Tree<Integer> tree = new Tree<>();
+        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        dataLoader.fillHierarchicalData(tree);
+        LOGGER.debug("tree:{}", tree);
+        tree.printPrettyTree(false);
+        assertNotNull(tree);
+        assertEquals(34, tree.getSize());
+
+        // remove node
+        boolean result = tree.removeNode(50);
+        tree.printPrettyTree(false);
+        assertTrue(result);
+        assertEquals(33, tree.getSize());
+    }
 
     /**
      * @return
@@ -128,11 +208,11 @@ public class TreeTest extends AbstractTreeTest {
      * Tests the <code>fillHierarchicalData()</code> method.
      */
     @Test(dataProvider = "treeHierarchicalData")
-    public void testTreeHierarchicalStringDataPopulator(TreeHierarchicalType hierarchicalType) {
+    public void testTreeHierarchicalStringDataLoader(TreeHierarchicalType hierarchicalType) {
         Tree<String> tree = new Tree<>();
-        TreeHierarchicalDataLoader dataPopulator = TreeHierarchicalDataLoader.createDataLoader(hierarchicalType);
-        dataPopulator.fillHierarchicalData(tree);
-        tree.printPrettyTree();
+        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(hierarchicalType);
+        dataLoader.fillHierarchicalData(tree);
+        tree.printPrettyTree(false);
         LOGGER.debug("tree:{}", tree);
     }
 
@@ -140,12 +220,12 @@ public class TreeTest extends AbstractTreeTest {
      * Tests the <code>fillHierarchicalData()</code> method.
      */
     @Test
-    public void testTreeHierarchicalNumericDataPopulator() {
+    public void testTreeHierarchicalNumericDataLoader() {
         Tree<Integer> tree = new Tree<>();
-        TreeHierarchicalDataLoader dataPopulator = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
-        dataPopulator.fillHierarchicalData(tree);
+        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
-        tree.printPrettyTree();
+        tree.printPrettyTree(false);
         tree.preOrderTraversal();
     }
 

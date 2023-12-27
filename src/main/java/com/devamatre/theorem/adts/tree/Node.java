@@ -416,9 +416,7 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     protected void addNode(Node<E> rootNode) {
         LOGGER.debug("+addNode({})", rootNode);
         if (Objects.nonNull(rootNode)) {
-            if (!rootNode.hasParent()) {
-                rootNode.setParent(this);
-            }
+            rootNode.setParent(this);
 
             // binary & nary handling
             if (!isBinary()) {
@@ -489,6 +487,22 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      */
     protected Node<E> findNode(E data) {
         return findNode(this, data);
+    }
+
+    /**
+     * Decreases the size of <code>rootNode</code> and let the parent know it's size.
+     *
+     * @param rootNode
+     * @return
+     */
+    protected void decreaseParentSize(Node<E> rootNode, int newSize) {
+        LOGGER.debug("+decreaseParentSize({}, {})", rootNode, newSize);
+        if (Objects.nonNull(rootNode)) {
+            rootNode.decreaseSize(newSize);
+            rootNode.logNode();
+            decreaseParentSize(rootNode.getParent(), newSize);
+        }
+        LOGGER.debug("-decreaseParentSize(), rootNode:{}", rootNode);
     }
 
     /**

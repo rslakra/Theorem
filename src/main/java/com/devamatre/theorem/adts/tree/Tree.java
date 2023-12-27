@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
 
@@ -272,9 +273,58 @@ public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
      */
     @Override
     public boolean removeNode(Node<E> rootNode, E data) {
-        Node<E> nodeFound = findNode(rootNode, data);
-//        return Objects.nonNull(nodeFound);
-        return false;
+        boolean nodeRemoved = false;
+        // node to be removed
+        Node<E> deleteNode = findNode(rootNode, data);
+        // node found, remove it
+        if (Objects.nonNull(deleteNode)) {
+            // it's nary tree, then only remove the node.
+            if (!deleteNode.isBinary()) {
+                // if parentNode is null, means it's root node that needs to remove.
+                if (Objects.isNull(deleteNode.getParent())) {
+                    Node<E> newRootNode = null;
+                    // check node has the children
+                    if (deleteNode.hasChildren()) {
+                        // get first child as the next rootNode
+                        newRootNode = deleteNode.getChildren().remove(0);
+                        nodeRemoved = Objects.nonNull(newRootNode);
+                        newRootNode.decreaseParentSize(newRootNode, deleteNode.getSize());
+                        // add all children to the parent node
+                        List<Node<E>> children = deleteNode.getChildren();
+                        for (Node<E> childNode : children) {
+                            addNode(newRootNode, childNode);
+                        }
+                    }
+
+                    // set new child node as the root node
+                    setRoot(newRootNode);
+                } else if (deleteNode.getChildren().size() == 0) {  // has no child
+                    Node<E> parentNode = deleteNode.getParent();
+                    nodeRemoved = parentNode.getChildren().remove(deleteNode);
+                    parentNode.decreaseParentSize(parentNode, 1);
+                } else if (deleteNode.getChildren().size() > 0) { // has children
+                    Node<E> parentNode = deleteNode.getParent();
+                    // remove the node first
+                    nodeRemoved = parentNode.getChildren().remove(deleteNode);
+                    parentNode.decreaseParentSize(parentNode, deleteNode.getSize());
+                    // add all children to the parent node
+                    List<Node<E>> children = deleteNode.getChildren();
+                    for (Node<E> childNode : children) {
+                        addNode(parentNode, childNode);
+                    }
+                }
+
+                // remove the link with all nodes.
+                deleteNode.setParent(null);
+            }
+        }
+
+        // update the tree size
+        if (nodeRemoved) {
+            setSize(getRoot().getSize());
+        }
+
+        return nodeRemoved;
     }
 
     /**
@@ -334,11 +384,4 @@ public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
         return sBuilder.append("]").toString();
     }
 
-    /**
-     *
-     */
-    @Override
-    public void printPrettyTree() {
-        TreeUtils.printPrettyTree(getRoot(), true);
-    }
 }

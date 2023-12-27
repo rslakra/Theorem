@@ -11,8 +11,15 @@ public enum TraversalMode {
     /**
      * DFS - Visits the current node after visiting all nodes inside the left subtree, but before visiting any node
      * within the right subtree.
-     *
-     * <pre>(LeftNode -> RootNode -> RightNode)</pre>
+     * <p>
+     * Traverses a tree in an in-order (LEFT-ROOT-RIGHT) manner.
+     * <p>
+     * Until all nodes are traversed:
+     * <pre>
+     * Step 1 − Recursively traverse left subtree.
+     * Step 2 − Visit root node.
+     * Step 3 − Recursively traverse right subtree.
+     * </pre>
      */
     IN_ORDER_TRAVERSAL,
 
