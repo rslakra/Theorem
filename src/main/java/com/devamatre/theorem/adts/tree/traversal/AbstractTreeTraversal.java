@@ -79,11 +79,10 @@ public abstract class AbstractTreeTraversal<E extends Comparable<? super E>> imp
      * Traverses the tree in the <code>TraversalMode</code> traversal.
      *
      * @param rootNode
-     * @param treeType
      * @param includeNullLeafs
      * @return
      */
-    public abstract List<Node<E>> traverseNodes(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs);
+    public abstract List<Node<E>> traverseNodes(Node<E> rootNode, boolean includeNullLeafs);
 
     /**
      * Traverses the <code>treeType</code> tree with the provided <code>includeNullLeafs</code> in the
@@ -94,13 +93,12 @@ public abstract class AbstractTreeTraversal<E extends Comparable<? super E>> imp
      *  Space Complexity: <code>O(N)</code>
      * </pre>
      *
-     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public List<Node<E>> traverseNodes(TreeType treeType, boolean includeNullLeafs) {
-        return traverseNodes(rootNode, treeType, includeNullLeafs);
+    public List<Node<E>> traverseNodes(boolean includeNullLeafs) {
+        return traverseNodes(rootNode, includeNullLeafs);
     }
 
     /**
@@ -110,6 +108,6 @@ public abstract class AbstractTreeTraversal<E extends Comparable<? super E>> imp
      */
     @Override
     public String toString() {
-        return traverseNodes(TreeType.BINARY, false).toString();
+        return traverseNodes(false).toString();
     }
 }

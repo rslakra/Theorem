@@ -5,8 +5,8 @@ import com.devamatre.theorem.adts.Maths;
 import com.devamatre.theorem.adts.array.ArrayUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
+import com.devamatre.theorem.adts.tree.TreeFactory;
 import com.devamatre.theorem.adts.tree.TreeTraversal;
-import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.List;
 
@@ -72,15 +72,13 @@ public class PreOrderHandler<E extends Comparable<? super E>> extends AbstractTr
      * set to be true, the leafs with null included in the results.
      *
      * @param rootNode
-     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
-//        List<E> data = TreeUtils.preOrder(rootNode, includeNullLeafs);
-        TreeTraversal treeTraverser = TreeTraversal.treeTraverser(getTraversalMode(), rootNode);
-        List<E> data = treeTraverser.traverse(treeType, includeNullLeafs);
+    public E[] treeConverter(Node<E> rootNode, boolean includeNullLeafs) {
+        TreeTraversal treeTraverser = TreeFactory.treeTraverser(rootNode, getTraversalMode());
+        List<E> data = treeTraverser.traverse(includeNullLeafs);
         ArrayUtils.replaceNullWithMinus(data);
         return ArrayUtils.toIntArray(data);
     }

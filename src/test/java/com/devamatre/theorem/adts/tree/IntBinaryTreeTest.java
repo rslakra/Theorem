@@ -1,9 +1,5 @@
 package com.devamatre.theorem.adts.tree;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
 import com.devamatre.appsuite.core.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +8,10 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 
 /**
  * @author Rohtash Lakra
@@ -128,15 +128,12 @@ public class IntBinaryTreeTest extends AbstractTreeTest {
         // validate preOrderTraversal
         LOGGER.debug("preOrderTraversal ...");
 //        String preOrderTraversal = tree.preOrderTraversal(true);
-        TreeTraversal<Integer>
-            treeTraversal =
-            TreeTraversal.treeTraverser(TraversalMode.PRE_ORDER_TRAVERSAL, tree.getRoot());
+        TreeTraversal<Integer> treeTraversal = TreeFactory.treeTraverser(tree.getRoot(), TraversalMode.PRE_ORDER_TRAVERSAL);
         LOGGER.debug("treeTraversal:{}", treeTraversal);
-        List<Integer> preOrderTraversal = treeTraversal.traverse(TreeType.BINARY, false);
+        List<Integer> preOrderTraversal = treeTraversal.traverse(false);
         LOGGER.debug("preOrderTraversal:{}", preOrderTraversal);
         assertNotNull(preOrderTraversal);
-        assertEquals("[50, 50, 21, 21, 4, 4, 3, 3, 16, 16, 32, 32, 76, 64, 52, 100, 102]",
-                     preOrderTraversal.toString());
+        assertEquals("[50, 50, 21, 21, 4, 4, 3, 3, 16, 16, 32, 32, 76, 64, 52, 100, 102]", preOrderTraversal.toString());
         System.out.println();
 
         LOGGER.debug("preOrderIterator ...");
@@ -146,9 +143,7 @@ public class IntBinaryTreeTest extends AbstractTreeTest {
 
         // validate inOrderTraversal
         LOGGER.debug("inOrderTraversal ...");
-        treeTraversal = TreeTraversal.treeTraverser(TraversalMode.IN_ORDER_TRAVERSAL, tree.getRoot());
-        LOGGER.debug("treeTraversal:{}", treeTraversal);
-        List<Integer> inOrderTraversal = treeTraversal.traverse(TreeType.BINARY, false);
+        List<Integer> inOrderTraversal = tree.inOrderTraversal();
         LOGGER.debug("inOrderTraversal:{}", inOrderTraversal);
 //        tree.inOrderTraversal();
 
@@ -159,9 +154,7 @@ public class IntBinaryTreeTest extends AbstractTreeTest {
 
         // validate inOrderTraversal
         LOGGER.debug("postOrderTraversal ...");
-        treeTraversal = TreeTraversal.treeTraverser(TraversalMode.POST_ORDER_TRAVERSAL, tree.getRoot());
-        LOGGER.debug("treeTraversal:{}", treeTraversal);
-        List<Integer> postOrderTraversal = treeTraversal.traverse(TreeType.BINARY, false);
+        List<Integer> postOrderTraversal = tree.postOrderTraversal();
         LOGGER.debug("postOrderTraversal:{}", postOrderTraversal);
 //        tree.postOrderTraversal();
 

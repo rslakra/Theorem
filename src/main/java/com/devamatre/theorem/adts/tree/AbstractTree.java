@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -203,39 +204,6 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
 
         return newNode;
     }
-
-//    protected Node<E> addNode(Node<E> root, E data) {
-//        LOGGER.debug("+addNode({}, {})", root, data);
-//        // Case 1: The tree is empty - create the root node.
-//        if (Objects.isNull(root)) {
-//            root = new Node<>(data);
-//            increaseSize();
-//        } else if (root.isLessThan(data)) {
-//            /* Case 2: The tree is not empty, and the root's data < data, then add data as right child.*/
-//            root.setRight(addNode(root.getRight(), data));
-//        } else if (root.isGreaterThan(data)) {
-//            /* Case 3: The tree is not empty, and the root's data > data, then add data as left child.*/
-//            root.setLeft(addNode(root.getLeft(), data));
-//        } else {
-//            /* Case 4: The tree is not empty, and the root's data == data, and the tree allow duplicates, just increase the count.*/
-//            if (isAllowDuplicates()) {
-//                /**
-//                 * Case 4: Handling duplicates and binary tree allows duplicates, just increase the count.
-//                 * Duplicate values creates complexity and need to handle separately at multiple levels like:
-//                 * 1. removing the nodes.
-//                 * 2. counting the nodes, etc.
-//                 */
-//                if (isAllowDuplicates() && root.isEquals(data)) {
-//                    root.increaseCount();
-//                    increaseSize();
-//                }
-//            }
-//        }
-//
-//        LOGGER.debug("-addNode(), root:{}", root);
-//        return root;
-//    }
-
 
     /**
      * Adds the <code>data</code> node to the <code>root</code> node at its respective position.
@@ -613,10 +581,10 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * Note that right child is pushed first so that left child is processed first.
      * </pre>
      */
-    public void preOrderTraversal() {
-        TreeTraversal<E> treeTraversal = TreeTraversal.treeTraverser(TraversalMode.PRE_ORDER_TRAVERSAL, getRoot());
-        LOGGER.debug("{}", treeTraversal.traverse(TreeType.BINARY, false));
-//        LOGGER.debug(TreeUtils.preOrderTraversal(root, true));
+    public List<E> preOrderTraversal() {
+        TreeTraversal<E> treeTraversal = TreeFactory.treeTraverser(getRoot(), TraversalMode.PRE_ORDER_TRAVERSAL);
+        List<E> preOrderTraversal = treeTraversal.traverse(false);
+        return preOrderTraversal;
     }
 
     /**
@@ -629,8 +597,10 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * Step 3 − Recursively traverse right subtree.
      * </pre>
      */
-    public void inOrderTraversal() {
-//        LOGGER.debug(TreeUtils.inOrderTraversal(root, true));
+    public List<E> inOrderTraversal() {
+        TreeTraversal<E> treeTraversal = TreeFactory.treeTraverser(getRoot(), TraversalMode.IN_ORDER_TRAVERSAL);
+        List<E> preOrderTraversal = treeTraversal.traverse(false);
+        return preOrderTraversal;
     }
 
     /**
@@ -643,43 +613,64 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * Step 3 − Visit root node.
      * </pre>
      */
-    public void postOrderTraversal() {
-//        LOGGER.debug(TreeUtils.postOrderTraversal(root, true));
+    public List<E> postOrderTraversal() {
+        TreeTraversal<E> treeTraversal = TreeFactory.treeTraverser(getRoot(), TraversalMode.POST_ORDER_TRAVERSAL);
+        List<E> preOrderTraversal = treeTraversal.traverse(false);
+        return preOrderTraversal;
     }
 
     /**
      * Prints the level order traversal order manner.
+     * Traverses a tree in the level order manner, like:
+     * <pre>
+     *  Level 0 (Root Level)
+     *  Level n-1 (Child Level)
+     *  Level n (Leaf Level)
+     * </pre>
+     * <p>
+     * Until all nodes are traversed:
+     * <pre>
+     * Step 1 − Visit root node.
+     * Step 2 − Traverse root.
+     * Step 3 − Traverse next level children
+     * </pre>
      */
-    public void levelOrderTraversal() {
-//        LOGGER.debug(TreeUtils.levelOrderTraversal(root, true));
+    public List<E> levelOrderTraversal() {
+        TreeTraversal<E> treeTraversal = TreeFactory.treeTraverser(getRoot(), TraversalMode.LEVEL_ORDER_TRAVERSAL);
+        List<E> preOrderTraversal = treeTraversal.traverse(false);
+        return preOrderTraversal;
     }
 
     /**
      * @return
      */
-    public void treeViewTraversal() {
+    public List<E> treeViewTraversal() {
 //        LOGGER.debug(TreeUtils.treeViewTraversal(root, true));
+        return null;
     }
 
     /**
      * @return
      */
-    public void treeBottomViewTraversal() {
+    public List<E> treeBottomViewTraversal() {
 //        LOGGER.debug(TreeUtils.treeBottomViewTraversal(root, true));
+        return null;
     }
 
     /**
      * @return
      */
-    public void treeLeftViewTraversal() {
+    public List<E> treeLeftViewTraversal() {
 //        LOGGER.debug(TreeUtils.treeLeftViewTraversal(root, true));
+        return null;
     }
 
     /**
      * @return
      */
-    public void treeRightViewTraversal() {
+    public List<E> treeRightViewTraversal() {
 //        LOGGER.debug(TreeUtils.treeRightViewTraversal(root, true));
+        return null;
     }
 
 }

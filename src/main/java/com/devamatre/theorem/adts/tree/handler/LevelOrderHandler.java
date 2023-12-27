@@ -2,7 +2,6 @@ package com.devamatre.theorem.adts.tree.handler;
 
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
-import com.devamatre.theorem.adts.tree.TreeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,12 +26,11 @@ public class LevelOrderHandler<E extends Comparable<? super E>> extends Abstract
      * set to be true, the leafs with null included in the results.
      *
      * @param rootNode
-     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
+    public E[] treeConverter(Node<E> rootNode, boolean includeNullLeafs) {
         return null;
     }
 }

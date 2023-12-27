@@ -1,12 +1,8 @@
 package com.devamatre.theorem.adts.tree.traversal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeTraversal;
-import com.devamatre.theorem.adts.tree.TreeType;
 import com.devamatre.theorem.adts.tree.TreeUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -14,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -62,14 +60,14 @@ public class InOrderTraversalTest extends AbstractTreeTraversalTest {
         LOGGER.debug("treeTraversal:{}", treeTraversal);
         assertNotNull(treeTraversal);
 
-        List<Node<Integer>> treeNodesTraversal = treeTraversal.traverseNodes(TreeType.NARY, false);
+        List<Node<Integer>> treeNodesTraversal = treeTraversal.traverseNodes(false);
         LOGGER.debug("treeNodesTraversal:{}", treeNodesTraversal);
         assertNotNull(treeNodesTraversal);
         assertEquals(8, treeNodesTraversal.size());
 
         // treeTraversal validation
         List<Integer> expectedResults = Arrays.asList(8, 1, 2, 3, 4, 7, 5, 6);
-        List<Integer> treeTraversalResults = treeTraversal.traverse(TreeType.NARY, false);
+        List<Integer> treeTraversalResults = treeTraversal.traverse(false);
         LOGGER.debug("treeTraversalResults:{}", treeTraversalResults);
         assertNotNull(treeTraversalResults);
         assertEquals(expectedResults.size(), treeTraversalResults.size());
@@ -88,7 +86,7 @@ public class InOrderTraversalTest extends AbstractTreeTraversalTest {
 
         // treeTraversal validation
         List<Integer> expectedResults = Arrays.asList(8, 1, 2, 3, 4, 7, 5, 6);
-        List<Integer> treeTraversalResults = treeTraversal.traverse(TreeType.NARY, false);
+        List<Integer> treeTraversalResults = treeTraversal.traverse(false);
         LOGGER.debug("treeTraversalResults:{}", treeTraversalResults);
         assertNotNull(treeTraversalResults);
         assertEquals(expectedResults.size(), treeTraversalResults.size());

@@ -3,8 +3,8 @@ package com.devamatre.theorem.adts.tree.handler;
 import com.devamatre.theorem.adts.array.ArrayUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
+import com.devamatre.theorem.adts.tree.TreeFactory;
 import com.devamatre.theorem.adts.tree.TreeTraversal;
-import com.devamatre.theorem.adts.tree.TreeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -166,14 +166,13 @@ public class InOrderHandler<E extends Comparable<? super E>> extends AbstractTre
      * set to be true, the leafs with null included in the results.
      *
      * @param rootNode
-     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
-        TreeTraversal treeTraverser = TreeTraversal.treeTraverser(getTraversalMode(), rootNode);
-        List<E> data = treeTraverser.traverse(treeType, includeNullLeafs);
+    public E[] treeConverter(Node<E> rootNode, boolean includeNullLeafs) {
+        TreeTraversal treeTraverser = TreeFactory.treeTraverser(rootNode, getTraversalMode());
+        List<E> data = treeTraverser.traverse(includeNullLeafs);
         ArrayUtils.replaceNullWithMinus(data);
         return ArrayUtils.toIntArray(data);
     }

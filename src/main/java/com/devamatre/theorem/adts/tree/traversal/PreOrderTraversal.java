@@ -3,7 +3,6 @@ package com.devamatre.theorem.adts.tree.traversal;
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
-import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,27 +61,26 @@ public class PreOrderTraversal<E extends Comparable<? super E>> extends Abstract
      * i.e: [1, 2, 4, 5, 3, 6, 7]
      *
      * @param rootNode
-     * @param treeType
      * @param includeNullLeafs
      * @return
      */
-    public List<Node<E>> traverseNodes(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
+    public List<Node<E>> traverseNodes(Node<E> rootNode, boolean includeNullLeafs) {
         List<Node<E>> preOrder = new ArrayList<>();
         if (BeanUtils.isNull(rootNode)) {
             if (includeNullLeafs) {
                 preOrder.add(null);
             }
         } else {
-            if (TreeType.BINARY == treeType) {
+            if (rootNode.isBinary()) {
                 for (int i = 0; i < rootNode.getCount(); i++) {
                     preOrder.add(rootNode);
                 }
-                preOrder.addAll(traverseNodes(rootNode.getLeft(), treeType, includeNullLeafs));
-                preOrder.addAll(traverseNodes(rootNode.getRight(), treeType, includeNullLeafs));
+                preOrder.addAll(traverseNodes(rootNode.getLeft(), includeNullLeafs));
+                preOrder.addAll(traverseNodes(rootNode.getRight(), includeNullLeafs));
             } else {
                 preOrder.add(rootNode);
                 for (Node<E> childNode : rootNode.getChildren()) {
-                    preOrder.addAll(traverseNodes(childNode, treeType, includeNullLeafs));
+                    preOrder.addAll(traverseNodes(childNode, includeNullLeafs));
                 }
             }
         }

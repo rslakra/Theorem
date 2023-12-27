@@ -4,8 +4,8 @@ import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.array.ArrayUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
+import com.devamatre.theorem.adts.tree.TreeFactory;
 import com.devamatre.theorem.adts.tree.TreeTraversal;
-import com.devamatre.theorem.adts.tree.TreeType;
 import com.devamatre.theorem.adts.tree.TreeUtils;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class PostOrderHandler<E extends Comparable<? super E>> extends AbstractT
         } else if (BeanUtils.isEmpty(postOrderData[index])) { // is null/empty data
             return null;
         } else if (BeanUtils.isKindOf(postOrderData[index], Integer.class)
-                   && ((Integer) postOrderData[index]).intValue() == -1) { // is data -1 integer.
+                && ((Integer) postOrderData[index]).intValue() == -1) { // is data -1 integer.
             return null;
         }
         Node<E> newNode = new Node<>(postOrderData[index]);
@@ -66,15 +66,13 @@ public class PostOrderHandler<E extends Comparable<? super E>> extends AbstractT
      * set to be true, the leafs with null included in the results.
      *
      * @param rootNode
-     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
-//        List<E> data = TreeUtils.postOrder(rootNode, includeNullLeafs);
-        TreeTraversal treeTraverser = TreeTraversal.treeTraverser(getTraversalMode(), rootNode);
-        List<E> data = treeTraverser.traverse(treeType, includeNullLeafs);
+    public E[] treeConverter(Node<E> rootNode, boolean includeNullLeafs) {
+        TreeTraversal treeTraverser = TreeFactory.treeTraverser(rootNode, getTraversalMode());
+        List<E> data = treeTraverser.traverse(includeNullLeafs);
         ArrayUtils.replaceNullWithMinus(data);
         return ArrayUtils.toIntArray(data);
     }

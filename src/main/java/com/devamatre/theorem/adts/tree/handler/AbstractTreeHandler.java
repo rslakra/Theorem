@@ -3,7 +3,6 @@ package com.devamatre.theorem.adts.tree.handler;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeHandler;
-import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,36 +104,11 @@ public abstract class AbstractTreeHandler<E extends Comparable<? super E>> imple
      * set to be true, the leafs with null included in the results.
      *
      * @param rootNode
-     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public abstract E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs);
-
-    /**
-     * Converts the <code>rootNode</code> into an array of <code>E</code> type.
-     *
-     * @param rootNode
-     * @param treeType
-     * @return
-     */
-    @Override
-    public E[] treeConverter(Node<E> rootNode, TreeType treeType) {
-        return treeConverter(rootNode, treeType, false);
-    }
-
-    /**
-     * Converts the <code>rootNode</code> into an array of <code>E</code> type.
-     *
-     * @param rootNode
-     * @param includeNullLeafs
-     * @return
-     */
-    @Override
-    public E[] treeConverter(Node<E> rootNode, boolean includeNullLeafs) {
-        return treeConverter(rootNode, TreeType.BINARY, includeNullLeafs);
-    }
+    public abstract E[] treeConverter(Node<E> rootNode, boolean includeNullLeafs);
 
     /**
      * Converts the <code>rootNode</code> into an array of <code>E</code> type.
@@ -144,6 +118,7 @@ public abstract class AbstractTreeHandler<E extends Comparable<? super E>> imple
      */
     @Override
     public E[] treeConverter(Node<E> rootNode) {
-        return treeConverter(rootNode, TreeType.BINARY, false);
+        return treeConverter(rootNode, false);
     }
+
 }

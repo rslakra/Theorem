@@ -2,7 +2,6 @@ package com.devamatre.theorem.adts.tree.traversal;
 
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
-import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -48,12 +47,11 @@ public class LevelOrderTraversal<E extends Comparable<? super E>> extends Abstra
      * Traverses the tree in the <code>TraversalMode</code> traversal.
      *
      * @param rootNode
-     * @param treeType
      * @param includeNullLeafs
      * @return
      */
     @Override
-    public List<Node<E>> traverseNodes(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs) {
+    public List<Node<E>> traverseNodes(Node<E> rootNode, boolean includeNullLeafs) {
         List<Node<E>> levelOrder = new ArrayList<>();
         if (Objects.nonNull(rootNode)) {
             Queue<Node<E>> queue = new LinkedList<>();

@@ -34,25 +34,6 @@ public interface TreeHandler<E extends Comparable<? super E>> {
      * set to be true, the leafs with null included in the results.
      *
      * @param rootNode
-     * @param treeType
-     * @param includeNullLeafs
-     * @return
-     */
-    E[] treeConverter(Node<E> rootNode, TreeType treeType, boolean includeNullLeafs);
-
-    /**
-     * Converts the <code>rootNode</code> into an array of <code>E</code> type.
-     *
-     * @param rootNode
-     * @param treeType
-     * @return
-     */
-    E[] treeConverter(Node<E> rootNode, TreeType treeType);
-
-    /**
-     * Converts the <code>rootNode</code> into an array of <code>E</code> type.
-     *
-     * @param rootNode
      * @param includeNullLeafs
      * @return
      */
