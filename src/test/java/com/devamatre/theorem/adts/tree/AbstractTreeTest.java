@@ -70,7 +70,7 @@ public abstract class AbstractTreeTest {
         LOGGER.debug("+fillContinents({})", tree);
         TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.CONTINENT);
         dataLoader.fillHierarchicalData(tree);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         LOGGER.debug("-fillContinents(), tree:{}", tree);
         return tree;
     }

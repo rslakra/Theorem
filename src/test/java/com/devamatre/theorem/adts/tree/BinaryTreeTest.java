@@ -141,6 +141,47 @@ public class BinaryTreeTest extends AbstractTreeTest {
         TreeUtils.printBinaryTree(tree.getRoot());
     }
 
+
+    /**
+     * Tests to remove node with 2 children.
+     * <pre>
+     *            10
+     *          /   \
+     *        /      \
+     *       7        16
+     *     /  \
+     *    5    9
+     * </pre>
+     */
+    @Test
+    public void testTreeTraversal() {
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(10, 7, 5, 9, 16));
+        assertNotNull(tree);
+        assertEquals(5, tree.getSize());
+        LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
+        TreeUtils.printBinaryTree(tree.getRoot());
+
+        List<Integer> preOrder = tree.preOrderTraversal();
+        LOGGER.debug("preOrder:{}", preOrder);
+        Integer[] expected = BeanUtils.toType(preOrder, Integer[].class);
+        LOGGER.debug("expected:{}", Arrays.toString(expected));
+        assertPreOrderTree(tree, expected);
+        assertEquals(expected.length, tree.getSize());
+        assertEquals("[10, 7, 5, 9, 16]", preOrder.toString());
+
+        List<Integer> inOrder = tree.inOrderTraversal();
+        LOGGER.debug("inOrder:{}", inOrder);
+        assertEquals("[5, 7, 9, 10, 16]", inOrder.toString());
+
+        List<Integer> postOrder = tree.postOrderTraversal();
+        LOGGER.debug("postOrder:{}", postOrder);
+        assertEquals("[5, 9, 7, 16, 10]", postOrder.toString());
+
+        List<Integer> levelOrder = tree.levelOrderTraversal();
+        LOGGER.debug("levelOrder:{}", levelOrder);
+        assertEquals("[10, 7, 16, 5, 9]", levelOrder.toString());
+    }
+
     /**
      * Remove leaf node.
      * <pre>
@@ -158,6 +199,7 @@ public class BinaryTreeTest extends AbstractTreeTest {
         assertNotNull(tree);
         assertEquals(inputData.length, tree.getSize());
         LOGGER.debug("tree:{}", tree);
+        tree.printPrettyTree();
 
         Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));

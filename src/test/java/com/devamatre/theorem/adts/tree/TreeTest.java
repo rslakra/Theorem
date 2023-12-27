@@ -35,7 +35,7 @@ public class TreeTest extends AbstractTreeTest {
         final Tree<E> tree = new Tree<>();
         fillTree(tree, inputData);
         LOGGER.debug("-buildTree(), tree:{}", tree);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         return tree;
     }
 
@@ -116,14 +116,14 @@ public class TreeTest extends AbstractTreeTest {
         TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         assertNotNull(tree);
         assertEquals(34, tree.getSize());
 
         // remove node
         boolean result = tree.removeNode(26);
         assertTrue(result);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         assertEquals(33, tree.getSize());
     }
 
@@ -136,14 +136,14 @@ public class TreeTest extends AbstractTreeTest {
         TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         assertNotNull(tree);
         assertEquals(34, tree.getSize());
 
         // remove node
         boolean result = tree.removeNode(26);
         assertTrue(result);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         assertEquals(33, tree.getSize());
     }
 
@@ -176,13 +176,13 @@ public class TreeTest extends AbstractTreeTest {
         TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         assertNotNull(tree);
         assertEquals(34, tree.getSize());
 
         // remove node
         boolean result = tree.removeNode(50);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         assertTrue(result);
         assertEquals(33, tree.getSize());
     }
@@ -212,7 +212,7 @@ public class TreeTest extends AbstractTreeTest {
         Tree<String> tree = new Tree<>();
         TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(hierarchicalType);
         dataLoader.fillHierarchicalData(tree);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         LOGGER.debug("tree:{}", tree);
     }
 
@@ -225,7 +225,7 @@ public class TreeTest extends AbstractTreeTest {
         TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
-        tree.printPrettyTree(false);
+        tree.printPrettyTree();
         tree.preOrderTraversal();
     }
 

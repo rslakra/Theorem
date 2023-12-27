@@ -329,24 +329,6 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
         return contains(getRoot(), data);
     }
 
-//    /**
-//     * @param current
-//     * @param newNode
-//     */
-//    protected void unlink(Node<E> current, Node<E> newNode) {
-//        if (root == current) {
-//            if (newNode != null) {
-//                newNode.setLeft(current.getLeft());
-//                newNode.setRight(current.getRight());
-//                root = newNode;
-//            }
-//        } else if (current.getParent().getRight() == current) {
-//            current.getParent().setRight(newNode);
-//        } else if (current.getParent().getLeft() == current) {
-//            current.getParent().setLeft(newNode);
-//        }
-//    }
-
     /**
      * Returns true if the node is deleted otherwise false.
      *
@@ -436,6 +418,13 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      */
     public void printPrettyTree(boolean showDetails) {
         TreeUtils.printPrettyTree(getRoot(), showDetails);
+    }
+
+    /**
+     * Prints the pretty tree.
+     */
+    public void printPrettyTree() {
+        printPrettyTree(false);
     }
 
     /**
