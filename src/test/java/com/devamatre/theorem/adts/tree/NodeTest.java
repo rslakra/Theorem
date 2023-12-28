@@ -2,9 +2,13 @@ package com.devamatre.theorem.adts.tree;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -44,6 +48,33 @@ public class NodeTest {
         // TODO - REMOVE NODE
     }
 
+
+    /**
+     * Data Input
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> isLeafData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{new Node<>(0), true});
+        Node<Integer> rootNode = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3));
+        inputs.add(new Object[]{rootNode, false});
+        inputs.add(new Object[]{rootNode.getLeft(), true});
+        inputs.add(new Object[]{rootNode.getRight(), true});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Tests the <code>isLeaf()</code> method.
+     */
+    @Test(dataProvider = "isLeafData")
+    public void testIsLeaf(Node<Integer> rootNode, boolean expected) {
+        LOGGER.debug("testIsLeaf({}, {})", rootNode, expected);
+        assertEquals(expected, rootNode.isLeaf());
+    }
+
     /**
      * Tests the <code>addChildRecursively()</code> method.
      */
@@ -53,13 +84,18 @@ public class NodeTest {
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
         assertEquals(1, rootNode.getCount());
+        assertEquals(1, rootNode.getSize());
 
         // add child
         Node<Integer> childNode = new Node(2);
+        LOGGER.debug("childNode:{}", childNode);
+        assertNotNull(childNode);
+        assertEquals(1, childNode.getCount());
+        assertEquals(1, childNode.getSize());
         rootNode.addNode(childNode);
         LOGGER.debug("rootNode:{}", rootNode);
-        assertNotNull(rootNode);
-        assertEquals(1, rootNode.getChildren().size());
+        assertEquals(1, rootNode.getCount());
+        assertEquals(2, rootNode.getSize());
     }
 
     /**
@@ -76,18 +112,14 @@ public class NodeTest {
         // add child
         rootNode.addNode(2);
         LOGGER.debug("rootNode:{}", rootNode);
-        assertNotNull(rootNode);
         assertEquals(1, rootNode.getCount());
         assertEquals(2, rootNode.getSize());
 
         // add child
         rootNode.addNode(1);
         LOGGER.debug("rootNode:{}", rootNode);
-        assertNotNull(rootNode);
-        assertEquals(1, rootNode.getCount());
+        assertEquals(2, rootNode.getCount());
         assertEquals(3, rootNode.getSize());
-        // TODO - FIX ME
-//        assertEquals(2, rootNode.getCount());
     }
 
     /**
@@ -99,13 +131,14 @@ public class NodeTest {
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
         assertEquals(1, rootNode.getCount());
+        assertEquals(1, rootNode.getSize());
         TreeUtils.printPrettyTree(rootNode);
 
         // add child
         rootNode.addNode(2);
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
-        assertEquals(1, rootNode.getChildren().size());
+        assertEquals(2, rootNode.getSize());
         TreeUtils.printPrettyTree(rootNode);
     }
 
@@ -370,7 +403,7 @@ public class NodeTest {
     @Test
     public void testNaryNode() {
         // ROOT
-        Node<String> rootNode = new Node("CEO");
+        Node<String> rootNode = new Node(false, "CEO");
         LOGGER.debug("rootNode:{}", rootNode);
         assertNotNull(rootNode);
         assertEquals("CEO", rootNode.getData());

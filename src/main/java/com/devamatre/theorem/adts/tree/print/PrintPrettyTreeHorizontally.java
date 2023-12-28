@@ -1,6 +1,7 @@
 package com.devamatre.theorem.adts.tree.print;
 
 import com.devamatre.theorem.adts.tree.Node;
+import com.devamatre.theorem.adts.tree.TreeUtils;
 
 /**
  * @author Rohtash Lakra (rslakra.work@gmail.com)
@@ -16,7 +17,8 @@ public class PrintPrettyTreeHorizontally<E extends Comparable<? super E>> extend
      */
     @Override
     public void printPrettyTree(Node<E> rootNode) {
-
+//        TreeUtils.printPrettyTree(rootNode);
+        TreeUtils.printPrettyTreeHorizontally(rootNode);
     }
 
     /**
@@ -26,6 +28,6 @@ public class PrintPrettyTreeHorizontally<E extends Comparable<? super E>> extend
      */
     @Override
     public void printBinaryPrettyTree(Node<E> rootNode) {
-
+        TreeUtils.printBinaryTree(rootNode);
     }
 }

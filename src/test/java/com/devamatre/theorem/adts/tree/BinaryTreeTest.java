@@ -39,11 +39,10 @@ public class BinaryTreeTest extends AbstractTreeTest {
      */
     @Test
     public void testBinaryTree() {
-        BinaryTree<String> tree = new BinaryTree<>();
-        fillTree(tree, Arrays.asList("Continent", "Asia", "North America", "India", "China", "Japan", "Indonesia", "Delhi", "Rohtak", "Bejing"));
+        BinaryTree<String> tree = buildTree(Arrays.asList("India", "United States", "China", "Japan", "Indonesia", "Australia", "Nepal"));
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
         assertNotNull(tree);
-        assertEquals(10, tree.getSize());
+        assertEquals(7, tree.getSize());
         assertTrue(tree.contains("India"));
     }
 

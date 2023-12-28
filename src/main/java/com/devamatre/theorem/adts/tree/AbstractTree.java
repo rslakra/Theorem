@@ -409,8 +409,9 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * Returns the string representation of this object.
      */
     public String toString() {
+        return inOrderTraversal().toString();
 //        return TreeUtils.inOrder(root).toString();
-        return inOrderIterator().toString();
+//        return inOrderIterator().toString();
     }
 
     /**

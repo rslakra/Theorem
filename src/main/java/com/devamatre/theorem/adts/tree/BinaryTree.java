@@ -298,33 +298,33 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
         boolean nodeDeleted = false;
         if (Objects.nonNull(getRoot())) {
             // find node to be nodeDeleted.
-            Node<E> delNode = findNode(data);
+            Node<E> removeNode = findNode(data);
             // if found the node to be nodeDeleted
-            if (Objects.nonNull(delNode)) {
+            if (Objects.nonNull(removeNode)) {
                 // easy, if it's the leaf node (means doesn't have any nodes)
-                if (delNode.isLeaf()) {
-                    removeNodeWithoutParentHandling(delNode, null);
+                if (removeNode.isLeaf()) {
+                    removeNodeWithoutParentHandling(removeNode, null);
                     nodeDeleted = true;
-                } else if (delNode.hasRight() && !delNode.hasLeft()) {
+                } else if (removeNode.hasRight() && !removeNode.hasLeft()) {
                     // the node to be deleted has only right node
-                    removeNodeWithoutParentHandling(delNode, delNode.getRight());
+                    removeNodeWithoutParentHandling(removeNode, removeNode.getRight());
                     nodeDeleted = true;
-                } else if (delNode.hasLeft() && !delNode.hasRight()) {
+                } else if (removeNode.hasLeft() && !removeNode.hasRight()) {
                     // the node to be deleted has only left node.
-                    removeNodeWithoutParentHandling(delNode, delNode.getLeft());
+                    removeNodeWithoutParentHandling(removeNode, removeNode.getLeft());
                     nodeDeleted = true;
                 } else {
                     // the node to be deleted has both left and right nodes.
-                    Node<E> tempNode = delNode.getLeft();
+                    Node<E> tempNode = removeNode.getLeft();
                     while (tempNode != null && !tempNode.isLeaf()) {
                         tempNode = tempNode.getRight();
                     }
 
                     tempNode.getParent().setRight(null);
-                    tempNode.setLeft(delNode.getLeft());
-                    tempNode.setRight(delNode.getRight());
+                    tempNode.setLeft(removeNode.getLeft());
+                    tempNode.setRight(removeNode.getRight());
 
-                    removeNodeWithoutParentHandling(delNode, tempNode);
+                    removeNodeWithoutParentHandling(removeNode, tempNode);
                     nodeDeleted = true;
                 }
             }
@@ -415,7 +415,6 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
                     Node<E> inOrderSuccessor = TreeUtils.findInOrderSuccessor(delNode);
 
                     // the parent's left subtree becomes the left-most's right subtree
-//                leftMostParent.setLeft(inOrderSuccessor.getRight());
                     inOrderSuccessor.getParent().setLeft(inOrderSuccessor.getRight());
 
                     // assign left-most's left and right to delNode's left and right children
@@ -443,31 +442,10 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
 //     * Returns the string representation of this object.
 //     *
 //     * @return
-//     * @see java.lang.Object#toString()
 //     */
+//    @Override
 //    public String toString() {
-//        StringBuilder sBuilder = new StringBuilder("[");
-//        if (root != null) {
-//            Queue<Node<E>> queue = new LinkedList<>();
-//            queue.add(root);
-//            while (!queue.isEmpty()) {
-//                Node<E> node = queue.poll();
-//                sBuilder.append(node.getData().toString());
-//                if (node.hasLeft()) {
-//                    queue.add(node.getLeft());
-//                }
-//
-//                if (node.hasRight()) {
-//                    queue.add(node.getRight());
-//                }
-//
-//                if (!queue.isEmpty()) {
-//                    sBuilder.append(", ");
-//                }
-//            }
-//        }
-//
-//        return sBuilder.append("]").toString();
+//        return inOrderTraversal().toString();
 //    }
 
     /**
@@ -483,11 +461,11 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
     /**
      * Adds the new node as the left child of the root node if root is not null otherwise as root node.
      *
-     * @param newData
+     * @param nodeData
      */
-    public void addLeftNode(E newData) {
+    public void addLeftNode(E nodeData) {
         if (Objects.isNull(getRoot())) {
-            setRoot(new Node<E>(newData));
+            setRoot(new Node<E>(nodeData));
             increaseSize();
         } else {
             /**
@@ -499,15 +477,12 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
              * 3
              * </pre>
              */
-            Node<E> newNode = new Node<E>(newData);
-            Node<E> current = getRoot();
-            while (Objects.nonNull(current) && Objects.nonNull(current.getLeft())) {
-                current = current.getLeft();
-            }
-
+            Node<E> newNode = new Node<E>(nodeData);
+            // find left-most child node as the parent of new node
+            Node<E> parentNode = TreeUtils.findLeftMostChild(getRoot());
             // set this node as the parent of the new node
-            newNode.setParent(current);
-            current.setLeft(newNode);
+            newNode.setParent(parentNode);
+            parentNode.setLeft(newNode);
             increaseSize();
         }
     }
@@ -532,14 +507,11 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
              * </pre>
              */
             Node<E> newNode = new Node<E>(newData);
-            Node<E> current = getRoot();
-            while (Objects.nonNull(current) && Objects.nonNull(current.getRight())) {
-                current = current.getRight();
-            }
-
+            // find right-most child node as a parent of new node
+            Node<E> parentNode = TreeUtils.findRightMostChild(getRoot());
             // set this node as the parent of the new node
-            newNode.setParent(current);
-            current.setRight(newNode);
+            newNode.setParent(parentNode);
+            parentNode.setRight(newNode);
             increaseSize();
         }
     }

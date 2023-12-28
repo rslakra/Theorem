@@ -173,34 +173,6 @@ public class TreeUtilsTest {
      * @return
      */
     @DataProvider
-    public Iterator<Object[]> isLeafData() {
-        List<Object[]> inputs = new ArrayList<>();
-        inputs.add(new Object[]{null, false});
-        inputs.add(new Object[]{new Node<>(0), true});
-        Node<Integer> treeNode = TreeUtils.buildBinaryTree(Arrays.asList(1, 2, 3));
-        inputs.add(new Object[]{treeNode, false});
-        inputs.add(new Object[]{treeNode.getLeft(), true});
-        inputs.add(new Object[]{treeNode.getRight(), true});
-
-        return inputs.iterator();
-    }
-
-    /**
-     * Tests the <code>isLeaf()</code> method.
-     */
-    @Test(dataProvider = "isLeafData")
-    public void testIsLeaf(Node index, boolean result) {
-        boolean isLeaf = TreeUtils.isLeaf(index);
-        LOGGER.debug("isLeaf:{}", isLeaf);
-        assertEquals(result, isLeaf);
-    }
-
-    /**
-     * Data Input
-     *
-     * @return
-     */
-    @DataProvider
     public Iterator<Object[]> getMidIndexData() {
         List<Object[]> inputs = new ArrayList<>();
         inputs.add(new Object[]{0, 10, 5});

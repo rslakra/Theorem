@@ -144,14 +144,6 @@ public enum TreeUtils {
     }
 
     /**
-     * @param node
-     * @return
-     */
-    public static <E extends Comparable<? super E>> boolean isLeaf(Node node) {
-        return (node != null && !node.hasLeft() && !node.hasRight());
-    }
-
-    /**
      * Returns the middle index.
      *
      * @param start
@@ -392,13 +384,13 @@ public enum TreeUtils {
      *       4  5    6   7
      * </pre>
      *
-     * @param nodes
+     * @param nodeList
      * @param minLevel
      * @param maxLevel
      */
-    private static void printNodeInternal(List<Node> nodes, int minLevel, int maxLevel) {
-        LOGGER.trace("+printNodeInternal({}, {}, {})", nodes, minLevel, maxLevel);
-        if (nodes.isEmpty() || AlgoUtils.isAllNull(nodes)) {
+    private static <E extends Comparable<? super E>> void printNodeInternal(List<Node<E>> nodeList, int minLevel, int maxLevel) {
+        LOGGER.trace("+printNodeInternal({}, {}, {})", nodeList, minLevel, maxLevel);
+        if (nodeList.isEmpty() || AlgoUtils.isAllNull(nodeList)) {
             return;
         }
 
@@ -413,15 +405,15 @@ public enum TreeUtils {
 
         printWhiteSpaces(nodePosition);
 
-        List<Node> newNodes = new ArrayList<>();
-        for (Node node : nodes) {
-            if (Objects.nonNull(node)) { // non-null node
-                System.out.print(node.getData());
-                newNodes.add(node.getLeft());
-                newNodes.add(node.getRight());
+        List<Node<E>> levelOrders = new ArrayList<>();
+        for (Node<E> nextNode : nodeList) {
+            if (Objects.nonNull(nextNode)) { // non-null nextNode
+                System.out.print(nextNode.getData());
+                levelOrders.add(nextNode.getLeft());
+                levelOrders.add(nextNode.getRight());
             } else {
-                newNodes.add(null);
-                newNodes.add(null);
+                levelOrders.add(null);
+                levelOrders.add(null);
                 System.out.print(SPACE);
             }
 
@@ -431,15 +423,15 @@ public enum TreeUtils {
 
         // print edge lines with gaps in-between
         for (int i = 1; i <= edgeLines; i++) {
-            for (int j = 0; j < nodes.size(); j++) {
+            for (int j = 0; j < nodeList.size(); j++) {
                 printWhiteSpaces(nodePosition - i);
-                if (Objects.isNull(nodes.get(j))) { // null node
+                if (Objects.isNull(nodeList.get(j))) { // null node
                     printWhiteSpaces((2 * edgeLines) + i + 1);
                     continue;
                 }
 
                 // left edge line
-                if (nodes.get(j).hasLeft()) {
+                if (nodeList.get(j).hasLeft()) {
                     System.out.print(BACK_SLASH);
                 } else {
                     printWhiteSpaces(1);
@@ -449,7 +441,7 @@ public enum TreeUtils {
                 printWhiteSpaces((2 * i) - 1);
 
                 // right edge line
-                if (nodes.get(j).hasRight()) {
+                if (nodeList.get(j).hasRight()) {
                     System.out.print(SLASH);
                 } else {
                     printWhiteSpaces(1);
@@ -461,7 +453,7 @@ public enum TreeUtils {
             System.out.println();
         }
 
-        printNodeInternal(newNodes, minLevel + 1, maxLevel);
+        printNodeInternal(levelOrders, minLevel + 1, maxLevel);
     }
 
     /**
@@ -486,34 +478,34 @@ public enum TreeUtils {
      *          └── 4
      * </pre>
      *
-     * @param node
+     * @param rootNode
      * @param prefix
      * @param isLeft
      */
-    public static void printPrettyTreeVertically(Node node, String prefix, boolean isLeft) {
-        if (node == null) {
+    public static <E extends Comparable<? super E>> void printPrettyTreeVertically(Node<E> rootNode, String prefix, boolean isLeft) {
+        if (rootNode == null) {
             System.out.println("Empty tree");
             return;
         }
 
-        if (node.hasRight()) {
-            printPrettyTreeVertically(node.getRight(), prefix + (isLeft ? "│   " : "    "), false);
+        if (rootNode.hasRight()) {
+            printPrettyTreeVertically(rootNode.getRight(), prefix + (isLeft ? "│   " : "    "), false);
         }
 
-        System.out.println(prefix + (isLeft ? "└── " : "┌── ") + node.getData());
+        System.out.println(prefix + (isLeft ? "└── " : "┌── ") + rootNode.getData());
 
-        if (node.hasLeft()) {
-            printPrettyTreeVertically(node.getLeft(), prefix + (isLeft ? "    " : "│   "), true);
+        if (rootNode.hasLeft()) {
+            printPrettyTreeVertically(rootNode.getLeft(), prefix + (isLeft ? "    " : "│   "), true);
         }
     }
 
     /**
      * Prints the pretty tree.
      *
-     * @param node
+     * @param rootNode
      */
-    public static void printPrettyTreeVertically(Node node) {
-        printPrettyTreeVertically(node, "", true);
+    public static <E extends Comparable<? super E>> void printPrettyTreeVertically(Node<E> rootNode) {
+        printPrettyTreeVertically(rootNode, "", true);
     }
 
     /**
@@ -1978,7 +1970,7 @@ public enum TreeUtils {
      */
     public static <E extends Comparable<? super E>> Node<E> findLeftMostChild(Node<E> rootNode) {
         Node<E> leftMostChild = rootNode;
-        while (leftMostChild != null && leftMostChild.hasLeft()) {
+        while (Objects.nonNull(leftMostChild) && leftMostChild.hasLeft()) {
             leftMostChild = leftMostChild.getLeft();
         }
 
@@ -1992,7 +1984,7 @@ public enum TreeUtils {
      */
     public static <E extends Comparable<? super E>> Node<E> findRightMostChild(Node<E> rootNode) {
         Node<E> rightMostChild = rootNode;
-        while (rightMostChild != null && rightMostChild.hasRight()) {
+        while (Objects.nonNull(rightMostChild) && rightMostChild.hasRight()) {
             rightMostChild = rightMostChild.getRight();
         }
 

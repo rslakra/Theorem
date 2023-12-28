@@ -419,7 +419,11 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
             rootNode.setParent(this);
 
             // binary & nary handling
-            if (!isBinary()) {
+            if (isBinary()) {
+                if (this.compareTo(rootNode) == 0) {
+                    increaseCount();
+                }
+            } else {
                 // if duplicate node exists, increase only the count of that node.
                 if (children.contains(rootNode)) {
                     rootNode.increaseCount();
