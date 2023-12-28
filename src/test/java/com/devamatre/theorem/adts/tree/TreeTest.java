@@ -121,8 +121,7 @@ public class TreeTest extends AbstractTreeTest {
         assertEquals(34, tree.getSize());
 
         // remove node
-        boolean result = tree.removeNode(26);
-        assertTrue(result);
+        tree.removeNode(26);
         tree.printPrettyTree();
         assertEquals(33, tree.getSize());
     }
@@ -141,8 +140,7 @@ public class TreeTest extends AbstractTreeTest {
         assertEquals(34, tree.getSize());
 
         // remove node
-        boolean result = tree.removeNode(26);
-        assertTrue(result);
+        tree.removeNode(26);
         tree.printPrettyTree();
         assertEquals(33, tree.getSize());
     }
@@ -161,8 +159,7 @@ public class TreeTest extends AbstractTreeTest {
         assertEquals(34, tree.getSize());
 
         // remove node
-        boolean result = tree.removeNode(28);
-        assertTrue(result);
+        tree.removeNode(28);
         tree.printPrettyTree(true);
         assertEquals(33, tree.getSize());
     }
@@ -181,9 +178,8 @@ public class TreeTest extends AbstractTreeTest {
         assertEquals(34, tree.getSize());
 
         // remove node
-        boolean result = tree.removeNode(50);
+        tree.removeNode(50);
         tree.printPrettyTree();
-        assertTrue(result);
         assertEquals(33, tree.getSize());
     }
 

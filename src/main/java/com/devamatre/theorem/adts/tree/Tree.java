@@ -107,7 +107,7 @@ public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
      * @return
      */
     @Override
-    public boolean removeNode(Node<E> rootNode, E data) {
+    public Node<E> removeNode(Node<E> rootNode, E data) {
         boolean nodeRemoved = false;
         // node to be removed
         Node<E> deleteNode = findNode(rootNode, data);
@@ -159,7 +159,7 @@ public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
             setSize(getRoot().getSize());
         }
 
-        return nodeRemoved;
+        return null;
     }
 
     /**

@@ -336,7 +336,7 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * @param data
      * @return
      */
-    public abstract boolean removeNode(Node<E> rootNode, E data);
+    public abstract Node<E> removeNode(Node<E> rootNode, E data);
 
     /**
      * Returns true if the node is deleted otherwise false.
@@ -344,8 +344,8 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * @param data
      * @return
      */
-    public boolean removeNode(E data) {
-        return removeNode(getRoot(), data);
+    public void removeNode(E data) {
+        removeNode(getRoot(), data);
     }
 
     /**

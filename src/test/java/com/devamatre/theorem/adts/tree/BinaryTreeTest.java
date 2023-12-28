@@ -141,7 +141,6 @@ public class BinaryTreeTest extends AbstractTreeTest {
         TreeUtils.printBinaryTree(tree.getRoot());
     }
 
-
     /**
      * Tests to remove node with 2 children.
      * <pre>
@@ -180,6 +179,48 @@ public class BinaryTreeTest extends AbstractTreeTest {
         List<Integer> levelOrder = tree.levelOrderTraversal();
         LOGGER.debug("levelOrder:{}", levelOrder);
         assertEquals("[10, 7, 16, 5, 9]", levelOrder.toString());
+    }
+
+    /**
+     * Tests to remove node.
+     * <pre>
+     *            10
+     *          /   \
+     *        /      \
+     *       7        16
+     *     /  \      /  \
+     *    5    9    13   18
+     *                    \
+     *                     20
+     * </pre>
+     */
+    @Test
+    @Override
+    public void testRemoveNode() {
+        LOGGER.debug("testRemoveNode()");
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(10, 7, 5, 9, 16, 13, 18, 20));
+        LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
+        assertNotNull(tree);
+        assertEquals(8, tree.getSize());
+        tree.printPrettyTree();
+
+        // remove leaf node
+        LOGGER.debug("Removing node: 9");
+        tree.removeNode(9);
+        tree.printPrettyTree();
+        assertEquals(7, tree.getSize());
+
+        // remove node with 1 child
+        LOGGER.debug("Removing node: 18");
+        tree.removeNode(18);
+        tree.printPrettyTree();
+        assertEquals(6, tree.getSize());
+
+        // remove node with 2 children
+        LOGGER.debug("Removing node: 10");
+        tree.removeNode(10);
+        tree.printPrettyTree();
+        assertEquals(5, tree.getSize());
     }
 
     /**

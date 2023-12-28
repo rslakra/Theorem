@@ -213,18 +213,6 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
     }
 
     /**
-     * Returns the node of the provided <code>data</code> if exists in the tree otherwise null.
-     *
-     * @param rootNode
-     * @param data
-     * @return
-     */
-    @Override
-    protected Node<E> findNode(Node<E> rootNode, E data) {
-        return (Objects.isNull(rootNode) ? null : rootNode.findNode(data));
-    }
-
-    /**
      * Returns true if the node is deleted otherwise false.
      *
      * @param rootNode
@@ -232,8 +220,47 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
      * @return
      */
     @Override
-    public boolean removeNode(Node<E> rootNode, E data) {
-        return false;
+    public Node<E> removeNode(Node<E> rootNode, E data) {
+        if (Objects.nonNull(rootNode) && rootNode.isBinary()) {
+            if (rootNode.isGreaterThan(data)) {
+                rootNode.setLeft(removeNode(rootNode.getLeft(), data));
+            } else if (rootNode.isLessThan(data)) {
+                rootNode.setRight(removeNode(rootNode.getRight(), data));
+            } else if (rootNode.isEquals(data)) {
+                /**
+                 * Handle 4 cases:
+                 * - If tree supports duplicate values, just decrease the count
+                 * - Node is a leaf node (just return null)
+                 * - Node has only 1 child (return either left or right)
+                 * - Node has left & right children:
+                 *  1. Find in-order successor
+                 *  2. Replace the value of root node with in-order successor value,
+                 *  3. Remove in-order successor (which should be handled by either case 1 or 2).
+                 */
+                if (isAllowDuplicates() && rootNode.getCount() > 1) {
+                    rootNode.decreaseCount();
+                    return rootNode;
+                }
+                // leaf node, just return null
+                if (rootNode.isLeaf()) {
+                    decreaseSize();
+                    return null;
+                } else if (Objects.isNull(rootNode.getLeft()) && rootNode.hasRight()) { // has only right
+                    decreaseSize();
+                    return rootNode.getRight();
+                } else if (Objects.isNull(rootNode.getRight()) && rootNode.hasLeft()) { // has only left
+                    decreaseSize();
+                    return rootNode.getLeft();
+                } else if (rootNode.hasLeft() && rootNode.hasRight()) {
+                    //  find in-order successor
+                    Node<E> inOrderSuccessor = TreeUtils.findInOrderSuccessor(rootNode);
+                    rootNode.setData(inOrderSuccessor.getData());
+                    rootNode.setRight(removeNode(rootNode.getRight(), inOrderSuccessor.getData()));
+                }
+            }
+        }
+
+        return rootNode;
     }
 
     /**
@@ -337,63 +364,68 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
         boolean deleted = false;
         Node<E> delNode = findNode(data);
         if (Objects.nonNull(delNode)) {
-            // decrease the node count
-            decreaseSize();
+            // when the binary tree allow duplicates
+            if (isAllowDuplicates() && delNode.getCount() > 1) {
+                // decrease only the count.
+                delNode.decreaseCount();
+            } else {
+                // decrease the node count
+                decreaseSize();
 
-            // Get delNode's parent node
-            final Node<E> parent = delNode.getParent();
+                // Get delNode's parent node
+                final Node<E> parent = delNode.getParent();
 
-            //Case 1: if the delNode is a leaf node (no children), just remove it (easy)
-            if (delNode.isLeaf()) {
-                delNode = null;
-            } else if (!delNode.hasRight()) {
-                /**
-                 * Case 2: If delNode node has no right child (only left), then delNode's left replaces the delNode node.
-                 *  - If parent is null, then <code>delNode</code>'s left replaces it.
-                 *  - If parent node's data is greater than delNode node's data; make the delNode's left child node as
-                 *      left child of parent's node.
-                 *  - If parent node's data is less than delNode node's data; make the delNode's left child node as
-                 *      right child of parent's node
-                 */
-                // update the nodes with delNode.left
-                updateParentAfterRemoval(parent, data, delNode.getLeft());
-            } else if (delNode.hasRight() && !delNode.getRight().hasLeft()) {
-                /**
-                 * Case 3: If delNode's right child has no left child, then delNode's right child replaces delNode
-                 *  - If parent is null, then <code>delNode</code>'s right replaces it.
-                 *  - If parent node's data is greater than delNode's data; make the delNode's right child, a left
-                 *      child of parent.
-                 *  - If parent node's data is less than delNode's data; make the delNode's left child, a right child
-                 *      of parent
-                 */
-                delNode.getRight().setLeft(delNode.getLeft());
-                // update the nodes with delNode.right
-                updateParentAfterRemoval(parent, data, delNode.getRight());
-            } else if (!delNode.isLeaf()) {
-                /**
-                 * Case 4: If delNode's right child has a left child, replace delNode with delNode's right child's
-                 * left-most child.
-                 *  - If parent is null, then <code>inOrderSuccessor</code> replaces it.
-                 *  - If parent node's data is greater than delNode's data; make the delNode's right child, a left
-                 *      child of parent.
-                 *  - If parent node's data is less than delNode's data; make the delNode's left child, a right child
-                 *      of parent
-                 */
-                // find the right's left-most child
-                Node<E> inOrderSuccessor = TreeUtils.findInOrderSuccessor(delNode);
+                //Case 1: if the delNode is a leaf node (no children), just remove it (easy)
+                if (delNode.isLeaf()) {
+                    delNode = null;
+                } else if (!delNode.hasRight()) {
+                    /**
+                     * Case 2: If delNode node has no right child (only left), then delNode's left replaces the delNode node.
+                     *  - If parent is null, then <code>delNode</code>'s left replaces it.
+                     *  - If parent node's data is greater than delNode node's data; make the delNode's left child node as
+                     *      left child of parent's node.
+                     *  - If parent node's data is less than delNode node's data; make the delNode's left child node as
+                     *      right child of parent's node
+                     */
+                    // update the nodes with delNode.left
+                    updateParentAfterRemoval(parent, data, delNode.getLeft());
+                } else if (delNode.hasRight() && !delNode.getRight().hasLeft()) {
+                    /**
+                     * Case 3: If delNode's right child has no left child, then delNode's right child replaces delNode
+                     *  - If parent is null, then <code>delNode</code>'s right replaces it.
+                     *  - If parent node's data is greater than delNode's data; make the delNode's right child, a left
+                     *      child of parent.
+                     *  - If parent node's data is less than delNode's data; make the delNode's left child, a right child
+                     *      of parent
+                     */
+                    delNode.getRight().setLeft(delNode.getLeft());
+                    // update the nodes with delNode.right
+                    updateParentAfterRemoval(parent, data, delNode.getRight());
+                } else if (!delNode.isLeaf()) {
+                    /**
+                     * Case 4: If delNode's right child has a left child, replace delNode with delNode's right child's
+                     * left-most child.
+                     *  - If parent is null, then <code>inOrderSuccessor</code> replaces it.
+                     *  - If parent node's data is greater than delNode's data; make the delNode's right child, a left
+                     *      child of parent.
+                     *  - If parent node's data is less than delNode's data; make the delNode's left child, a right child
+                     *      of parent
+                     */
+                    // find the right's left-most child
+                    Node<E> inOrderSuccessor = TreeUtils.findInOrderSuccessor(delNode);
 
-                // the parent's left subtree becomes the left-most's right subtree
+                    // the parent's left subtree becomes the left-most's right subtree
 //                leftMostParent.setLeft(inOrderSuccessor.getRight());
-                inOrderSuccessor.getParent().setLeft(inOrderSuccessor.getRight());
+                    inOrderSuccessor.getParent().setLeft(inOrderSuccessor.getRight());
 
-                // assign left-most's left and right to delNode's left and right children
-                inOrderSuccessor.setLeft(delNode.getLeft());
-                inOrderSuccessor.setRight(delNode.getRight());
+                    // assign left-most's left and right to delNode's left and right children
+                    inOrderSuccessor.setLeft(delNode.getLeft());
+                    inOrderSuccessor.setRight(delNode.getRight());
 
-                // update the nodes with inOrderSuccessor
-                updateParentAfterRemoval(parent, data, inOrderSuccessor);
+                    // update the nodes with inOrderSuccessor
+                    updateParentAfterRemoval(parent, data, inOrderSuccessor);
+                }
             }
-
             deleted = true;
         }
 
@@ -437,6 +469,16 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
 //
 //        return sBuilder.append("]").toString();
 //    }
+
+    /**
+     * Prints the binary tree.
+     *
+     * @param showDetails
+     */
+    @Override
+    public void printPrettyTree(boolean showDetails) {
+        TreeUtils.printBinaryTree(getRoot());
+    }
 
     /**
      * Adds the new node as the left child of the root node if root is not null otherwise as root node.
