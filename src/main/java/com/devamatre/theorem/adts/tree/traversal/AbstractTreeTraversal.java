@@ -45,7 +45,7 @@ public abstract class AbstractTreeTraversal<E extends Comparable<? super E>> imp
     }
 
     /**
-     * Returns the <code>TraversalMode</code> of the tree handler.
+     * Returns the <code>TraversalMode</code> of the tree parser.
      *
      * <pre>
      *  Time Complexity: <code>O(N)</code>

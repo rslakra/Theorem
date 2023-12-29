@@ -20,6 +20,37 @@ public enum ArrayUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ArrayUtils.class);
 
     /**
+     * Returns an index of the maximum value in the list.
+     *
+     * @param data
+     * @param startIndex
+     * @param endIndex
+     * @return
+     */
+    public static int findMaxValueIndex(List<Integer> data, int startIndex, int endIndex) {
+        int maxValueIndex = startIndex;
+        int maxValue = data.get(startIndex);
+        for (int i = startIndex + 1; i < endIndex; i++) {
+            if (data.get(i) > maxValue) {
+                maxValue = data.get(i);
+                maxValueIndex = i;
+            }
+        }
+
+        return maxValueIndex;
+    }
+
+    /**
+     * Returns an index of the maximum value in the list.
+     *
+     * @param data
+     * @return
+     */
+    public static int findMaxValueIndex(List<Integer> data) {
+        return findMaxValueIndex(data, 0, data.size());
+    }
+
+    /**
      * Returns the maximum value index.
      *
      * @param data
@@ -27,10 +58,10 @@ public enum ArrayUtils {
      * @param endIndex
      * @return
      */
-    public static int findMaxIndex(Integer[] data, int startIndex, int endIndex) {
+    public static int findMaxValueIndex(Integer[] data, int startIndex, int endIndex) {
         int maxIndex = startIndex;
         int max = data[startIndex];
-        for (int i = startIndex + 1; i <= endIndex; i++) {
+        for (int i = startIndex + 1; i < endIndex; i++) {
             if (data[i] > max) {
                 max = data[i];
                 maxIndex = i;
@@ -46,8 +77,8 @@ public enum ArrayUtils {
      * @param data
      * @return
      */
-    public static int findMaxIndex(Integer[] data) {
-        return findMaxIndex(data, 0, data.length - 1);
+    public static int findMaxValueIndex(Integer[] data) {
+        return findMaxValueIndex(data, 0, data.length);
     }
 
     /**

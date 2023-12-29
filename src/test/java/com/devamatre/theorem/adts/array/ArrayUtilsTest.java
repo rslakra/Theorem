@@ -1,8 +1,5 @@
 package com.devamatre.theorem.adts.array;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -12,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -35,14 +34,13 @@ public class ArrayUtilsTest {
         assertEquals(data.size(), result.length);
     }
 
-
     /**
      * Data Input
      *
      * @return
      */
     @DataProvider
-    public Iterator<Object[]> findMaxIndexData() {
+    public Iterator<Object[]> findMaxValueIndexData() {
         List<Object[]> inputs = new ArrayList<>();
         inputs.add(new Object[]{new int[]{1, 4, 3, 2, 5}, 4});
         inputs.add(new Object[]{new int[]{4, 1, 3, 5, 2}, 3});
@@ -54,18 +52,18 @@ public class ArrayUtilsTest {
     /**
      * Left PairNode Index
      */
+
     /**
-     * Tests the <code>findMaxIndex()</code> method.
+     * Tests the <code>findMaxValueIndex()</code> method.
      */
-    @Test(dataProvider = "findMaxIndexData")
-    public void testFindMaxIndex(Integer[] inputData, int expected) {
+    @Test(dataProvider = "findMaxValueIndexData")
+    public void testFindMaxValueIndex(Integer[] inputData, int expected) {
         LOGGER.debug("inputData:{}", inputData);
-        int result = ArrayUtils.findMaxIndex(inputData);
+        int result = ArrayUtils.findMaxValueIndex(inputData);
         assertNotNull(result);
         LOGGER.debug("result:{}", result);
         assertEquals(expected, result);
     }
-
 
     /**
      * Tests <code>printMatrix()</code> method.

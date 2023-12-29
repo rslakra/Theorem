@@ -104,6 +104,7 @@ public class BinaryTreeTest extends AbstractTreeTest {
      * </pre>
      */
     @Test
+    @Override
     public void testAddNode() {
         BinaryTree<Integer> tree = new BinaryTree<>();
         assertNotNull(tree);
@@ -138,6 +139,32 @@ public class BinaryTreeTest extends AbstractTreeTest {
         assertPreOrderTree(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
+    }
+
+    /**
+     * Tests <code>findNode()</code>
+     */
+    @Test
+    @Override
+    public void testFindNode() {
+        BinaryTree<Integer> tree = buildTree(Arrays.asList(10, 7, 5, 9, 6, 8, 16));
+        LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
+        assertNotNull(tree);
+        assertEquals(7, tree.getSize());
+        tree.printPrettyTree();
+
+        // node exists
+        Integer findWhat = 6;
+        Node<Integer> found = tree.findNode(findWhat);
+        LOGGER.debug("found:{}", found);
+        assertNotNull(found);
+        assertEquals(findWhat, found.getData());
+
+        // node not exists
+        findWhat = 15;
+        Node<Integer> notFound = tree.findNode(findWhat);
+        LOGGER.debug("notFound:{}", notFound);
+        assertNull(notFound);
     }
 
     /**

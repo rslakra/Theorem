@@ -2,6 +2,7 @@ package com.devamatre.theorem.adts.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Rohtash Lakra
@@ -10,7 +11,7 @@ import java.util.List;
 public interface TreeTraversal<E extends Comparable<? super E>> {
 
     /**
-     * Returns the <code>TraversalMode</code> of the tree handler.
+     * Returns the <code>TraversalMode</code> of the tree parser.
      *
      * <pre>
      *  Time Complexity: <code>O(N)</code>
@@ -44,7 +45,14 @@ public interface TreeTraversal<E extends Comparable<? super E>> {
         final List<E> treeTraversal = new ArrayList<>();
         final List<Node<E>> treeNodesTraversal = traverseNodes(includeNullLeafs);
         if (treeNodesTraversal != null) {
-            treeNodesTraversal.forEach(node -> treeTraversal.add(node.getData()));
+            treeNodesTraversal.forEach(node -> {
+                // if traversal list contains null nodes, then just add null as value.
+                if (Objects.isNull(node)) {
+                    treeTraversal.add(null);
+                } else {
+                    treeTraversal.add(node.getData());
+                }
+            });
         }
 
         return treeTraversal;

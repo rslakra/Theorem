@@ -69,9 +69,17 @@ public enum TraversalMode {
      */
     public static TraversalMode ofString(final String traversalMode) {
         return Arrays.stream(values())
-            .filter(entry -> entry.name().equalsIgnoreCase(traversalMode))
-            .findFirst()
-            .orElse(null);
+                .filter(entry -> entry.name().equalsIgnoreCase(traversalMode))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * @param traversalMode
+     * @return
+     */
+    public static boolean isInOrderTraversal(TraversalMode traversalMode) {
+        return (IN_ORDER_TRAVERSAL == traversalMode);
     }
 
     /**
@@ -80,5 +88,21 @@ public enum TraversalMode {
      */
     public static boolean isLevelOrderTraversal(TraversalMode traversalMode) {
         return (LEVEL_ORDER_TRAVERSAL == traversalMode);
+    }
+
+    /**
+     * @param traversalMode
+     * @return
+     */
+    public static boolean isPreOrderTraversal(TraversalMode traversalMode) {
+        return (PRE_ORDER_TRAVERSAL == traversalMode);
+    }
+
+    /**
+     * @param traversalMode
+     * @return
+     */
+    public static boolean isPostOrderTraversal(TraversalMode traversalMode) {
+        return (POST_ORDER_TRAVERSAL == traversalMode);
     }
 }

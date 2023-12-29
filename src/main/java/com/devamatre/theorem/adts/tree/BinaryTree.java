@@ -213,6 +213,20 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
     }
 
     /**
+     * Finds the node with the provided <code>data</code>. If exists return node otherwise null.
+     * <p>
+     * On most machines, the iterative version is found to be more efficient.
+     *
+     * @param rootNode
+     * @param data
+     * @return
+     */
+    @Override
+    protected Node<E> findNode(Node<E> rootNode, E data) {
+        return findIteratively(rootNode, data);
+    }
+
+    /**
      * Returns true if the node is deleted otherwise false.
      *
      * @param rootNode

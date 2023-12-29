@@ -413,7 +413,7 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      *
      * @param rootNode
      */
-    protected void addNode(Node<E> rootNode) {
+    public void addNode(Node<E> rootNode) {
         LOGGER.debug("+addNode({})", rootNode);
         if (Objects.nonNull(rootNode)) {
             rootNode.setParent(this);
@@ -446,7 +446,7 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     /**
      * @param data
      */
-    protected void addNode(E data) {
+    public void addNode(E data) {
         addNode(new Node<>(data));
     }
 
@@ -456,7 +456,7 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      * @param data
      * @return
      */
-    protected Node<E> findNode(Node<E> rootNode, E data) {
+    public Node<E> findNode(Node<E> rootNode, E data) {
         // base case, check if rootNode is not null otherwise return null.
         if (Objects.nonNull(rootNode)) {
             // check the data matches with the rootNode or not
@@ -489,7 +489,7 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      * @param data
      * @return
      */
-    protected Node<E> findNode(E data) {
+    public Node<E> findNode(E data) {
         return findNode(this, data);
     }
 

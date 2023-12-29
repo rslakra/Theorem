@@ -9,7 +9,7 @@ import com.devamatre.theorem.adts.tree.TreeTraversal;
 public abstract class AbstractTreeTraversalTest {
 
     /**
-     * Returns the <code>TreeHandler</code> object.
+     * Returns the <code>TreeParser</code> object.
      *
      * @return
      */

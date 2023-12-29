@@ -224,61 +224,56 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
 //     */
 //    public void buildPreOrderTree(E[] preOrderData) {
 //        if (BeanUtils.isNotEmpty(preOrderData)) {
-//            AbstractTreeHandler treeHandler = new PreOrderHandler<>();
+//            AbstractTreeParser treeHandler = new PreOrderTreeParser<>();
 //            root = treeHandler.buildTree(preOrderData);
 //            size = treeHandler.getSize();
 //        }
 //    }
 
     /**
-     * Returns the node of the provided <code>data</code> if exists in the tree otherwise null. It finds the node using
-     * iterative approach.
+     * Finds the node with the provided <code>data</code>. If exists return node otherwise null.
+     * <p>
+     * On most machines, the iterative version is found to be more efficient.
      *
+     * @param rootNode
      * @param data
      * @return
      */
-    protected Node<E> findIteratively(E data) {
-        // if data is null or root is null, return null;
-        if (root != null && data != null) {
-            // find node's in the tree with the provided <code>data</code>
-            Node<E> current = root;
-            while (current != null) {
-                // if the current node is greater than data, find in left.
-                if (current.isGreaterThan(data)) {
-                    current = current.getLeft();
-                } else if (current.isLessThan(data)) {
-                    // if the current node is less than data, find in right.
-                    current = current.getRight();
-                } else {
-                    // find a match, so return it
-                    return current;
-                }
+    protected Node<E> findIteratively(Node<E> rootNode, E data) {
+        LOGGER.debug("+findIteratively({}, {})", rootNode, data);
+        // base case, check if rootNode is not null otherwise return null.
+        while (Objects.nonNull(rootNode) && !rootNode.isEquals(data)) {
+            if (rootNode.isGreaterThan(data)) {
+                rootNode = rootNode.getLeft();
+            } else {
+                rootNode = rootNode.getRight();
             }
         }
 
-        return null;
+        LOGGER.debug("-findIteratively(), rootNode:{}", rootNode);
+        return rootNode;
     }
 
     /**
      * Returns the node of the provided <code>data</code> if exists in the tree otherwise null. It finds the node using
      * recursive approach.
      *
-     * @param root
+     * @param rootNode
      * @param data
      * @return
      */
-    protected Node<E> findRecursively(Node<E> root, E data) {
-        // if data is null or root is null, return null;
-        if (root != null) {
+    protected Node<E> findRecursively(Node<E> rootNode, E data) {
+        // if data is null or rootNode is null, return null;
+        if (Objects.nonNull(rootNode)) {
             // find a match, so return it
-            if (root.isEquals(data)) {
-                return root;
-            } else if (root.isGreaterThan(data)) {
+            if (rootNode.isEquals(data)) {
+                return rootNode;
+            } else if (rootNode.isGreaterThan(data)) {
                 // if the current node is greater than data, find in left.
-                return findRecursively(root.getLeft(), data);
-            } else if (root.isLessThan(data)) {
+                return findRecursively(rootNode.getLeft(), data);
+            } else if (rootNode.isLessThan(data)) {
                 // if the current node is less than data, find in right.
-                return findRecursively(root.getRight(), data);
+                return findRecursively(rootNode.getRight(), data);
             }
         }
 
@@ -347,63 +342,6 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
     public void removeNode(E data) {
         removeNode(getRoot(), data);
     }
-
-    /**
-     * Returns true if the node is deleted otherwise false.
-     *
-     * @param root
-     * @param data
-     * @return
-     */
-//    protected boolean delete(E data) {
-//        boolean deleted = false;
-//
-//        // if not empty, check which node to delete.
-//        if (root != null) {
-//            Node<E> delNode = findNode(data);
-//
-//            // if node exists, delete it.
-//            if (delNode != null) {
-//                // check, if it's a leaf node
-//                if (delNode.isLeaf()) {
-//                    unlink(delNode, null);
-//                    deleted = true;
-//                } else if (delNode.hasLeft()) {
-//                    // check if it only has right child.
-//                    unlink(delNode, delNode.getRight());
-//                    deleted = true;
-//                } else if (delNode.hasLeft()) {
-//                    // check if it only has left child.
-//                    unlink(delNode, delNode.getLeft());
-//                    deleted = true;
-//                } else {
-//                    // node has both children
-//                    Node<E> child = delNode;
-//                    // find right most child
-//                    if (child.hasRight() && child.hasLeft()) {
-//                        child = child.getRight();
-//                    }
-//
-//                    // now replace it's right node.
-//                    child.getParent().setRight(null);
-//
-//                    child.setLeft(delNode.getLeft());
-//                    child.setRight(delNode.getRight());
-//
-//                    unlink(delNode, child);
-//                    deleted = true;
-//                }
-//            }
-//
-//            delNode = null;
-//        }
-//
-//        if (deleted) {
-//            size--;
-//        }
-//
-//        return deleted;
-//    }
 
     /**
      * Returns the string representation of this object.

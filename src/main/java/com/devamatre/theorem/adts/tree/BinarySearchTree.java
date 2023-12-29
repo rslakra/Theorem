@@ -37,11 +37,4 @@ public class BinarySearchTree<E extends Comparable<? super E>> extends BinaryTre
         this(false);
     }
 
-    /**
-     *
-     */
-    @Override
-    public void balanceTree() {
-        super.balanceTree();
-    }
 }

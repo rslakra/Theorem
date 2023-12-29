@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts.tree.handler;
+package com.devamatre.theorem.adts.tree.parser;
 
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
@@ -9,16 +9,16 @@ import org.slf4j.LoggerFactory;
  * @author Rohtash Lakra
  * @created 12/13/23 4:16 PM
  */
-public class LevelOrderHandler<E extends Comparable<? super E>> extends AbstractTreeHandler<E> {
+public class LevelOrderTreeParser<E extends Comparable<? super E>> extends AbstractTreeParser<E> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LevelOrderHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LevelOrderTreeParser.class);
 
     /**
      * Handles the preOrder operations.
      */
-    public LevelOrderHandler() {
-        super(TraversalMode.IN_ORDER_TRAVERSAL);
-        LOGGER.debug("LevelOrderHandler()");
+    public LevelOrderTreeParser() {
+        super(TraversalMode.LEVEL_ORDER_TRAVERSAL);
+        LOGGER.debug("LevelOrderTreeParser()");
     }
 
     /**
@@ -30,7 +30,7 @@ public class LevelOrderHandler<E extends Comparable<? super E>> extends Abstract
      * @return
      */
     @Override
-    public E[] treeConverter(Node<E> rootNode, boolean includeNullLeafs) {
+    public E[] parse(Node<E> rootNode, boolean includeNullLeafs) {
         return null;
     }
 }

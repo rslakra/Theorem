@@ -154,6 +154,13 @@ public abstract class AbstractTreeTest {
     }
 
     /**
+     * Tests <code>findNode()</code> method.
+     */
+    public void testFindNode() {
+
+    }
+
+    /**
      * Tests <code>addNode()</code> method.
      */
     public void testRemoveNode() {
