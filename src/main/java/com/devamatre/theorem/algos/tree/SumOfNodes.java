@@ -1,5 +1,6 @@
 package com.devamatre.theorem.algos.tree;
 
+import com.devamatre.theorem.adts.tree.BinaryTree;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.data.NodeInfo;
 
@@ -10,7 +11,7 @@ import java.util.Queue;
  * @author Rohtash Lakra
  * @created 11/28/23 10:55 AM
  */
-public class IntTreeSum {
+public class SumOfNodes extends BinaryTree<Integer> {
 
     /**
      * Returns the sum of nodes at the Kth level.
@@ -18,7 +19,7 @@ public class IntTreeSum {
      * @param rootNode
      * @param level
      */
-    public static int sumOfNodesAtKthLevel(Node<Integer> rootNode, int level) {
+    public int sumOfNodesAtKthLevel(Node<Integer> rootNode, int level) {
         int sumOfNodes = 0;
         if (rootNode != null) {
             Queue<NodeInfo<Integer>> queue = new LinkedList<>();

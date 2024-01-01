@@ -21,25 +21,11 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(BinarySearchTreeTest.class);
 
     /**
-     * Builds the <code>BinarySearchTree</code>.
-     *
-     * @param inputData
-     * @param <E>
-     * @return
-     */
-    @Override
-    public <E extends Comparable<? super E>> BinarySearchTree<E> buildTree(List<E> inputData) {
-        BinarySearchTree tree = new BinarySearchTree();
-        fillTree(tree, inputData);
-        return tree;
-    }
-
-    /**
      * Build binary tree with strings.
      */
     @Test
     public void testBinarySearchTree() {
-        BinarySearchTree<String> tree = buildTree(Arrays.asList("India", "United States", "China", "Japan", "Indonesia", "Australia", "Nepal"));
+        BinarySearchTree<String> tree = buildBinarySearchTree(Arrays.asList("India", "United States", "China", "Japan", "Indonesia", "Australia", "Nepal"));
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
         assertNotNull(tree);
         assertEquals(7, tree.getSize());
@@ -111,7 +97,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
         tree.addNode(1);
         assertEquals(1, tree.getSize());
 
-        assertPreOrderTree(tree, new Integer[]{1});
+        assertTreesEqualsInPreOrder(tree, new Integer[]{1});
     }
 
     /**
@@ -127,14 +113,14 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
     @Test
     public void testBuildBinarySearchTree() {
         Integer[] inputData = new Integer[]{3, 1, 2, 4};
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(inputData));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(inputData));
         assertNotNull(tree);
         assertEquals(inputData.length, tree.getSize());
         LOGGER.debug("tree:{}", tree);
 
         Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
     }
@@ -152,14 +138,14 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
     @Test
     public void testBuildBinarySearchTreeWithoutDuplicates() {
         Integer[] inputData = new Integer[]{3, 1, 2, 4, 3, 4};
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(inputData));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(inputData));
         assertNotNull(tree);
         assertEquals(4, tree.getSize());
         LOGGER.debug("tree:{}", tree);
 
         Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
     }
@@ -204,14 +190,14 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
     @Test
     public void testRemoveLeaf() {
         Integer[] inputData = new Integer[]{3, 1, 2, 4};
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(inputData));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(inputData));
         assertNotNull(tree);
         assertEquals(inputData.length, tree.getSize());
         LOGGER.debug("tree:{}", tree);
 
         Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
 
@@ -219,21 +205,21 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
         tree.removeNodeWithoutParentHandling(2);
         expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
 
         tree.removeNodeWithoutParentHandling(4);
         expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
 
         tree.removeNodeWithoutParentHandling(1);
         expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
     }
@@ -251,7 +237,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
     @Test
     public void testRemoveRightChild() {
         Integer[] inputData = new Integer[]{3, 1, 2, 4};
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(inputData));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(inputData));
         assertNotNull(tree);
         assertEquals(inputData.length, tree.getSize());
         LOGGER.debug("tree:{}", tree);
@@ -259,10 +245,10 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
         tree.removeNodeWithoutParentHandling(1);
         Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
     }
 
@@ -278,7 +264,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
      */
     @Test
     public void testRemoveLeftChild() {
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(3, 1, 2, 4));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(3, 1, 2, 4));
         assertNotNull(tree);
         assertEquals(4, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
@@ -287,7 +273,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
         tree.removeNodeWithoutParentHandling(2);
         Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
     }
@@ -309,7 +295,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
          *  3   6
          * </pre>
          */
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(10, 7, 5, 9, 6, 3, 16));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(10, 7, 5, 9, 6, 3, 16));
         assertNotNull(tree);
         assertEquals(7, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
@@ -332,7 +318,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
          */
         Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
     }
@@ -359,7 +345,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
          *                  14
          * </pre>
          */
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(10, 5, 4, 6, 20, 15, 12, 13, 14));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(10, 5, 4, 6, 20, 15, 12, 13, 14));
         assertNotNull(tree);
         assertEquals(9, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
@@ -384,7 +370,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
          */
         Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
 
@@ -405,7 +391,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
          */
         expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
     }
@@ -424,7 +410,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
          *   1
          * </pre>
          */
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(3, 2, 1));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(3, 2, 1));
         assertNotNull(tree);
         assertEquals(3, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
@@ -444,7 +430,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
         LOGGER.debug("preOrder:{}", preOrder);
         Integer[] expected = BeanUtils.toType(preOrder, Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
     }
@@ -463,7 +449,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
          *        5
          * </pre>
          */
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(3, 4, 5));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(3, 4, 5));
         assertNotNull(tree);
         assertEquals(3, tree.getSize());
         LOGGER.debug("Size:{}, tree:{}", tree.getSize(), tree);
@@ -483,7 +469,7 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
         LOGGER.debug("preOrder:{}", preOrder);
         Integer[] expected = BeanUtils.toType(preOrder, Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
     }
@@ -493,12 +479,12 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
      */
     @Test
     public void testRemoveRootOnly() {
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(3));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(3));
         assertNotNull(tree);
         assertEquals(1, tree.getSize());
 
         tree.removeNodeWithoutParentHandling(3);
-        assertPreOrderTree(tree, new Integer[]{});
+        assertTreesEqualsInPreOrder(tree, new Integer[]{});
         assertEquals(0, tree.getSize());
     }
 
@@ -524,13 +510,13 @@ public class BinarySearchTreeTest extends AbstractTreeTest {
          *                   14
          * </pre>
          */
-        BinarySearchTree<Integer> tree = buildTree(Arrays.asList(10, 5, 4, 6, 20, 15, 12, 13, 14));
+        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(10, 5, 4, 6, 20, 15, 12, 13, 14));
         assertNotNull(tree);
         assertEquals(9, tree.getSize());
 
         Integer[] expected = BeanUtils.toType(TreeUtils.preOrder(tree.getRoot()), Integer[].class);
         LOGGER.debug("expected:{}", Arrays.toString(expected));
-        assertPreOrderTree(tree, expected);
+        assertTreesEqualsInPreOrder(tree, expected);
         assertEquals(expected.length, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
     }

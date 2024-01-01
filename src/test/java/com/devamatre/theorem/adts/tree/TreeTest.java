@@ -22,28 +22,22 @@ public class TreeTest extends AbstractTreeTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeTest.class);
 
-    public static final Integer[] IN_ORDER_DATA = new Integer[]{4, 2, 5, 1, 3, 7, 6, 8};
-    public static final Integer[] LEVEL_ORDER_DATA = new Integer[]{4, 5, 2, 7, 8, 6, 3, 1};
-    public static final Integer[] PRE_ORDER_DATA = new Integer[]{1, 2, 4, 5, 3, 6, 7, 8};
-    public static final Integer[] PRE_ORDER_DATA_WITH_NEGATIVE = new Integer[]{1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, 7, -1, -1, 8};
-    public static final Integer[] POST_ORDER_DATA = new Integer[]{4, 5, 2, 7, 8, 6, 3, 1};
-
-    /**
-     * Builds the <code>Tree</code>.
-     *
-     * @param inputData
-     * @param <E>
-     * @return
-     */
-    @Override
-    public <E extends Comparable<? super E>> Tree<E> buildTree(List<E> inputData) {
-        LOGGER.debug("+buildTree({}, {})", inputData);
-        final Tree<E> tree = new Tree<>();
-        fillTree(tree, inputData);
-        LOGGER.debug("-buildTree(), tree:{}", tree);
-        tree.printPrettyTree();
-        return tree;
-    }
+//    /**
+//     * Builds the <code>Tree</code>.
+//     *
+//     * @param inputData
+//     * @param <E>
+//     * @return
+//     */
+//    @Override
+//    public <E extends Comparable<? super E>> Tree<E> buildTree(List<E> inputData) {
+//        LOGGER.debug("+buildTree({}, {})", inputData);
+//        final Tree<E> tree = new Tree<>();
+//        fillTree(tree, inputData);
+//        LOGGER.debug("-buildTree(), tree:{}", tree);
+//        tree.printPrettyTree();
+//        return tree;
+//    }
 
     /**
      * Build Tree with strings.
@@ -109,7 +103,7 @@ public class TreeTest extends AbstractTreeTest {
         LOGGER.debug("tree:{}", tree);
         assertEquals(3, tree.getSize());
         TreeUtils.printBinaryTree(tree.getRoot());
-        assertPreOrderTree(tree, new Integer[]{1, 2, 3});
+        assertTreesEqualsInPreOrder(tree, new Integer[]{1, 2, 3});
     }
 
     /**

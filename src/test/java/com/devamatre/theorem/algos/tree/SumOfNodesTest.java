@@ -1,8 +1,6 @@
 package com.devamatre.theorem.algos.tree;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import com.devamatre.theorem.adts.tree.AbstractTreeTest;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TreeUtils;
 import org.slf4j.Logger;
@@ -15,13 +13,15 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * @author Rohtash Lakra
  * @created 11/28/23 10:55 AM
  */
-public class IntTreeSumTest {
+public class SumOfNodesTest extends AbstractTreeTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IntTreeSumTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SumOfNodesTest.class);
 
     /**
      * The inputData and expected results.
@@ -51,7 +51,9 @@ public class IntTreeSumTest {
         assertNotNull(rootNode);
         TreeUtils.printBinaryTree(rootNode);
 
-        int sumOfNodes = IntTreeSum.sumOfNodesAtKthLevel(rootNode, level);
+        // crate instance.
+        SumOfNodes instance = new SumOfNodes();
+        int sumOfNodes = instance.sumOfNodesAtKthLevel(rootNode, level);
         LOGGER.debug("expected:{}, sumOfNodes:{}", expected, sumOfNodes);
         assertEquals(expected, sumOfNodes);
     }

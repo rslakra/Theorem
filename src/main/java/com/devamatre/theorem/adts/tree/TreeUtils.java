@@ -697,30 +697,30 @@ public enum TreeUtils {
      *   2     3
      * </pre>
      *
-     * @param node
+     * @param rootNode
      * @param currentHeight
      * @param maxHeight
      * @return
      */
-    public static <E extends Comparable<? super E>> StringBuilder printPrettyTree(Node<E> node, int currentHeight, int maxHeight) {
+    public static <E extends Comparable<? super E>> StringBuilder printPrettyTree(Node<E> rootNode, int currentHeight, int maxHeight) {
         final StringBuilder treeBuilder = new StringBuilder();
         int spaces = countSpaces(maxHeight - currentHeight + 1);
-        if (Objects.isNull(node)) {
+        if (Objects.isNull(rootNode)) {
             // create a 'spatial' block and return it
-            String row = buildSpatialBlock(node, spaces);
+            String row = buildSpatialBlock(rootNode, spaces);
             // now repeat this row (space+1) times
             return new StringBuilder(new String(new char[spaces + 1]).replace("\0", row));
         }
 
         if (currentHeight == maxHeight) {
-            return new StringBuilder(node.getData().toString());
+            return new StringBuilder(rootNode.getData().toString());
         }
 
-        treeBuilder.append(buildSpatialBlock(node, spaces));
+        treeBuilder.append(buildSpatialBlock(rootNode, spaces));
         treeBuilder.append(NEW_LINE);
         /* now print / and \ but make sure that left and right exists */
-        String leftSlash = node.hasLeft() ? BACK_SLASH : SPACE;
-        String rightSlash = node.hasRight() ? SLASH : SPACE;
+        String leftSlash = rootNode.hasLeft() ? BACK_SLASH : SPACE;
+        String rightSlash = rootNode.hasRight() ? SLASH : SPACE;
         int spaceInBetween = 1;
         int slashes = countSlashes(maxHeight - currentHeight + 1);
         for (int i = 0, space = spaces - 1; i < slashes; i++, space--, spaceInBetween += 2) {
@@ -733,12 +733,12 @@ public enum TreeUtils {
         }
 
         /* now get string representations of left and right subtrees */
-        final StringBuilder leftTreeBuilder = printPrettyTree(node.getLeft(), currentHeight + 1, maxHeight);
-        final StringBuilder rightTreeBuilder = printPrettyTree(node.getRight(), currentHeight + 1, maxHeight);
+        final StringBuilder leftTreeBuilder = printPrettyTree(rootNode.getLeft(), currentHeight + 1, maxHeight);
+        final StringBuilder rightTreeBuilder = printPrettyTree(rootNode.getRight(), currentHeight + 1, maxHeight);
         /* now line by line print the trees side by side */
         final Scanner leftScanner = new Scanner(leftTreeBuilder.toString());
         final Scanner rightScanner = new Scanner(rightTreeBuilder.toString());
-        // spaceInBetween+=1;
+        // spaceInBetween += 1;
         while (leftScanner.hasNextLine()) {
             if (currentHeight == maxHeight - 1) {
                 treeBuilder.append(String.format("%-2s %2s", leftScanner.nextLine(), rightScanner.nextLine()));

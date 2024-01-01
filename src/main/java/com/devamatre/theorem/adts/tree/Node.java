@@ -583,6 +583,17 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     }
 
     /**
+     * Returns true if the current node's <code>data</code>  is greater than the <code>data</code> node's value
+     * otherwise false.
+     *
+     * @param data
+     * @return
+     */
+    public boolean isLessThanEqualTo(E data) {
+        return (getData().compareTo(data) <= 0);
+    }
+
+    /**
      * Returns true if current node's <code>data</code>  is equals to the <code>data</code> node's value otherwise
      * false.
      *

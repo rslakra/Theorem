@@ -59,7 +59,7 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      *
      * @return
      */
-    protected Node<E> getRoot() {
+    public Node<E> getRoot() {
         return root;
     }
 
