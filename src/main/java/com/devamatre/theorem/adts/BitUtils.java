@@ -117,43 +117,98 @@ public enum BitUtils {
     }
 
     /**
-     * @param args
+     * Toggle a bit at the provided <code>position</code> of the provided <code>number</code>.
+     *
+     * @param number
+     * @param position
+     * @return
      */
-    public static void main(String[] args) {
+    public static Integer toggleBitAtPosition(Integer number, Integer position) {
+        return (isSetBit(number, position) ? clearBit(number, position) : setBit(number, position));
+    }
 
-        int a = 1;
-        int b = 2;
-        int c = 3;
+    /**
+     * Returns the result of & (AND) bitwise operation.
+     *
+     * @param left
+     * @param right
+     * @return
+     */
+    public static Integer andOf(Integer left, Integer right) {
+        return (left & right);
+    }
 
-        System.out.println("a&b: " + (a & b));
-        System.out.println("a&c: " + (a & c));
-        System.out.println("b&c: " + (b & c));
-        System.out.println();
+    /**
+     * Returns the result of | (OR) bitwise operation.
+     *
+     * @param left
+     * @param right
+     * @return
+     */
+    public static Integer orOf(Integer left, Integer right) {
+        return (left | right);
+    }
 
-        System.out.println("a|b: " + (a | b));
-        System.out.println("a|c: " + (a | c));
-        System.out.println("b|c: " + (b | c));
-        System.out.println();
+    /**
+     * Returns the result of << (left shift) bitwise operation.
+     *
+     * @param number
+     * @param position
+     * @return
+     */
+    public static Integer leftShift(Integer number, Integer position) {
+        return (number << position);
+    }
 
-        System.out.println("a>>b: " + (a >> b));
-        System.out.println("a>>c: " + (a >> c));
-        System.out.println("b>>c: " + (b >> c));
-        System.out.println();
+    /**
+     * Returns the result of << (left shift) bitwise operation.
+     *
+     * @param number
+     * @param position
+     * @return
+     */
+    public static Integer rightShift(Integer number, Integer position) {
+        return (number >> position);
+    }
 
-        System.out.println("a<<b: " + (a << b));
-        System.out.println("a<<c: " + (a << c));
-        System.out.println("b<<c: " + (b << c));
-        System.out.println();
+    /**
+     * Performs the provided operation on the given values.
+     *
+     * @param operation
+     * @param number
+     * @param position
+     * @return
+     */
+    public static Integer doOperation(String operation, Integer number, Integer position) {
+        switch (operation) {
+            case "&":
+                return andOf(number, position);
+            case "|":
+                return orOf(number, position);
+            case "<<":
+                return leftShift(number, position);
+            case ">>":
+                return rightShift(number, position);
+        }
 
-        int d = 2;
-        d |= a;
-        System.out.println("d|=a: " + d);
-        d |= b;
-        System.out.println("d|=b: " + d);
-        d |= c;
-        System.out.println("d|=c: " + d);
-        System.out.println();
+        return 0;
+    }
 
+    /**
+     * Returns the count of the number of 1’s in a binary representation of the number.
+     *
+     * @param number
+     * @return
+     */
+    public static Integer countSetBits(Integer number) {
+        int setBits = 0;
+        for (int i = 0; i < 8; i++) {
+            if (isSetBit(number, i)) {
+                setBits++;
+            }
+        }
+
+        return setBits;
     }
 
 }

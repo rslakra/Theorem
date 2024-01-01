@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Stack;
 
 public enum NumberUtils {
 
@@ -185,5 +186,46 @@ public enum NumberUtils {
 
         return wordBuilder.toString();
     }
+
+
+    /**
+     * Decimal & Binary
+     * <url>https://www.cuemath.com/numbers/binary-to-decimal</url>
+     * <p>
+     * Converts the number into binary number.
+     */
+    public static int[] decimalToBinary(int number) {
+        Stack<Integer> stack = new Stack<>();
+        // divide until number != 0
+        while (number != 0) {
+            stack.push(number % 2);
+            number = number / 2;
+        }
+
+        // iterate stack and build an array
+        int index = 0;
+        int[] binary = new int[stack.size()];
+        while (!stack.isEmpty()) {
+            binary[index++] = stack.pop().intValue();
+        }
+
+        return binary;
+    }
+
+    /**
+     * Converts the binary number into decimal number.
+     *
+     * @param binary
+     * @return
+     */
+    public static int binaryToDecimal(int[] binary) {
+        int number = 0;
+        for (int i = 0; i < binary.length; i++) {
+            number = (number * 2) + binary[i];
+        }
+
+        return number;
+    }
+
 
 }

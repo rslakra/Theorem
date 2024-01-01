@@ -188,4 +188,130 @@ public class BitUtilsTest {
         assertEquals(expected, result);
     }
 
+    /**
+     * @return
+     */
+    @DataProvider
+    private Iterator<Object[]> toggleBitAtPositionData() {
+        List<Object[]> input = new LinkedList<>();
+        /**
+         * <pre>
+         *  Number (5) = |0|1|0|1|
+         *  Positions  = |3|2|1|0|
+         * </pre>
+         */
+        input.add(new Object[]{5, 0, 4});
+        input.add(new Object[]{5, 1, 7});
+        input.add(new Object[]{5, 2, 1});
+        input.add(new Object[]{5, 3, 13});
+
+        return input.iterator();
+    }
+
+    /**
+     * @param number
+     * @param position
+     * @param expected
+     */
+    @Test(dataProvider = "toggleBitAtPositionData")
+    public void testToggleBitAtPosition(Integer number, Integer position, Integer expected) {
+        LOGGER.debug("testSetBit({}, {}, {})", number, position, expected);
+        Integer result = BitUtils.toggleBitAtPosition(number, position);
+        LOGGER.debug("result: {}", result);
+        assertEquals(expected, result);
+    }
+
+    /**
+     * @return
+     */
+    @DataProvider
+    private Iterator<Object[]> doOperationData() {
+        List<Object[]> input = new LinkedList<>();
+        input.add(new Object[]{"&", 5, 3, 1});
+        input.add(new Object[]{"|", 5, 3, 7});
+        input.add(new Object[]{"<<", 5, 2, 20});
+        input.add(new Object[]{">>", 5, 2, 1});
+
+        return input.iterator();
+    }
+
+    /**
+     * @param number
+     * @param position
+     * @param expected
+     */
+    @Test(dataProvider = "doOperationData")
+    public void testDoOperation(String operatioin, Integer number, Integer position, Integer expected) {
+        LOGGER.debug("testSetBit({}, {}, {}, {})", operatioin, number, position, expected);
+        Integer result = BitUtils.doOperation(operatioin, number, position);
+        LOGGER.debug("result: {}", result);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testBitUtils() {
+        int a = 1;
+        int b = 2;
+        int c = 3;
+
+        LOGGER.debug("a&b:{}", BitUtils.andOf(a, b));
+        LOGGER.debug("a&c:{}", BitUtils.andOf(a, c));
+        LOGGER.debug("b&c:{}", BitUtils.andOf(b, c));
+        System.out.println();
+
+        LOGGER.debug("a|b:{}", BitUtils.orOf(a, b));
+        LOGGER.debug("a|c:{}", BitUtils.orOf(a, c));
+        LOGGER.debug("b|c:{}", BitUtils.orOf(b, c));
+        System.out.println();
+
+        LOGGER.debug("a<<b:{}", BitUtils.leftShift(a, b));
+        LOGGER.debug("a<<c:{}", BitUtils.leftShift(a, c));
+        LOGGER.debug("b<<c:{}", BitUtils.leftShift(b, c));
+        System.out.println();
+
+        LOGGER.debug("a>>b:{}", BitUtils.rightShift(a, b));
+        LOGGER.debug("a>>c:{}", BitUtils.rightShift(a, c));
+        LOGGER.debug("b>>c:{}", BitUtils.rightShift(b, c));
+        System.out.println();
+
+        int d = 2;
+        d |= a;
+        LOGGER.debug("d |= a:{}", d);
+        d |= b;
+        LOGGER.debug("d |= b:{}", d);
+        d |= c;
+        LOGGER.debug("d |= c:{}", d);
+        System.out.println();
+    }
+
+    /**
+     * @return
+     */
+    @DataProvider
+    private Iterator<Object[]> countSetBitsData() {
+        List<Object[]> input = new LinkedList<>();
+        input.add(new Object[]{2, 1});
+        input.add(new Object[]{3, 2});
+        input.add(new Object[]{5, 2});
+        input.add(new Object[]{7, 3});
+        input.add(new Object[]{8, 1});
+        input.add(new Object[]{11, 3});
+        input.add(new Object[]{15, 4});
+        input.add(new Object[]{16, 1});
+
+        return input.iterator();
+    }
+
+    /**
+     * @param number
+     * @param expected
+     */
+    @Test(dataProvider = "countSetBitsData")
+    public void testCountSetBits(Integer number, Integer expected) {
+        LOGGER.debug("testCountSetBits({}, {})", number, expected);
+        Integer result = BitUtils.countSetBits(number);
+        LOGGER.debug("result: {}", result);
+        assertEquals(expected, result);
+    }
+
 }
