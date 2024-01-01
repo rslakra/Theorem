@@ -112,16 +112,8 @@ public enum BitUtils {
      * @return
      */
     public static Integer updateBit(Integer number, Integer position, Integer operation) {
-        // create bitMask with position
-        Integer bitMask = 1 << position;
-        if (operation == 1) {
-            return (bitMask | number);
-        } else {
-            // negate bitMask
-            Integer negateBitMask = ~(bitMask);
-            // do AND operation with negateBitMask and number
-            return (negateBitMask & number);
-        }
+        // take the operation and based on that perform operation
+        return (operation == 1 ? setBit(number, position) : clearBit(number, position));
     }
 
     /**
