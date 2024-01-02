@@ -1,4 +1,4 @@
-package com.devamatre.theorem.leetcode;
+package com.devamatre.theorem.leetcode.text;
 
 import java.util.Arrays;
 

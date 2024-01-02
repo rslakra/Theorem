@@ -3,7 +3,7 @@ package com.devamatre.theorem.adts.tree.print;
 import com.devamatre.theorem.adts.tree.PrintPrettyTree;
 
 /**
- * @author Rohtash Lakra (rslakra.work@gmail.com)
+ * @author Rohtash Lakra
  * @version 1.0.0
  * @since 12/17/2023 1:37 PM
  */

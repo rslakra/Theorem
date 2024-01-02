@@ -3,7 +3,7 @@ package com.devamatre.theorem.adts.tree.parser;
 import org.testng.annotations.Test;
 
 /**
- * @author Rohtash Lakra (rslakra.work@gmail.com)
+ * @author Rohtash Lakra
  * @version 1.0.0
  * @since 12/28/2023 4:33 PM
  */

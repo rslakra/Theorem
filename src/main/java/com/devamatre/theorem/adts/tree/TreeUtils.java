@@ -24,7 +24,7 @@ package com.devamatre.theorem.adts.tree;
 
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.AlgoUtils;
-import com.devamatre.theorem.adts.Maths;
+import com.devamatre.theorem.adts.lang.Maths;
 import com.devamatre.theorem.adts.tree.data.NodeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

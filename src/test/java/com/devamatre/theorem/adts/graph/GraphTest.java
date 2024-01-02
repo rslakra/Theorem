@@ -5,7 +5,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import com.devamatre.appsuite.core.Sets;
-import com.devamatre.theorem.adts.Maths;
+import com.devamatre.theorem.adts.lang.Maths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;

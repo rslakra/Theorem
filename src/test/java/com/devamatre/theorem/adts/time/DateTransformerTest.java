@@ -26,11 +26,9 @@
  * Devamatre reserves the right to modify the technical specifications and or
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.theorem.adts;
+package com.devamatre.theorem.adts.time;
 
-import com.devamatre.theorem.adts.time.Date;
-
-public class DateTransformerTestCase {
+public class DateTransformerTest {
 
     public static void main(String[] args) {
         DateTransformer myDate = new DateTransformer(1905, 2, 13);
@@ -79,7 +77,6 @@ public class DateTransformerTestCase {
         System.out.println("firstDayOfMonth:" + firstDayOfMonth);
         Date previousDayOfFirstDayOfMonth = firstDayOfMonth.decrement();
         System.out.println("previousDayOfFirstDayOfMonth:" + previousDayOfFirstDayOfMonth);
-
     }
 
 }

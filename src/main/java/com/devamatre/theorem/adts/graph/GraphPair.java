@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Rohtash Lakra
  * @created 9/9/23 4:59 PM
  */
-public class Pair<T extends Comparable> implements Comparable<Pair> {
+public class GraphPair<T extends Comparable<? super T>> implements Comparable<GraphPair> {
 
     private T source;
     private BigDecimal weight;
@@ -18,7 +18,7 @@ public class Pair<T extends Comparable> implements Comparable<Pair> {
      * @param source
      * @param weight
      */
-    public Pair(T source, BigDecimal weight) {
+    public GraphPair(T source, BigDecimal weight) {
         this.source = source;
         this.weight = weight;
     }
@@ -73,7 +73,7 @@ public class Pair<T extends Comparable> implements Comparable<Pair> {
             return false;
         }
 
-        Pair<T> that = (Pair<T>) object;
+        GraphPair<T> that = (GraphPair<T>) object;
         return Objects.equals(getSource(), that.getSource()) && Objects.equals(getWeight(), that.getWeight());
     }
 
@@ -84,10 +84,10 @@ public class Pair<T extends Comparable> implements Comparable<Pair> {
      */
     @Override
     public String toString() {
-        return ToString.of(Pair.class, true)
-            .add("source", getSource())
-            .add("weight", Objects.toString(getWeight()))
-            .toString();
+        return ToString.of(GraphPair.class, true)
+                .add("source", getSource())
+                .add("weight", Objects.toString(getWeight()))
+                .toString();
     }
 
     /**
@@ -122,7 +122,7 @@ public class Pair<T extends Comparable> implements Comparable<Pair> {
      * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
     @Override
-    public int compareTo(Pair pair) {
+    public int compareTo(GraphPair pair) {
         return (Objects.nonNull(getWeight()) ? getWeight().subtract(pair.getWeight()).intValue() : 0);
     }
 }

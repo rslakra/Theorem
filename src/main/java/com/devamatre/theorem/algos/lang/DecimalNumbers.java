@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.devamatre.theorem.algos;
+package com.devamatre.theorem.algos.lang;
 
 import com.devamatre.appsuite.core.MathUtils;
 import org.slf4j.Logger;

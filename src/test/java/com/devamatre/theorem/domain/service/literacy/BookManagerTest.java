@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts;
+package com.devamatre.theorem.domain.service.literacy;
 
 /**
  * @author Rohtash Lakra

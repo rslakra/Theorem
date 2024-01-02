@@ -1,6 +1,6 @@
 package com.devamatre.theorem.adts.graph;
 
-import com.devamatre.theorem.adts.Maths;
+import com.devamatre.theorem.adts.lang.Maths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -26,7 +26,7 @@
  * Devamatre reserves the right to modify the technical specifications and or
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.theorem.adts;
+package com.devamatre.theorem.algos.lang;
 
 import java.util.Scanner;
 
@@ -39,8 +39,8 @@ import java.util.Scanner;
 public class CommonFactors {
 
     /**
-     * @param divisible
-     * @param divisor
+     * @param nominator
+     * @param denominator
      * @return
      */
     public static int greatestCommonDivisor(int nominator, int denominator) {
@@ -52,8 +52,8 @@ public class CommonFactors {
     }
 
     /**
-     * @param divisible
-     * @param divisor
+     * @param nominator
+     * @param denominator
      * @return
      */
     public static int highestCommonFactor(int nominator, int denominator) {
@@ -75,8 +75,8 @@ public class CommonFactors {
      * <p>
      * LCM(a, b) = a * b / GCD(a, b)
      *
-     * @param divisible
-     * @param divisor
+     * @param nominator
+     * @param denominator
      * @return
      */
     public static int leastCommonDenominator(int nominator, int denominator) {
@@ -85,11 +85,12 @@ public class CommonFactors {
     }
 
     /**
-     * @param args For Example:
+     * For Example:
+     * <pre>
+     *  6 4 12 8 30 15 54 24 84 18 108 24
+     * </pre>
      *
-     *             <code>
-     *             6 4 12 8 30 15 54 24 84 18 108 24
-     *             </code>
+     * @param args
      */
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);

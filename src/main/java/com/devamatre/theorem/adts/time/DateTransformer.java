@@ -26,9 +26,10 @@
  * Devamatre reserves the right to modify the technical specifications and or
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.theorem.adts;
+package com.devamatre.theorem.adts.time;
 
 import com.devamatre.theorem.adts.time.Date;
+import com.devamatre.theorem.adts.time.DateType;
 
 public class DateTransformer extends Date {
     // private DateType dateType;

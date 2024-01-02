@@ -1,7 +1,7 @@
 package com.devamatre.theorem.adts.tree.builder;
 
 import com.devamatre.appsuite.core.BeanUtils;
-import com.devamatre.theorem.adts.Maths;
+import com.devamatre.theorem.adts.lang.Maths;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeUtils;
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * @author Rohtash Lakra (rslakra.work@gmail.com)
+ * @author Rohtash Lakra
  * @version 1.0.0
  * @since 12/28/2023 8:15 AM
  */

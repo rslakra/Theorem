@@ -612,7 +612,7 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
     public Map<E, BigDecimal> shortPathWithDijkstraAlgorithm() {
         Map<E, BigDecimal> distances = new HashMap<>();
         Set<E> visited = new HashSet<>();
-        PriorityQueue<Pair<E>> queue = new PriorityQueue<>();
+        PriorityQueue<GraphPair<E>> queue = new PriorityQueue<>();
         // traverse each vertex of the graph
         Iterator<E> itr = adjList.keySet().iterator();
         while (itr.hasNext()) {
@@ -625,9 +625,9 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
         // for self, it should always be zero.
         distances.put(first.getSource(), BigDecimal.ZERO);
         // add first vertex to start with.
-        queue.add(new Pair(first.getSource(), BigDecimal.ZERO));
+        queue.add(new GraphPair(first.getSource(), BigDecimal.ZERO));
         while (!queue.isEmpty()) {
-            Pair pair = queue.remove();
+            GraphPair pair = queue.remove();
             if (!visited.contains(pair.getSource())) {
                 visited.add((E) pair.getSource());
                 if (adjList.containsKey(pair.getSource())) {
@@ -640,7 +640,7 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
                         BigDecimal newDistance = distances.get(u).add(edgeNeighbor.getWeight());
                         if (v != null && newDistance.compareTo(distances.get(v)) < 0) {
                             distances.put(v, newDistance);
-                            queue.add(new Pair<>(v, distances.get(v)));
+                            queue.add(new GraphPair<>(v, distances.get(v)));
                         }
                     }
                 }
@@ -797,11 +797,11 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
         BigDecimal mstCost = BigDecimal.ZERO;
         Set<Edge<E>> mst = new HashSet<>();
         Set<E> visited = new HashSet<>();
-        PriorityQueue<Pair<E>> queue = new PriorityQueue<>();
+        PriorityQueue<GraphPair<E>> queue = new PriorityQueue<>();
         // add first node of the graph into the queue.
-        queue.add(new Pair<>(startNode(), BigDecimal.ZERO));
+        queue.add(new GraphPair<>(startNode(), BigDecimal.ZERO));
         while (!queue.isEmpty()) {
-            Pair<E> pair = queue.remove();
+            GraphPair<E> pair = queue.remove();
             if (!visited.contains(pair.getSource())) {
                 visited.add(pair.getSource());
                 mstCost = mstCost.add(pair.getWeight());
@@ -812,7 +812,7 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
                     // if neighbor is not already visited, then only move that to MST
                     if (!visited.contains(edgeNeighbor.getTarget())) {
                         mst.add(edgeNeighbor);
-                        queue.add(new Pair<>(edgeNeighbor.getTarget(), edgeNeighbor.getWeight()));
+                        queue.add(new GraphPair<>(edgeNeighbor.getTarget(), edgeNeighbor.getWeight()));
                     }
                 }
             }
@@ -828,11 +828,11 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
 //        return minSpanningTree().stream().map(edge -> edge.getTarget()).collect(Collectors.toSet());
         Set<E> mst = new HashSet<>();
         Set<E> visited = new HashSet<>();
-        PriorityQueue<Pair<E>> queue = new PriorityQueue<>();
+        PriorityQueue<GraphPair<E>> queue = new PriorityQueue<>();
         // add first node of the graph into the queue.
-        queue.add(new Pair<>(startNode(), BigDecimal.ZERO));
+        queue.add(new GraphPair<>(startNode(), BigDecimal.ZERO));
         while (!queue.isEmpty()) {
-            Pair<E> pair = queue.remove();
+            GraphPair<E> pair = queue.remove();
             if (!visited.contains(pair.getSource())) {
                 visited.add(pair.getSource());
                 mst.add(pair.getSource());
@@ -842,7 +842,7 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
                     Edge<E> edgeNeighbor = neighbors.next();
                     // if neighbor is not already visited, then only move that to MST
                     if (!visited.contains(edgeNeighbor.getTarget())) {
-                        queue.add(new Pair<>(edgeNeighbor.getTarget(), edgeNeighbor.getWeight()));
+                        queue.add(new GraphPair<>(edgeNeighbor.getTarget(), edgeNeighbor.getWeight()));
                     }
                 }
             }

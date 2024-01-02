@@ -5,6 +5,7 @@ package com.devamatre.theorem.adts;
 
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.appsuite.core.MathUtils;
+import com.devamatre.theorem.adts.lang.Maths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

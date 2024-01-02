@@ -1,4 +1,4 @@
-package com.devamatre.theorem.adts;
+package com.devamatre.theorem.algos.lang;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
