@@ -52,7 +52,6 @@ public class MathsTest {
         assertEquals(Maths.isPowerOf2Optimized(number), result);
     }
 
-
     /**
      * @return
      */
@@ -95,11 +94,28 @@ public class MathsTest {
         assertEquals(8, power);
     }
 
-    @Test
-    public void testGCD() {
-        assertEquals(4, Maths.gcd(8, 12));
-        assertEquals(4, Maths.gcdEuclidean(8, 12));
-        assertEquals(4, Maths.gcdEuclideanRecursively(8, 12));
+
+    /**
+     * @return
+     */
+    @DataProvider
+    private Iterator<Object[]> gcdData() {
+        List<Object[]> input = new ArrayList<>();
+        input.add(new Object[]{8, 12, 4});
+        input.add(new Object[]{6, 12, 6});
+        input.add(new Object[]{12, 16, 4});
+        input.add(new Object[]{15, 18, 3});
+        input.add(new Object[]{15, 35, 5});
+
+        return input.iterator();
+    }
+
+    @Test(dataProvider = "gcdData")
+    public void testGCD(int nominator, int denominator, int expected) {
+        assertEquals(expected, Maths.gcd(nominator, denominator));
+        assertEquals(expected, Maths.gcdEuclidean(nominator, denominator));
+        assertEquals(expected, Maths.gcdEuclideanRecursively(nominator, denominator));
+        assertEquals(expected, Maths.gcdRecursively(nominator, denominator));
     }
 
 }
