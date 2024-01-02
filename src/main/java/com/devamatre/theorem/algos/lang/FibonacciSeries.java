@@ -26,7 +26,7 @@
  * Devamatre reserves the right to modify the technical specifications and or
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.theorem.algos;
+package com.devamatre.theorem.algos.lang;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -36,11 +36,11 @@ import java.util.Scanner;
  * sequence, and characterized by the fact that every number after the first two is the sum of the two preceding
  * ones:[1][2]
  * <p>
- * {1, 1, 2, 3, 5, 8, 13, 21, 34, 89, 144, ...}, or
+ * {1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...}, or
  * <p>
  * Often, especially in modern usage, the sequence is extended by one more initial term:
  * <p>
- * {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 89, 144, ...}
+ * {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...}
  * <p>
  * The Fibonacci spiral: an approximation of the golden spiral created by drawing circular arcs connecting the opposite
  * corners of squares in the Fibonacci tiling;[4] this one uses squares of sizes 1, 1, 2, 3, 5, 8, 13 and 21. By
@@ -54,7 +54,7 @@ import java.util.Scanner;
  * @date 10/19/2017 06:53:01 AM
  * @see <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci Number</a>
  */
-public class FibonacciNumbers {
+public class FibonacciSeries {
 
     public static void printFibonacci(int n) {
         if (n == 0) {
@@ -74,64 +74,91 @@ public class FibonacciNumbers {
         }
     }
 
+
     /**
+     * @param number
+     */
+    public void generateFibonacciSeries(int number) {
+        if (number > 0) {
+            int first = 0;
+            int next = 1;
+            System.out.println("Fibonacci series for:" + number);
+            System.out.println(first);
+            System.out.println(next);
+            int sum = 0;
+            for (int i = 0; i < number - 2; i++) {
+                sum = next + first;
+                first = next;
+                next = sum;
+                System.out.println(sum);
+            }
+        } else {
+            System.out.println("Invalid Number! number:" + number);
+        }
+    }
+
+    /**
+     * Returns the fibonacci series upto <code>n</code> recursively.
+     *
      * @param n
      * @return
      */
     public static int fibSeries(int n) {
+        return ((n <= 1) ? n : fibSeries(n - 1) + fibSeries(n - 2));
+    }
+
+    /**
+     * Returns an array of <code>fibSeries</code>.
+     *
+     * @param n
+     * @return
+     */
+    public static void fibSeries(int n, int[] fibSeries) {
         if (n <= 1) {
-            return n;
-        } else {
-            return fibSeries(n - 1) + fibSeries(n - 2);
+            if (n == 1 && fibSeries[n] == 0) {
+                fibSeries[n] = n;
+            } else {
+                fibSeries[n] = n;
+            }
+        } else if (n > 1 && fibSeries[n] == 0) {
+            fibSeries[n] = fibSeries(n - 1) + fibSeries(n - 2);
         }
     }
 
     /**
      * @param n
      */
-    public static void printFibonacciRecursion(int n) {
+    public static void printFibonacciRecursively(int n) {
         for (int i = 0; i <= n; i++) {
             System.out.print(fibSeries(i) + " ");
         }
     }
 
     /**
+     * Returns an array of Fibonacci series.
+     *
      * @param n
-     * @return
      */
-    public static int fibSeries(int n, int[] arr) {
-        if (n <= 1) {
-            if (n == 1 && arr[n] == 0) {
-                arr[n] = n;
-            }
-        } else if (n > 1 && arr[n] == 0) {
-            arr[n] = fibSeries(n - 1) + fibSeries(n - 2);
+    public static int[] getFibonacciDynamically(int n) {
+        int[] fibSeries = new int[n + 1];
+        for (int i = 0; i <= n; i++) {
+            fibSeries(i, fibSeries);
         }
-
-        return arr[n];
+        return fibSeries;
     }
 
     /**
-     * @param n
+     * @param args
      */
-    public static void printFibonacciDynamically(int n) {
-        int[] arr = new int[n + 1];
-        for (int i = 0; i <= n; i++) {
-            System.out.print(fibSeries(i, arr) + " ");
-        }
-        System.out.println();
-        System.out.println(Arrays.toString(arr));
-    }
-
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
         in.close();
         printFibonacci(n);
         System.out.println();
-        printFibonacciRecursion(n);
+        printFibonacciRecursively(n);
         System.out.println();
-        printFibonacciDynamically(n);
+        System.out.println(Arrays.toString(getFibonacciDynamically(n)));
     }
 
 }

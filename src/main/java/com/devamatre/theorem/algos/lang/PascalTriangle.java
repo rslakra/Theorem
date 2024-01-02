@@ -26,7 +26,7 @@
  * Devamatre reserves the right to modify the technical specifications and or
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.theorem.algos;
+package com.devamatre.theorem.algos.lang;
 
 import com.devamatre.theorem.adts.array.ArrayUtils;
 
