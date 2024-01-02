@@ -114,15 +114,7 @@ public class FibonacciSeries {
      * @return
      */
     public static void fibSeries(int n, int[] fibSeries) {
-        if (n <= 1) {
-            if (n == 1 && fibSeries[n] == 0) {
-                fibSeries[n] = n;
-            } else {
-                fibSeries[n] = n;
-            }
-        } else if (n > 1 && fibSeries[n] == 0) {
-            fibSeries[n] = fibSeries(n - 1) + fibSeries(n - 2);
-        }
+        fibSeries[n] = (n <= 1 ? n : fibSeries(n - 1) + fibSeries(n - 2));
     }
 
     /**
