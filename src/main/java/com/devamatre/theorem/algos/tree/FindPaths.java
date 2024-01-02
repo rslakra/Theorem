@@ -28,10 +28,12 @@ public class FindPaths extends BinarySearchTree<Integer> {
 
         // add path in the paths list
         if (rootNode.isLeaf()) {
-            paths.add(path);
+            // make sure create a new LinkedList object before adding to paths
+            paths.add(new LinkedList<>(path));
+        } else {
+            findAllPaths(rootNode.getLeft(), paths, path);
+            findAllPaths(rootNode.getRight(), paths, path);
         }
-        findAllPaths(rootNode.getLeft(), paths, path);
-        findAllPaths(rootNode.getRight(), paths, path);
         path.remove(rootNode.getData());
     }
 

@@ -77,7 +77,6 @@ public class FindPathsTest extends AbstractTreeTest {
         BinarySearchTree<Integer> tree = buildBinarySearchTree(inputData);
         LOGGER.debug("tree:{}", tree);
         assertNotNull(tree);
-//        tree.printPrettyTree();
 
         // find in range (3, 6)
         LOGGER.debug("inOrderTraversal:{}", tree.inOrderTraversal());
