@@ -24,13 +24,13 @@ public class HeapTest {
      * @return
      */
     public static List<Integer> positiveIntListGenerator() {
-        List<Integer> result = AlgoUtils.positiveIntListGenerator(SIZE);
-        LOGGER.debug("result: {}", result);
-        assertEquals(SIZE, result.size());
-        assertEquals(result, Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7));
-        result.forEach(item -> assertTrue(item < SIZE));
+        List<Integer> inputData = AlgoUtils.positiveIntListGenerator(SIZE);
+        LOGGER.debug("inputData: {}", inputData);
+        assertEquals(SIZE, inputData.size());
+        assertEquals(inputData, Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7));
+        inputData.forEach(item -> assertTrue(item < SIZE));
 
-        return result;
+        return inputData;
     }
 
 

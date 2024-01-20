@@ -15,9 +15,9 @@ import java.util.List;
  * @author Rohtash Lakra
  * @created 1/16/24 4:10 PM
  */
-public class LC15_3SumTest {
+public class LC15_ThreeSumTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC15_3SumTest.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(LC15_ThreeSumTest.class);
 
     /**
      * @return
@@ -42,7 +42,7 @@ public class LC15_3SumTest {
     @Test(dataProvider = "inputData")
     public void testThreeum(int[] inputData, List<List<Integer>> expected) {
         LOGGER.debug("testThreeum({}, {}, {})", inputData, expected);
-        LC15_3Sum instance = new LC15_3Sum();
+        LC15ThreeSum instance = new LC15ThreeSum();
         List<List<Integer>> result = instance.threeSum(inputData);
         LOGGER.debug("result:{}, expected:{}", result, expected);
         assertEquals(expected, result);

@@ -3,7 +3,6 @@ package com.devamatre.theorem.adts.tree.traversal;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeTraversal;
-import com.devamatre.theorem.adts.tree.TreeType;
 
 import java.util.List;
 import java.util.Objects;

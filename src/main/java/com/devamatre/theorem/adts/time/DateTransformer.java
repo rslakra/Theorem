@@ -28,9 +28,6 @@
  *****************************************************************************/
 package com.devamatre.theorem.adts.time;
 
-import com.devamatre.theorem.adts.time.Date;
-import com.devamatre.theorem.adts.time.DateType;
-
 public class DateTransformer extends Date {
     // private DateType dateType;
 

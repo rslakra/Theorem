@@ -144,7 +144,7 @@ public class SwapNodes {
             // swap node pointers
             LOGGER.debug("headPrevious:{}, tailPrevious:{}", headPrevious, tailPrevious);
             if (headPrevious != null && tailPrevious != null) {
-                ListNode tailSwap = tailPrevious.next;// node swap from the ending
+                ListNode tailSwap = tailPrevious.next; // node swap from the ending
                 ListNode headSwap = headPrevious.next; // node swap from the beginning
                 headPrevious.next = tailPrevious.next;
                 tailPrevious.next = headSwap;
@@ -153,7 +153,7 @@ public class SwapNodes {
                 tailSwap.next = headSwap.next;
                 headSwap.next = tailNode;
             } else if (headPrevious == null && tailPrevious != null) {
-                ListNode tailSwap = tailPrevious.next;// node swap from the ending
+                ListNode tailSwap = tailPrevious.next; // node swap from the ending
                 tailPrevious.next.next = headNode.next;
                 headNode.next = null;
                 tailPrevious.next = headNode;

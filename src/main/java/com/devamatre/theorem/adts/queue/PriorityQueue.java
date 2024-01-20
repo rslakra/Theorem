@@ -4,6 +4,7 @@ import com.devamatre.theorem.adts.heap.Heap;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.SortedSet;
 
 /**
  * A simple priority queue supports the following basic operations:
@@ -34,16 +35,16 @@ import java.util.Comparator;
 public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
 
     /**
-     * Creates a <code>PriorityQueue</code> with the default initial capacity (11) that orders its elements according to
-     * their natural ordering.
+     * Creates a <code>PriorityQueue</code> with the default initial capacity (11) that orders its elements according to their
+     * natural ordering.
      */
     public PriorityQueue() {
         super();
     }
 
     /**
-     * Creates a <code>PriorityQueue</code> with the specified initial capacity that orders its elements according to
-     * their natural ordering.
+     * Creates a <code>PriorityQueue</code> with the specified initial capacity that orders its elements according to their
+     * natural ordering.
      *
      * @param initialCapacity
      */
@@ -52,13 +53,13 @@ public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
     }
 
     /**
-     * Creates a <code>PriorityQueue</code> with the specified initial capacity that orders its elements according to
-     * the specified comparator.
+     * Creates a <code>PriorityQueue</code> with the specified initial capacity that orders its elements according to the
+     * specified comparator.
      *
      * @param initialCapacity
      * @param comparator
      */
-    public PriorityQueue(int initialCapacity, Comparator<? super E> comparator) {
+    public PriorityQueue(int initialCapacity, Comparator<E> comparator) {
         super(initialCapacity, comparator);
     }
 
@@ -72,12 +73,12 @@ public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
     }
 
     /**
-     * Creates a <code>PriorityQueue</code> with the default initial capacity and whose elements are ordered according
-     * to the specified comparator.
+     * Creates a <code>PriorityQueue</code> with the default initial capacity and whose elements are ordered according to the
+     * specified comparator.
      *
      * @param comparator
      */
-    public PriorityQueue(Comparator<? super E> comparator) {
+    public PriorityQueue(Comparator<E> comparator) {
         super(comparator);
     }
 
@@ -86,41 +87,17 @@ public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
      *
      * @param elements
      */
-    public PriorityQueue(Heap<? extends E> elements) {
+    public PriorityQueue(PriorityQueue<? extends E> elements) {
         super(elements);
     }
 
     /**
-     * Inserts an elements into queue at the specified index.
+     * Creates a <code>PriorityQueue</code> containing the elements in the specified sorted set.
      *
-     * @param item
+     * @param elements
      */
-    public void addItem(int index, E item) {
-
-    }
-
-    /**
-     * Removes and returns the maximum/minimum element of the queue.
-     * <p>
-     * The maximum/minimum element will be returned and the last element of heap will be placed at index 1 and
-     * <code>maxHeapify()</code> will be performed on node 1 as placing last element on index 1 will violate the
-     * property of max-heap.
-     * <p>
-     * Time Complexity: O(log N)
-     *
-     * @param object
-     * @return
-     */
-    @Override
-    public boolean remove(E object) {
-        return super.remove(object);
-    }
-
-    /**
-     * Sorts the heap.
-     */
-    @Override
-    public void sort() {
+    public PriorityQueue(SortedSet<? extends E> elements) {
+        super(elements);
     }
 
 }

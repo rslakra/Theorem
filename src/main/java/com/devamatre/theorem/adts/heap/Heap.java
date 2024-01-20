@@ -5,10 +5,13 @@ import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.AlgoUtils;
 import com.devamatre.theorem.adts.tree.TreeUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -20,12 +23,12 @@ import java.util.stream.Collectors;
  * @author Rohtash Lakra
  * @created 5/17/22 2:16 PM
  */
-public abstract class Heap<E extends Comparable<? super E>> implements Comparable<Heap> {
+public abstract class Heap<E extends Comparable<? super E>> implements Comparable<E> {
 
     private static int DEFAULT_CAPACITY = 16;
-    private Comparator<? super E> comparator;
+    private Comparator<E> comparator;
     private int capacity;
-    private Object[] data;
+    private transient Object[] queue;
     private int size;
 
     /**
@@ -53,11 +56,23 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * @param initialCapacity
      * @param comparator
      */
-    public Heap(int initialCapacity, Comparator<? super E> comparator) {
+    public Heap(int initialCapacity, Comparator<E> comparator) {
         this.capacity = initialCapacity;
         this.comparator = comparator;
-        this.data = new Object[this.capacity];
+        this.queue = new Object[this.capacity];
         this.size = 0;
+    }
+
+    /**
+     * Creates a <code>Heap</code> containing the elements in the specified priority queue and orders its elements according to the
+     * specified <code>comparator</code>.
+     *
+     * @param elements
+     * @param comparator
+     */
+    private Heap(Collection<? extends E> elements, Comparator<E> comparator) {
+        this(BeanUtils.isNotEmpty(elements) ? elements.size() : DEFAULT_CAPACITY, comparator);
+        addAll(elements);
     }
 
     /**
@@ -66,8 +81,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * @param elements
      */
     public Heap(Collection<? extends E> elements) {
-        this(BeanUtils.isNotEmpty(elements) ? elements.size() : DEFAULT_CAPACITY, null);
-        addAll(elements);
+        this(elements, null);
     }
 
     /**
@@ -76,18 +90,17 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      *
      * @param comparator
      */
-    public Heap(Comparator<? super E> comparator) {
+    public Heap(Comparator<E> comparator) {
         this(DEFAULT_CAPACITY, comparator);
     }
 
     /**
-     * Creates a <code>Heap</code> containing the elements in the specified priority queue.
+     * Creates a <code>Heap</code> containing the heap in the specified priority queue.
      *
-     * @param elements
+     * @param heap
      */
-    public Heap(Heap<? extends E> elements) {
-        this(BeanUtils.isNotEmpty(elements) ? elements.getSize() : DEFAULT_CAPACITY, null);
-        addAll(Arrays.stream(elements.getData()).map(entry -> (E) entry).collect(Collectors.toList()));
+    public Heap(Heap<? extends E> heap) {
+        initFromHeap(heap);
     }
 
     /**
@@ -96,8 +109,67 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * @param elements
      */
     public Heap(SortedSet<? extends E> elements) {
-        this(BeanUtils.isNotEmpty(elements) ? elements.size() : DEFAULT_CAPACITY, null);
-        addAll(elements);
+        this(elements, null);
+    }
+
+    /**
+     * Ensures that queue[0] exists, helping peek() and poll().
+     */
+    private static Object[] checkNonEmpty(Object[] objects) {
+        return (objects.length > 0) ? objects : new Object[1];
+    }
+
+    /**
+     * Initializes the queue array from the provided collection.
+     *
+     * @param items
+     */
+    private void initFromCollection(Collection<? extends E> items, boolean heapify) {
+        Object[] newQueue = items.toArray();
+        int newSize = newQueue.length;
+        if (items.getClass() != ArrayList.class) {
+            newQueue = Arrays.copyOf(newQueue, newSize, Object[].class);
+        }
+
+        // validate the items in the new queue are non-null values
+        if (newSize == 1 || Objects.nonNull(getComparator())) {
+            for (Object element : newQueue) {
+                if (Objects.isNull(element)) {
+                    throw new NullPointerException();
+                }
+            }
+        }
+
+        this.queue = checkNonEmpty(newQueue);
+        this.size = newSize;
+
+        // force to heapify, when needed
+        if (heapify) {
+            heapify();
+        }
+    }
+
+    /**
+     * @param items
+     */
+    private void initFromCollection(Collection<? extends E> items) {
+        initFromCollection(items, false);
+    }
+
+    /**
+     * Initializes the queue from the heap.
+     *
+     * @param heap
+     */
+    private void initFromHeap(Heap<? extends E> heap) {
+        if (heap.getClass() == Heap.class) {
+            this.comparator = (Comparator<E>) heap.getComparator();
+            this.queue = checkNonEmpty(heap.toArray());
+            this.size = heap.getSize();
+        } else {
+            final List<E> elements = Arrays.stream(heap.getQueue()).map(entry -> (E) entry).collect(Collectors.toList());
+            initFromCollection(elements);
+        }
     }
 
     /**
@@ -114,8 +186,8 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      *
      * @return
      */
-    public Object[] getData() {
-        return this.data;
+    public Object[] getQueue() {
+        return this.queue;
     }
 
     /**
@@ -125,7 +197,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * @return
      */
     private E getDataAt(int index) {
-        return (E) getData()[index];
+        return (E) getQueue()[index];
     }
 
     /**
@@ -136,7 +208,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      */
     private void setDataAt(int index, E element) {
         if (isValidIndex(index)) {
-            data[index] = element;
+            queue[index] = element;
         }
     }
 
@@ -182,11 +254,6 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
     }
 
     /**
-     * Sorts the heap.
-     */
-    public abstract void sort();
-
-    /**
      * Inserts the specified <code>element</code> into this priority queue.
      *
      * @param element
@@ -213,22 +280,35 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
             return false;
         }
 
-        Object[] oldElements = this.data;
+        Object[] oldElements = this.queue;
         final int oldSize = getSize();
         if (elements.size() > (getCapacity() - oldSize)) {
             oldElements = AlgoUtils.growCapacity(oldElements, oldSize + newSize);
         }
         System.arraycopy(newElements, 0, oldElements, oldSize, newSize);
         size = oldSize + newSize;
+
+        heapify();
+
         return true;
     }
 
+    /**
+     * Builds the min or max heap based on the comparator.
+     */
+    private void heapify() {
+        if (Objects.isNull(getComparator())) {
+            buildMinHeap();
+        } else {
+            buildMaxHeap();
+        }
+    }
 
     /**
      * Removes all elements from this priority queue.
      */
     public void clear() {
-        final Object[] oldElements = getData();
+        final Object[] oldElements = getQueue();
         for (int to = size, i = size = 0; i < to; i++) {
             oldElements[i] = null;
         }
@@ -270,7 +350,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * @return
      */
     public Iterator<E> iterator() {
-        return new ArrayIterator<>(data);
+        return new ArrayIterator<>(queue);
     }
 
     /**
@@ -283,7 +363,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * @return
      */
     public E peek() {
-        return (E) (isEmpty() ? null : getData()[0]);
+        return (E) (isEmpty() ? null : getQueue()[0]);
     }
 
     /**
@@ -334,7 +414,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * @return
      */
     public Object[] toArray() {
-        return data;
+        return queue;
     }
 
     /**
@@ -356,7 +436,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      */
     @Override
     public String toString() {
-        return Arrays.toString(getData());
+        return Arrays.toString(getQueue());
     }
 
     /**
@@ -384,19 +464,19 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * {@code 0}, or {@code 1} according to whether the value of
      * <i>expression</i> is negative, zero, or positive, respectively.
      *
-     * @param heap the object to be compared.
+     * @param other the object to be compared.
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than
      * the specified object.
      * @throws NullPointerException if the specified object is null
      * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
     @Override
-    public int compareTo(Heap heap) {
-        if (BeanUtils.isNotNull(getComparator())) {
-            return getComparator().compare((E) this, (E) heap);
+    public int compareTo(E other) {
+        if (Objects.nonNull(getComparator())) {
+            return getComparator().compare((E) this, other);
         }
 
-        return ((E) this).compareTo((E) heap);
+        return ((E) this).compareTo(other);
     }
 
     /**
@@ -409,7 +489,11 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * @return
      */
     private int compareIndices(int leftIndex, int rightIndex) {
-        return getDataAt(leftIndex).compareTo(getDataAt(rightIndex));
+        if (Objects.isNull(getComparator())) {
+            return getDataAt(leftIndex).compareTo(getDataAt(rightIndex));
+        } else {
+            return getComparator().compare(getDataAt(leftIndex), getDataAt(rightIndex));
+        }
     }
 
     /**

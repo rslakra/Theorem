@@ -26,13 +26,12 @@
  * Devamatre reserves the right to modify the technical specifications and or 
  * features without any prior notice.
  *****************************************************************************/
-package com.devamatre.theorem.adts.map;
+package com.devamatre.theorem.adts.hash;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.devamatre.theorem.adts.hash.HashTable;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +42,9 @@ import org.slf4j.LoggerFactory;
  * @created 2018-01-07 03:36:09 PM
  * @since 1.0.0
  */
-public class HashTest {
+public class HashTableTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HashTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HashTableTest.class);
 
     /**
      * Tests the <code>hashTable</code>.

@@ -1,13 +1,13 @@
 package com.devamatre.theorem.adts.heap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -19,21 +19,21 @@ public class MinHeapTest extends HeapTest {
 
     @Test
     public void testBuildHeap() {
-        List<Integer> result = positiveIntListGenerator();
-        MinHeap<Integer> minHeap = new MinHeap<>(result);
+        List<Integer> inputData = positiveIntListGenerator();
+        MinHeap<Integer> minHeap = new MinHeap<>(inputData);
         LOGGER.debug("minHeap: {}", minHeap);
-        assertEquals(Arrays.toString(minHeap.getData()), "[0, 1, 2, 3, 4, 5, 6, 7]");
+        assertEquals(Arrays.toString(minHeap.getQueue()), "[0, 1, 2, 3, 4, 5, 6, 7]");
     }
 
     @Test
     public void testSortHeap() {
-        List<Integer> result = positiveIntListGenerator();
-        MinHeap<Integer> minHeap = new MinHeap<>(result);
+        List<Integer> inputData = positiveIntListGenerator();
+        MinHeap<Integer> minHeap = new MinHeap<>(inputData);
         LOGGER.debug("minHeap: {}", minHeap);
-        assertEquals(Arrays.toString(minHeap.getData()), "[0, 1, 2, 3, 4, 5, 6, 7]");
+        assertEquals(Arrays.toString(minHeap.getQueue()), "[0, 1, 2, 3, 4, 5, 6, 7]");
 
-        minHeap.sort();
-        LOGGER.debug("sortHeap: {}", Arrays.toString(minHeap.getData()));
-        assertEquals(Arrays.toString(minHeap.getData()), "[7, 6, 5, 4, 3, 2, 1, 0]");
+        minHeap.heapSortDesc();
+        LOGGER.debug("sortHeap: {}", Arrays.toString(minHeap.getQueue()));
+        assertEquals(Arrays.toString(minHeap.getQueue()), "[7, 6, 5, 4, 3, 2, 1, 0]");
     }
 }

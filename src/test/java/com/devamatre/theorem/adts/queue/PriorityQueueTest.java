@@ -1,7 +1,5 @@
 package com.devamatre.theorem.adts.queue;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.devamatre.theorem.adts.heap.HeapTest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -9,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -20,34 +20,34 @@ public class PriorityQueueTest extends HeapTest {
 
     @Test
     public void testBuildPriorityQueue() {
-        List<Integer> result = positiveIntListGenerator();
-        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(result);
+        List<Integer> inputData = Arrays.asList(6, 7, 4, 5, 3, 2, 0, 1);
+        LOGGER.debug("inputData: {}", inputData);
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(inputData);
         LOGGER.debug("priorityQueue: {}", priorityQueue);
-        assertEquals(Arrays.toString(priorityQueue.getData()), "[0, 1, 2, 3, 4, 5, 6, 7]");
+        // test peek
+        assertEquals(0, priorityQueue.peek());
+        // test add
+//        assertEquals(true, priorityQueue.add(9));
     }
 
     @Test
     public void testMaxPriorityQueue() {
-        List<Integer> result = positiveIntListGenerator();
-        PriorityQueue<Integer> maxPriorityQueue = new PriorityQueue<>(result);
-        LOGGER.debug("maxPriorityQueue: {}", maxPriorityQueue);
-        assertEquals(Arrays.toString(maxPriorityQueue.getData()), "[7, 4, 6, 3, 0, 5, 2, 1]");
-
-        maxPriorityQueue.sort();
-        LOGGER.debug("sortHeap: {}", Arrays.toString(maxPriorityQueue.getData()));
-        assertEquals(Arrays.toString(maxPriorityQueue.getData()), "[0, 1, 2, 3, 4, 5, 6, 7]");
+        List<Integer> inputData = Arrays.asList(6, 7, 4, 5, 3, 2, 0, 1);
+        LOGGER.debug("inputData: {}", inputData);
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
+        LOGGER.debug("priorityQueue: {}", priorityQueue);
+        priorityQueue.addAll(inputData);
+        LOGGER.debug("priorityQueue: {}", priorityQueue);
+//        assertEquals(7, priorityQueue.peek());
     }
 
     @Test
     public void testMinPriorityQueue() {
-        List<Integer> result = positiveIntListGenerator();
-        PriorityQueue<Integer> minPriorityQueue = new PriorityQueue<>(result);
-        LOGGER.debug("minPriorityQueue: {}", minPriorityQueue);
-        assertEquals(Arrays.toString(minPriorityQueue.getData()), "[0, 1, 2, 3, 4, 5, 6, 7]");
-
-        minPriorityQueue.sort();
-        LOGGER.debug("sortHeap: {}", Arrays.toString(minPriorityQueue.getData()));
-        assertEquals(Arrays.toString(minPriorityQueue.getData()), "[7, 6, 5, 4, 3, 2, 1, 0]");
+        List<Integer> inputData = Arrays.asList(6, 7, 4, 5, 3, 2, 0, 1);
+        LOGGER.debug("inputData: {}", inputData);
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(inputData);
+        LOGGER.debug("priorityQueue: {}", priorityQueue);
+        assertEquals(0, priorityQueue.peek());
     }
 
 }

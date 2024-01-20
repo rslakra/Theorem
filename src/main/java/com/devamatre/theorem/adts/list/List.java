@@ -6,7 +6,7 @@
  * and binary forms, with or without modification, are permitted provided 
  * that the following conditions are met:
  * 1. Redistributions of source code must retain the above copyright
- * 	  notice, this list of conditions and the following disclaimer.
+ *    notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
@@ -225,12 +225,10 @@ public interface List<E> {
      * calculation:
      *
      * <pre>
-     * {
-     * 	&#64;code
-     * 	int hashCode = 1;
-     * 	for (E e : list)
-     * 		hashCode = 31 * hashCode + (e == null ? 0 : e.hashCode());
-     * }
+     *  int hashCode = 1;
+     *  for (E e : list) {
+     *      hashCode = 31 * hashCode + (e == null ? 0 : e.hashCode());
+     *  }
      * </pre>
      * <p>
      * This ensures that <tt>list1.equals(list2)</tt> implies that

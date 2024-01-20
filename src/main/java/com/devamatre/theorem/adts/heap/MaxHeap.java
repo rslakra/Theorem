@@ -37,7 +37,7 @@ public class MaxHeap<E extends Comparable<? super E>> extends Heap<E> {
      * @param initialCapacity
      * @param comparator
      */
-    public MaxHeap(int initialCapacity, Comparator<? super E> comparator) {
+    public MaxHeap(int initialCapacity, Comparator<E> comparator) {
         super(initialCapacity, comparator);
         super.buildMaxHeap();
     }
@@ -58,7 +58,7 @@ public class MaxHeap<E extends Comparable<? super E>> extends Heap<E> {
      *
      * @param comparator
      */
-    public MaxHeap(Comparator<? super E> comparator) {
+    public MaxHeap(Comparator<E> comparator) {
         super(comparator);
         super.buildMaxHeap();
     }
@@ -81,14 +81,6 @@ public class MaxHeap<E extends Comparable<? super E>> extends Heap<E> {
     public MaxHeap(SortedSet<? extends E> elements) {
         super(elements);
         super.buildMaxHeap();
-    }
-
-    /**
-     * Sorts the heap.
-     */
-    @Override
-    public void sort() {
-        super.heapSortAsc();
     }
 
 }

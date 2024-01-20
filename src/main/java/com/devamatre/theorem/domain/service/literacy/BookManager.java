@@ -40,38 +40,16 @@ import java.util.List;
  * @author Rohtash Lakra
  * @date 10/18/2016 02:12:13 PM
  */
-public final class BookManager implements Cloneable {
+public enum BookManager implements Cloneable {
 
-    private static BookManager instance;
-    private List<Book> books;
+    INSTANCE;
+    private final List<Book> books;
 
     /**
      *
      */
-    private BookManager() {
+    BookManager() {
         books = new ArrayList<>();
-    }
-
-    /**
-     * @return
-     */
-    public BookManager getInstance() {
-        if (BeanUtils.isNull(instance)) {
-            synchronized (BookManager.class) {
-                if (BeanUtils.isNull(instance)) {
-                    instance = new BookManager();
-                }
-            }
-        }
-
-        return instance;
-    }
-
-    /**
-     * @see java.lang.Object#clone()
-     */
-    public Object clone() throws CloneNotSupportedException {
-        throw new CloneNotSupportedException("Cloning is not allowed for this object.");
     }
 
     /**
@@ -100,7 +78,7 @@ public final class BookManager implements Cloneable {
     }
 
     /**
-     * ---------------------- SORTING ALGOS ----------------------
+     * ---------------------- Soring Algos ----------------------
      */
 
     /**
@@ -153,9 +131,9 @@ public final class BookManager implements Cloneable {
      * <p>
      * Effect: Accesses book and checks it into this library. Returns a fine amount (0 if there is no fine).
      * <p>
-     * Preconditions: Book was checked out of this library; book is presented at the check-in desk.
+     * PreConditions: Book was checked out of this library; book is presented at the check-in desk.
      * <p>
-     * Postconditions: return value = (amount of fine due); contents of this library is the original contents + book
+     * PostConditions: return value = (amount of fine due); contents of this library is the original contents + book
      * <p>
      * Exception: This library is not open
      *

@@ -6,7 +6,7 @@ import java.util.List;
  * @author Rohtash Lakra
  * @created 1/16/24 4:10 PM
  */
-public class LC15_3Sum {
+public class LC15ThreeSum {
 
     /**
      * <url>https://leetcode.com/problems/3sum</url>

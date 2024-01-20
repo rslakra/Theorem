@@ -7,15 +7,14 @@ package com.devamatre.theorem.algos.array;
 public class GetWrongAnswers {
 
     /**
-     *
-     * @param N
-     * @param C
+     * @param n
+     * @param input
      * @return
      */
-    public String getWrongAnswers(int N, String C) {
-        StringBuilder sBuilder = new StringBuilder(C);
-        for(int i = 0; i < N; i++) {
-            if(C.charAt(i) - 'A' == 0) {
+    public String getWrongAnswers(int n, String input) {
+        StringBuilder sBuilder = new StringBuilder(input);
+        for (int i = 0; i < n; i++) {
+            if (input.charAt(i) - 'A' == 0) {
                 sBuilder.setCharAt(i, 'B');
             } else {
                 sBuilder.setCharAt(i, 'A');

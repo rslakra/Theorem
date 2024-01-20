@@ -45,9 +45,9 @@ public class RateLimiter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateLimiter.class);
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss:SSS");
-    private Random random = new Random();
+    private final Random random = new Random();
 
-    private static Map<String, LinkedList<Long>> hits = new HashMap<>();
+    private static Map<String, LinkedList<Long>> HITS = new HashMap<>();
 
     /**
      * @param date
@@ -67,10 +67,10 @@ public class RateLimiter {
 
     void incr(String ip) {
         LOGGER.debug("+incr({})", ip);
-        LinkedList<Long> times = hits.get(ip);
+        LinkedList<Long> times = HITS.get(ip);
         if (times == null) {
             times = new LinkedList<>();
-            hits.put(ip, times);
+            HITS.put(ip, times);
         }
 
         times.add(0, System.currentTimeMillis());
@@ -81,7 +81,7 @@ public class RateLimiter {
     int getCount(String ip) {
         LOGGER.debug("+getCount({})", ip);
         int count = 0;
-        LinkedList<Long> times = hits.get(ip);
+        LinkedList<Long> times = HITS.get(ip);
         if (times != null) {
             while ((System.currentTimeMillis() - times.getLast()) >= 60000) {
                 LOGGER.debug("lastTime: {}", asString(times.getLast()));

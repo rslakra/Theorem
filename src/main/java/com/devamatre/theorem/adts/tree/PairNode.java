@@ -2,7 +2,6 @@ package com.devamatre.theorem.adts.tree;
 
 import com.devamatre.appsuite.core.ToString;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Objects;
 

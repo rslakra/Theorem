@@ -37,7 +37,7 @@ public class MinHeap<E extends Comparable<? super E>> extends Heap<E> {
      * @param initialCapacity
      * @param comparator
      */
-    public MinHeap(int initialCapacity, Comparator<? super E> comparator) {
+    public MinHeap(int initialCapacity, Comparator<E> comparator) {
         super(initialCapacity, comparator);
         super.buildMinHeap();
     }
@@ -58,7 +58,7 @@ public class MinHeap<E extends Comparable<? super E>> extends Heap<E> {
      *
      * @param comparator
      */
-    public MinHeap(Comparator<? super E> comparator) {
+    public MinHeap(Comparator<E> comparator) {
         super(comparator);
         super.buildMinHeap();
     }
@@ -81,13 +81,5 @@ public class MinHeap<E extends Comparable<? super E>> extends Heap<E> {
     public MinHeap(SortedSet<? extends E> elements) {
         super(elements);
         super.buildMinHeap();
-    }
-
-    /**
-     * Sorts the heap.
-     */
-    @Override
-    public void sort() {
-        super.heapSortDesc();
     }
 }
