@@ -1,5 +1,10 @@
 package com.devamatre.theorem.adts.tree;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.devamatre.theorem.adts.tree.data.loader.TreeHierarchicalDataLoader;
 import com.devamatre.theorem.adts.tree.data.loader.TreeHierarchicalType;
 import org.slf4j.Logger;
@@ -12,8 +17,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author Rohtash Lakra
  * @created 11/24/23 1:43 PM
@@ -21,23 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TreeTest extends AbstractTreeTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeTest.class);
-
-//    /**
-//     * Builds the <code>Tree</code>.
-//     *
-//     * @param inputData
-//     * @param <E>
-//     * @return
-//     */
-//    @Override
-//    public <E extends Comparable<? super E>> Tree<E> buildTree(List<E> inputData) {
-//        LOGGER.debug("+buildTree({}, {})", inputData);
-//        final Tree<E> tree = new Tree<>();
-//        fillTree(tree, inputData);
-//        LOGGER.debug("-buildTree(), tree:{}", tree);
-//        tree.printPrettyTree();
-//        return tree;
-//    }
 
     /**
      * Build Tree with strings.

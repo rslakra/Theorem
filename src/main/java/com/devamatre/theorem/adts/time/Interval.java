@@ -1,5 +1,6 @@
 package com.devamatre.theorem.adts.time;
 
+import com.devamatre.appsuite.core.ToString;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +16,19 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Interval implements Comparable<Interval> {
+public class Interval<E extends Comparable<? super E>> implements Comparable<Interval<E>> {
 
-    private int start;
-    private int end;
+    private E start;
+    private E end;
+
+
+    /**
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStart(), getEnd());
+    }
 
     /**
      * @param object
@@ -30,24 +40,25 @@ public class Interval implements Comparable<Interval> {
             return true;
         }
 
-        if (!(object instanceof Interval)) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
 
-        Interval interval = (Interval) object;
-        if (start != interval.start) {
-            return false;
-        }
-
-        return (end == interval.end);
+        Interval<E> that = (Interval<E>) object;
+        return Objects.equals(getStart(), that.getStart()) && Objects.equals(getEnd(), that.getEnd());
     }
 
     /**
+     * Returns the string representation of this object.
+     *
      * @return
      */
     @Override
-    public int hashCode() {
-        return Objects.hash(start, end);
+    public String toString() {
+        return ToString.of(Interval.class, true)
+            .add("start", getStart())
+            .add("end", getEnd())
+            .toString();
     }
 
     /**
@@ -82,16 +93,8 @@ public class Interval implements Comparable<Interval> {
      * @throws ClassCastException   if the specified object's type prevents it from being compared to this object.
      */
     @Override
-    public int compareTo(Interval interval) {
-        //ascending order
-        return (this.start - interval.getStart());
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public String toString() {
-        return "Interval [start=" + start + ", end=" + end + "]";
+    public int compareTo(Interval<E> interval) {
+        int result = getStart().compareTo(interval.getStart());
+        return (result == 0 ? getEnd().compareTo(interval.getEnd()) : result);
     }
 }

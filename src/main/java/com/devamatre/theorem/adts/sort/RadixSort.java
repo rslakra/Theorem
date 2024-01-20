@@ -4,7 +4,7 @@ package com.devamatre.theorem.adts.sort;
  * @author Rohtash Lakra
  * @created 12/11/23 5:37 PM
  */
-public class RadixSort implements Sort {
+public class RadixSort extends AbstractSort implements Sort {
 
     /**
      * Sorts the elements of the provided <code>input</code> array into the provided <code>direction</code>..

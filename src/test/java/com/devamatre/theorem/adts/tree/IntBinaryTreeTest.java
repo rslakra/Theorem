@@ -1,6 +1,9 @@
 package com.devamatre.theorem.adts.tree;
 
-import com.devamatre.appsuite.core.BeanUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
@@ -8,10 +11,6 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
 
 /**
  * @author Rohtash Lakra
@@ -22,15 +21,12 @@ public class IntBinaryTreeTest extends AbstractTreeTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(IntBinaryTreeTest.class);
 
     /**
-     * @param list
+     * @param inputData
      * @return
      */
-    static IntBinaryTree buildIntBinaryTree(List<Integer> list) {
+    private IntBinaryTree buildIntBinaryTree(List<Integer> inputData) {
         final IntBinaryTree tree = new IntBinaryTree();
-        if (BeanUtils.isNotEmpty(list)) {
-            list.forEach(item -> tree.addNode(item));
-        }
-
+        buildTree(tree, inputData);
         return tree;
     }
 

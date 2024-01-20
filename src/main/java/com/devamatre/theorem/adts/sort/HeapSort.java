@@ -4,7 +4,7 @@ package com.devamatre.theorem.adts.sort;
  * @author Rohtash Lakra
  * @created 10/11/23 3:15 PM
  */
-public class HeapSort implements Sort {
+public class HeapSort extends AbstractSort implements Sort {
 
     /**
      * Sorts the elements of an array into the given direction.

@@ -11,7 +11,6 @@ import java.util.Objects;
  * @created 8/17/20 3:32 PM
  */
 @Getter
-@Setter
 public class PairNode<K extends Comparable<K>, V extends Comparable<V>> implements Comparable<PairNode<K, V>> {
 
     private PairNode<K, V> parent;
@@ -27,6 +26,46 @@ public class PairNode<K extends Comparable<K>, V extends Comparable<V>> implemen
     public PairNode(K key, V value) {
         this.key = key;
         this.value = value;
+    }
+
+    /**
+     *
+     * @param parent
+     */
+    public void setParent(PairNode<K, V> parent) {
+        this.parent = parent;
+    }
+
+    /**
+     *
+     * @param key
+     */
+    public void setKey(K key) {
+        this.key = key;
+    }
+
+    /**
+     *
+     * @param value
+     */
+    public void setValue(V value) {
+        this.value = value;
+    }
+
+    /**
+     *
+     * @param left
+     */
+    public void setLeft(PairNode<K, V> left) {
+        this.left = left;
+    }
+
+    /**
+     *
+     * @param right
+     */
+    public void setRight(PairNode<K, V> right) {
+        this.right = right;
     }
 
     /**

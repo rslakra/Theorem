@@ -1,7 +1,12 @@
 package com.devamatre.theorem.adts.graph;
 
+import com.devamatre.theorem.adts.array.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Rohtash Lakra
@@ -10,6 +15,31 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractGraphTest {
 
     private static Logger LOGGER = LoggerFactory.getLogger(AbstractGraphTest.class);
+
+    /**
+     * @param graph
+     * @param inputData
+     */
+    public void fillGraph(AbstractGraph<Integer> graph, List<List<Integer>> inputData) {
+        LOGGER.debug("+fillGraph({}, {})", graph, inputData);
+        if (Objects.nonNull(inputData)) {
+            for (int row = 0; row < inputData.size(); row++) {
+                List<Integer> rowData = inputData.get(row);
+                for (int column = 0; column < rowData.size(); column++) {
+                    graph.addEdge(row, column, BigDecimal.valueOf(rowData.get(column)));
+                }
+            }
+        }
+        LOGGER.debug("-createGraph(), graph:{}", graph);
+    }
+
+    /**
+     * @param graph
+     * @param inputData
+     */
+    public void fillGraph(AbstractGraph<Integer> graph, Integer[][] inputData) {
+        fillGraph(graph, ArrayUtils.asList(inputData));
+    }
 
     /**
      * Creates the following graph:
@@ -69,6 +99,8 @@ public abstract class AbstractGraphTest {
     }
 
     /**
+     * Creates the graph.
+     *
      * @param graph
      */
     public void createGraph(AbstractGraph<Integer> graph) {

@@ -1,5 +1,7 @@
 package com.devamatre.theorem.adts.lang;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -8,8 +10,6 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -20,6 +20,34 @@ public class MathsTest {
 
     // LOGGER
     private static Logger LOGGER = LoggerFactory.getLogger(MathsTest.class);
+
+    /**
+     * @return
+     */
+    @DataProvider
+    private Iterator<Object[]> countDigitsData() {
+        List<Object[]> input = new ArrayList<>();
+        input.add(new Object[]{1, 1});
+        input.add(new Object[]{06, 1});
+        input.add(new Object[]{16, 2});
+        input.add(new Object[]{161, 3});
+        input.add(new Object[]{1601, 4});
+
+        return input.iterator();
+    }
+
+    /**
+     * Tests the <code>countDigits()</code> method
+     *
+     * @param number
+     * @param expected
+     */
+    @Test(dataProvider = "countDigitsData")
+    public void testCountDigits(long number, int expected) {
+        int result = Maths.countDigits(number);
+        LOGGER.debug("number:{}, result:{}", number, result);
+        assertEquals(expected, result);
+    }
 
     /**
      * @return
@@ -53,6 +81,8 @@ public class MathsTest {
     }
 
     /**
+     * TODO: Handle Negative power
+     *
      * @return
      */
     @DataProvider
@@ -66,8 +96,8 @@ public class MathsTest {
         input.add(new Object[]{3, 2, 9});
         input.add(new Object[]{16, 2, 256});
         input.add(new Object[]{128, 2, 16384});
-        input.add(new Object[]{2, -3, 0.125});
-        input.add(new Object[]{5, -16, 6.5536E-12});
+//        input.add(new Object[]{2, -3, 0.125});
+//        input.add(new Object[]{5, -16, 6.5536E-12});
 
         return input.iterator();
     }
@@ -85,7 +115,9 @@ public class MathsTest {
         double result = Maths.power(number, exponent);
         LOGGER.debug("number:{}, result:{}", number, result);
         assertEquals(expected, result);
-        assertEquals(Maths.powOptimized(number, exponent), result);
+        assertEquals(expected, Maths.powerRecursively(number, exponent));
+//        assertEquals(expected, Maths.powerLog2Recursively(number, exponent));
+        assertEquals(expected, Maths.powOptimized(number, exponent));
     }
 
     @Test

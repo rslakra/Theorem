@@ -33,8 +33,8 @@ public class PostOrderTreeParser<E extends Comparable<? super E>> extends Abstra
     public E[] parse(Node<E> rootNode, boolean includeNullLeafs) {
         TreeTraversal treeTraverser = TreeFactory.treeTraverser(rootNode, getTraversalMode());
         List<E> data = treeTraverser.traverse(includeNullLeafs);
-        ArrayUtils.replaceNullWithMinus(data);
-        return ArrayUtils.toIntArray(data);
+        ArrayUtils.replaceNullWithMinusOne(data);
+        return (E[]) ArrayUtils.asIntArray(data);
     }
 
 }

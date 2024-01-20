@@ -47,7 +47,6 @@ public class SortTest {
         return inputs.iterator();
     }
 
-
     /**
      * <pre>
      *  Time Complexity: <code>O(N)</code>

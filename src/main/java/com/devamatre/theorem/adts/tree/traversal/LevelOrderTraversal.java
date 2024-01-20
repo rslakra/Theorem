@@ -20,6 +20,8 @@ import java.util.Queue;
 public class LevelOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E> {
 
     private final Queue<Node<E>> queue = new LinkedList<>();
+    // custom null node to handle null as value
+    private final Node<E> nullNode = new Node<>(null);
 
     /**
      * @param node
@@ -47,7 +49,7 @@ public class LevelOrderTraversal<E extends Comparable<? super E>> extends Abstra
      * @param includeNullLeafs
      * @return
      */
-    private List<List<Node<E>>> levelOrdersWithNullElement(Node<E> rootNode, boolean includeNullLeafs) {
+    private List<List<Node<E>>> levelOrdersTreeTraversal(Node<E> rootNode, boolean includeNullLeafs) {
         List<List<Node<E>>> levelOrders = new LinkedList<>();
         if (Objects.nonNull(rootNode)) {
             queue.clear();
@@ -85,16 +87,19 @@ public class LevelOrderTraversal<E extends Comparable<? super E>> extends Abstra
      * @param includeNullLeafs
      * @return
      */
-    private List<Node<E>> levelOrderWithNullElement(Node<E> rootNode, boolean includeNullLeafs) {
+    private List<Node<E>> levelOrderTreeTraversal(Node<E> rootNode, boolean includeNullLeafs) {
         final List<Node<E>> levelOrder = new LinkedList<>();
-        List<List<Node<E>>> levelOrders = levelOrdersWithNullElement(rootNode, includeNullLeafs);
-        if (Objects.nonNull(levelOrders)) {
-            levelOrders.forEach(entry -> entry.forEach(node -> levelOrder.add(node)));
+        if (includeNullLeafs) {
+            levelOrder.addAll(levelOrderWithQueueSize(rootNode, includeNullLeafs));
+        } else {
+            List<List<Node<E>>> levelOrders = levelOrdersTreeTraversal(rootNode, includeNullLeafs);
+            if (Objects.nonNull(levelOrders)) {
+                levelOrders.forEach(entry -> entry.forEach(node -> levelOrder.add(node)));
+            }
         }
 
         return levelOrder;
     }
-
 
     /**
      * @param rootNode
@@ -112,13 +117,21 @@ public class LevelOrderTraversal<E extends Comparable<? super E>> extends Abstra
                     Node<E> nextNode = queue.remove();
                     // print current nextNode
                     levelOrder.add(nextNode);
-                    // add left nextNode if available
-                    if (nextNode.hasLeft()) {
-                        queue.add(nextNode.getLeft());
-                    }
-                    // add right nextNode if available
-                    if (nextNode.hasRight()) {
-                        queue.add(nextNode.getRight());
+                    if (includeNullLeafs) {
+                        // add next node's children if non null
+                        if (Objects.nonNull(nextNode)) {
+                            queue.add(nextNode.getLeft());
+                            queue.add(nextNode.getRight());
+                        }
+                    } else {
+                        // add left nextNode if available
+                        if (nextNode.hasLeft()) {
+                            queue.add(nextNode.getLeft());
+                        }
+                        // add right nextNode if available
+                        if (nextNode.hasRight()) {
+                            queue.add(nextNode.getRight());
+                        }
                     }
                     size--;
                 }
@@ -137,8 +150,7 @@ public class LevelOrderTraversal<E extends Comparable<? super E>> extends Abstra
      */
     @Override
     public List<Node<E>> traverseNodes(Node<E> rootNode, boolean includeNullLeafs) {
-//        return levelOrderWithQueueSize(rootNode, includeNullLeafs);
-        return levelOrderWithNullElement(rootNode, includeNullLeafs);
+        return levelOrderTreeTraversal(rootNode, includeNullLeafs);
     }
 
 }

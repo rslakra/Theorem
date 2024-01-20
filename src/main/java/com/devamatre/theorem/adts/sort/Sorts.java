@@ -46,74 +46,6 @@ public enum Sorts {
      *
      * @param values
      */
-    public static void selectionSortAscending(int[] values) {
-        int temp;
-        for (int i = 0; i < values.length; i++) {
-            for (int j = i + 1; j < values.length; j++) {
-                if (values[i] > values[j]) {
-                    temp = values[j];
-                    values[j] = values[i];
-                    values[i] = temp;
-                }
-            }
-        }
-    }
-
-    /**
-     * Sorts the values of the given array in descending order.
-     *
-     * @param values
-     */
-    public static void selectionSortDescending(int[] values) {
-        int temp;
-        for (int i = 0; i < values.length; i++) {
-            for (int j = i + 1; j < values.length; j++) {
-                if (values[i] < values[j]) {
-                    temp = values[j];
-                    values[j] = values[i];
-                    values[i] = temp;
-                }
-            }
-        }
-    }
-
-    /**
-     * Sorts the values of the given array in ascending order.
-     *
-     * @param values
-     */
-    public static void insertionSortAscending(int[] values) {
-        int j, temp;
-        for (int i = 1; i < values.length; i++) {
-            temp = values[i];
-            for (j = i; j > 0 && temp < values[j - 1]; j--) {
-                values[j] = values[j - 1];
-            }
-            values[j] = temp;
-        }
-    }
-
-    /**
-     * Sorts the values of the given array in descending order.
-     *
-     * @param values
-     */
-    public static void insertionSortDescending(int[] values) {
-        int j, temp;
-        for (int i = 1; i < values.length; i++) {
-            temp = values[i];
-            for (j = i; j > 0 && temp > values[j - 1]; j--) {
-                values[j] = values[j - 1];
-            }
-            values[j] = temp;
-        }
-    }
-
-    /**
-     * Sorts the values of the given array in ascending order.
-     *
-     * @param values
-     */
     public static void bubbleSortAscending(int[] values) {
         int temp;
         for (int i = 0; i < values.length - 1; i++) {
@@ -219,9 +151,12 @@ public enum Sorts {
     }
 
     /**
-     * Sorts the values using the merge sort, which is most efficient algorithm of sorting large data sets.
+     * Sorts the values using the merge sort, which is the most efficient algorithm of sorting large data sets.
      *
-     * @param values
+     * @param sortArray
+     * @param tempArray
+     * @param lowIndex
+     * @param highIndex
      */
     public static void mergeSort(int[] sortArray, int[] tempArray, int lowIndex, int highIndex) {
         // stop recursion at some point
@@ -435,6 +370,35 @@ public enum Sorts {
         Sorts.bubbleSort(values);
         System.out.println("Sorted:" + Arrays.toString(values));
 
+    }
+
+    /**
+     * Returns true if the array is strictly sorted.
+     *
+     * @param input
+     * @param index
+     * @return
+     */
+    public static boolean isSortedStrictly(int[] input, int index) {
+        if (input.length == index) {
+            return true;
+        } else if (input[index - 1] > input[index]) {
+            return false;
+        }
+
+        return isSortedStrictly(input, index + 1);
+    }
+
+    /**
+     * @param input
+     * @return
+     */
+    public static boolean isSortedStrictly(int[] input) {
+        if (input == null || input.length == 1) {
+            return true;
+        }
+
+        return isSortedStrictly(input, 1);
     }
 
 }

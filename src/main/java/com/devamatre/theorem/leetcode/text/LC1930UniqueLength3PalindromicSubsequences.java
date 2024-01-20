@@ -9,7 +9,11 @@ import java.util.Arrays;
  */
 public class LC1930UniqueLength3PalindromicSubsequences {
 
-
+    /**
+     *
+     * @param s
+     * @return
+     */
     public static int countPalindromicSubsequence(String s) {
         int[] leftIndices = new int[26];
         int[] rightIndices = new int[26];

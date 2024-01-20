@@ -1,5 +1,9 @@
 package com.devamatre.theorem.adts.tree;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.tree.data.loader.TreeHierarchicalDataLoader;
 import com.devamatre.theorem.adts.tree.data.loader.TreeHierarchicalType;
@@ -11,8 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author Rohtash Lakra
  * @created 11/24/23 1:43 PM
@@ -22,9 +24,14 @@ public abstract class AbstractTreeTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTreeTest.class);
 
     public static final Integer[] IN_ORDER_DATA = new Integer[]{4, 2, 5, 1, 3, 7, 6, 8};
-    public static final Integer[] LEVEL_ORDER_DATA = new Integer[]{4, 5, 2, 7, 8, 6, 3, 1};
+    public static final Integer[] LEVEL_ORDER_DATA = new Integer[]{4, 2, 5, 1, 3, 7, 6, 8};
+    public static final Integer[]
+        LEVEL_ORDER_DATA_WITH_NEGATIVE =
+        new Integer[]{4, 2, 5, 1, 3, -1, 7, -1, -1, -1, -1, 6, 8};
     public static final Integer[] PRE_ORDER_DATA = new Integer[]{1, 2, 4, 5, 3, 6, 7, 8};
-    public static final Integer[] PRE_ORDER_DATA_WITH_NEGATIVE = new Integer[]{1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, 7, -1, -1, 8};
+    public static final Integer[]
+        PRE_ORDER_DATA_WITH_NEGATIVE =
+        new Integer[]{1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, 7, -1, -1, 8};
     public static final Integer[] POST_ORDER_DATA = new Integer[]{4, 5, 2, 7, 8, 6, 3, 1};
 
     /**
@@ -59,7 +66,7 @@ public abstract class AbstractTreeTest {
         Node<E> rootNode = treeBuilder.buildBinaryTree(inputData);
         assertNotNull(rootNode);
 //        assertEquals(inputData.size(), rootNode.getSize());
-        TreeUtils.printPrettyTree(rootNode);
+        TreeUtils.printBinaryTree(rootNode);
         return rootNode;
     }
 
@@ -163,7 +170,9 @@ public abstract class AbstractTreeTest {
      */
     public AbstractTree<String> fillContinents(AbstractTree<String> tree) {
         LOGGER.debug("+fillContinents({})", tree);
-        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.CONTINENT);
+        TreeHierarchicalDataLoader
+            dataLoader =
+            TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.CONTINENT);
         dataLoader.fillHierarchicalData(tree);
         tree.printPrettyTree();
         LOGGER.debug("-fillContinents(), tree:{}", tree);

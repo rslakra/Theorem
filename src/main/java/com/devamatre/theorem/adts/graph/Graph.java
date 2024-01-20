@@ -20,6 +20,11 @@ import java.util.Set;
 import java.util.Stack;
 
 /**
+ * In computer science, a graph is an abstract data type that is meant to implement the undirected graph and directed
+ * graph concepts from the field of graph theory within mathematics.
+ *
+ * <url>https://en.wikipedia.org/wiki/Graph_(abstract_data_type)</url>
+ *
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
  */
@@ -628,11 +633,11 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
         queue.add(new GraphPair(first.getSource(), BigDecimal.ZERO));
         while (!queue.isEmpty()) {
             GraphPair pair = queue.remove();
-            if (!visited.contains(pair.getSource())) {
-                visited.add((E) pair.getSource());
-                if (adjList.containsKey(pair.getSource())) {
+            if (!visited.contains(pair.getKey())) {
+                visited.add((E) pair.getKey());
+                if (adjList.containsKey(pair.getKey())) {
                     // visit neighbors of current vertex
-                    Iterator<Edge<E>> neighbors = adjList.get(pair.getSource()).iterator();
+                    Iterator<Edge<E>> neighbors = adjList.get(pair.getKey()).iterator();
                     while (neighbors.hasNext()) {
                         Edge<E> edgeNeighbor = neighbors.next();
                         E u = edgeNeighbor.getSource();
@@ -687,7 +692,6 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
         LOGGER.debug("distances:{}", distances);
         return distances;
     }
-
 
     /**
      * Shortest Path of Weighted Graph and weight can be +/- (both).
@@ -802,11 +806,11 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
         queue.add(new GraphPair<>(startNode(), BigDecimal.ZERO));
         while (!queue.isEmpty()) {
             GraphPair<E> pair = queue.remove();
-            if (!visited.contains(pair.getSource())) {
-                visited.add(pair.getSource());
-                mstCost = mstCost.add(pair.getWeight());
+            if (!visited.contains(pair.getKey())) {
+                visited.add(pair.getKey());
+                mstCost = mstCost.add(pair.getValue());
                 // visit neighbors of current vertex
-                Iterator<Edge<E>> neighbors = adjList.get(pair.getSource()).iterator();
+                Iterator<Edge<E>> neighbors = adjList.get(pair.getKey()).iterator();
                 while (neighbors.hasNext()) {
                     Edge<E> edgeNeighbor = neighbors.next();
                     // if neighbor is not already visited, then only move that to MST
@@ -833,11 +837,11 @@ public class Graph<E extends Comparable<? super E>> extends AbstractGraph<E> {
         queue.add(new GraphPair<>(startNode(), BigDecimal.ZERO));
         while (!queue.isEmpty()) {
             GraphPair<E> pair = queue.remove();
-            if (!visited.contains(pair.getSource())) {
-                visited.add(pair.getSource());
-                mst.add(pair.getSource());
+            if (!visited.contains(pair.getKey())) {
+                visited.add(pair.getKey());
+                mst.add(pair.getKey());
                 // visit neighbors of current vertex
-                Iterator<Edge<E>> neighbors = adjList.get(pair.getSource()).iterator();
+                Iterator<Edge<E>> neighbors = adjList.get(pair.getKey()).iterator();
                 while (neighbors.hasNext()) {
                     Edge<E> edgeNeighbor = neighbors.next();
                     // if neighbor is not already visited, then only move that to MST

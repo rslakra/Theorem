@@ -5,7 +5,9 @@ import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Traverses a tree in an in-order (LEFT-ROOT-RIGHT) manner.
@@ -23,6 +25,8 @@ import java.util.List;
  * @since 1.0.0
  */
 public class InOrderTraversal<E extends Comparable<? super E>> extends AbstractTreeTraversal<E> {
+
+    private static final boolean NON_BINARY_RECURSIVE_TRAVERSAL = false;
 
     /**
      * @param rootNode
@@ -83,9 +87,29 @@ public class InOrderTraversal<E extends Comparable<? super E>> extends AbstractT
                 inOrder.add(rootNode);
                 inOrder.addAll(traverseNodes(rootNode.getRight(), includeNullLeafs));
             } else {
-                inOrder.add(rootNode);
-                for (Node<E> childNode : rootNode.getChildren()) {
-                    inOrder.addAll(traverseNodes(childNode, includeNullLeafs));
+                /**
+                 * Using recursion traversal which is memory consuming so changing it iterative approach for better
+                 * performance.
+                 */
+                if (NON_BINARY_RECURSIVE_TRAVERSAL) {
+                    inOrder.add(rootNode);
+                    for (Node<E> childNode : rootNode.getChildren()) {
+                        inOrder.addAll(traverseNodes(childNode, includeNullLeafs));
+                    }
+                } else {
+                    if (BeanUtils.isNotNull(rootNode)) {
+                        Queue<Node<E>> queue = new LinkedList<>();
+                        queue.add(rootNode);
+                        while (!queue.isEmpty()) {
+                            Node<E> pollNode = queue.poll();
+                            inOrder.add(pollNode);
+                            if (pollNode.hasChildren()) {
+                                for (Node<E> treeNode : pollNode.getChildren()) {
+                                    queue.add(treeNode);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

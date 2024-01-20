@@ -2,6 +2,7 @@ package com.devamatre.theorem.adts.tree.builder;
 
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.array.ArrayUtils;
+import com.devamatre.theorem.adts.lang.Maths;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import org.slf4j.Logger;
@@ -168,7 +169,7 @@ public class InOrderTreeBuilder<E extends Comparable<? super E>> extends Abstrac
             } else if (Objects.nonNull(postOrderData)) {
                 setIndex(inOrderData.size() - 1); // index in postOrder (Left - Right - Root)
                 rootNode = buildRecursivelyWithPostOrder(isBinary, postOrderData, 0, postOrderData.size() - 1);
-            } else {
+            } else if (BeanUtils.isTypeOf(inOrderData, Integer[].class)) {
                 setIndex(0); // index in preOrder (Root - Left - Right)
                 int maxIndex = ArrayUtils.findMaxValueIndex((List<Integer>) inOrderData);
                 rootNode = buildRecursivelyWithInOrder(isBinary, inOrderData, maxIndex, inOrderData.size() - 1);

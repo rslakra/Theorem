@@ -151,7 +151,7 @@ public class PascalTriangle {
         in.close();
         Integer[][] data = new Integer[n][n];
         fillTriangle(n, data);
-        ArrayUtils.printMatrix(data);
+        ArrayUtils.printArray(data);
         System.out.println();
         ArrayUtils.printDiagonally(data);
         System.out.println();

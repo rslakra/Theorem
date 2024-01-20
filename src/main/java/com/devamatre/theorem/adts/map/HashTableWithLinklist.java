@@ -6,10 +6,10 @@ import com.devamatre.appsuite.core.HashUtils;
  * @author Rohtash Lakra
  * @created 11/12/20 11:42 AM
  */
-public class HashTableWithLinklist<Key, Value> {
+public class HashTableWithLinklist<K extends Comparable<K>, V extends Comparable<V>> {
 
     private static final int BUCKETS = 97;
-    private EntryNode[] entryNodes = new EntryNode[BUCKETS];
+    private EntryNode[] entries = new EntryNode[BUCKETS];
 
     public HashTableWithLinklist() {
     }
@@ -18,7 +18,7 @@ public class HashTableWithLinklist<Key, Value> {
      * @param key
      * @return
      */
-    private int hashCode(Key key) {
+    private int hashCode(K key) {
         return HashUtils.getHashIndex(key, BUCKETS);
     }
 
@@ -26,11 +26,11 @@ public class HashTableWithLinklist<Key, Value> {
      * @param key
      * @return
      */
-    public Value get(Key key) {
+    public V get(K key) {
         int index = hashCode(key);
-        for (EntryNode node = entryNodes[index]; node != null; node = node.getNext()) {
+        for (EntryNode node = entries[index]; node != null; node = node.getNext()) {
             if (key.equals(node.getKey())) {
-                return (Value) node.getValue();
+                return (V) node.getValue();
             }
         }
 
@@ -41,16 +41,17 @@ public class HashTableWithLinklist<Key, Value> {
      * @param key
      * @param value
      */
-    public void put(Key key, Value value) {
+    public void put(K key, V value) {
         int index = hashCode(key);
-        for (EntryNode node = entryNodes[index]; node != null; node = node.getNext()) {
+        for (EntryNode<K, V> node = entries[index]; node != null; node = node.getNext()) {
             if (key.equals(node.getKey())) {
-                entryNodes[index].setValue(value);
+                entries[index].setValue(value);
                 return;
             }
         }
+
         // always add at the beginning.
-        entryNodes[index] = new EntryNode(key, value, entryNodes[index]);
+        entries[index] = new EntryNode(null, key, value, entries[index]);
     }
 
     /**
@@ -61,8 +62,8 @@ public class HashTableWithLinklist<Key, Value> {
     @Override
     public String toString() {
         final StringBuilder strBuilder = new StringBuilder("{");
-        for (int index = 0; index < entryNodes.length; index++) {
-            EntryNode node = entryNodes[index];
+        for (int index = 0; index < entries.length; index++) {
+            EntryNode node = entries[index];
             if (node != null) {
                 if (strBuilder.length() > 1) {
                     strBuilder.append(", ");

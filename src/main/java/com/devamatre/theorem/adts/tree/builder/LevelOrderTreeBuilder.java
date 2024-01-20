@@ -1,11 +1,17 @@
 package com.devamatre.theorem.adts.tree.builder;
 
+import com.devamatre.appsuite.core.BeanUtils;
+import com.devamatre.theorem.adts.lang.Maths;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
+import com.devamatre.theorem.adts.tree.data.NodeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
 
 /**
  * @author Rohtash Lakra
@@ -34,8 +40,8 @@ public class LevelOrderTreeBuilder<E extends Comparable<? super E>> extends Abst
     }
 
     /**
-     * Builds the nodes based on the provided <code>inOrderData</code> or <code>preOrderData</code> or <code>postOrderData</code>.
-     * This helper method will be used in testing.
+     * Builds the nodes based on the provided <code>inOrderData</code> or <code>preOrderData</code> or
+     * <code>postOrderData</code>. This helper method will be used in testing.
      *
      * @param isBinary
      * @param inOrderData
@@ -44,7 +50,26 @@ public class LevelOrderTreeBuilder<E extends Comparable<? super E>> extends Abst
      * @return
      */
     @Override
-    public Node<E> buildRecursively(boolean isBinary, List<E> inOrderData, List<E> preOrderData, List<E> postOrderData) {
+    public Node<E> buildRecursively(boolean isBinary, List<E> inOrderData, List<E> preOrderData,
+                                    List<E> postOrderData) {
+        return null;
+    }
+
+    /**
+     * @param inputData
+     * @return
+     */
+    public Node<E> buildNextNode(List<E> inputData) {
+        index++;
+        if (index < 0 || index >= inputData.size()) { // check index is valid or not
+            return null;
+        } else { // is null/empty/-1 data
+            E nodeValue = inputData.get(index);
+            if (!Maths.isEmptyOrMinusOne(nodeValue)) {
+                return new Node<>(nodeValue);
+            }
+        }
+
         return null;
     }
 
@@ -56,8 +81,31 @@ public class LevelOrderTreeBuilder<E extends Comparable<? super E>> extends Abst
      */
     @Override
     public Node<E> buildBinaryTree(List<E> inputData) {
+        Node<E> rootNode = null;
         checkTraversalMode();
-        return null;
+        if (BeanUtils.isNotEmpty(inputData)) {
+            setIndex(-1);
+            Queue<NodeInfo<E>> queue = new LinkedList<>();
+            queue.add(new NodeInfo<>(buildNextNode(inputData), 0));
+            while (!queue.isEmpty()) {
+                NodeInfo<E> nodeInfo = queue.remove();
+                // current root node
+                Node<E> nextNode = nodeInfo.getNode();
+                if (Objects.isNull(rootNode)) {
+                    rootNode = nextNode;
+                }
+
+                // build left and right nodes
+                if (Objects.nonNull(nextNode)) {
+                    nextNode.setLeft(buildNextNode(inputData));
+                    nextNode.setRight(buildNextNode(inputData));
+                    queue.add(new NodeInfo<>(nextNode.getLeft(), nodeInfo.getLevel() + 1));
+                    queue.add(new NodeInfo<>(nextNode.getRight(), nodeInfo.getLevel() + 1));
+                }
+            }
+        }
+
+        return rootNode;
     }
 
     /**

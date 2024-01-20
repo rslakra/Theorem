@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * @author Rohtash Lakra
  * @created 10/18/23 9:14 AM
  */
-public class CountingSort implements Sort {
+public class CountingSort extends AbstractSort implements Sort {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CountingSort.class);
 

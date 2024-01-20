@@ -36,7 +36,7 @@ public class LargestElementTest {
     }
 
     /**
-     * Tests the <code>printPrettyTreeHorizontally</code> method.
+     * Tests the <code>findKthLargestElementBySorting()</code> method.
      */
     @Test(dataProvider = "findKthLargestElementData")
     public void testFindKthLargestElementBySorting(int[] input, int k, int expected) {
@@ -48,7 +48,7 @@ public class LargestElementTest {
     }
 
     /**
-     * Tests the <code>printPrettyTreeHorizontally</code> method.
+     * Tests the <code>findKthLargestElementBySortingKElements()</code> method.
      */
     @Test(dataProvider = "findKthLargestElementData")
     public void testFindKthLargestElementBySortingKElements(int[] input, int k, int expected) {
@@ -60,7 +60,7 @@ public class LargestElementTest {
     }
 
     /**
-     * Tests the <code>findKthLargestElementByPriorityQueue</code> method.
+     * Tests the <code>findKthLargestElementByPriorityQueue()</code> method.
      */
     @Test(dataProvider = "findKthLargestElementData")
     public void testFindKthLargestElementByPriorityQueue(int[] input, int k, int expected) {

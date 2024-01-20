@@ -33,8 +33,8 @@ public enum BitUtils {
     INSTANCE;
 
     /**
-     * Get bit is used to know whether the bit is 0 or 1 at any position.
-     * Returns the 0 or 1 bit of the <code>number</code> at the provided <code>position</code>.
+     * Get bit is used to know whether the bit is 0 or 1 at any position. Returns the 0 or 1 bit of the
+     * <code>number</code> at the provided <code>position</code>.
      * <p>
      * For example, we have the number 5 (0101),we check the position from the right side.
      * <p>
@@ -57,6 +57,8 @@ public enum BitUtils {
 
     /**
      * Returns true if the bit of the <code>number</code> at the provided <code>position</code> is 1 otherwise false.
+     * <p>
+     * If the number has the 1 at the <code>position</code>, then it's called the number has the set bit.
      *
      * <url>https://stackoverflow.com/a/77740833/2171938</url>
      *

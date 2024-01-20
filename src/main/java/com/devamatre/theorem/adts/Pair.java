@@ -19,7 +19,7 @@ public class Pair<K extends Comparable<? super K>, V extends Comparable<? super 
      * @param key
      * @param value
      */
-    public Pair(K key, V value) {
+    protected Pair(K key, V value) {
         this.key = key;
         this.value = value;
     }
@@ -126,5 +126,29 @@ public class Pair<K extends Comparable<? super K>, V extends Comparable<? super 
     public int compareTo(Pair<K, V> pair) {
         int result = getKey().compareTo(pair.getKey());
         return (result == 0 ? getValue().compareTo(pair.getValue()) : result);
+    }
+
+    /**
+     * Returns the object of the <code>Pair</code> build of <code>K</code> and <code>V</code>.
+     *
+     * @param key
+     * @param value
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public static <K extends Comparable<? super K>, V extends Comparable<? super V>> Pair<K, V> of(K key, V value) {
+        return new Pair(key, value);
+    }
+
+    /**
+     * Returns the object of the <code>Pair</code> build of <code>K</code> and <code>V</code>.
+     *
+     * @param element
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Pair<E, E> of(E element) {
+        return of(element, element);
     }
 }

@@ -369,6 +369,32 @@ public enum AlgoUtils {
     }
 
     /**
+     * <pre>
+     *  ┌──────
+     *  │1│2│3│
+     *  └──
+     * </pre>
+     * @param matrix
+     */
+    public static void printPrettyMatrix(int[][] matrix) {
+        // print top line
+        for (int i = 0; i < matrix.length; i++) {
+            System.out.println("──");
+        }
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                System.out.print(matrix[i][j] + "│");
+            }
+            System.out.println();
+        }
+        // print top line
+        for (int i = 0; i < matrix.length; i++) {
+            System.out.println("__");
+        }
+        System.out.println("----------------------------------------------------");
+    }
+
+    /**
      * @param matrix
      */
     public static void printMatrix(int[][] matrix) {

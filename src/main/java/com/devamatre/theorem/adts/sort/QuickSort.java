@@ -10,7 +10,7 @@ import java.util.Arrays;
  * @author Rohtash Lakra
  * @created 10/11/23 3:14 PM
  */
-public class QuickSort implements Sort {
+public class QuickSort extends AbstractSort implements Sort {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QuickSort.class);
 

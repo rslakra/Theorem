@@ -29,7 +29,7 @@
 package com.devamatre.theorem.adts.list;
 
 import com.devamatre.appsuite.core.ToString;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -40,7 +40,7 @@ import java.util.Objects;
  * @created 09/20/2016 01:51:00 PM
  * @See <url>https://en.wikipedia.org/wiki/Linked_list</url>
  */
-@Data
+@Getter
 public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>> {
 
     private Node<E> previous;
@@ -71,6 +71,25 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      */
     public Node(E data) {
         this(null, data, null);
+    }
+
+    /**
+     *
+     * @param previous
+     */
+    public void setPrevious(Node<E> previous) {
+        this.previous = previous;
+    }
+
+    /**
+     *
+     * @param next
+     */
+    public void setNext(Node<E> next) {
+        this.next = next;
+        if (next != null) {
+            next.setPrevious(this);
+        }
     }
 
     /**

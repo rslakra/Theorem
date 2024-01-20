@@ -147,7 +147,8 @@ public enum Maths {
     public static <E extends Comparable<? super E>> boolean isEmptyOrMinusOne(E element) {
         if (BeanUtils.isEmpty(element)) { // is null/empty data
             return true;
-        } else if (BeanUtils.isKindOf(element, Integer.class) && ((Integer) element).compareTo(-1) == 0) { // is data -1 integer.
+        } else if (BeanUtils.isKindOf(element, Integer.class)
+                   && ((Integer) element).compareTo(-1) == 0) { // is data -1 integer.
             return true;
         }
 
@@ -192,6 +193,15 @@ public enum Maths {
         return INSTANCE.textPlaceValues.containsKey(digit);
     }
 
+    /**
+     * Returns the number of digits in the number.
+     *
+     * @param number
+     * @return
+     */
+    public static int countDigits(long number) {
+        return (int) Math.log10(number) + 1;
+    }
 
     /**
      * Returns the power of the <code>number</code> to the <code>exponent</code>.
@@ -205,13 +215,46 @@ public enum Maths {
         return (exponent > 0 ? number * power(number, exponent - 1) : 1);
     }
 
+    /**
+     * @param number
+     * @param exponent
+     * @return
+     */
+    public static double powerRecursively(long number, int exponent) {
+        if (exponent == 0) {
+            return 1;
+        } else if (number == 0) {
+            return 0;
+        }
+
+        return number * powerRecursively(number, exponent - 1);
+    }
+
+    /**
+     * @param number
+     * @param exponent
+     * @return
+     */
+    public static double powerLog2Recursively(long number, int exponent) {
+        LOGGER.debug("powerLog2Recursively({}, {})", number, exponent);
+        if (exponent == 0) {
+            return 1.0d;
+        } else if (number == 0) {
+            return 0.0d;
+        } else if ((number & 1) != 0) { // if x is even
+            return number * powerLog2Recursively(number, exponent / 2) * powerLog2Recursively(number, exponent / 2);
+        }
+
+        return powerLog2Recursively(number, exponent / 2) * powerLog2Recursively(number, exponent / 2);
+    }
 
     /**
      * Returns the power of the <code>number</code> to the <code>exponent</code>.
      * <p>
      * Time Complexity: O(log 2 (N))
      * <p>
-     * Binary exponentiation approach, the loop iterated for only 4 times which is nothing but (O log2(N) + 1) ~ (O log2(N))
+     * Binary exponentiation approach, the loop iterated for only 4 times which is nothing but (O log2(N) + 1) ~ (O
+     * log2(N))
      *
      * @param number
      * @param exponent

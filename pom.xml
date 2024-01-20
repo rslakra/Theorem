@@ -46,7 +46,7 @@
         <swagger.skip>false</swagger.skip>
 
         <!-- slf4j -->
-        <slf4j-api.version>2.0.9</slf4j-api.version>
+        <slf4j-api.version>2.0.10</slf4j-api.version>
         <logback-classic.version>1.4.14</logback-classic.version>
 
         <!-- apache commons -->

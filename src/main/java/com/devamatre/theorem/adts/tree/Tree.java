@@ -1,13 +1,10 @@
 package com.devamatre.theorem.adts.tree;
 
-import com.devamatre.appsuite.core.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Queue;
 
 /**
  * <url>https://en.wikipedia.org/wiki/Tree_structure</url>
@@ -168,27 +165,7 @@ public class Tree<E extends Comparable<? super E>> extends AbstractTree<E> {
      * @return
      */
     public String toString() {
-        inOrderTraversal();
-        StringBuilder sBuilder = new StringBuilder("[");
-        if (BeanUtils.isNotNull(getRoot())) {
-            Queue<Node<E>> queue = new LinkedList<>();
-            queue.add(getRoot());
-            while (!queue.isEmpty()) {
-                Node<E> pollNode = queue.poll();
-                sBuilder.append(pollNode.getData().toString());
-                if (pollNode.hasChildren()) {
-                    for (Node<E> treeNode : pollNode.getChildren()) {
-                        queue.add(treeNode);
-                    }
-                }
-                // append separator if queue is not empty
-                if (!queue.isEmpty()) {
-                    sBuilder.append(", ");
-                }
-            }
-        }
-
-        return sBuilder.append("]").toString();
+        return inOrderTraversal().toString();
     }
 
 }

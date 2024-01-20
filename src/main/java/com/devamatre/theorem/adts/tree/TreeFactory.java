@@ -31,9 +31,6 @@ public enum TreeFactory {
      */
     public static <E extends Comparable<? super E>> TreeTraversal<E> treeTraverser(Node<E> rootNode, TraversalMode traversalMode) {
         switch (traversalMode) {
-            case IN_ORDER_TRAVERSAL:
-                return new InOrderTraversal<>(rootNode);
-
             case LEVEL_ORDER_TRAVERSAL:
                 return new LevelOrderTraversal<>(rootNode);
 
@@ -43,6 +40,7 @@ public enum TreeFactory {
             case POST_ORDER_TRAVERSAL:
                 return new PostOrderTraversal<>(rootNode);
 
+            case IN_ORDER_TRAVERSAL:
             default:
                 return new InOrderTraversal<>(rootNode);
         }

@@ -75,7 +75,6 @@ public class DateTest {
         assertEquals(expected, date.toShort());
     }
 
-
     /**
      * Valid year data.
      *

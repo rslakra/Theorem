@@ -454,7 +454,6 @@ public class GraphTest extends AbstractGraphTest {
         assertEquals(BigDecimal.valueOf(60), mstCost);
     }
 
-
     @Test
     public void testMSTCostTree() {
         Graph<Integer> graph = new Graph<>(true, false);
@@ -465,7 +464,6 @@ public class GraphTest extends AbstractGraphTest {
         graph.printGraph();
         assertEquals(Sets.asSet(0, 1, 2, 3, 4), graph.mstCostTree());
     }
-
 
     @Test
     public void testTransposeDirectedGraph() {
@@ -532,7 +530,6 @@ public class GraphTest extends AbstractGraphTest {
         assertEquals(2, bridgesInGraph.size());
         assertEquals(expected, bridgesInGraph);
     }
-
 
     @Test
     public void testArticulationPointsTarjanAlgorithm() {

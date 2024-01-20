@@ -37,9 +37,9 @@ public class InOrderTreeParser<E extends Comparable<? super E>> extends Abstract
     @Override
     public E[] parse(Node<E> rootNode, boolean includeNullLeafs) {
         TreeTraversal treeTraverser = TreeFactory.treeTraverser(rootNode, getTraversalMode());
-        List<E> data = treeTraverser.traverse(includeNullLeafs);
-        ArrayUtils.replaceNullWithMinus(data);
-        return ArrayUtils.toIntArray(data);
+        List<E> inputData = treeTraverser.traverse(includeNullLeafs);
+        ArrayUtils.replaceNullWithMinusOne(inputData);
+        return (E[]) ArrayUtils.asIntArray(inputData);
     }
 
 }
