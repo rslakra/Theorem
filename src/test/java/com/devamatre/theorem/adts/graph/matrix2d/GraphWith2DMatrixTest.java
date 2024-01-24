@@ -1,6 +1,5 @@
 package com.devamatre.theorem.adts.graph.matrix2d;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import com.devamatre.theorem.adts.graph.AbstractGraphTest;

@@ -29,8 +29,8 @@ public class LeetCodeConverter extends AbstractCodeConverter implements CodeConv
      * <p>
      * LeetCode 2-d array input usually comes like this: it's a REGULAR rectangle like:
      * <code>[[448,931],[234,889],[214,962],[576,746]]</code>.
-     * The expected input for this method is: "[448,931],[234,889],[214,962],[576,746]" i.e. strip off the
-     * beginning and ending square brackets, that's it. The output of this method will be a standard Java 2-d array.
+     * The expected input for this method is: "[448,931],[234,889],[214,962],[576,746]" i.e. strip off the beginning and
+     * ending square brackets, that's it. The output of this method will be a standard Java 2-d array.
      *
      * @param input
      * @return

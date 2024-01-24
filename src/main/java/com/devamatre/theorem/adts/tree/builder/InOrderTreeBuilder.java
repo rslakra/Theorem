@@ -147,8 +147,8 @@ public class InOrderTreeBuilder<E extends Comparable<? super E>> extends Abstrac
     }
 
     /**
-     * Builds the nodes based on the provided <code>inOrderData</code> or <code>preOrderData</code> or <code>postOrderData</code>.
-     * This helper method will be used in testing.
+     * Builds the nodes based on the provided <code>inOrderData</code> or <code>preOrderData</code> or
+     * <code>postOrderData</code>. This helper method will be used in testing.
      *
      * @param isBinary
      * @param inOrderData
@@ -157,7 +157,8 @@ public class InOrderTreeBuilder<E extends Comparable<? super E>> extends Abstrac
      * @return
      */
     @Override
-    public Node<E> buildRecursively(boolean isBinary, List<E> inOrderData, List<E> preOrderData, List<E> postOrderData) {
+    public Node<E> buildRecursively(boolean isBinary, List<E> inOrderData, List<E> preOrderData,
+                                    List<E> postOrderData) {
         Node<E> rootNode = null;
         checkTraversalMode();
         if (Objects.nonNull(inOrderData)) {

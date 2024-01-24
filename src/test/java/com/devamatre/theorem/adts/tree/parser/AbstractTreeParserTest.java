@@ -1,18 +1,18 @@
 package com.devamatre.theorem.adts.tree.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeBuilder;
 import com.devamatre.theorem.adts.tree.TreeFactory;
 import com.devamatre.theorem.adts.tree.TreeParser;
-import com.devamatre.theorem.adts.tree.TreeTest;
 import com.devamatre.theorem.adts.tree.TreeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra

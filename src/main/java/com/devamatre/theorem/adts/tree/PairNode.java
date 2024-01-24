@@ -28,7 +28,6 @@ public class PairNode<K extends Comparable<K>, V extends Comparable<V>> implemen
     }
 
     /**
-     *
      * @param parent
      */
     public void setParent(PairNode<K, V> parent) {
@@ -36,7 +35,6 @@ public class PairNode<K extends Comparable<K>, V extends Comparable<V>> implemen
     }
 
     /**
-     *
      * @param key
      */
     public void setKey(K key) {
@@ -44,7 +42,6 @@ public class PairNode<K extends Comparable<K>, V extends Comparable<V>> implemen
     }
 
     /**
-     *
      * @param value
      */
     public void setValue(V value) {
@@ -52,7 +49,6 @@ public class PairNode<K extends Comparable<K>, V extends Comparable<V>> implemen
     }
 
     /**
-     *
      * @param left
      */
     public void setLeft(PairNode<K, V> left) {
@@ -60,7 +56,6 @@ public class PairNode<K extends Comparable<K>, V extends Comparable<V>> implemen
     }
 
     /**
-     *
      * @param right
      */
     public void setRight(PairNode<K, V> right) {

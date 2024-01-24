@@ -32,7 +32,7 @@ import com.devamatre.appsuite.core.ToString;
 
 /**
  * @author Rohtash Lakra
- * @date 09/08/2016 01:51:41 PM
+ * @created 09/08/2016 01:51:41 PM
  */
 public class User {
 

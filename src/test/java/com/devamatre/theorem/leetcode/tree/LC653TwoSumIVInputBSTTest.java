@@ -2,6 +2,9 @@ package com.devamatre.theorem.leetcode.tree;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.devamatre.theorem.leetcode.tree.LC653TwoSumIVInputBST;
+import com.devamatre.theorem.leetcode.tree.TreeNode;
+import com.devamatre.theorem.leetcode.tree.TreeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -26,12 +29,7 @@ public class LC653TwoSumIVInputBSTTest {
     private Iterator<Object[]> inputData() {
         List<Object[]> input = new ArrayList<>();
         // [5,3,6,2,4,null,7], k = 9
-        TreeNode rootNode = new TreeNode(5);
-        rootNode.left = new TreeNode(3);
-        rootNode.right = new TreeNode(6);
-        rootNode.left.left = new TreeNode(2);
-        rootNode.left.right = new TreeNode(4);
-        rootNode.right.right = new TreeNode(7);
+        TreeNode rootNode = TreeUtils.buildTree(new Integer[]{5, 3, 6, 2, 4, null, 7});
         input.add(new Object[]{rootNode, 9, true});
 
         // [5,3,6,2,4,null,7], k = 28

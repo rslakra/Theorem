@@ -1,5 +1,9 @@
 package com.devamatre.theorem.adts.tree.parser;
 
+import static org.testng.AssertJUnit.assertArrayEquals;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeParser;
@@ -10,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-
-import static org.testng.AssertJUnit.*;
 
 /**
  * @author Rohtash Lakra
@@ -44,7 +46,10 @@ public class InOrderTreeParserTest extends AbstractTreeParserTest {
 
         // build tree
         InOrderTreeBuilder<Integer> treeBuilder = new InOrderTreeBuilder<>();
-        Node<Integer> rootNode = treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
+        Node<Integer>
+            rootNode =
+            treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA),
+                                         Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
 
         // validate treeParser
         Integer[] excludeNullLeafs = treeParser.parse(rootNode);
@@ -66,7 +71,10 @@ public class InOrderTreeParserTest extends AbstractTreeParserTest {
 
         // build tree
         InOrderTreeBuilder<Integer> treeBuilder = new InOrderTreeBuilder<>();
-        Node<Integer> rootNode = treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
+        Node<Integer>
+            rootNode =
+            treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA),
+                                         Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
 
         // treeConverter validation
         Integer[] excludeNullLeafs = treeParser.parse(rootNode);
@@ -95,7 +103,10 @@ public class InOrderTreeParserTest extends AbstractTreeParserTest {
 
         // build tree
         InOrderTreeBuilder<Integer> treeBuilder = new InOrderTreeBuilder<>();
-        Node<Integer> rootNode = treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), null, Arrays.asList(TreeTest.POST_ORDER_DATA));
+        Node<Integer>
+            rootNode =
+            treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), null,
+                                         Arrays.asList(TreeTest.POST_ORDER_DATA));
 
         // treeConverter validation
         Integer[] excludeNullLeafs = treeParser.parse(rootNode);
@@ -116,7 +127,10 @@ public class InOrderTreeParserTest extends AbstractTreeParserTest {
         assertNotNull(treeParser);
 
         InOrderTreeBuilder treeBuilder = new InOrderTreeBuilder();
-        Node<Integer> rootNode = treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), null, Arrays.asList(TreeTest.POST_ORDER_DATA));
+        Node<Integer>
+            rootNode =
+            treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), null,
+                                         Arrays.asList(TreeTest.POST_ORDER_DATA));
 
         // treeConverter validation
         Integer[] excludeNullLeafs = treeParser.parse(rootNode, false);
@@ -144,7 +158,10 @@ public class InOrderTreeParserTest extends AbstractTreeParserTest {
         assertNotNull(treeParser);
 
         InOrderTreeBuilder treeBuilder = new InOrderTreeBuilder();
-        Node<Integer> rootNode = treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
+        Node<Integer>
+            rootNode =
+            treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA),
+                                         Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
 
         // validate
         Integer[] expected = new Integer[]{-1, 4, -1, 2, -1, 5, -1, 1, -1, 3, -1, 7, -1, 6, -1, 8, -1};
@@ -166,7 +183,10 @@ public class InOrderTreeParserTest extends AbstractTreeParserTest {
         assertNotNull(treeParser);
 
         InOrderTreeBuilder treeBuilder = new InOrderTreeBuilder();
-        Node<Integer> rootNode = treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
+        Node<Integer>
+            rootNode =
+            treeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA),
+                                         Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
 
         // treeConverter validation
         Integer[] excludeNullLeafs = treeParser.parse(rootNode);

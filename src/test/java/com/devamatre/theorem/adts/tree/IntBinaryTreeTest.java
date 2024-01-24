@@ -126,7 +126,8 @@ public class IntBinaryTreeTest extends AbstractTreeTest {
         List<Integer> preOrderTraversal = tree.preOrderTraversal();
         LOGGER.debug("preOrderTraversal:{}", preOrderTraversal);
         assertNotNull(preOrderTraversal);
-        assertEquals("[50, 50, 21, 21, 4, 4, 3, 3, 16, 16, 32, 32, 76, 64, 52, 100, 102]", preOrderTraversal.toString());
+        assertEquals("[50, 50, 21, 21, 4, 4, 3, 3, 16, 16, 32, 32, 76, 64, 52, 100, 102]",
+                     preOrderTraversal.toString());
         System.out.println();
 
         LOGGER.debug("preOrderIterator ...");

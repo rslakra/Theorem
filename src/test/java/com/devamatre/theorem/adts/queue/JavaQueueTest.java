@@ -44,7 +44,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * @author Rohtash Lakra
- * @date 01/03/2018 06:15:55 PM
+ * @created 01/03/2018 06:15:55 PM
  */
 public class JavaQueueTest {
 

@@ -2,6 +2,7 @@ package com.devamatre.theorem.leetcode.array;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.devamatre.theorem.leetcode.array.LC560SubarraySumEqualsK;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;

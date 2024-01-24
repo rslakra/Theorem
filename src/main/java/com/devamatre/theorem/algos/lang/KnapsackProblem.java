@@ -39,7 +39,7 @@ import java.util.List;
  * https://en.wikipedia.org/wiki/Knapsack_problem
  *
  * @author Rohtash Lakra
- * @date 11/03/2016 02:29:27 PM
+ * @created 11/03/2016 02:29:27 PM
  */
 public class KnapsackProblem {
 

@@ -47,7 +47,7 @@ import java.util.Scanner;
  * number 4 in the fourth row.
  *
  * @author Rohtash Lakra
- * @date 10/19/2017 01:45:08 PM
+ * @created 10/19/2017 01:45:08 PM
  * @see <url>https://en.wikipedia.org/wiki/Pascal%27s_triangle</url>
  */
 public class PascalTriangle {

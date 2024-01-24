@@ -2,6 +2,7 @@ package com.devamatre.theorem.adts;
 
 import com.devamatre.appsuite.core.ToString;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -86,9 +87,9 @@ public class Pair<K extends Comparable<? super K>, V extends Comparable<? super 
     @Override
     public String toString() {
         return ToString.of(Pair.class, true)
-                .add("key", getKey())
-                .add("value", getValue())
-                .toString();
+            .add("key", getKey())
+            .add("value", getValue())
+            .toString();
     }
 
     /**
@@ -151,4 +152,107 @@ public class Pair<K extends Comparable<? super K>, V extends Comparable<? super 
     public static <E extends Comparable<? super E>> Pair<E, E> of(E element) {
         return of(element, element);
     }
+
+    /**
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public static <K extends Comparable<? super K>, V extends Comparable<? super V>> Comparator<Pair<K, V>> naturalOrder() {
+        return new PairComparator<>();
+    }
+
+    /**
+     * Compares the <code>pair</code> object. The <code>keyComparator</code> and <code>valueComparator</code> are set to
+     * be true by default. If either <code>keyComparator</code> or <code>valueComparator</code> is to be set, then the
+     * <code>pair</code> is compared based on that property.
+     */
+    private static class PairComparator<K extends Comparable<? super K>, V extends Comparable<? super V>>
+        implements Comparator<Pair<K, V>> {
+
+        private boolean keyComparator;
+        private boolean valueComparator;
+
+        /**
+         * @param keyComparator
+         * @param valueComparator
+         */
+        public PairComparator(boolean keyComparator, boolean valueComparator) {
+            this.keyComparator = keyComparator;
+            this.valueComparator = valueComparator;
+        }
+
+        /**
+         * Default Constructor.
+         */
+        public PairComparator() {
+            this(true, true);
+        }
+
+        /**
+         * Compares its two arguments for order.  Returns a negative integer, zero, or a positive integer as the first
+         * argument is less than, equal to, or greater than the second.<p>
+         * <p>
+         * The implementor must ensure that {@code sgn(compare(x, y)) == -sgn(compare(y, x))} for all {@code x} and
+         * {@code y}.  (This implies that {@code compare(x, y)} must throw an exception if and only if
+         * {@code compare(y, x)} throws an exception.)<p>
+         * <p>
+         * The implementor must also ensure that the relation is transitive:
+         * {@code ((compare(x, y)>0) && (compare(y, z)>0))} implies {@code compare(x, z)>0}.<p>
+         * <p>
+         * Finally, the implementor must ensure that {@code compare(x, y)==0} implies that
+         * {@code sgn(compare(x, z))==sgn(compare(y, z))} for all {@code z}.<p>
+         * <p>
+         * It is generally the case, but <i>not</i> strictly required that {@code (compare(x, y)==0) == (x.equals(y))}.
+         * Generally speaking, any comparator that violates this condition should clearly indicate this fact.  The
+         * recommended language is "Note: this comparator imposes orderings that are inconsistent with equals."<p>
+         * <p>
+         * In the foregoing description, the notation {@code sgn(}<i>expression</i>{@code )} designates the
+         * mathematical
+         * <i>signum</i> function, which is defined to return one of {@code -1},
+         * {@code 0}, or {@code 1} according to whether the value of
+         * <i>expression</i> is negative, zero, or positive, respectively.
+         *
+         * @param left  the first object to be compared.
+         * @param right the second object to be compared.
+         * @return a negative integer, zero, or a positive integer as the first argument is less than, equal to, or
+         * greater than the second.
+         * @throws NullPointerException if an argument is null and this comparator does not permit null arguments
+         * @throws ClassCastException   if the arguments' types prevent them from being compared by this comparator.
+         */
+        @Override
+        public int compare(Pair<K, V> left, Pair<K, V> right) {
+            if (keyComparator && valueComparator && Objects.nonNull(left) && Objects.nonNull(right)) {
+                int result = left.getKey().compareTo(right.getKey());
+                return (result == 0 ? left.getValue().compareTo(right.getValue()) : result);
+            } else if (keyComparator && Objects.nonNull(left) && Objects.nonNull(right)) {
+                return left.getKey().compareTo(right.getKey());
+            } else if (valueComparator && Objects.nonNull(left) && Objects.nonNull(right)) {
+                return left.getValue().compareTo(right.getValue());
+            } else {
+                return Objects.nonNull(left) ? 1 : -1;
+            }
+        }
+    }
+
+    /**
+     * Key Comparator of <code>left</code> and <code>right</code> values.
+     */
+    public static final Comparator KEY_COMPARATOR = new Comparator<Pair<Integer, Integer>>() {
+        @Override
+        public int compare(Pair<Integer, Integer> left, Pair<Integer, Integer> right) {
+            return left.getKey().compareTo(right.getKey());
+        }
+    };
+
+    /**
+     *
+     */
+    public static final Comparator VALUE_COMPARATOR = new Comparator<Pair<Integer, Integer>>() {
+        @Override
+        public int compare(Pair<Integer, Integer> left, Pair<Integer, Integer> right) {
+            return left.getValue().compareTo(right.getValue());
+        }
+    };
+
 }

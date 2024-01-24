@@ -33,7 +33,7 @@ import java.util.Arrays;
 /**
  * @param <E>
  * @author Rohtash Lakra
- * @date 09/20/2016 02:00:49 PM
+ * @created 09/20/2016 02:00:49 PM
  */
 public class StackArray<E> {
 

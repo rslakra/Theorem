@@ -74,7 +74,6 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     }
 
     /**
-     *
      * @param previous
      */
     public void setPrevious(Node<E> previous) {
@@ -82,7 +81,6 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     }
 
     /**
-     *
      * @param next
      */
     public void setNext(Node<E> next) {
@@ -148,10 +146,10 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
     @Override
     public String toString() {
         return ToString.of(Node.class, true)
-            .add("previous", getPrevious())
-            .add("data", getData())
-            .add("next", getNext())
-            .toString();
+                .add("previous", toString(getPrevious()))
+                .add("data", getData())
+                .add("next", toString(getNext()))
+                .toString();
     }
 
     /**

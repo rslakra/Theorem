@@ -374,6 +374,7 @@ public enum AlgoUtils {
      *  │1│2│3│
      *  └──
      * </pre>
+     *
      * @param matrix
      */
     public static void printPrettyMatrix(int[][] matrix) {

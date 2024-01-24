@@ -34,7 +34,7 @@ import java.util.Arrays;
  * Provides an algorithms of an array.
  *
  * @author Rohtash Lakra
- * @date 06/20/2017 08:41:33 PM
+ * @created 06/20/2017 08:41:33 PM
  */
 public final class PeakFinder {
 

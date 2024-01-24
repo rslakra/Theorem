@@ -33,14 +33,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Rohtash Lakra
- * @date 02/18/2017 01:36:46 PM
+ * @created 02/18/2017 01:36:46 PM
  */
 public class Search {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Search.class);
 
     /**
-     * Returns the pivot in the sorted array in the given range.
+     * Returns the pivot (max number index) in the sorted array in the given range.
      *
      * @param arr
      * @param start
@@ -81,9 +81,8 @@ public class Search {
         return (arr == null ? -1 : findPivotInRotatedArray(arr, 0, arr.length - 1));
     }
 
-
     /**
-     * Returns the pivot in the sorted array in the given range.
+     * Returns the pivot (max value index) in the sorted duplicate rotated array.
      *
      * @param arr
      * @param start
@@ -92,26 +91,27 @@ public class Search {
      */
     public static int findPivotInDuplicateRotatedArray(int[] arr, int start, int end) {
         LOGGER.debug("+findPivotInDuplicateRotatedArray({}, {}, {})", arr, start, end);
-        // handle rotated sorted array
         while (start < end) {
+            LOGGER.debug("start:{}, end:{}", start, end);
             int mid = start + (end - start) / 2;
-            if (mid < end && arr[mid] > arr[mid + 1]) {
-                LOGGER.debug("-findPivotInDuplicateRotatedArray(), mid:{}", (mid));
-                return mid;
-            } else if (mid > start && arr[mid] < arr[mid - 1]) {
-                LOGGER.debug("-findPivotInDuplicateRotatedArray(), mid-1:{}", (mid - 1));
-                return mid - 1;
-            } else if (arr[mid] <= arr[start]) {
-                LOGGER.debug("end:{}, mid-1:{}", end, mid - 1);
-                end = mid - 1;
-            } else {
-                LOGGER.debug("start:{}, mid+1:{}", start, mid + 1);
+            LOGGER.debug("mid:{}", mid);
+            if (arr[start] > arr[mid]) {
+                start++;
+                end = mid;
+            } else if (arr[mid] > arr[end]) {
                 start = mid + 1;
+            } else {
+                if (arr[start] < arr[end]) {
+                    break;
+                } else {
+                    end--;
+                }
             }
         }
 
-        LOGGER.debug("-findPivotInDuplicateRotatedArray(), result: -1");
-        return -1;
+        // one loop break, return the start index
+        LOGGER.debug("-findPivotInDuplicateRotatedArray(), result:{}", start);
+        return start;
     }
 
     /**
@@ -197,7 +197,7 @@ public class Search {
     }
 
     /**
-     * Returns the index of the peak/highest value in a sorted mountain array.
+     * Returns the index of the peak/the highest value in a sorted mountain array.
      *
      * @param arr
      * @return

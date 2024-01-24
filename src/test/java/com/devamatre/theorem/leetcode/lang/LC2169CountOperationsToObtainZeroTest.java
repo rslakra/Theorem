@@ -2,6 +2,7 @@ package com.devamatre.theorem.leetcode.lang;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.devamatre.theorem.leetcode.lang.LC2169CountOperationsToObtainZero;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;

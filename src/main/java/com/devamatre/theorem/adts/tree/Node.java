@@ -379,7 +379,8 @@ public class Node<E extends Comparable<? super E>> implements Comparable<Node<E>
      * @return
      */
     public void logNode() {
-        LOGGER.debug("parent:{}, data:{}, count:{}, left:{}, right:{}, children:{}, size:{}", getParent(), getData(), getCount(), getLeft(), getRight(), getChildren(), getSize());
+        LOGGER.debug("parent:{}, data:{}, count:{}, left:{}, right:{}, children:{}, size:{}", getParent(), getData(),
+                     getCount(), getLeft(), getRight(), getChildren(), getSize());
     }
 
     /**

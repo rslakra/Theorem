@@ -3,6 +3,7 @@ package com.devamatre.theorem.leetcode.hash;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.devamatre.theorem.leetcode.lang.LC2139MinimumMovesToReachTargetScoreTest;
+import com.devamatre.theorem.leetcode.hash.LC146LRUCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;

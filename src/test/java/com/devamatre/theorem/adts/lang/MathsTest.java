@@ -117,7 +117,7 @@ public class MathsTest {
         assertEquals(expected, result);
         assertEquals(expected, Maths.powerRecursively(number, exponent));
 //        assertEquals(expected, Maths.powerLog2Recursively(number, exponent));
-        assertEquals(expected, Maths.powOptimized(number, exponent));
+        assertEquals(expected, Maths.powerIteratively(number, exponent));
     }
 
     @Test

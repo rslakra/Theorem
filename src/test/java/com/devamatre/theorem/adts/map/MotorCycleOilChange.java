@@ -1,6 +1,5 @@
 package com.devamatre.theorem.adts.map;
 
-import com.devamatre.theorem.adts.map.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

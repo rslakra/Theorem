@@ -38,15 +38,47 @@ public class SearchTest {
     }
 
     /**
-     * Tests the <code>findPivot()</code> method
+     * Tests the <code>findPivotInRotatedArray()</code> method
      *
      * @param arr
      * @param expected
      */
     @Test(dataProvider = "findPivotData")
-    public void test(int[] arr, int expected) {
-        Search instance = new Search();
-        int result = instance.findPivotInRotatedArray(arr);
+    public void testFindPivotInRotatedArray(int[] arr, int expected) {
+        int result = Search.findPivotInRotatedArray(arr);
+        LOGGER.debug("number:{}, result:{}", arr, result);
+        assertEquals(expected, result);
+    }
+
+    /**
+     * @return
+     */
+    @DataProvider
+    private Iterator<Object[]> findPivotInDuplicateData() {
+        List<Object[]> input = new ArrayList<>();
+        input.add(new Object[]{new int[]{1, 2, 2, 3, 4, 5}, 0});
+        input.add(new Object[]{new int[]{10, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 1});
+        input.add(new Object[]{new int[]{3, 3, 3, 1}, 3});
+        input.add(new Object[]{new int[]{4, 5, 6, 7, 0, 1, 4}, 4});
+        input.add(new Object[]{new int[]{9, 9, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8}, 4});
+        input.add(new Object[]{new int[]{8, 8, 9, 9, 10, 1, 2, 3, 4, 5, 6, 7}, 5});
+        input.add(new Object[]{new int[]{7, 7, 8, 8, 9, 10, 1, 2, 3, 4, 5, 6}, 6});
+        input.add(new Object[]{new int[]{4, 5, 5, 5, 6, 6, 7, 1, 2, 3}, 7});
+        input.add(new Object[]{new int[]{6, 6, 6, 7, 7, 8, 9, 10, 1, 2, 3, 4, 5}, 8});
+        input.add(new Object[]{new int[]{5, 5, 6, 6, 6, 7, 8, 9, 10, 1, 2, 3, 4}, 9});
+
+        return input.iterator();
+    }
+
+    /**
+     * Tests the <code>findPivotInDuplicateRotatedArray()</code> method
+     *
+     * @param arr
+     * @param expected
+     */
+    @Test(dataProvider = "findPivotInDuplicateData")
+    public void testFindPivotInDuplicateRotatedArray(int[] arr, int expected) {
+        int result = Search.findPivotInDuplicateRotatedArray(arr);
         LOGGER.debug("number:{}, result:{}", arr, result);
         assertEquals(expected, result);
     }

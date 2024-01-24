@@ -35,7 +35,7 @@ import java.util.List;
  * Coins related algorithms.
  *
  * @author Rohtash Lakra
- * @date 06/25/2017 08:39:53 PM
+ * @created 06/25/2017 08:39:53 PM
  */
 public final class Coins {
 

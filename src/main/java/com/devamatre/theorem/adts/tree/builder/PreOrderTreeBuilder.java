@@ -37,8 +37,8 @@ public class PreOrderTreeBuilder<E extends Comparable<? super E>> extends Abstra
     }
 
     /**
-     * Builds the nodes based on the provided <code>inOrderData</code> or <code>preOrderData</code> or <code>postOrderData</code>.
-     * This helper method will be used in testing.
+     * Builds the nodes based on the provided <code>inOrderData</code> or <code>preOrderData</code> or
+     * <code>postOrderData</code>. This helper method will be used in testing.
      *
      * @param isBinary
      * @param inOrderData
@@ -47,7 +47,8 @@ public class PreOrderTreeBuilder<E extends Comparable<? super E>> extends Abstra
      * @return
      */
     @Override
-    public Node<E> buildRecursively(boolean isBinary, List<E> inOrderData, List<E> preOrderData, List<E> postOrderData) {
+    public Node<E> buildRecursively(boolean isBinary, List<E> inOrderData, List<E> preOrderData,
+                                    List<E> postOrderData) {
         index++;
         if (index < 0 || index >= preOrderData.size()) { // check index is valid or not
             return null;

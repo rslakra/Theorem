@@ -47,8 +47,8 @@ public class ListIsPreorder {
     }
 
     /**
-     * Given an ArrayList of Nodes, with each PairNode having an ID and a parent ID, determine whether the List is given in
-     * preorder.
+     * Given an ArrayList of Nodes, with each PairNode having an ID and a parent ID, determine whether the List is given
+     * in preorder.
      * <p>
      * <p>
      * Create a stack to store nodes in the current path when traversing. Push node[i] into stack once node[i] is

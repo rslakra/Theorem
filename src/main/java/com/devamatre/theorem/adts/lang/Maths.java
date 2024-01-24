@@ -260,8 +260,8 @@ public enum Maths {
      * @param exponent
      * @return
      */
-    public static double powOptimized(long number, int exponent) {
-        LOGGER.debug("+powOptimized({}, {})", number, exponent);
+    public static double powerIteratively(long number, int exponent) {
+        LOGGER.debug("+powerIteratively({}, {})", number, exponent);
         double power = 1.0;
         // handle negative exponents
         if (exponent < 0) {
@@ -283,8 +283,18 @@ public enum Maths {
             exponent >>>= 1;
         }
 
-        LOGGER.debug("-powOptimized(), power:{}", power);
+        LOGGER.debug("-powerIteratively(), power:{}", power);
         return power;
+    }
+
+    /**
+     * @param number
+     * @param exponent
+     * @return
+     */
+    public static BigInteger pow(long number, int exponent) {
+        // return (BigInteger.valueOf(number).shiftLeft(exponent).toString());
+        return BigInteger.valueOf(number).pow(exponent);
     }
 
     /**
@@ -295,8 +305,7 @@ public enum Maths {
      * @return
      */
     public static String toStringPower(long number, int exponent) {
-        return BigInteger.valueOf(number).pow(exponent).toString();
-        // return (BigInteger.valueOf(number).shiftLeft(exponent).toString());
+        return pow(number, exponent).toString();
     }
 
     /**

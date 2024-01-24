@@ -32,8 +32,6 @@ dist/
 # Gradle
 .gradle/
 gradle/
-/**/gradlew
-/**/gradlew.bat
 
 ### STS ###
 .apt_generated

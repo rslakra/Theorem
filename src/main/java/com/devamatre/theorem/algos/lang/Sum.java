@@ -56,7 +56,7 @@ import java.util.List;
  * add(1); add(3); add(5); find(4) -> true find(7) -> false
  *
  * @author Rohtash Lakra
- * @date 02/15/2017 10:44:29 AM
+ * @created 02/15/2017 10:44:29 AM
  */
 public class Sum {
 

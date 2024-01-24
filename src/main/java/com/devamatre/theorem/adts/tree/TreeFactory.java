@@ -29,7 +29,8 @@ public enum TreeFactory {
      * @param <E>
      * @return
      */
-    public static <E extends Comparable<? super E>> TreeTraversal<E> treeTraverser(Node<E> rootNode, TraversalMode traversalMode) {
+    public static <E extends Comparable<? super E>> TreeTraversal<E> treeTraverser(Node<E> rootNode,
+                                                                                   TraversalMode traversalMode) {
         switch (traversalMode) {
             case LEVEL_ORDER_TRAVERSAL:
                 return new LevelOrderTraversal<>(rootNode);

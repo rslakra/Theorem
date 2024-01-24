@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!-- Challenges -->
+    <!-- Theorem -->
     <groupId>com.devamatre.theorem</groupId>
     <artifactId>Theorem</artifactId>
     <version>${revision}</version>
@@ -37,7 +37,7 @@
         <checkstyle.threshold>0</checkstyle.threshold>
 
         <!-- appsuite-core -->
-        <appsuite-core.version>0.0.4</appsuite-core.version>
+        <appsuite-core.version>0.0.26</appsuite-core.version>
 
         <!-- lombok -->
         <lombok.version>1.18.28</lombok.version>
@@ -52,12 +52,8 @@
         <!-- apache commons -->
         <commons-lang3.version>3.12.0</commons-lang3.version>
 
-        <!-- surefire-junit3 -->
-        <surefire-junit3.version>3.1.2</surefire-junit3.version>
         <!-- junit-jupiter-params -->
         <junit-jupiter-params.version>5.9.2</junit-jupiter-params.version>
-        <!-- junit -->
-        <junit.version>4.13.2</junit.version>
         <!-- testng -->
         <testng.version>7.7.1</testng.version>
     </properties>
@@ -90,20 +86,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-            </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.surefire/surefire-junit3 -->
-        <dependency>
-            <groupId>org.apache.maven.surefire</groupId>
-            <artifactId>surefire-junit3</artifactId>
-            <version>${surefire-junit3.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
@@ -119,14 +101,6 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- JUnit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -225,8 +199,10 @@
         </plugins>
 
     </build>
+
     <!-- reporting -->
     <reporting>
+
         <!-- plugins -->
         <plugins>
             <!-- maven-checkstyle-plugin -->
@@ -240,5 +216,6 @@
                 </configuration>
             </plugin>
         </plugins>
+
     </reporting>
-    </project>
+</project>

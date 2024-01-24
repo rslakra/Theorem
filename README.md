@@ -2,69 +2,80 @@
 
 ---
 
+The ```Theorem``` project contains the various algorithms, abstract data types and implementation of them including the
+interview preparation algorithms.
+
 ## Data Structure & Algorithms
 
-### The Software Process
+Data Structure and Algorithms Implementation.
 
-When we consider computer programming, we immediately think of writing code in
-some computer language. As a beginning student of computer science, you wrote programs
-that solved relatively simple problems. Much of your effort went into learning
-the syntax of a programming language such as ```Java``` or ```C++```: the language’s reserved
-words, its data types, its constructs for selection and looping, and its input/output
-mechanisms.
+The algorithms terminology and concepts.
 
-As your programs grow larger and more complex, you must pay attention to other
-software issues in addition to coding. If you become a software professional, you may
-work as part of a team that develops a system containing tens of thousands, or even
-millions, of lines of code. The activities involved in such a software project’s whole
-“life cycle” clearly go beyond just sitting down at a computer and writing programs.
-
-**These activities include:**
-
-- ```Problem analysis``` - Understanding the nature of the problem to be solved
-- ```Requirements elicitation``` - Determining exactly what the program must do
-- ```Software specification``` - Specifying what the program must do (the functional
-  requirements) and the constraints on the solution approach (nonfunctional
-  requirements, such as what language to use)
-- ```High & low-level design``` Recording how the program meets the requirements,
-  from the “big picture” overview to the detailed design
-- Implementation of the design Coding a program in a computer language
-- Testing and verification Detecting and fixing errors and demonstrating the
-  correctness of the program
-- Delivery Turning over the tested program to the customer or user (or instructor)
-- Operation Actually using the program
-- Maintenance Making changes to fix operational errors and to add or modify
-  the function of the program
-
-Software development is not simply a matter of going through these steps sequentially.
-Many activities take place concurrently. We may be coding one part of the solution
-while we’re designing another part, or defining requirements for a new version of a
-program while we’re still testing the current version. Often a number of people work on
-different parts of the same program simultaneously. Keeping track of all these activities
-requires planning.
-
-We use the term software engineering to refer to the discipline concerned with
-all aspects of the development of high-quality software systems. It encompasses
-all variations of techniques used during the software life cycle plus supporting
-activities such as documentation and teamwork. A software process is a specific
-set of inter-related software engineering techniques used by a person or
-organization to create a system.
-
-### Software engineering
-
-The discipline devoted to the design, production, and maintenance of computer
-programs that are developed on time and within cost estimates, using tools that
-help to manage the size and complexity of the resulting software products
-
-### Software process
-
-A standard, integrated set of software engineering tools and techniques used on
-a project or by an organization.
-
-
-
-# Author(s)
+### Concepts
 
 ---
 
-- Rohtash Lakra
+| Topic      | Types                                                                                                                                                                                                                         | Description                                                 |
+|:-----------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------|
+| Array      | <ul><li>Single Dimension</li><li>Multi-Dimension</li></ul>                                                                                                                                                                    |                                                             |
+| List       | <ul><li>ArrayList</li></ul>                                                                                                                                                                                                   |                                                             |
+| LinkedList | <ul><li>Singly Linked List</li><li>Doubly Linked List</li></ul>                                                                                                                                                               |                                                             |
+| Set        | <ul><li>Ordered</li><li>Unordered</li></ul> Implementations <ul><li>Hash Set</li><li>Sorted Set</li><li>Tree Set</li></ul>                                                                                                    |                                                             |
+| Map        | <ul><li>HashMap</li><li>LinkedHashMap</li><li>ConcurrentHashMap</li></ul>                                                                                                                                                     |                                                             |
+| Sort       | Sorting Methods <ul><li>Bubble Sort</li><li>Insertion Sort</li><li>Selection Sort</li><li>Merge Sort</li><li>Heap Sort</li><li>Cyclic Sort</li><li>Topological Sort</li></ul>                                                 | Sorting Types <ul><li>Ascending</li><li>Decending</li></ul> |
+| Search     | <ul><li>Binary Search</li></ul>                                                                                                                                                                                               |                                                             |
+| Stack      |                                                                                                                                                                                                                               |                                                             |
+| Queue      | <ul><li>Circular Queue</li><li>Blocked Queue</li><li>Priority Queue</li><li>Indexed Priority Queue</li></ul>                                                                                                                  |                                                             |
+| Heap       | <ul><li>Min Heap</li><li>Max Heap</li><li>Priority Queue</li></ul>                                                                                                                                                            |                                                             |
+| Tree       | Traversal Methods <ul><li>Depth First Search (Uses Stack)</li><li>Breadth First Search (Users Queue)</li></ul> Tree Types <ul><li>Binary Tree</li><li>Binary Search Tree</li><li>Spanning Tree</li><li>Segment Tree</li></ul> |                                                             |
+| Graph      | Graph Components <ul><li>Vertex</li><li>Edge<ul><li>Directed</li><li>Undirected</li></ul></li></ul>                                                                                                                           |                                                             |
+
+## How to set up
+
+---
+
+### 1. Clone the repository in your GIT account or local machine
+
+> ```https://github.com/rslakra/Theorem.git```
+
+### 2. Build the project
+
+> ``` cd Theorem && ./buildMaven.sh```
+
+### 3. Run the program
+
+Run the program with the following command
+
+> ```./runMaven.sh```
+
+## Built With
+
+---
+
+* [Java](https://www.java.com/en/download/mac_download.jsp) - The Java Download Location
+* [Maven](https://maven.apache.org/) - Dependency Management
+
+## References
+
+---
+
+- [Support Guide](https://devamatre.atlassian.net/wiki/spaces/DEVAMATRE/pages)
+
+## Authors
+
+---
+
+* [**Rohtash Lakra**](https://github.com/rslakra)
+
+## Contributors
+
+---
+
+See the list of [contributors](https://github.com/rslakra/Theorem.git/contributors) who participated in this project.
+
+## Contribution Guidelines
+
+---
+
+* Writing tests
+* Code review

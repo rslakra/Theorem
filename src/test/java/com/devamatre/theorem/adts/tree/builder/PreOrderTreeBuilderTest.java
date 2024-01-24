@@ -1,5 +1,8 @@
 package com.devamatre.theorem.adts.tree.builder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeBuilder;
@@ -11,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -42,7 +43,9 @@ public class PreOrderTreeBuilderTest extends AbstractTreeBuilderTest {
     @Test
     @Override
     public void testBuildBinaryTreeWithList() {
-        Node<Integer> rootNode = buildBinaryTree(TraversalMode.PRE_ORDER_TRAVERSAL, Arrays.asList(TreeTest.PRE_ORDER_DATA_WITH_NEGATIVE));
+        Node<Integer>
+            rootNode =
+            buildBinaryTree(TraversalMode.PRE_ORDER_TRAVERSAL, Arrays.asList(TreeTest.PRE_ORDER_DATA_WITH_NEGATIVE));
         assertNotNull(rootNode);
         LOGGER.debug("rootNode:{}", rootNode);
         Integer[] expected = new Integer[]{1, 2, 4, 5, 3, 6, 7, 8};

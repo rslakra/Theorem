@@ -35,16 +35,16 @@ import java.util.SortedSet;
 public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
 
     /**
-     * Creates a <code>PriorityQueue</code> with the default initial capacity (11) that orders its elements according to their
-     * natural ordering.
+     * Creates a <code>PriorityQueue</code> with the default initial capacity (11) that orders its elements according to
+     * their natural ordering.
      */
     public PriorityQueue() {
         super();
     }
 
     /**
-     * Creates a <code>PriorityQueue</code> with the specified initial capacity that orders its elements according to their
-     * natural ordering.
+     * Creates a <code>PriorityQueue</code> with the specified initial capacity that orders its elements according to
+     * their natural ordering.
      *
      * @param initialCapacity
      */
@@ -53,8 +53,8 @@ public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
     }
 
     /**
-     * Creates a <code>PriorityQueue</code> with the specified initial capacity that orders its elements according to the
-     * specified comparator.
+     * Creates a <code>PriorityQueue</code> with the specified initial capacity that orders its elements according to
+     * the specified comparator.
      *
      * @param initialCapacity
      * @param comparator
@@ -73,8 +73,8 @@ public class PriorityQueue<E extends Comparable<? super E>> extends Heap<E> {
     }
 
     /**
-     * Creates a <code>PriorityQueue</code> with the default initial capacity and whose elements are ordered according to the
-     * specified comparator.
+     * Creates a <code>PriorityQueue</code> with the default initial capacity and whose elements are ordered according
+     * to the specified comparator.
      *
      * @param comparator
      */

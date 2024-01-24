@@ -1,8 +1,8 @@
 package com.devamatre.theorem.adts;
 
-import org.testng.annotations.Test;
+import static org.testng.AssertJUnit.assertNotNull;
 
-import static org.testng.AssertJUnit.*;
+import org.testng.annotations.Test;
 
 /**
  * @author Rohtash Lakra

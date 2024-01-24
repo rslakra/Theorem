@@ -23,9 +23,9 @@ public class LC523ContinuousSubarraySum {
     public boolean checkSubarraySum(int[] nums, int target) {
         for (int i = 0; i < nums.length; i++) {
             int sum = 0;
-            for (int j = i; j < nums.length - i; j++) {
+            for (int j = i + 1; j < nums.length - i; j++) {
                 sum += nums[j];
-                if (sum == target) {
+                if (sum == target && Math.abs(i - j) >= 0) {
                     LOGGER.debug("Subarray Indices:{}, {}", i, j);
                     return true;
                 }

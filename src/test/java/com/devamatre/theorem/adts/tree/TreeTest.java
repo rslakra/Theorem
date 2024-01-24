@@ -125,7 +125,9 @@ public class TreeTest extends AbstractTreeTest {
     @Override
     public void testRemoveNode() {
         Tree<Integer> tree = new Tree<>();
-        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        TreeHierarchicalDataLoader
+            dataLoader =
+            TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
         tree.printPrettyTree();
@@ -144,7 +146,9 @@ public class TreeTest extends AbstractTreeTest {
     @Test
     public void testRemoveNodeWithNoChildren() {
         Tree<Integer> tree = new Tree<>();
-        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        TreeHierarchicalDataLoader
+            dataLoader =
+            TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
         tree.printPrettyTree();
@@ -163,7 +167,9 @@ public class TreeTest extends AbstractTreeTest {
     @Test
     public void testRemoveNodeWithChildren() {
         Tree<Integer> tree = new Tree<>();
-        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        TreeHierarchicalDataLoader
+            dataLoader =
+            TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
         tree.printPrettyTree(true);
@@ -182,7 +188,9 @@ public class TreeTest extends AbstractTreeTest {
     @Test
     public void testRemoveNodeRootNode() {
         Tree<Integer> tree = new Tree<>();
-        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        TreeHierarchicalDataLoader
+            dataLoader =
+            TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
         tree.printPrettyTree();
@@ -230,7 +238,9 @@ public class TreeTest extends AbstractTreeTest {
     @Test
     public void testTreeHierarchicalNumericDataLoader() {
         Tree<Integer> tree = new Tree<>();
-        TreeHierarchicalDataLoader dataLoader = TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
+        TreeHierarchicalDataLoader
+            dataLoader =
+            TreeHierarchicalDataLoader.createDataLoader(TreeHierarchicalType.NUMERIC);
         dataLoader.fillHierarchicalData(tree);
         LOGGER.debug("tree:{}", tree);
         tree.printPrettyTree();

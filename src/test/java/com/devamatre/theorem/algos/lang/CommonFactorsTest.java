@@ -1,5 +1,7 @@
 package com.devamatre.theorem.algos.lang;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.devamatre.theorem.adts.lang.Maths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +11,6 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra

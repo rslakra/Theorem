@@ -1,5 +1,8 @@
 package com.devamatre.theorem.adts.tree.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
@@ -11,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -43,7 +44,9 @@ public class PreOrderTreeParserTest extends AbstractTreeParserTest {
         LOGGER.debug("treeParser:{}", treeParser);
         assertNotNull(treeParser);
 
-        Node<Integer> rootNode = buildBinaryTree(TraversalMode.PRE_ORDER_TRAVERSAL, Arrays.asList(TreeTest.PRE_ORDER_DATA_WITH_NEGATIVE));
+        Node<Integer>
+            rootNode =
+            buildBinaryTree(TraversalMode.PRE_ORDER_TRAVERSAL, Arrays.asList(TreeTest.PRE_ORDER_DATA_WITH_NEGATIVE));
         assertNotNull(rootNode);
         LOGGER.debug("rootNode:{}", rootNode);
         assertEquals(TreeTest.PRE_ORDER_DATA.length, TreeUtils.countNodes(rootNode));
@@ -59,7 +62,9 @@ public class PreOrderTreeParserTest extends AbstractTreeParserTest {
         LOGGER.debug("treeParser:{}", treeParser);
         assertNotNull(treeParser);
 
-        Node<Integer> rootNode = buildBinaryTree(TraversalMode.PRE_ORDER_TRAVERSAL, Arrays.asList(TreeTest.PRE_ORDER_DATA_WITH_NEGATIVE));
+        Node<Integer>
+            rootNode =
+            buildBinaryTree(TraversalMode.PRE_ORDER_TRAVERSAL, Arrays.asList(TreeTest.PRE_ORDER_DATA_WITH_NEGATIVE));
         assertEquals(TreeTest.PRE_ORDER_DATA.length, TreeUtils.countNodes(rootNode));
 
         Integer[] excludeNullLeafs = treeParser.parse(rootNode, false);
@@ -83,7 +88,9 @@ public class PreOrderTreeParserTest extends AbstractTreeParserTest {
         LOGGER.debug("treeParser:{}", treeParser);
         assertNotNull(treeParser);
 
-        Node<Integer> rootNode = buildBinaryTree(TraversalMode.PRE_ORDER_TRAVERSAL, Arrays.asList(TreeTest.PRE_ORDER_DATA_WITH_NEGATIVE));
+        Node<Integer>
+            rootNode =
+            buildBinaryTree(TraversalMode.PRE_ORDER_TRAVERSAL, Arrays.asList(TreeTest.PRE_ORDER_DATA_WITH_NEGATIVE));
         assertEquals(TreeTest.PRE_ORDER_DATA.length, TreeUtils.countNodes(rootNode));
 
         Integer[] excludeNullLeafs = treeParser.parse(rootNode, false);

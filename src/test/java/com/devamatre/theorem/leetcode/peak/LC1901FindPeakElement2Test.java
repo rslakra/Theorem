@@ -2,6 +2,7 @@ package com.devamatre.theorem.leetcode.peak;
 
 import static org.testng.Assert.assertEquals;
 
+import com.devamatre.theorem.leetcode.peak.LC1901FindPeakElement2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;

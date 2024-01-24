@@ -1,5 +1,8 @@
 package com.devamatre.theorem.algos.tree;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.devamatre.theorem.adts.tree.AbstractTreeTest;
 import com.devamatre.theorem.adts.tree.BinarySearchTree;
 import org.slf4j.Logger;
@@ -11,8 +14,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -46,8 +47,11 @@ public class FindPathsTest extends AbstractTreeTest {
     public Iterator<Object[]> findPathData() {
         List<Object[]> input = new LinkedList<>();
         input.add(new Object[]{Arrays.asList(4, 3, 5), Arrays.asList(Arrays.asList(4, 3), Arrays.asList(4, 5))});
-        input.add(new Object[]{Arrays.asList(6, 4, 3, 5, 8), Arrays.asList(Arrays.asList(6, 4, 3), Arrays.asList(6, 4, 5), Arrays.asList(6, 8))});
-        input.add(new Object[]{Arrays.asList(10, 6, 4, 8, 16, 14, 20), Arrays.asList(Arrays.asList(10, 6, 4), Arrays.asList(10, 6, 8), Arrays.asList(10, 16, 14), Arrays.asList(10, 16, 20))});
+        input.add(new Object[]{Arrays.asList(6, 4, 3, 5, 8),
+                               Arrays.asList(Arrays.asList(6, 4, 3), Arrays.asList(6, 4, 5), Arrays.asList(6, 8))});
+        input.add(new Object[]{Arrays.asList(10, 6, 4, 8, 16, 14, 20),
+                               Arrays.asList(Arrays.asList(10, 6, 4), Arrays.asList(10, 6, 8),
+                                             Arrays.asList(10, 16, 14), Arrays.asList(10, 16, 20))});
 
         return input.iterator();
     }

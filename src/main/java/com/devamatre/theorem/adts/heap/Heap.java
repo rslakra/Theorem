@@ -64,8 +64,8 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
     }
 
     /**
-     * Creates a <code>Heap</code> containing the elements in the specified priority queue and orders its elements according to the
-     * specified <code>comparator</code>.
+     * Creates a <code>Heap</code> containing the elements in the specified priority queue and orders its elements
+     * according to the specified <code>comparator</code>.
      *
      * @param elements
      * @param comparator
@@ -167,7 +167,9 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
             this.queue = checkNonEmpty(heap.toArray());
             this.size = heap.getSize();
         } else {
-            final List<E> elements = Arrays.stream(heap.getQueue()).map(entry -> (E) entry).collect(Collectors.toList());
+            final List<E>
+                elements =
+                Arrays.stream(heap.getQueue()).map(entry -> (E) entry).collect(Collectors.toList());
             initFromCollection(elements);
         }
     }
@@ -341,7 +343,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      * @param action
      */
     public void forEach(Consumer<? super E> action) {
-//        Arrays.stream(getData()).forEach(action);
+// Arrays.stream(getData()).forEach(action);
     }
 
     /**

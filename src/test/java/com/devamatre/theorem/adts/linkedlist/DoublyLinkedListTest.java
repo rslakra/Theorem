@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Rohtash Lakra
- * @date 01/31/2017 03:49:55 PM
+ * @created 01/31/2017 03:49:55 PM
  */
 public class DoublyLinkedListTest extends AbstractLinkedListTest {
 

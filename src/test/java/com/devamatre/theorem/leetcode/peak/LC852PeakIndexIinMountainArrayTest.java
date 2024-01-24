@@ -2,6 +2,7 @@ package com.devamatre.theorem.leetcode.peak;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.devamatre.theorem.leetcode.peak.LC852PeakIndexIinMountainArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;

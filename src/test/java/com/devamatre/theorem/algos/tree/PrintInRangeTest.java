@@ -42,7 +42,9 @@ public class PrintInRangeTest extends AbstractTreeTest {
     public void testFindInRange() {
         LOGGER.debug("testFindInRange()");
         PrintInRange instance = new PrintInRange();
-        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(10, 6, 4, 3, 5, 8, 16, 14, 12, 11, 13, 20, 18, 21));
+        BinarySearchTree<Integer>
+            tree =
+            buildBinarySearchTree(Arrays.asList(10, 6, 4, 3, 5, 8, 16, 14, 12, 11, 13, 20, 18, 21));
         LOGGER.debug("tree:{}", tree);
         assertNotNull(tree);
         tree.printPrettyTree();
@@ -101,7 +103,9 @@ public class PrintInRangeTest extends AbstractTreeTest {
     public void testPrintInRange() {
         LOGGER.debug("testPrintInRange()");
         PrintInRange instance = new PrintInRange();
-        BinarySearchTree<Integer> tree = buildBinarySearchTree(Arrays.asList(10, 6, 4, 3, 5, 8, 16, 14, 12, 11, 13, 20, 18, 21));
+        BinarySearchTree<Integer>
+            tree =
+            buildBinarySearchTree(Arrays.asList(10, 6, 4, 3, 5, 8, 16, 14, 12, 11, 13, 20, 18, 21));
         LOGGER.debug("tree:{}", tree);
         assertNotNull(tree);
         tree.printPrettyTree();

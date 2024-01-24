@@ -1,5 +1,8 @@
 package com.devamatre.theorem.adts.tree.traversal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeFactory;
@@ -11,8 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Rohtash Lakra
@@ -104,7 +105,9 @@ public class LevelOrderTraversalTest extends AbstractTreeTraversalTest {
         assertNotNull(treeTraversal);
 
         // treeTraversal validation
-        List<Integer> expectedResult = Arrays.asList(4, 2, 5, 1, 3, 7, 6, 8, null, null, null, null, null, null, null, null, null);
+        List<Integer>
+            expectedResult =
+            Arrays.asList(4, 2, 5, 1, 3, 7, 6, 8, null, null, null, null, null, null, null, null, null);
         List<Integer> treeTraversalResults = treeTraversal.traverse(true);
         LOGGER.debug("treeTraversalResults:{}", treeTraversalResults);
         assertNotNull(treeTraversalResults);

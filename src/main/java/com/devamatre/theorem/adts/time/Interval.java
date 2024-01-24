@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -55,10 +56,7 @@ public class Interval<E extends Comparable<? super E>> implements Comparable<Int
      */
     @Override
     public String toString() {
-        return ToString.of(Interval.class, true)
-            .add("start", getStart())
-            .add("end", getEnd())
-            .toString();
+        return ToString.of(Interval.class, true).add("start", getStart()).add("end", getEnd()).toString();
     }
 
     /**
@@ -96,5 +94,132 @@ public class Interval<E extends Comparable<? super E>> implements Comparable<Int
     public int compareTo(Interval<E> interval) {
         int result = getStart().compareTo(interval.getStart());
         return (result == 0 ? getEnd().compareTo(interval.getEnd()) : result);
+    }
+
+    /**
+     * @param start
+     * @param end
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Interval<E> of(E start, E end) {
+        return new Interval<>(start, end);
+    }
+
+    /**
+     * Returns true if the <code>left</code> interval overlaps with the <code>right</code> interval otherwise false.
+     *
+     * @param left
+     * @param right
+     * @return
+     */
+    public boolean overlaps(final Interval left, final Interval right) {
+        // it covers the coordinates [(2,5), (3,6)] and [(2,5), (3,4)]
+        if (right.getStart().compareTo(left.getStart()) > 0 && (left.getEnd().compareTo(right.getStart()) > 0
+                                                                || left.getEnd().compareTo(right.getEnd()) > 0)) {
+            return true;
+        } else if (left.getStart().compareTo(right.getStart()) > 0 && (right.getEnd().compareTo(left.getStart()) > 0
+                                                                       || right.getEnd().compareTo(left.getEnd())
+                                                                          > 0)) {
+            // it covers the coordinates [(2,5), (3,6)] and [(2,5), (3,4)]
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns true if the current interval overlaps with the <code>other</code> interval otherwise false.
+     *
+     * @param other
+     * @return
+     */
+    public boolean overlaps(final Interval other) {
+        return overlaps(this, other);
+    }
+
+    /**
+     * Returns the merged interval if the <code>left</code> interval overlaps with the <code>right</code> interval.
+     * Otherwise returns the <code>right</code> interval.
+     *
+     * @param left
+     * @param right
+     * @return
+     */
+    public final Interval merge(final Interval left, final Interval right) {
+        // it covers the coordinates [(1,3),(2,4),(5,8), (6,9)]
+        final Interval merged = new Interval();
+        merged.setStart(left.getStart().compareTo(right.getStart()) < 0 ? left.getStart() : right.getStart());
+        merged.setEnd(left.getEnd().compareTo(right.getEnd()) < 0 ? right.getEnd() : left.getEnd());
+        return merged;
+    }
+
+    /**
+     * Merges the coordinates [(1,3),(2,4)]
+     *
+     * @param other
+     * @return
+     */
+    public Interval merge(final Interval other) {
+        return merge(this, other);
+    }
+
+    /**
+     * @param intervals
+     */
+    public void checkOverlaps(final List<Interval<Integer>> intervals) {
+        for (int i = 0; i < intervals.size(); i++) {
+            for (int j = i + 1; j < intervals.size(); j++) {
+                Interval<Integer> node = intervals.get(i);
+                Interval<Integer> next = intervals.get(j);
+                System.out.println("node:" + node + ", next:" + next + ", overlaps:" + node.overlaps(next));
+            }
+        }
+    }
+
+    /**
+     * Merge interval
+     */
+    public static void checkMerged() {
+        Interval<Integer> left = Interval.of(1, 4);
+        Interval<Integer> right = Interval.of(2, 5);
+        Interval<Integer> merged = left.merge(right);
+        System.out.println("merged: " + merged + " from left:" + left + ", right: " + right);
+        System.out.println();
+
+        left = Interval.of(1, 6);
+        right = Interval.of(3, 4);
+        merged = left.merge(right);
+        System.out.println("merged: " + merged + " from left:" + left + ", right: " + right);
+        System.out.println();
+
+        left = Interval.of(2, 4);
+        right = Interval.of(1, 5);
+        merged = left.merge(right);
+        System.out.println("merged: " + merged + " from left:" + left + ", right: " + right);
+        System.out.println();
+
+        left = Interval.of(2, 7);
+        right = Interval.of(1, 5);
+        merged = left.merge(right);
+        System.out.println("merged: " + merged + " from left:" + left + ", right: " + right);
+        System.out.println();
+    }
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+// // [[6, 7],[2, 4],[8, 12]]
+// List<Interval<Integer>> intervals = Arrays.asList(Interval.of(6, 7), Interval.of(2, 4), Interval.of(7, 8));
+// intervals.forEach(System.out::println);
+// checkOverlaps(intervals);
+// System.out.println();
+//
+// // [[1, 4],[2, 5],[7, 9]]
+// intervals = Arrays.asList(Interval.of(1, 4), Interval.of(2, 5), Interval.of(7, 8), Interval.of(6, 8), Interval.of(8, 9));
+// intervals.forEach(System.out::println);
+// checkOverlaps(intervals);
+        checkMerged();
     }
 }

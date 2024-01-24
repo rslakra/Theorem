@@ -38,7 +38,7 @@ import java.util.List;
  * For example, Given [1,3],[2,6],[8,10],[15,18], return [1,6],[8,10],[15,18]
  *
  * @author Rohtash Lakra
- * @date 02/14/2017 09:29:19 PM
+ * @created 02/14/2017 09:29:19 PM
  */
 public class MergeInterval {
 

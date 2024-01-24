@@ -2,6 +2,7 @@ package com.devamatre.theorem.leetcode.array;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.devamatre.theorem.leetcode.array.LC410SplitArrayLargestSum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -38,7 +39,7 @@ public class LC410SplitArrayLargestSumTest {
      * Input: nums = [7,2,5,10,8], k = 2
      * Output: 18
      * Explanation: There are four ways to split nums into two subarrays.
-     * The best way is to split it into [7,2,5] and [10,8], where the largest sum among the two sub-arrays is only 18.
+     * The best way is to split it into [7,2,5] and [10,8], where the largest sum among the two sub-array is only 18.
      *
      * Example 2:
      * Input: nums = [1,2,3,4,5], k = 2

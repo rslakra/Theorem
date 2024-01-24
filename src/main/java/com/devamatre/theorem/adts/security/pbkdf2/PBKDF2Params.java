@@ -4,7 +4,7 @@ package com.devamatre.theorem.adts.security.pbkdf2;
  * The parameters of the PBKDF2 parameters.
  *
  * @author Rohtash Lakra
- * @date 11/21/2016 03:32:24 PM
+ * @created 11/21/2016 03:32:24 PM
  */
 public class PBKDF2Params {
 

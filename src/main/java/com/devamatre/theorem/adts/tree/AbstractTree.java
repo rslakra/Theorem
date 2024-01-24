@@ -15,7 +15,8 @@ import java.util.Objects;
  * @author Rohtash Lakra
  * @created 5/17/22 2:05 PM
  */
-public abstract class AbstractTree<E extends Comparable<? super E>> implements TreeIterator<E>, Iterable<E>, Comparable<E> {
+public abstract class AbstractTree<E extends Comparable<? super E>>
+    implements TreeIterator<E>, Iterable<E>, Comparable<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTree.class);
 
@@ -223,11 +224,11 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
 //     * @param preOrderData
 //     */
 //    public void buildPreOrderTree(E[] preOrderData) {
-//        if (BeanUtils.isNotEmpty(preOrderData)) {
+// if (BeanUtils.isNotEmpty(preOrderData)) {
 //            AbstractTreeParser treeHandler = new PreOrderTreeParser<>();
 //            root = treeHandler.buildTree(preOrderData);
 //            size = treeHandler.getSize();
-//        }
+// }
 //    }
 
     /**
@@ -299,7 +300,7 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * @return
      */
     public Node<E> findNode(E data) {
-//        return findIteratively(data);
+// return findIteratively(data);
         return findNode(getRoot(), data);
     }
 
@@ -348,8 +349,8 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      */
     public String toString() {
         return inOrderTraversal().toString();
-//        return TreeUtils.inOrder(root).toString();
-//        return inOrderIterator().toString();
+// return TreeUtils.inOrder(root).toString();
+// return inOrderIterator().toString();
     }
 
     /**
@@ -548,8 +549,7 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
     }
 
     /**
-     * Prints the level order traversal order manner.
-     * Traverses a tree in the level order manner, like:
+     * Prints the level order traversal order manner. Traverses a tree in the level order manner, like:
      * <pre>
      *  Level 0 (Root Level)
      *  Level n-1 (Child Level)
@@ -573,7 +573,7 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * @return
      */
     public List<E> treeViewTraversal() {
-//        LOGGER.debug(TreeUtils.treeViewTraversal(root, true));
+// LOGGER.debug(TreeUtils.treeViewTraversal(root, true));
         return null;
     }
 
@@ -581,7 +581,7 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * @return
      */
     public List<E> treeBottomViewTraversal() {
-//        LOGGER.debug(TreeUtils.treeBottomViewTraversal(root, true));
+// LOGGER.debug(TreeUtils.treeBottomViewTraversal(root, true));
         return null;
     }
 
@@ -589,7 +589,7 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * @return
      */
     public List<E> treeLeftViewTraversal() {
-//        LOGGER.debug(TreeUtils.treeLeftViewTraversal(root, true));
+// LOGGER.debug(TreeUtils.treeLeftViewTraversal(root, true));
         return null;
     }
 
@@ -597,7 +597,7 @@ public abstract class AbstractTree<E extends Comparable<? super E>> implements T
      * @return
      */
     public List<E> treeRightViewTraversal() {
-//        LOGGER.debug(TreeUtils.treeRightViewTraversal(root, true));
+// LOGGER.debug(TreeUtils.treeRightViewTraversal(root, true));
         return null;
     }
 

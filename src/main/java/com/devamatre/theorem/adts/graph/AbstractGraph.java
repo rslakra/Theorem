@@ -256,7 +256,7 @@ public abstract class AbstractGraph<E extends Comparable<? super E>> {
      */
     public void bfsRecursively(Queue<Edge> queue, Set<Edge> visited) {
         // create a queue for doing BFS
-//        Queue<E> queue = new ArrayDeque<>();
+        // Queue<E> queue = new ArrayDeque<>();
         if (queue.isEmpty()) {
             return;
         }

@@ -1,5 +1,6 @@
 package com.devamatre.theorem.leetcode.peak;
 
+import com.devamatre.theorem.leetcode.peak.LC1095FindInMountainArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;

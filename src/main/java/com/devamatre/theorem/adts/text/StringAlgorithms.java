@@ -32,7 +32,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * @author rsingh
+ * @author Rohtash Lakra
+ * @created 01/27/2017 10:39:52 AM
  */
 public class StringAlgorithms {
 

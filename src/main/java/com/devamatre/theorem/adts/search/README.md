@@ -8,10 +8,13 @@
 
 For example, for floor: ⌊2.4⌋ = 2, ⌊−2.4⌋ = −3, and for ceiling: ⌈2.4⌉ = 3, and ⌈−2.4⌉ = −2.
 
-Historically, the floor of x has been–and still is–called the integral part or integer part of x, often denoted [x] (as well as a variety of other notations).
-However, the same term, integer part, is also used for truncation towards zero, which differs from the floor function for negative numbers.
+Historically, the floor of x has been–and still is–called the integral part or integer part of x, often denoted [x] (as
+well as a variety of other notations).
+However, the same term, integer part, is also used for truncation towards zero, which differs from the floor function
+for negative numbers.
 
-Although floor(x+1) and ceil(x) produce graphs that appear exactly alike, they are not the same when the value of x is an exact integer.
+Although floor(x+1) and ceil(x) produce graphs that appear exactly alike, they are not the same when the value of x is
+an exact integer.
 
 # References
 

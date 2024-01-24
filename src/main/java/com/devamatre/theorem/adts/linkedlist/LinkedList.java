@@ -37,7 +37,7 @@ import java.util.NoSuchElementException;
 
 /**
  * @author Rohtash Lakra
- * @date 11/03/2016 04:28:44 PM
+ * @created 11/03/2016 04:28:44 PM
  */
 public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedList<E> implements Queue<E>, List<E> {
 
@@ -683,7 +683,7 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
 //     * @param rightKey
 //     */
 //    public void swapNodes(E leftKey, E rightKey) {
-//        if (head != null && leftKey != rightKey) {
+// if (head != null && leftKey != rightKey) {
 //            // find left node and its parent
 //            Node<E> leftNodeParent = null;
 //            Node<E> leftNode = head;

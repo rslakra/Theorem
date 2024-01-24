@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Rohtash Lakra
- * @date 11/03/2016 04:45:23 PM
+ * @created 11/03/2016 04:45:23 PM
  */
 public class LinkedListTest extends AbstractLinkedListTest {
 

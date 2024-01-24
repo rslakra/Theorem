@@ -1,6 +1,5 @@
 package com.devamatre.theorem.adts.graph.edgelist;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import com.devamatre.theorem.adts.graph.AbstractGraphTest;

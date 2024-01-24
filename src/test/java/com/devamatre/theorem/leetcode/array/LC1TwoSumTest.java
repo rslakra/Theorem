@@ -2,6 +2,7 @@ package com.devamatre.theorem.leetcode.array;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
+import com.devamatre.theorem.leetcode.lang.LC1TwoSum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class LC1TwoSumTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC1TwoSum.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(LC1TwoSumTest.class);
 
     /**
      * @return
@@ -46,5 +47,6 @@ public class LC1TwoSumTest {
         int[] result = instance.twoSum(inputData, target);
         LOGGER.debug("result:{}, expected:{}", result, expected);
         assertArrayEquals(expected, result);
+        assertArrayEquals(expected, instance.twoSum2(inputData, target));
     }
 }

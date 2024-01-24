@@ -1,7 +1,5 @@
 package com.devamatre.theorem.adts.sort.keyindex;
 
-import com.devamatre.theorem.adts.sort.keyindex.KeyIndexSort;
-import com.devamatre.theorem.adts.sort.keyindex.KeyIndexType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

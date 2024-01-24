@@ -38,7 +38,7 @@ import java.util.List;
 
 /**
  * @author Rohtash Lakra
- * @date 10/18/2016 02:12:13 PM
+ * @created 10/18/2016 02:12:13 PM
  */
 public enum BookManager implements Cloneable {
 

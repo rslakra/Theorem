@@ -51,7 +51,7 @@ import java.util.Scanner;
  * values (1) (2)} fib(1) = 1, fib(2) = 1 or fib(0) = 0, fib(1) = 1
  *
  * @author Rohtash Lakra
- * @date 10/19/2017 06:53:01 AM
+ * @created 10/19/2017 06:53:01 AM
  * @see <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci Number</a>
  */
 public class FibonacciSeries {

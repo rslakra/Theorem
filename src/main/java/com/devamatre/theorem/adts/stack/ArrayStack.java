@@ -69,7 +69,7 @@ public class ArrayStack<E> implements Stack<E> {
     /**
      * @param item
      * @return
-     * @see com.devamatre.algorithm.stack.Stack#push(java.lang.Object)
+     * @see com.devamatre.coder.stack.Stack#push(java.lang.Object)
      */
     @Override
     public E push(E item) {
@@ -83,7 +83,7 @@ public class ArrayStack<E> implements Stack<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.stack.Stack#pop()
+     * @see com.devamatre.coder.stack.Stack#pop()
      */
     @Override
     public E pop() {
@@ -96,7 +96,7 @@ public class ArrayStack<E> implements Stack<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.stack.Stack#peek()
+     * @see com.devamatre.coder.stack.Stack#peek()
      */
     @Override
     public E peek() {
@@ -110,7 +110,7 @@ public class ArrayStack<E> implements Stack<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.stack.Stack#empty()
+     * @see com.devamatre.coder.stack.Stack#empty()
      */
     @Override
     public boolean empty() {
@@ -125,7 +125,7 @@ public class ArrayStack<E> implements Stack<E> {
     /**
      * @param item
      * @return
-     * @see com.devamatre.algorithm.stack.Stack#contains(java.lang.Object)
+     * @see com.devamatre.coder.stack.Stack#contains(java.lang.Object)
      */
     @Override
     public boolean contains(E item) {

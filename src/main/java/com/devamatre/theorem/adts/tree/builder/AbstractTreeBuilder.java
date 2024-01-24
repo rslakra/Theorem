@@ -33,6 +33,7 @@ public abstract class AbstractTreeBuilder<E extends Comparable<? super E>> imple
         super();
         this.traversalMode = traversalMode;
         this.nodeIndices = new HashMap<>();
+        LOGGER.debug("AbstractTreeBuilder({})", traversalMode);
     }
 
     /**
@@ -107,8 +108,8 @@ public abstract class AbstractTreeBuilder<E extends Comparable<? super E>> imple
     }
 
     /**
-     * Builds the nodes based on the provided <code>inOrderData</code> or <code>preOrderData</code> or <code>postOrderData</code>.
-     * This helper method will be used in testing.
+     * Builds the nodes based on the provided <code>inOrderData</code> or <code>preOrderData</code> or
+     * <code>postOrderData</code>. This helper method will be used in testing.
      *
      * @param isBinary
      * @param inOrderData
@@ -116,7 +117,8 @@ public abstract class AbstractTreeBuilder<E extends Comparable<? super E>> imple
      * @param postOrderData
      * @return
      */
-    public abstract Node<E> buildRecursively(boolean isBinary, List<E> inOrderData, List<E> preOrderData, List<E> postOrderData);
+    public abstract Node<E> buildRecursively(boolean isBinary, List<E> inOrderData, List<E> preOrderData,
+                                             List<E> postOrderData);
 
     /**
      * Returns the <code>Node<E></code> tree that builds with an elements of <code>inputData</code> array.

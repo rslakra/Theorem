@@ -369,8 +369,8 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
     }
 
     /**
-     * Removes the first occurrence of the provided <code>data</code> from the tree, if exists and the node class
-     * has parent handling.
+     * Removes the first occurrence of the provided <code>data</code> from the tree, if exists and the node class has
+     * parent handling.
      *
      * @param data
      */
@@ -459,7 +459,7 @@ public class BinaryTree<E extends Comparable<? super E>> extends AbstractTree<E>
 //     */
 //    @Override
 //    public String toString() {
-//        return inOrderTraversal().toString();
+// return inOrderTraversal().toString();
 //    }
 
     /**

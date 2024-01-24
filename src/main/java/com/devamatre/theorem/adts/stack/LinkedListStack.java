@@ -99,7 +99,7 @@ public class LinkedListStack<E> implements Stack<E> {
 
     /**
      * @return
-     * @see com.devamatre.algorithm.stack.Stack#empty()
+     * @see com.devamatre.coder.stack.Stack#empty()
      */
     @Override
     public boolean empty() {
@@ -113,7 +113,7 @@ public class LinkedListStack<E> implements Stack<E> {
     /**
      * @param item
      * @return
-     * @see com.devamatre.algorithm.stack.Stack#contains(java.lang.Object)
+     * @see com.devamatre.coder.stack.Stack#contains(java.lang.Object)
      */
     @Override
     public boolean contains(E item) {

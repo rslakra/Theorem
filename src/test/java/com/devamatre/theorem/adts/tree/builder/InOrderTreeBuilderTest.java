@@ -1,5 +1,8 @@
 package com.devamatre.theorem.adts.tree.builder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.devamatre.theorem.adts.tree.Node;
 import com.devamatre.theorem.adts.tree.TraversalMode;
 import com.devamatre.theorem.adts.tree.TreeBuilder;
@@ -12,14 +15,13 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author Rohtash Lakra
  * @version 1.0.0
  * @since 12/28/2023 4:31 PM
  */
 public class InOrderTreeBuilderTest extends AbstractTreeBuilderTest {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(InOrderTreeBuilderTest.class);
 
     /**
@@ -44,7 +46,10 @@ public class InOrderTreeBuilderTest extends AbstractTreeBuilderTest {
         LOGGER.debug("treeBuilder:{}", treeBuilder);
         assertNotNull(treeBuilder);
         InOrderTreeBuilder inOrderTreeBuilder = (InOrderTreeBuilder) treeBuilder;
-        Node<Integer> rootNode = inOrderTreeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
+        Node<Integer>
+            rootNode =
+            inOrderTreeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA),
+                                                Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         assertNotNull(rootNode);
@@ -60,7 +65,10 @@ public class InOrderTreeBuilderTest extends AbstractTreeBuilderTest {
         LOGGER.debug("treeBuilder:{}", treeBuilder);
         assertNotNull(treeBuilder);
         InOrderTreeBuilder inOrderTreeBuilder = (InOrderTreeBuilder) treeBuilder;
-        Node<Integer> rootNode = inOrderTreeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), null, Arrays.asList(TreeTest.POST_ORDER_DATA));
+        Node<Integer>
+            rootNode =
+            inOrderTreeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), null,
+                                                Arrays.asList(TreeTest.POST_ORDER_DATA));
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         assertNotNull(rootNode);
@@ -77,7 +85,10 @@ public class InOrderTreeBuilderTest extends AbstractTreeBuilderTest {
         LOGGER.debug("treeBuilder:{}", treeBuilder);
         assertNotNull(treeBuilder);
         InOrderTreeBuilder inOrderTreeBuilder = (InOrderTreeBuilder) treeBuilder;
-        Node<Integer> rootNode = inOrderTreeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA), Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
+        Node<Integer>
+            rootNode =
+            inOrderTreeBuilder.buildRecursively(true, Arrays.asList(TreeTest.IN_ORDER_DATA),
+                                                Arrays.asList(TreeTest.PRE_ORDER_DATA), null);
         LOGGER.debug("rootNode:{}", rootNode);
         TreeUtils.printBinaryTree(rootNode);
         assertNotNull(rootNode);

@@ -75,7 +75,8 @@ public enum GraphUtils {
      *
      * @return
      */
-    public static <E extends Comparable<? super E>> void topSort(Graph<E> graph, E current, Set<E> visited, Stack<E> stack) {
+    public static <E extends Comparable<? super E>> void topSort(Graph<E> graph, E current, Set<E> visited,
+                                                                 Stack<E> stack) {
         visited.add(current);
         if (graph.getAdjList().containsKey(current)) {
             // visit all neighbors of the current vertex

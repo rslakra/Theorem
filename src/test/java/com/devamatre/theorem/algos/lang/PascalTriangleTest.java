@@ -16,6 +16,7 @@ import java.util.List;
  * @since 01/02/2024 8:26 AM
  */
 public class PascalTriangleTest {
+
     private static Logger LOGGER = LoggerFactory.getLogger(PascalTriangleTest.class);
 
     /**
