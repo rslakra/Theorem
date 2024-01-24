@@ -18,7 +18,7 @@ dist/
 *.log
 
 # Application/Package files
-*.jar
+#*.jar
 *.app
 *.war
 *.exe
@@ -31,7 +31,7 @@ dist/
 
 # Gradle
 .gradle/
-gradle/
+#gradle/
 
 ### STS ###
 .apt_generated
