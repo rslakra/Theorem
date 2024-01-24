@@ -7,5 +7,5 @@ echo
 #echo "${JAVA_HOME}"
 #echo
 
-gradle clean deploy
+gradle clean build assemble
 echo
