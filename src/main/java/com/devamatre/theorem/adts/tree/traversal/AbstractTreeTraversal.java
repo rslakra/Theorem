@@ -18,6 +18,9 @@ import java.util.Stack;
  * We implement a pre-order traversal by adding a new method iterator to the BSTree class. This method returns an
  * iterator over the nodes of a binary tree in pre-order.
  *
+ * <url>https://en.wikipedia.org/wiki/Tree_traversal</url>
+ * <url>https://upload.wikimedia.org/wikipedia/commons/7/75/Sorted_binary_tree_ALL_RGB.svg</url>
+ *
  * @author Rohtash Lakra
  * @version 1.0.0
  * @created 2018-01-07 03:36:00 PM

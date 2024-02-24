@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
  */
 public class ArrayQueueTest extends AbstractQueueTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ArrayQueueTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArrayQueueTest.class);
 
     /**
      * Tests the <code>Queue</code>

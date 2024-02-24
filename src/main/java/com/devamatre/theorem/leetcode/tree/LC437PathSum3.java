@@ -8,6 +8,10 @@ public class LC437PathSum3 {
 
     /**
      * <url>https://leetcode.com/problems/path-sum-iii</url>
+     * <pre>
+     *  Time Complexity: <code>O(log N)</code>
+     *  Space Complexity: <code>O(1)</code>
+     * </pre>
      *
      * @param root
      * @param targetSum

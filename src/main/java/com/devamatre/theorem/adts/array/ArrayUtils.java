@@ -21,7 +21,7 @@ public enum ArrayUtils {
 
     INSTANCE;
     public static final String NEW_LINE = "\n";
-    public static final Integer MINUS_ONE = new Integer(-1);
+    public static final Integer MINUS_ONE = Integer.valueOf(-1);
     public static final String CLONE = "clone";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArrayUtils.class);
@@ -171,7 +171,7 @@ public enum ArrayUtils {
      * @return
      * @see <code>(E[]) Array.newInstance(data.getComponentType(), data.size())</code>
      */
-    public static <E extends Comparable<? super E>> E[] asArray(List<E> inputData, Class<E> classType) {
+    public static <E> E[] asArray(List<E> inputData, Class<E> classType) {
         return inputData.toArray(initArray(classType, inputData.size()));
     }
 
@@ -206,7 +206,7 @@ public enum ArrayUtils {
         final List<List<E>> listOfList = new ArrayList<>();
         if (Objects.nonNull(inputData)) {
             for (Object[] objects : inputData) {
-                listOfList.add(Arrays.asList(objects).stream().map(item -> (E) item).collect(Collectors.toList()));
+                listOfList.add(Arrays.stream(objects).map(item -> (E) item).collect(Collectors.toList()));
             }
         }
 
@@ -259,9 +259,9 @@ public enum ArrayUtils {
      * @param cloneObject
      * @return
      */
-    public static boolean isCloneable(final Object cloneObject) {
-        return (Objects.nonNull(cloneObject)
-                && (cloneObject instanceof Cloneable || Cloneable.class.isAssignableFrom(cloneObject.getClass())));
+    public static boolean isCloneable(Object cloneObject) {
+        return (Objects.nonNull(cloneObject) && (cloneObject instanceof Cloneable || Cloneable.class.isAssignableFrom(
+            cloneObject.getClass())));
     }
 
     /**
@@ -308,7 +308,7 @@ public enum ArrayUtils {
                         Array.set(objectCloned, length, Array.get(cloneObject, length));
                     }
                 } else {
-//                    objectCloned = ((Object[]) cloneObject).clone();
+                    // objectCloned = ((Object[]) cloneObject).clone();
                 }
             } else {
                 objectCloned = invokeCloneMethod(cloneObject);
@@ -347,6 +347,7 @@ public enum ArrayUtils {
      * @param data
      */
     public static <E> void printDiagonally(E[][] data) {
+        LOGGER.trace("+printDiagonally({})", data);
         // print left to bottom.
         for (int row = 0; row < data.length; row++) {
             for (int i = 0; i < ((data.length * 2) - row); i++) {
@@ -361,6 +362,46 @@ public enum ArrayUtils {
             }
             System.out.println();
         }
+        LOGGER.trace("-printDiagonally()");
+    }
+
+
+    /**
+     * Returns the index of an element in an array.
+     *
+     * @param input
+     * @param index
+     * @return
+     */
+    public static int findParent(int[] input, int index) {
+        if (index < 0 || index >= input.length) {
+            return -1;
+        } else if (input[index] == index) {
+            return index;
+        }
+
+        return findParent(input, input[index]);
+    }
+
+    /**
+     * Recursively, updates the value of the parent at the provided <code>vertex</code> with the provided
+     * <code>value</code>.
+     *
+     * @param parent
+     * @param vertex
+     * @param value
+     * @return
+     */
+    public static int union(int[] parent, int vertex, int value) {
+        LOGGER.trace("+union({}, {}, {})", parent, vertex, value);
+        if (parent[vertex] != vertex) {
+            parent[vertex] = union(parent, parent[vertex], value);
+        } else {
+            parent[vertex] = value;
+        }
+
+        LOGGER.trace("-union(), parent[{}]:{}", vertex, parent[vertex]);
+        return parent[vertex];
     }
 
 }

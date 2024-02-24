@@ -45,7 +45,7 @@ public class TrieUtilsTest {
      */
     @Test(dataProvider = "fillTrieData")
     public void testFillTrie(String input, int expected) {
-        Trie trie = new TrieMap();
+        Trie trie = new MapTrie();
         TrieUtils.fillTrie(trie, Arrays.asList(input.split(" ")));
         assertNotNull(trie);
         assertEquals(expected, trie.getSize());

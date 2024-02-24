@@ -1,7 +1,7 @@
 package com.devamatre.theorem.adts.graph.adjacencymatrix;
 
+import com.devamatre.theorem.adts.NumberUtils;
 import com.devamatre.theorem.adts.PrettyPrinter;
-import com.devamatre.theorem.adts.array.ArrayUtils;
 import com.devamatre.theorem.adts.array.TablePrettyPrinter;
 import com.devamatre.theorem.adts.graph.AbstractGraph;
 import com.devamatre.theorem.adts.graph.Edge;
@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
@@ -42,6 +44,8 @@ import java.util.Set;
  * }
  * </pre>
  * <p>
+ * Graph with the adjacency matrix needs <code>O(1)</code> time and <code>O(N ^ 2)</code> space to handle the
+ * operations.
  *
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
@@ -66,7 +70,7 @@ public class AdjacencyMatrixGraph<E extends Comparable<? super E>> extends Abstr
      * </pre>
      */
     private int vertices;
-    protected Object[][] adjMatrix;
+    protected List<List<Edge<E>>> adjMatrix;
 
     /**
      * @param weighted
@@ -76,7 +80,11 @@ public class AdjacencyMatrixGraph<E extends Comparable<? super E>> extends Abstr
         super(weighted, directed);
         LOGGER.debug("AdjacencyMatrixGraph({}, {}, {})", vertices, weighted, directed);
         this.vertices = vertices;
-        this.adjMatrix = new Object[vertices][vertices];
+        this.adjMatrix = new ArrayList<>(vertices);
+        // initialize each element of the graph
+        for (int i = 0; i < vertices; i++) {
+            adjMatrix.add(new ArrayList<>());
+        }
     }
 
     /**
@@ -95,13 +103,81 @@ public class AdjacencyMatrixGraph<E extends Comparable<? super E>> extends Abstr
     }
 
     /**
+     * Returns the size of the graph.
+     *
+     * @return
+     */
+    @Override
+    public int getSize() {
+        return adjMatrix.size();
+    }
+
+    /**
+     * Returns the string representation of this object.
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        PrettyPrinter<E> prettyPrinter = TablePrettyPrinter.buildPrettyPrinter();
+        List<List<E>> adjMatrixData = new ArrayList<>();
+        for (int i = 0; i < adjMatrix.size(); i++) {
+            adjMatrixData.add(new ArrayList<>());
+            List<Edge<E>> edges = adjMatrix.get(i);
+            for (int j = 0; j < edges.size(); j++) {
+                // adjMatrixData.get(i).add(edges.get(j).getTarget());
+                if (NumberUtils.isEqualsToZero(NumberUtils.nullSafeGet(edges.get(j).getWeight()))) {
+                    adjMatrixData.get(i).add((E) Integer.valueOf(0));
+                } else {
+                    adjMatrixData.get(i).add((E) Integer.valueOf(edges.get(j).getWeight().toString()));
+                }
+            }
+        }
+
+        // prettyPrinter.prettyPrint(adjMatrix);
+        prettyPrinter.prettyPrint(adjMatrixData);
+        return prettyPrinter.toString();
+    }
+
+    /**
+     * Returns the <code>keySet</code> of the graph.
+     *
+     * @return
+     */
+    @Override
+    public Set<E> getVertices() {
+        Set<E> vertices = new LinkedHashSet<>();
+        for (int i = 0; i < adjMatrix.size(); i++) {
+            List<Edge<E>> edges = adjMatrix.get(i);
+            for (int j = 0; j < edges.size(); j++) {
+                vertices.add(edges.get(j).getTarget());
+            }
+        }
+
+        return vertices;
+    }
+
+    /**
+     * Returns true if the graph contains the <code>vertex</code> otherwise false.
+     *
+     * @param vertex
+     * @return
+     */
+    @Override
+    public boolean hasVertex(E vertex) {
+        return getVertices().contains(vertex);
+    }
+
+    /**
      * Returns the <code>firstNode</code> of the graph.
      *
      * @return
      */
     @Override
-    public E startNode() {
-        return null;
+    public E firstVertex() {
+        return getVertices().iterator().next();
+        // Set<E> vertices = getVertices();
+        // return (Objects.nonNull(vertices) ? vertices.iterator().next() : null);
     }
 
     /**
@@ -131,6 +207,36 @@ public class AdjacencyMatrixGraph<E extends Comparable<? super E>> extends Abstr
     /**
      * Returns the edges/neighbors of the <code>vertex</code> of the <code>graph</code>.
      *
+     * @param row
+     * @param col
+     * @return
+     */
+    private Set<E> getNeighbors(int row, int col) {
+        LOGGER.debug("+getNeighbors({}, {})", row, col);
+        int rowSize = adjMatrix.size();
+        int colSize = adjMatrix.get(0).size();
+        // returns all the adjacent elements of vertex
+        Set<E> neighbors = new HashSet<>();
+        // deviation of row that gets adjusted according to the provided position
+        for (int rowIndex = (row > 0 ? -1 : 0); rowIndex <= (row < rowSize ? 1 : 0); ++rowIndex) {
+            // deviation of the column that gets adjusted according to the provided position
+            for (int colIndex = (col > 0 ? -1 : 0); colIndex <= (colIndex < colSize ? 1 : 0); ++colIndex) {
+                if (rowIndex != 0 || colIndex != 0) {
+                    LOGGER.debug("source:{}, target:{}", rowIndex + rowIndex, col + colIndex);
+                    // E vertex = getVertex(rowIndex + rowIndex, col + colIndex);
+                    // LOGGER.debug("vertex:{}", vertex);
+                    // neighbors.add(vertex);
+                }
+            }
+        }
+
+        LOGGER.debug("-getNeighbors(), neighbors:{}", neighbors);
+        return neighbors;
+    }
+
+    /**
+     * Returns the edges/neighbors of the <code>vertex</code> of the <code>graph</code>.
+     *
      * @param vertex
      * @return
      */
@@ -147,7 +253,8 @@ public class AdjacencyMatrixGraph<E extends Comparable<? super E>> extends Abstr
      */
     @Override
     public void removeEdge(E source, E target) {
-
+        // just reset the weight to 0
+        addEdge(source, target, null);
     }
 
     /**
@@ -233,7 +340,25 @@ public class AdjacencyMatrixGraph<E extends Comparable<? super E>> extends Abstr
      * @param weight
      */
     public void addEdge(E source, E target, BigDecimal weight) {
+        LOGGER.debug("addEdge({}, {}, {})", source, target, weight);
+        weight = NumberUtils.nullSafeGet(weight);
+        for (int i = 0; i < adjMatrix.size(); i++) {
+            List<Edge<E>> edges = adjMatrix.get(i);
+            edges.add(Edge.of(source, target, weight));
+            // if not directed graph
+            if (!isDirected()) {
+            }
+        }
 
+        // adjMatrix.get(source).add(Edge.of(source, target, weight));
+        // adjMatrix[source][target] = weight;
+        // increaseSize();
+        // if not directed graph
+        // if (!isDirected()) {
+        // adjMatrix.get(target).add(Edge.of(target, source, weight));
+        // adjMatrix[target][source] = weight;
+        // increaseSize();
+        // }
     }
 
     /**
@@ -245,7 +370,6 @@ public class AdjacencyMatrixGraph<E extends Comparable<? super E>> extends Abstr
     public void addEdge(E source, E target) {
         addEdge(source, target, null);
     }
-
 
     /**
      * Checks if the <code>source</code> or <code>target</code> indices are valid or not. If not throws an error.
@@ -309,45 +433,38 @@ public class AdjacencyMatrixGraph<E extends Comparable<? super E>> extends Abstr
     }
 
     /**
-     * @param vertex
+     * @param rootVertex
      */
-    public void bfs(E vertex) {
+    public void bfs(E rootVertex) {
         Set<E> visited = new HashSet<>();
         // create a queue for doing BFS
         Queue<E> queue = new ArrayDeque<>();
-        // mark the source vertex as discovered
-        visited.add(vertex);
+        // mark the source rootVertex as discovered
+        visited.add(rootVertex);
 
-        // enqueue source vertex
-        queue.add(vertex);
+        // enqueue source rootVertex
+        queue.add(rootVertex);
 
         // loop till queue is empty
         while (!queue.isEmpty()) {
             // dequeue front node and print it
-            vertex = queue.poll();
-            LOGGER.debug(vertex + " ");
+            rootVertex = queue.poll();
+            LOGGER.debug(rootVertex + " ");
 
-//            // do for every edge (v, u)
-//            adjList.get(vertex).forEach(edge -> {
-//                if (!visited.contains(edge)) {
-//                    // mark it as discovered and enqueue it
-//                    visited.add(edge);
-//                    queue.add(edge);
-//                }
-//            });
+            // do for every edge (v, u)
+            for (int i = 0; i < adjMatrix.size(); i++) {
+                List<Edge<E>> edges = adjMatrix.get(i);
+                for (int j = 0; j < edges.size(); j++) {
+                    E vertex = edges.get(j).getTarget();
+//                    E vertex = getVertex(i, j);
+                    if (!visited.contains(vertex)) {
+                        // mark it as discovered and enqueue it
+                        visited.add(vertex);
+                        queue.add(vertex);
+                    }
+                }
+            }
         }
-    }
-
-    /**
-     * Returns the string representation of this object.
-     *
-     * @return
-     */
-    @Override
-    public String toString() {
-        PrettyPrinter<Integer> prettyPrinter = TablePrettyPrinter.buildPrettyPrinter();
-        prettyPrinter.prettyPrint(ArrayUtils.asList(adjMatrix));
-        return prettyPrinter.toString();
     }
 
 }

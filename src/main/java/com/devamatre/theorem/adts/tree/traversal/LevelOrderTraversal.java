@@ -38,10 +38,10 @@ public class LevelOrderTraversal<E extends Comparable<? super E>> extends Abstra
     @Override
     public void pushLeft(Node<E> node) {
         // ignore me
-//        while (node != null) {
-//            stack.push(node);
-//            node = node.getLeft();
-//        }
+        // while (node != null) {
+        // stack.push(node);
+        // node = node.getLeft();
+        // }
     }
 
     /**

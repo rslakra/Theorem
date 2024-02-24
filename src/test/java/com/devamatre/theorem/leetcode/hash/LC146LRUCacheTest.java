@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class LC146LRUCacheTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC2139MinimumMovesToReachTargetScoreTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC2139MinimumMovesToReachTargetScoreTest.class);
 
     /**
      * <pre>

@@ -32,6 +32,16 @@ public enum BitUtils {
 
     INSTANCE;
 
+    private static final String SPACE = " ";
+
+    enum BitOperation {
+        /* Sets the bit 1. */
+        SET_BIT,
+
+        /* Sets the bit 0. */
+        CLEAR_BIT
+    }
+
     /**
      * Get bit is used to know whether the bit is 0 or 1 at any position. Returns the 0 or 1 bit of the
      * <code>number</code> at the provided <code>position</code>.
@@ -67,7 +77,7 @@ public enum BitUtils {
      * @return
      */
     public static boolean isSetBit(Integer number, Integer position) {
-        return (getBit(number, position) != 0);
+        return (getBit(number, position).intValue() != 0);
     }
 
     /**
@@ -111,11 +121,12 @@ public enum BitUtils {
      *
      * @param number
      * @param position
+     * @param bitOperation
      * @return
      */
-    public static Integer updateBit(Integer number, Integer position, Integer operation) {
+    public static Integer updateBit(Integer number, Integer position, BitOperation bitOperation) {
         // take the operation and based on that perform operation
-        return (operation == 1 ? setBit(number, position) : clearBit(number, position));
+        return (BitOperation.SET_BIT == bitOperation ? setBit(number, position) : clearBit(number, position));
     }
 
     /**
@@ -127,6 +138,19 @@ public enum BitUtils {
      */
     public static Integer toggleBitAtPosition(Integer number, Integer position) {
         return (isSetBit(number, position) ? clearBit(number, position) : setBit(number, position));
+    }
+
+    /**
+     * Returns the lowest bit position of the number.
+     *
+     * @param number
+     * @return
+     */
+    public static Integer lowestSetBitPosition(Integer number) {
+        // negate the number and do AND operation
+        // return (number == 0 ? -1 : number & -number);
+        return number == 0 ? -1 : Long.numberOfTrailingZeros(number) + 1;
+        // return Integer.lowestOneBit(number);
     }
 
     /**
@@ -204,13 +228,38 @@ public enum BitUtils {
      */
     public static Integer countSetBits(Integer number) {
         int setBits = 0;
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 32; i++) {
             if (isSetBit(number, i)) {
                 setBits++;
             }
         }
 
         return setBits;
+    }
+
+    /**
+     * @param number
+     * @param groupSize
+     * @return
+     */
+    public static String toBinaryString(Integer number, int groupSize) {
+        StringBuilder binaryBuilder = new StringBuilder();
+        for (int i = 31; i >= 0; i--) {
+            binaryBuilder.append(isSetBit(number, i) ? "1" : "0");
+            if (i % groupSize == 0 && i > 1) {
+                binaryBuilder.append(SPACE);
+            }
+        }
+
+        return binaryBuilder.toString();
+    }
+
+    /**
+     * @param number
+     * @return
+     */
+    public static String toBinaryString(Integer number) {
+        return toBinaryString(number, 8);
     }
 
 }

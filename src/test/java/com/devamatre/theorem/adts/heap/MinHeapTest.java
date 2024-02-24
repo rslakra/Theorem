@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class MinHeapTest extends HeapTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(MinHeapTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MinHeapTest.class);
 
     @Test
     public void testBuildHeap() {

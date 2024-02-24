@@ -1,6 +1,8 @@
 package com.devamatre.theorem.adts.graph;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -33,115 +35,188 @@ public class GraphTest extends AbstractGraphTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(GraphTest.class);
 
     /**
-     * @param graph
-     * @param withCycle
+     * Tests the <code>buildGraphWithEdges()</code> method.
      */
+    @Test
     @Override
-    public void createGraph(AbstractGraph<Integer> graph, boolean withCycle) {
-        super.createGraph(graph, withCycle);
-    }
-
-    /**
-     * Tests the <code>createGraph</code> method.
-     */
-    @Override
-    public void testCreateGraph() {
+    public void testBuildGraph() {
         Graph<Integer> graph = new Graph<>();
-        createGraph(graph);
+        GraphUtilsTest.fillGraph(graph, false);
         LOGGER.debug("graph:{}", graph);
         assertNotNull(graph);
     }
 
     /**
-     * Tests the <code></code> method.
+     * Tests the <code>isWeighted()</code> method.
      */
+    @Test
     @Override
     public void testIsWeighted() {
         Graph<Integer> graph = new Graph<>(true, false);
-        createGraph(graph);
+        GraphUtilsTest.fillGraph(graph, false);
         LOGGER.debug("graph:{}", graph);
         assertNotNull(graph);
         assertTrue(graph.isWeighted());
     }
 
     /**
-     * Tests the <code></code> method.
+     * Tests the <code>isDirected()</code> method.
      */
+    @Test
     @Override
     public void testIsDirected() {
         Graph<Integer> graph = new Graph<>(true, true);
-        createGraph(graph);
+        GraphUtilsTest.fillGraph(graph, false);
         LOGGER.debug("graph:{}", graph);
         assertNotNull(graph);
         assertTrue(graph.isDirected());
     }
 
     /**
-     * Tests the <code></code> method.
+     * Tests the <code>getSize()</code> method.
      */
+    @Test
     @Override
     public void testGetSize() {
         Graph<Integer> graph = new Graph<>(true, true);
-        createGraph(graph);
+        GraphUtilsTest.fillGraph(graph, false);
         LOGGER.debug("graph:{}", graph);
         assertNotNull(graph);
         assertEquals(5, graph.getSize());
     }
 
     /**
-     * Tests the <code></code> method.
+     * Tests the <code>getVertices()</code> method.
      */
+    @Test
     @Override
-    public void testStartNode() {
-
+    public void testGetVertices() {
+        Graph<Integer> graph = new Graph<>();
+        GraphUtilsTest.fillGraph(graph, false);
+        LOGGER.debug("graph:{}", graph);
+        assertNotNull(graph);
+        assertEquals(Set.of(0, 1, 2, 3, 4), graph.getVertices());
     }
 
     /**
-     * Tests the <code></code> method.
+     * Tests the <code>getNeighbors()</code> method.
      */
+    @Test
+    @Override
+    public void testGetNeighbors() {
+        Graph<Integer> graph = new Graph<>();
+        GraphUtilsTest.fillGraph(graph, false);
+        LOGGER.debug("graph:{}", graph);
+        assertNotNull(graph);
+        assertEquals(Set.of(Edge.of(0, 1), Edge.of(0, 4)), graph.getNeighbors(0));
+    }
+
+    /**
+     * Tests the <code>printGraph()</code> method.
+     */
+    @Test
+    @Override
+    public void testPrintGraph() {
+        Graph<Integer> graph = new Graph<>();
+        GraphUtilsTest.fillGraph(graph, false);
+        LOGGER.debug("graph:{}", graph);
+        assertNotNull(graph);
+        assertEquals(5, graph.getSize());
+
+        // Print the adjacency list representation of the above graph
+        graph.printGraph();
+    }
+
+    /**
+     * Tests the <code>firstVertex()</code> method.
+     */
+    @Test
+    @Override
+    public void testFirstVertex() {
+        Graph<Integer> graph = new Graph<>();
+        GraphUtilsTest.fillGraph(graph, false);
+        LOGGER.debug("graph:{}", graph);
+        assertNotNull(graph);
+        assertEquals(0, graph.firstVertex());
+    }
+
+    /**
+     * Tests the <code>addEdge()</code> method.
+     */
+    @Test
     @Override
     public void testAddEdgeWithWeight() {
-
+        Graph<Integer> graph = new Graph<>(true, false);
+        LOGGER.debug("graph:{}", graph);
+        assertNotNull(graph);
+        graph.addEdge(0, 1, BigDecimal.ONE);
+        assertEquals(Set.of(0, 1), graph.getVertices());
+        assertEquals(Set.of(Edge.of(0, 1, BigDecimal.ONE)), graph.getNeighbors(graph.firstVertex()));
+        assertEquals(BigDecimal.ONE, graph.getNeighbors(graph.firstVertex()).iterator().next().getWeight());
     }
 
     /**
-     * Tests the <code></code> method.
+     * Tests the <code>addEdge()</code> method.
      */
+    @Test
     @Override
     public void testAddEdge() {
-
+        Graph<Integer> graph = new Graph<>();
+        LOGGER.debug("graph:{}", graph);
+        assertNotNull(graph);
+        graph.addEdge(0, 1);
+        assertEquals(Set.of(0, 1), graph.getVertices());
+        assertEquals(Set.of(Edge.of(0, 1)), graph.getNeighbors(graph.firstVertex()));
+        assertEquals(BigDecimal.ZERO, graph.getNeighbors(graph.firstVertex()).iterator().next().getWeight());
     }
 
     /**
-     * Tests the <code></code> method.
+     * Tests the <code>hasEdge()</code> method.
      */
     @Override
     public void testHasEdge() {
-
+        Graph<Integer> graph = new Graph<>();
+        LOGGER.debug("graph:{}", graph);
+        assertNotNull(graph);
+        GraphUtilsTest.fillGraph(graph, false);
+        assertTrue(graph.hasEdge(0, 1));
+        assertFalse(graph.hasEdge(0, 2));
     }
 
     /**
-     * Tests the <code></code> method.
+     * Tests the <code>findEdge()</code> method.
      */
+    @Test
     @Override
     public void testFindEdge() {
-
+        Graph<Integer> graph = new Graph<>();
+        LOGGER.debug("graph:{}", graph);
+        assertNotNull(graph);
+        GraphUtilsTest.fillGraph(graph, false);
+        assertEquals(Edge.of(0, 1), graph.findEdge(0, 1));
+        assertNull(graph.findEdge(0, 2));
     }
 
     /**
-     * Tests the <code></code> method.
+     * Tests the <code>removeEdge()</code> method.
      */
+    @Test
     @Override
     public void testRemoveEdge() {
+        Graph<Integer> graph = new Graph<>();
+        LOGGER.debug("graph:{}", graph);
+        assertNotNull(graph);
+        GraphUtilsTest.fillGraph(graph, false);
+        LOGGER.debug("graph:{}", graph);
+        // remove edge
+        graph.removeEdge(0, 1);
+        LOGGER.debug("After removing edge(0 --> 1) graph:{}", graph);
+        assertFalse(graph.hasEdge(0, 1));
 
-    }
-
-    /**
-     * Tests the <code></code> method.
-     */
-    @Override
-    public void testGetNeighbors() {
-
+        // remove edge
+        graph.removeEdge(0, 1);
+        LOGGER.debug("graph:{}", graph);
+        assertFalse(graph.hasEdge(0, 1));
     }
 
     /**
@@ -150,21 +225,6 @@ public class GraphTest extends AbstractGraphTest {
     @Override
     public void testGetVerticesConnectedTo() {
 
-    }
-
-    /**
-     * Tests the <code></code> method.
-     */
-    @Override
-    public void testPrintGraph() {
-        Graph<Integer> graph = new Graph<>();
-        createGraph(graph);
-        LOGGER.debug("graph:{}", graph);
-        assertNotNull(graph);
-        assertEquals(5, graph.getSize());
-
-        // Print the adjacency list representation of the above graph
-        graph.printGraph();
     }
 
     /**
@@ -210,7 +270,7 @@ public class GraphTest extends AbstractGraphTest {
     @Test
     public void testGraph() {
         Graph<Integer> graph = new Graph<>();
-        createGraph(graph);
+        GraphUtilsTest.fillGraph(graph, false);
         LOGGER.debug("graph:{}", graph);
         assertNotNull(graph);
         assertEquals(5, graph.getSize());
@@ -226,7 +286,7 @@ public class GraphTest extends AbstractGraphTest {
     @Test
     public void testDfs() {
         Graph<Integer> graph = new Graph<>();
-        GraphUtilsTest.createGraph(graph);
+        GraphUtilsTest.fillGraph(graph, false);
         LOGGER.debug("graph:{}", graph);
         assertNotNull(graph);
         assertEquals(5, graph.getSize());
@@ -239,7 +299,7 @@ public class GraphTest extends AbstractGraphTest {
     @Test
     public void testBfs() {
         Graph<Integer> graph = new Graph<>();
-        GraphUtilsTest.createGraph(graph);
+        GraphUtilsTest.fillGraph(graph, false);
         LOGGER.debug("graph:{}", graph);
         assertNotNull(graph);
         assertEquals(5, graph.getSize());
@@ -252,7 +312,7 @@ public class GraphTest extends AbstractGraphTest {
     @Test
     public void testBfsRecursively() {
         Graph<Integer> graph = new Graph<>();
-        GraphUtilsTest.createGraph(graph);
+        GraphUtilsTest.fillGraph(graph, false);
         LOGGER.debug("graph:{}", graph);
         assertNotNull(graph);
         assertEquals(5, graph.getSize());
@@ -286,14 +346,14 @@ public class GraphTest extends AbstractGraphTest {
     @Test(dataProvider = "cycleDetectionUndirectedData")
     public void testCycleDetectionUndirected(boolean input, boolean expected) {
         Graph<Integer> graph = new Graph<>();
-        GraphUtilsTest.createGraph(graph, input);
+        GraphUtilsTest.fillGraph(graph, input);
         LOGGER.debug("Undirected Graph:{}", graph);
         assertNotNull(graph);
         assertEquals(5, graph.getSize());
 
         // Print the adjacency list representation of the above graph
         graph.printGraph();
-        assertEquals(expected, graph.cycleDetectionUndirected());
+        assertEquals(expected, graph.hasCycleInUndirectedGraph());
     }
 
     /**
@@ -316,14 +376,14 @@ public class GraphTest extends AbstractGraphTest {
     @Test(dataProvider = "cycleDetectionDirectedData")
     public void testCycleDetectionDirected(boolean input, boolean expected) {
         Graph<Integer> graph = new Graph<>(false, true);
-        GraphUtilsTest.createGraph(graph, input);
+        GraphUtilsTest.fillGraph(graph, input);
         LOGGER.debug("Directed Graph:{}", graph);
         assertNotNull(graph);
-//        if (graph.isDirected()) {
-//            assertEquals(3, graph.getSize());
-//        } else {
-//            assertEquals(2, graph.getSize());
-//        }
+        // if (graph.isDirected()) {
+        //  assertEquals(3, graph.getSize());
+        //  } else {
+        //  assertEquals(2, graph.getSize());
+        //  }
         // Print the adjacency list representation of the above graph
         graph.printGraph();
         assertEquals(expected, graph.cycleDetectionDirected());
@@ -332,7 +392,7 @@ public class GraphTest extends AbstractGraphTest {
     @Test
     public void testTopSort() {
         Graph<Integer> graph = new Graph<>(false, true);
-        GraphUtilsTest.createTopologicalGraph(graph);
+        GraphUtilsTest.fillDirectedTopologicalGraph(graph);
         LOGGER.debug("Directed Graph:{}", graph);
         assertNotNull(graph);
         // Print the adjacency list representation of the above graph
@@ -350,7 +410,7 @@ public class GraphTest extends AbstractGraphTest {
     @Test
     public void testTopSorts() {
         Graph<Integer> graph = new Graph<>(false, true);
-        GraphUtilsTest.createTopologicalGraph(graph);
+        GraphUtilsTest.fillDirectedTopologicalGraph(graph);
         LOGGER.debug("Directed Graph:{}", graph);
         assertNotNull(graph);
         // Print the adjacency list representation of the above graph
@@ -366,7 +426,7 @@ public class GraphTest extends AbstractGraphTest {
         assertNotNull(graph);
         // Print the adjacency list representation of the above graph
         graph.printGraph();
-//        graph.shortPathWithDijkstraAlgorithm();
+//  graph.shortPathWithDijkstraAlgorithm();
         Map<Integer, BigDecimal> results = new HashMap<>();
         results.put(0, BigDecimal.ZERO);
         results.put(1, Maths.TWO);

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class LC2210CountHillsAndValleysInArrayTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC2210CountHillsAndValleysInArrayTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC2210CountHillsAndValleysInArrayTest.class);
 
     /**
      * @return
@@ -40,7 +40,7 @@ public class LC2210CountHillsAndValleysInArrayTest {
     }
 
     /**
-     * Tests the <code>countHillValley()</code> method
+     * Tests the <code>countHillValley()</code> method.
      *
      * @param number
      * @param expected

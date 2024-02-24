@@ -2,19 +2,20 @@ package com.devamatre.theorem.adts.graph.edgelist;
 
 import com.devamatre.theorem.adts.graph.AbstractGraph;
 import com.devamatre.theorem.adts.graph.Edge;
-import com.devamatre.theorem.adts.graph.vertex.Vertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
+ * Graph with the list of edge needs <code>n ^ 2</code> time and space to handle the operations.
+ *
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
  */
@@ -22,9 +23,8 @@ public class GraphWithEdgeList<E extends Comparable<? super E>> extends Abstract
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GraphWithEdgeList.class);
 
-    private List<Vertex> vertices;
     // A list of lists to represent an adjacency list
-    private final Map<E, TreeSet<E>> adjList;
+    private final Set<Edge<E>> edges;
 
     /**
      * @param weighted
@@ -33,8 +33,7 @@ public class GraphWithEdgeList<E extends Comparable<? super E>> extends Abstract
     public GraphWithEdgeList(boolean weighted, boolean directed) {
         super(weighted, directed);
         LOGGER.debug("GraphWithEdgeList({}, {})", weighted, directed);
-        this.vertices = new ArrayList<>();
-        this.adjList = new HashMap<>();
+        this.edges = new LinkedHashSet<>();
     }
 
     /**
@@ -45,13 +44,100 @@ public class GraphWithEdgeList<E extends Comparable<? super E>> extends Abstract
     }
 
     /**
-     * Returns the <code>firstNode</code> of the graph.
+     * Overridden Methods.
+     */
+
+    /**
+     * Returns the size of the graph.
      *
      * @return
      */
     @Override
-    public E startNode() {
-        return null;
+    public int getSize() {
+        return (isDirected() ? edges.size() / 2 : edges.size());
+    }
+
+    /**
+     * Returns the <code>keySet</code> of the graph.
+     *
+     * @return
+     */
+    @Override
+    public Set<E> getVertices() {
+        return edges.stream()
+            .map(edge -> edge.getSource())
+            .collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns true if the graph contains the <code>vertex</code> otherwise false.
+     *
+     * @param vertex
+     * @return
+     */
+    @Override
+    public boolean hasVertex(E vertex) {
+        return edges.stream()
+            .filter(edge -> edge.getSource().compareTo(vertex) == 0)
+            .findFirst()
+            .isPresent();
+    }
+
+    /**
+     * Returns the edges/neighbors of the <code>vertex</code> of the <code>graph</code>.
+     *
+     * @param vertex
+     * @return
+     */
+    @Override
+    public Set<Edge<E>> getNeighbors(E vertex) {
+        return edges.stream()
+            .filter(edge -> edge.getSource() == vertex)
+            .collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns the <code>startNode</code> of the graph.
+     *
+     * @return
+     */
+    @Override
+    public E firstVertex() {
+        return getVertices().iterator().next();
+    }
+
+    /**
+     * Returns the string representation of this object.
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        final Set<Edge<E>> edges = new LinkedHashSet<>();
+        getVertices().forEach(vertex -> {
+            Iterator<Edge<E>> itr = getNeighbors(vertex).iterator();
+            while (itr.hasNext()) {
+                edges.add(itr.next());
+            }
+        });
+
+        return edges.toString();
+    }
+
+    /**
+     * Finds the <code>Edge<E></code> for the provided <code>vertex</code>. If the <code>isTargetVertex</code> is set to
+     * be true, then the target vertex is search otherwise source.
+     *
+     * @param vertex
+     * @param isTargetVertex
+     * @return
+     */
+    private Edge<E> findEdge(E vertex, boolean isTargetVertex) {
+        if (isTargetVertex) {
+            return edges.stream().filter(edge -> edge.getTarget().compareTo(vertex) == 0).findFirst().orElse(null);
+        } else {
+            return edges.stream().filter(edge -> edge.getSource().compareTo(vertex) == 0).findFirst().orElse(null);
+        }
     }
 
     /**
@@ -64,7 +150,27 @@ public class GraphWithEdgeList<E extends Comparable<? super E>> extends Abstract
      */
     @Override
     public void addEdge(E source, E target, BigDecimal weight) {
+        // if not weighted graph, set weight to null
+        if (!isWeighted()) {
+            weight = null;
+        }
 
+        Edge<E> edge = findEdge(source, false);
+        if (Objects.isNull(edge)) {
+            edges.add(Edge.of(source, target, weight));
+        } else if (Objects.isNull(edge.getTarget())) {
+            edge = Edge.of(source, target, weight);
+            edges.add(edge);
+        }
+
+        // add not a directed graph, add source vertex in the target as well.
+        if (isDirected()) {
+            if (Objects.nonNull(target)) {
+                edges.add(Edge.of(target, null));
+            }
+        } else {
+            edges.add(Edge.of(target, source, weight));
+        }
     }
 
     /**
@@ -77,7 +183,11 @@ public class GraphWithEdgeList<E extends Comparable<? super E>> extends Abstract
      */
     @Override
     public boolean hasEdge(E source, E target) {
-        return false;
+        final Set<Edge<E>> neighbors = getNeighbors(source);
+        return neighbors.stream()
+            .filter(edge -> edge.getTarget().equals(target))
+            .findFirst()
+            .isPresent();
     }
 
     /**
@@ -88,18 +198,10 @@ public class GraphWithEdgeList<E extends Comparable<? super E>> extends Abstract
      */
     @Override
     public Edge<E> findEdge(E source, E target) {
-        return null;
-    }
-
-    /**
-     * Returns the edges/neighbors of the <code>vertex</code> of the <code>graph</code>.
-     *
-     * @param vertex
-     * @return
-     */
-    @Override
-    public Set<Edge<E>> getNeighbors(E vertex) {
-        return null;
+        return getNeighbors(source).stream()
+            .filter(edge -> edge.getTarget().equals(target))
+            .findFirst()
+            .orElse(null);
     }
 
     /**
@@ -110,7 +212,13 @@ public class GraphWithEdgeList<E extends Comparable<? super E>> extends Abstract
      */
     @Override
     public void removeEdge(E source, E target) {
-
+        Edge<E> srcEdge = findEdge(source, target);
+        edges.remove(srcEdge);
+        // remove the source vertex from the target vertex
+        if (!isDirected()) {
+            Edge<E> targetEdge = findEdge(target, source);
+            edges.remove(targetEdge);
+        }
     }
 
     /**
@@ -118,7 +226,7 @@ public class GraphWithEdgeList<E extends Comparable<? super E>> extends Abstract
      */
     @Override
     public void printGraph() {
-
+        LOGGER.debug(toString());
     }
 
     /**
@@ -161,7 +269,7 @@ public class GraphWithEdgeList<E extends Comparable<? super E>> extends Abstract
      */
     @Override
     public Set<E> getOutwardEdges(E vertex) {
-        return null;
+        return getNeighbors(vertex).stream().map(edge -> edge.getTarget()).collect(Collectors.toSet());
     }
 
     /**

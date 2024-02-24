@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class TreeUtilsTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(TreeUtilsTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TreeUtilsTest.class);
 
     /**
      * @return
@@ -37,7 +37,7 @@ public class TreeUtilsTest {
     }
 
     /**
-     * Tests the <code>inOrderTraversal()</code> method
+     * Tests the <code>inOrderTraversal()</code> method.
      */
     @Test(dataProvider = "inputData")
     public void testBuildTree(TreeNode rootNode, List<Integer> expected) {

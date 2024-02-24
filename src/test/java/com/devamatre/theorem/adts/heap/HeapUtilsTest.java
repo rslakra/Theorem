@@ -16,7 +16,7 @@ import java.util.Arrays;
  */
 public class HeapUtilsTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(HeapUtilsTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeapUtilsTest.class);
     private static int SIZE = 8;
 
     @Test

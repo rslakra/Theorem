@@ -1,5 +1,7 @@
 package com.devamatre.theorem.adts;
 
+import static com.devamatre.theorem.adts.BitUtils.BitOperation.CLEAR_BIT;
+import static com.devamatre.theorem.adts.BitUtils.BitOperation.SET_BIT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.slf4j.Logger;
@@ -48,7 +50,7 @@ public class BitUtilsTest {
     @Test(dataProvider = "getBitData")
     public void testGetBit(Integer number, Integer position, Integer expected) {
         LOGGER.debug("testGetBit({}, {}, {})", number, position, expected);
-        Integer result = BitUtils.getBit(number, position);
+        Integer result = BitUtils.getBit(number, position).intValue();
         LOGGER.debug("result: {}", result);
         assertEquals(expected, result);
     }
@@ -165,10 +167,10 @@ public class BitUtilsTest {
          *  Positions  = |3|2|1|0|
          * </pre>
          */
-        input.add(new Object[]{5, 0, 0, 4});
-        input.add(new Object[]{5, 1, 1, 7});
-        input.add(new Object[]{5, 2, 0, 1});
-        input.add(new Object[]{5, 3, 1, 13});
+        input.add(new Object[]{5, 0, CLEAR_BIT, 4});
+        input.add(new Object[]{5, 1, SET_BIT, 7});
+        input.add(new Object[]{5, 2, CLEAR_BIT, 1});
+        input.add(new Object[]{5, 3, SET_BIT, 13});
 
         return input.iterator();
     }
@@ -181,7 +183,7 @@ public class BitUtilsTest {
      * @param expected
      */
     @Test(dataProvider = "updateBitData")
-    public void testUpdateBit(Integer number, Integer position, Integer operation, Integer expected) {
+    public void testUpdateBit(Integer number, Integer position, BitUtils.BitOperation operation, Integer expected) {
         LOGGER.debug("testUpdateBit({}, {}, {}, {})", number, position, operation, expected);
         Integer result = BitUtils.updateBit(number, position, operation);
         LOGGER.debug("result: {}", result);
@@ -215,8 +217,44 @@ public class BitUtilsTest {
      */
     @Test(dataProvider = "toggleBitAtPositionData")
     public void testToggleBitAtPosition(Integer number, Integer position, Integer expected) {
-        LOGGER.debug("testSetBit({}, {}, {})", number, position, expected);
+        LOGGER.debug("testToggleBitAtPosition({}, {}, {})", number, position, expected);
         Integer result = BitUtils.toggleBitAtPosition(number, position);
+        LOGGER.debug("result: {}", result);
+        assertEquals(expected, result);
+    }
+
+    /**
+     * @return
+     */
+    @DataProvider
+    private Iterator<Object[]> lowestSetBitPositionData() {
+        List<Object[]> input = new LinkedList<>();
+        /**
+         * <pre>
+         *  Number (5) = |0|1|0|1|
+         *  Positions  = |3|2|1|0|
+         * </pre>
+         */
+        input.add(new Object[]{1, 1});
+        input.add(new Object[]{2, 2});
+        input.add(new Object[]{3, 1});
+        input.add(new Object[]{4, 3});
+        input.add(new Object[]{5, 1});
+        input.add(new Object[]{8, 4});
+        input.add(new Object[]{16, 5});
+        input.add(new Object[]{17, 1});
+
+        return input.iterator();
+    }
+
+    /**
+     * @param number
+     * @param expected
+     */
+    @Test(dataProvider = "lowestSetBitPositionData")
+    public void testLowestSetBitPosition(Integer number, Integer expected) {
+        LOGGER.debug("testLowestSetBitPosition({}, {})", number, expected);
+        Integer result = BitUtils.lowestSetBitPosition(number);
         LOGGER.debug("result: {}", result);
         assertEquals(expected, result);
     }
@@ -310,6 +348,35 @@ public class BitUtilsTest {
     public void testCountSetBits(Integer number, Integer expected) {
         LOGGER.debug("testCountSetBits({}, {})", number, expected);
         Integer result = BitUtils.countSetBits(number);
+        LOGGER.debug("result: {}", result);
+        assertEquals(expected, result);
+    }
+
+
+    /**
+     * @return
+     */
+    @DataProvider
+    private Iterator<Object[]> toBinaryStringData() {
+        List<Object[]> input = new LinkedList<>();
+        input.add(new Object[]{1, 4, "0000 0000 0000 0000 0000 0000 0000 0001"});
+        input.add(new Object[]{2, 4, "0000 0000 0000 0000 0000 0000 0000 0010"});
+        input.add(new Object[]{3, 4, "0000 0000 0000 0000 0000 0000 0000 0011"});
+        input.add(new Object[]{4, 4, "0000 0000 0000 0000 0000 0000 0000 0100"});
+        input.add(new Object[]{8, 4, "0000 0000 0000 0000 0000 0000 0000 1000"});
+        input.add(new Object[]{16, 4, "0000 0000 0000 0000 0000 0000 0001 0000"});
+
+        return input.iterator();
+    }
+
+    /**
+     * @param number
+     * @param expected
+     */
+    @Test(dataProvider = "toBinaryStringData")
+    public void testToBinaryString(Integer number, int groupSize, String expected) {
+        LOGGER.debug("testToBinaryString({}, {}, {})", number, groupSize, expected);
+        String result = BitUtils.toBinaryString(number, groupSize);
         LOGGER.debug("result: {}", result);
         assertEquals(expected, result);
     }

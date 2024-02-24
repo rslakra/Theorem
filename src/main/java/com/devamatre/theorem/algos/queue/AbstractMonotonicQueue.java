@@ -1,4 +1,4 @@
-package com.devamatre.theorem.queue;
+package com.devamatre.theorem.algos.queue;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -37,25 +37,25 @@ public abstract class AbstractMonotonicQueue<E extends Comparable> implements Mo
         return monotonicQueue.getLast();
     }
 
-//    /**
-//     * Usually removes elements from queue compared to value in {@param newItem} to
-//     * preserve monotonicity. Then adds a new element.
-//     * <p>
-//     * Monotonic increasing queue: to push an element e, starts from the rear element,
-//     * we pop out element s≥e(violation);
-//     * Monotonic decreasing queue: we pop out element s<=e (violation).
-//     *
-//     * @param newItem
-//     */
-//    @Override
-//    public void push(E newItem) {
-//        while (!monotonicQueue.isEmpty() && monotonicQueue.getLast().compareTo(newItem) > 0) {
-//            monotonicQueue.removeLast();
-//        }
+// /**
+// * Usually removes elements from queue compared to value in {@param newItem} to
+// * preserve monotonicity. Then adds a new element.
+// * <p>
+// * Monotonic increasing queue: to push an element e, starts from the rear element,
+// * we pop out element s≥e(violation);
+// * Monotonic decreasing queue: we pop out element s<=e (violation).
+// *
+// * @param newItem
+// */
+// @Override
+// public void push(E newItem) {
+// while (!monotonicQueue.isEmpty() && monotonicQueue.getLast().compareTo(newItem) > 0) {
+// monotonicQueue.removeLast();
+// }
 //
-//        //add new item into the queue
-//        monotonicQueue.addLast(newItem);
-//    }
+// //add new item into the queue
+// monotonicQueue.addLast(newItem);
+// }
 
     /**
      * @return the first value of the queue, which is usually a maximum or a minimum.

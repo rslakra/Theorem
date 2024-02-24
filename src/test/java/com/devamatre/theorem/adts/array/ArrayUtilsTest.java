@@ -1,5 +1,6 @@
 package com.devamatre.theorem.adts.array;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -47,7 +48,6 @@ public class ArrayUtilsTest {
         assertEquals(2, result.length);
         assertEquals(3, result[0].length);
     }
-
 
     /**
      * Tests the <code>initArray()</code> method.
@@ -158,7 +158,7 @@ public class ArrayUtilsTest {
      */
     @Test(dataProvider = "findMaxValueIndexData")
     public void testFindMaxValueIndex(int[] inputData, int expected) {
-        LOGGER.debug("inputData:{}", inputData);
+        LOGGER.debug("inputData({}, {})", inputData, expected);
         int result = ArrayUtils.findMaxValueIndex(ArrayUtils.asIntArray(inputData));
         assertNotNull(result);
         LOGGER.debug("result:{}", result);
@@ -189,6 +189,54 @@ public class ArrayUtilsTest {
     public void testPrintDiagonally() {
         Integer[][] data = new Integer[][]{{1, 2, 3}, {4, 5, 6}};
         ArrayUtils.printDiagonally(data);
+    }
+
+    /**
+     * Data Input
+     *
+     * @return
+     */
+    @DataProvider
+    public Iterator<Object[]> findParentData() {
+        List<Object[]> inputs = new ArrayList<>();
+        inputs.add(new Object[]{new int[]{0, 1, 0, 3, 4, 5}, 0, 0});
+        inputs.add(new Object[]{new int[]{0, 1, 0, 3, 4, 5}, 2, 0});
+        inputs.add(new Object[]{new int[]{0, 1, 2, 0, 4, 5}, 3, 0});
+        inputs.add(new Object[]{new int[]{0, 1, 2, 0, 4, 2}, 5, 2});
+
+        return inputs.iterator();
+    }
+
+    /**
+     * Tests the <code>findParent()</code> method.
+     */
+    @Test(dataProvider = "findParentData")
+    public void testFindParent(int[] inputData, int index, int expected) {
+        LOGGER.debug("inputData({}, {}, {})", inputData, index, expected);
+        int result = ArrayUtils.findParent(inputData, index);
+        assertNotNull(result);
+        LOGGER.debug("result:{}", result);
+        assertEquals(expected, result);
+    }
+
+    /**
+     * Tests the <code>union()</code> method.
+     */
+    @Test
+    public void testUnion() {
+        LOGGER.debug("inputData()");
+        List<Integer[]>
+            edges =
+            Arrays.asList(new Integer[]{0, 3}, new Integer[]{2, 5}, new Integer[]{3, 5}, new Integer[]{0, 1},
+                          new Integer[]{2, 4});
+        final int[] parent = new int[]{0, 1, 2, 3, 4, 5};
+        edges.forEach(edge -> {
+            LOGGER.debug("edge:{}", Arrays.toString(edge));
+            parent[edge[1]] = ArrayUtils.union(parent, edge[1], parent[edge[0]]);
+        });
+        assertNotNull(parent);
+        LOGGER.debug("parent:{}", parent);
+        assertArrayEquals(new int[]{0, 0, 0, 0, 0, 0}, parent);
     }
 
 }

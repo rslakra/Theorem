@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class LC217ContainsDuplicateTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC217ContainsDuplicateTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC217ContainsDuplicateTest.class);
 
     /**
      * @return
@@ -54,7 +54,7 @@ public class LC217ContainsDuplicateTest {
     }
 
     /**
-     * Tests the <code>containsDuplicate()</code> method
+     * Tests the <code>containsDuplicate()</code> method.
      *
      * @param inputData
      * @param expected

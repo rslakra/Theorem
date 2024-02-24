@@ -1,5 +1,7 @@
 package com.devamatre.theorem.leetcode.tree;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,13 +16,6 @@ public class TreeNode {
 
     /**
      * @param val
-     */
-    public TreeNode(int val) {
-        this.val = val;
-    }
-
-    /**
-     * @param val
      * @param left
      * @param right
      */
@@ -28,6 +23,20 @@ public class TreeNode {
         this.val = val;
         this.left = left;
         this.right = right;
+    }
+
+
+    /**
+     * @param val
+     */
+    public TreeNode(int val) {
+        this.val = val;
+    }
+
+    /**
+     *
+     */
+    public TreeNode() {
     }
 
     /**
@@ -45,5 +54,35 @@ public class TreeNode {
     @Override
     public String toString() {
         return Objects.toString(val);
+    }
+
+    /**
+     * @param treeNode
+     * @param includeNullLeafs
+     * @return
+     */
+    public static List<Integer> preOrder(TreeNode treeNode, boolean includeNullLeafs) {
+        List<Integer> preOrder = new ArrayList<>();
+        if (Objects.isNull(treeNode)) {
+            if (includeNullLeafs) {
+                preOrder.add(null);
+            }
+        } else {
+            preOrder.add(treeNode.val);
+            preOrder.addAll(preOrder(treeNode.left, includeNullLeafs));
+            preOrder.addAll(preOrder(treeNode.right, includeNullLeafs));
+        }
+
+        return preOrder;
+    }
+
+    /**
+     * Returns the string representation of the provided <code>rootNode</code>.
+     *
+     * @param rootNode
+     * @return
+     */
+    public static String toString(TreeNode rootNode) {
+        return preOrder(rootNode, false).toString();
     }
 }

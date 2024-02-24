@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class PriorityQueueTest extends HeapTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(PriorityQueueTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PriorityQueueTest.class);
 
     @Test
     public void testBuildPriorityQueue() {
@@ -27,7 +27,7 @@ public class PriorityQueueTest extends HeapTest {
         // test peek
         assertEquals(0, priorityQueue.peek());
         // test add
-//        assertEquals(true, priorityQueue.add(9));
+//  assertEquals(true, priorityQueue.add(9));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class PriorityQueueTest extends HeapTest {
         LOGGER.debug("priorityQueue: {}", priorityQueue);
         priorityQueue.addAll(inputData);
         LOGGER.debug("priorityQueue: {}", priorityQueue);
-//        assertEquals(7, priorityQueue.peek());
+//  assertEquals(7, priorityQueue.peek());
     }
 
     @Test

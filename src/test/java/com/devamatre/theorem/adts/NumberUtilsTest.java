@@ -21,7 +21,7 @@ import java.util.List;
 public class NumberUtilsTest {
 
     // LOGGER
-    private static Logger LOGGER = LoggerFactory.getLogger(NumberUtilsTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NumberUtilsTest.class);
 
     @Test
     public void testAverage() {
@@ -58,7 +58,7 @@ public class NumberUtilsTest {
     }
 
     /**
-     * Tests the <code>decimalToBinary()</code> method
+     * Tests the <code>decimalToBinary()</code> method.
      *
      * @param number
      * @param expected
@@ -90,7 +90,7 @@ public class NumberUtilsTest {
     }
 
     /**
-     * Tests the <code>binaryToDecimal()</code> method
+     * Tests the <code>binaryToDecimal()</code> method.
      *
      * @param binary
      * @param expected

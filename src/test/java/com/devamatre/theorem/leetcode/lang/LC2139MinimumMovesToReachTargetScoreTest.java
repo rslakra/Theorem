@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC2139MinimumMovesToReachTargetScoreTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC2139MinimumMovesToReachTargetScoreTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC2139MinimumMovesToReachTargetScoreTest.class);
 
     /**
      * @return
@@ -38,7 +38,7 @@ public class LC2139MinimumMovesToReachTargetScoreTest {
     }
 
     /**
-     * Tests the <code>findPeakElement()</code> method
+     * Tests the <code>findPeakElement()</code> method.
      *
      * @param number
      * @param maxDoubles

@@ -41,7 +41,14 @@ package com.devamatre.theorem.adts.trie;
  * @created 2018-09-11 05:07:59 PM
  * @since 1.0.0
  */
-public interface Trie {
+public interface Trie<E extends Comparable<? super E>> {
+
+    /**
+     * Returns the value of the key.
+     *
+     * @return
+     */
+    E getValue();
 
     /**
      * Returns the size of the trie.

@@ -3,9 +3,10 @@
  */
 package com.devamatre.theorem.algos.graph;
 
-import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Rohtash Lakra
@@ -14,29 +15,43 @@ import java.util.List;
  */
 public class GraphCycle {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphCycle.class);
+
     /**
      * @author Rohtash Lakra
      * @version 1.0.0
      * @Created Jul 17, 2019 11:33:45 AM
      */
-    static class Edge {
+    static class Edge implements Comparable<Edge> {
 
-        int left;
-        int right;
-    }
-
-    static class Vertex {
-
-        private List<Edge> vertices = new ArrayList<Edge>();
+        int source;
+        int target;
+        int weight;
 
         /**
-         * @param vertex
-         * @return
+         * @param source
+         * @param target
+         * @param weight
          */
-        public Vertex[] getNeighbours(GraphCycle.Vertex vertex) {
-            return null;
+        Edge(int source, int target, int weight) {
+            this.source = source;
+            this.target = target;
+            this.weight = weight;
         }
 
+        Edge() {
+        }
+
+        /**
+         * Sort by edge.
+         *
+         * @param edge the object to be compared.
+         * @return
+         */
+        @Override
+        public int compareTo(Edge edge) {
+            return weight - edge.weight;
+        }
     }
 
     /**
@@ -49,39 +64,8 @@ public class GraphCycle {
         int parent;
         int rank;
 
-        /**
-         * Returns the parent value;
-         *
-         * @return parent
-         */
-        public int getParent() {
-            return parent;
-        }
-
-        /**
-         * The parent to be set.
-         *
-         * @param parent
-         */
-        public void setParent(int parent) {
+        SubSet(int parent, int rank) {
             this.parent = parent;
-        }
-
-        /**
-         * Returns the rank value;
-         *
-         * @return rank
-         */
-        public int getRank() {
-            return rank;
-        }
-
-        /**
-         * The rank to be set.
-         *
-         * @param rank
-         */
-        public void setRank(int rank) {
             this.rank = rank;
         }
 
@@ -90,7 +74,7 @@ public class GraphCycle {
         }
     }
 
-    private int v, e;
+    private int vertexCount, edgeCount;
     private Edge[] edges;
     private int[] parents;
     private int[] ranks;
@@ -98,37 +82,37 @@ public class GraphCycle {
     private SubSet[] subSets;
 
     /**
-     * @param v
-     * @param e
+     * @param vertexCount
+     * @param edgeCount
      * @param directedGraph
      */
-    public GraphCycle(final int v, final int e, boolean directedGraph) {
-        this.v = v;
-        this.e = e;
+    public GraphCycle(int vertexCount, int edgeCount, boolean directedGraph) {
+        this.vertexCount = vertexCount;
+        this.edgeCount = edgeCount;
         this.directedGraph = directedGraph;
         this.initEdges();
     }
 
     /**
-     * @param v
-     * @param e
+     * @param vertexCount
+     * @param edgeCount
      */
-    public GraphCycle(final int v, final int e) {
-        this(v, e, false);
+    public GraphCycle(int vertexCount, int edgeCount) {
+        this(vertexCount, edgeCount, false);
     }
 
     /**
      * @return
      */
     public int getVertices() {
-        return v;
+        return vertexCount;
     }
 
     /**
      * @return
      */
     public int getEdges() {
-        return e;
+        return edgeCount;
     }
 
     /**
@@ -175,83 +159,71 @@ public class GraphCycle {
     protected void initSubSets() {
         subSets = new SubSet[getVertices()];
         for (int i = 0; i < getVertices(); i++) {
-            subSets[i] = new SubSet();
-            subSets[i].setParent(i);
-            subSets[i].setRank(0);
+            subSets[i] = new SubSet(i, 0);
         }
     }
 
     /**
      * @param index
-     * @param left
-     * @param right
+     * @param source
+     * @param target
      */
-    protected void setEdges(int index, int left, int right) {
-        edges[index].left = left;
-        edges[index].right = right;
+    protected void addEdge(int index, int source, int target) {
+        edges[index].source = source;
+        edges[index].target = target;
     }
 
     /**
-     * @param value
+     * @param vertex
      * @return
      */
-    protected int find(int value) {
-        // Finds the representative of the set
-        // that value is an element of
-        if (parents[value] != value) {
-
-            // if x is not the parent of itself
-            // Then x is not the representative of
-            // his set,
-            parents[value] = find(parents[value]);
-
+    protected int find(int vertex) {
+        // Finds the representative of the set that vertex is an element of
+        if (parents[vertex] != vertex) {
+            // if x is not the parent of itself, then x is not the representative of his set,
+            parents[vertex] = find(parents[vertex]);
             // so we recursively call Find on its parent
-            // and move i's node directly under the
-            // representative of this set
+            // and move i's node directly under the representative of this set
         }
 
-        return parents[value];
+        return parents[vertex];
     }
 
     /**
-     * Do union of two sets represented by left and right.
+     * Do union of two sets represented by source and target.
      *
-     * @param left
-     * @param right
+     * @param source
+     * @param target
      */
-    protected void union(int left, int right) {
+    protected void union(int source, int target) {
+        LOGGER.debug("+union({}, {})", source, target);
         // Find representatives of two sets
-        int leftParent = find(left);
-        int rightParent = find(right);
-        System.out.println(
-            "left:" + left + ", leftParent:" + leftParent + ", right:" + right + ", rightParent:" + rightParent);
+        int sourceParent = find(source);
+        int targetParent = find(target);
+        LOGGER.debug("source:{}, sourceParent:{}, target:{}, targetParent:{}", source, sourceParent, target,
+                     targetParent);
 
-        // Elements are in the same set, no need
-        // to unite anything.
-        if (leftParent == rightParent) {
+        // Elements are in the same set, no need to unite them.
+        if (sourceParent == targetParent) {
             return;
         }
 
-        System.out.println("parents:" + Arrays.toString(parents));
-        System.out.println("ranks:" + Arrays.toString(ranks));
+        LOGGER.debug("parents:{}", Arrays.toString(parents));
+        LOGGER.debug("ranks:{}", Arrays.toString(ranks));
 
-        // If leftParent's rank is less than rightParent's rank
-        if (ranks[leftParent] < ranks[rightParent]) {
-            // Then move x under y so that depth
-            // of tree remains less
-            parents[leftParent] = rightParent;
-        } else if (ranks[leftParent] > ranks[rightParent]) {  // Else if y's rank is less than x's rank
-            // Then move y under x so that depth of
-            // tree remains less
-            parents[rightParent] = leftParent;
+        // If sourceParent's rank is less than targetParent's rank
+        if (ranks[sourceParent] < ranks[targetParent]) {
+            // Then move x under y so that depth of tree remains less
+            parents[sourceParent] = targetParent;
+        } else if (ranks[sourceParent] > ranks[targetParent]) {  // Else if y's rank is less than x's rank
+            // Then move y under x so that depth of tree remains less
+            parents[targetParent] = sourceParent;
         } else { // if ranks are the same
-            // Then move y under x (doesn't matter
-            // which one goes where)
-            parents[rightParent] = leftParent;
+            // Then move y under x (doesn't matter which one goes where)
+            parents[targetParent] = sourceParent;
 
-            // And increment the the result tree's
-            // rank by 1
-            parents[leftParent]++;
+            // And increment the result tree's rank by 1
+            ranks[sourceParent]++;
         }
     }
 
@@ -260,18 +232,17 @@ public class GraphCycle {
      */
     public boolean hasCycle() {
         markSets(false);
-
         // Iterate through all edges of graph, find subset of both
         // vertices of every edge, if both subsets are same, then
         // there is cycle in graph.
         for (int i = 0; i < getEdges(); i++) {
-            int leftParent = find(edges[i].left);
-            int rightParent = find(edges[i].right);
-            if (leftParent == rightParent) {
+            int sourceParent = find(edges[i].source);
+            int targetParent = find(edges[i].target);
+            if (sourceParent == targetParent) {
                 return true;
             }
 
-            union(edges[i].left, edges[i].right);
+            union(edges[i].source, edges[i].target);
         }
 
         return false;
@@ -310,20 +281,20 @@ public class GraphCycle {
     /**
      * @return
      */
-    public boolean hasCycleUndirectGraph() {
+    public boolean hasCycleInUndirectGraph() {
         markSets(true);
 
         // Iterate through all edges of graph, find subset of both
         // vertices of every edge, if both subsets are same, then
         // there is cycle in graph.
         for (int i = 0; i < getEdges(); i++) {
-            int leftParent = find(parents, edges[i].left);
-            int rightParent = find(parents, edges[i].right);
+            int leftParent = find(parents, edges[i].source);
+            int rightParent = find(parents, edges[i].target);
             if (leftParent == rightParent) {
                 return true;
             }
 
-            union(parents, edges[i].left, edges[i].right);
+            union(parents, edges[i].source, edges[i].target);
         }
 
         return false;
@@ -341,31 +312,30 @@ public class GraphCycle {
      * @return
      */
     protected int find(SubSet[] subsets, int value) {
-        if (subsets[value].getParent() != value) {
-            subsets[value].setParent(find(subsets, subsets[value].getParent()));
+        if (subsets[value].parent != value) {
+            subsets[value].parent = find(subsets, subsets[value].parent);
         }
 
-        return subsets[value].getParent();
+        return subsets[value].parent;
     }
 
     /**
-     * A function that does union of two sets of left and right (uses union by rank)
+     * A function that does union of two sets of source and target (uses union by rank)
      *
      * @param subsets
-     * @param left
-     * @param right
+     * @param source
+     * @param target
      */
-    protected void union(SubSet[] subsets, int left, int right) {
-        int leftParent = find(subsets, left);
-        int rightParent = find(subsets, right);
-
-        if (subsets[leftParent].getRank() < subsets[rightParent].getRank()) {
-            subsets[leftParent].setParent(rightParent);
-        } else if (subsets[leftParent].getRank() > subsets[rightParent].getRank()) {
-            subsets[rightParent].setParent(leftParent);
+    protected void union(SubSet[] subsets, int source, int target) {
+        int sourceParent = find(subsets, source);
+        int targetParent = find(subsets, target);
+        if (subsets[sourceParent].rank < subsets[targetParent].rank) {
+            subsets[sourceParent].parent = targetParent;
+        } else if (subsets[sourceParent].rank > subsets[targetParent].rank) {
+            subsets[targetParent].parent = sourceParent;
         } else {
-            subsets[leftParent].setParent(rightParent);
-            subsets[rightParent].incrementRank();
+            subsets[targetParent].parent = targetParent;
+            subsets[targetParent].incrementRank();
         }
     }
 
@@ -375,41 +345,24 @@ public class GraphCycle {
      */
     public boolean hasCycleByPathCompression(GraphCycle graph) {
         if (graph != null) {
-            {
-                initSubSets();
-            }
+            initSubSets();
 
             // Iterate through all edges of graph, find subset of both
             // vertices of every edge, if both subsets are same, then
             // there is cycle in graph.
             for (int i = 0; i < graph.getEdges(); i++) {
-                int leftParent = graph.find(subSets, graph.edges[i].left);
-                int rightParent = graph.find(subSets, graph.edges[i].right);
+                int leftParent = graph.find(subSets, graph.edges[i].source);
+                int rightParent = graph.find(subSets, graph.edges[i].target);
                 if (leftParent == rightParent) {
                     return true;
                 }
 
-                graph.union(subSets, graph.edges[i].left, graph.edges[i].right);
+                graph.union(subSets, graph.edges[i].source, graph.edges[i].target);
             }
 
         }
 
         return false;
-    }
-
-    /**
-     * @param left
-     * @param right
-     */
-    public void addEdge(int left, int right) {
-
-    }
-
-    /**
-     * @return
-     */
-    public Vertex[] getAllVertices() {
-        return null;
     }
 
     /**
@@ -426,8 +379,9 @@ public class GraphCycle {
          * 1-----2
          * </pre>
          */
-        int e = 3;
-        GraphCycle graph = new GraphCycle(5, e);
+        int vertices = 5;
+        int edges = 3;
+        GraphCycle graph = new GraphCycle(vertices, edges);
         // init
         graph.markSets(false);
 
@@ -464,17 +418,15 @@ public class GraphCycle {
          * 1-----2
          * </pre>
          */
-        graph = new GraphCycle(3, e);
+        graph = new GraphCycle(3, edges);
         // add edge 0-1
-        graph.setEdges(0, 0, 1);
-
+        graph.addEdge(0, 0, 1);
         // add edge 1-2
-        graph.setEdges(1, 1, 2);
-
+        graph.addEdge(1, 1, 2);
         // add edge 0-2
-        graph.setEdges(2, 0, 2);
+        graph.addEdge(2, 0, 2);
 
-        if (graph.hasCycleUndirectGraph()) {
+        if (graph.hasCycleInUndirectGraph()) {
             System.out.println("graph contains cycle");
         } else {
             System.out.println("graph doesn't contain cycle");

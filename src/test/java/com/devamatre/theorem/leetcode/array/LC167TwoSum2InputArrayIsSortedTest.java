@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC167TwoSum2InputArrayIsSortedTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC167TwoSum2InputArrayIsSortedTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC167TwoSum2InputArrayIsSortedTest.class);
 
     /**
      * @return
@@ -35,7 +35,7 @@ public class LC167TwoSum2InputArrayIsSortedTest {
     }
 
     /**
-     * Tests the <code>twoSum()</code> method
+     * Tests the <code>twoSum()</code> method.
      *
      * @param inputData
      * @param expected

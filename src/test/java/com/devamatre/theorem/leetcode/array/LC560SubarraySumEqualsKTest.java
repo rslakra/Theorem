@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC560SubarraySumEqualsKTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC560SubarraySumEqualsKTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC560SubarraySumEqualsKTest.class);
 
     /**
      * @return
@@ -39,7 +39,7 @@ public class LC560SubarraySumEqualsKTest {
     }
 
     /**
-     * Tests the <code>sumSubarray()</code> method
+     * Tests the <code>sumSubarray()</code> method.
      *
      * @param inputData
      * @param expected

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class MaxHeapTest extends HeapTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(MaxHeapTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MaxHeapTest.class);
 
     @Test
     public void testBuildMaxHeap() {

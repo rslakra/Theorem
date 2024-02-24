@@ -2,7 +2,6 @@ package com.devamatre.theorem.leetcode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.devamatre.theorem.leetcode.LC13RomanToInteger;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -23,40 +22,46 @@ public class LC13RomanToIntegerTest {
     public Iterator<Object[]> romanToIntegerData() {
         List<Object[]> inputs = new ArrayList<>();
 
-// Example 1:
-// Input: s = "III"
-// Output: 3
-// Explanation: III = 3.
+        // Example 1:
+        // Input: s = "III"
+        // Output: 3
+        // Explanation: III = 3.
         inputs.add(new Object[]{"III", 3});
 
-// Example 2:
-// Input: s = "LVIII"
-// Output: 58
-// Explanation: L = 50, V= 5, III = 3.
+        // Example 2:
+        // Input: s = "LVIII"
+        // Output: 58
+        // Explanation: L = 50, V= 5, III = 3.
         inputs.add(new Object[]{"LVIII", 58});
 
-// Example 3:
-// Input: s = "MCMXCIV"
-// Output: 1994
-// Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+        // Example 3:
+        // Input: s = "MCMXCIV"
+        // Output: 1994
+        // Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
         inputs.add(new Object[]{"MCMXCIV", 1994});
 
-// Example 4:
-// Input: s = "IV"
-// Output: 4
-// Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+        // Example 4:
+        // Input: s = "IV"
+        // Output: 4
+        // Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
         inputs.add(new Object[]{"IV", 4});
 
-// Example 5:
-// Input: s = "MCMLXXIV"
-// Output: 1974
-// Explanation: M = 1000, CM = 900, LXX = 70 and IV = 4.
+        // Example 5:
+        // Input: s = "MCMLXXIV"
+        // Output: 1974
+        // Explanation: M = 1000, CM = 900, LXX = 70 and IV = 4.
         inputs.add(new Object[]{"MCMLXXIV", 1974});
 
         inputs.add(new Object[]{"", 0});
         return inputs.iterator();
     }
 
+    /**
+     * Tests the <code>romanToIntApproach()</code> method.
+     *
+     * @param input
+     * @param result
+     */
     @Test(dataProvider = "romanToIntegerData")
     public void testRomanToInteger(String input, int result) {
         LC13RomanToInteger instance = new LC13RomanToInteger();

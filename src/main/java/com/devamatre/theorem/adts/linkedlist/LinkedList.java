@@ -674,53 +674,53 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
         return headNode;
     }
 
-//    /**
-//     * Swap nodes for two given keys. Nodes should be swapped by changing links. It has following cases to be handled.
-//     * 1) x and y may or may not be adjacent. 2) Either x or y may be a head node. 3) Either x or y may be last node. 4)
-//     * x and/or y may not be present in linked list.
-//     *
-//     * @param leftKey
-//     * @param rightKey
-//     */
-//    public void swapNodes(E leftKey, E rightKey) {
-// if (head != null && leftKey != rightKey) {
-//            // find left node and its parent
-//            Node<E> leftNodeParent = null;
-//            Node<E> leftNode = head;
-//            while (leftNode != null && !leftNode.isEquals(leftKey)) {
-//                leftNodeParent = leftNode;
-//                leftNode = leftNode.getNext();
-//            }
-//
-//            // find left node and it's parent
-//            Node<E> rightNodeParent = null;
-//            Node<E> rightNode = head;
-//            while (rightNode != null && !rightNode.isEquals(rightKey)) {
-//                rightNodeParent = rightNode;
-//                rightNode = rightNode.getNext();
-//            }
-//
-//            if (leftNode != null && rightNode != null) {
-//                // if left node parent is null
-//                if (leftNodeParent == null) {
-//                    head = rightNode;
-//                } else {
-//                    leftNodeParent.setNext(rightNode);
-//                }
-//
-//                // if right node parent is null
-//                if (rightNodeParent == null) {
-//                    head = leftNode;
-//                } else {
-//                    rightNodeParent.setNext(leftNode);
-//                }
-//
-//                Node<E> temp = leftNode.getNext();
-//                leftNode.setNext(rightNode.getNext());
-//                rightNode.setNext(temp);
-//            }
-//        }
-//    }
+    // /**
+    // * Swap nodes for two given keys. Nodes should be swapped by changing links. It has following cases to be handled.
+    // * 1) x and y may or may not be adjacent. 2) Either x or y may be a head node. 3) Either x or y may be last node. 4)
+    // * x and/or y may not be present in linked list.
+    // *
+    // * @param leftKey
+    // * @param rightKey
+    // */
+    // public void swapNodes(E leftKey, E rightKey) {
+    // if (head != null && leftKey != rightKey) {
+    // // find left node and its parent
+    // Node<E> leftNodeParent = null;
+    // Node<E> leftNode = head;
+    // while (leftNode != null && !leftNode.isEquals(leftKey)) {
+    // leftNodeParent = leftNode;
+    // leftNode = leftNode.getNext();
+    // }
+    //
+    // // find left node and it's parent
+    // Node<E> rightNodeParent = null;
+    // Node<E> rightNode = head;
+    // while (rightNode != null && !rightNode.isEquals(rightKey)) {
+    // rightNodeParent = rightNode;
+    // rightNode = rightNode.getNext();
+    // }
+    //
+    // if (leftNode != null && rightNode != null) {
+    // // if left node parent is null
+    // if (leftNodeParent == null) {
+    // head = rightNode;
+    // } else {
+    // leftNodeParent.setNext(rightNode);
+    // }
+    //
+    // // if right node parent is null
+    // if (rightNodeParent == null) {
+    // head = leftNode;
+    // } else {
+    // rightNodeParent.setNext(leftNode);
+    // }
+    //
+    // Node<E> temp = leftNode.getNext();
+    // leftNode.setNext(rightNode.getNext());
+    // rightNode.setNext(temp);
+    // }
+    // }
+    // }
 
     /**
      * Reverses the linked list by changing the links between nodes.
@@ -783,7 +783,7 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
      * </pre>
      */
     public void reversed() {
-//        this.head = reversedRecursively(head);
+        // this.head = reversedRecursively(head);
         reversedIteratively();
     }
 
@@ -976,58 +976,56 @@ public class LinkedList<E extends Comparable<? super E>> extends AbstractLinkedL
         return null;
     }
 
-//
-//    /**
-//     * @param value
-//     * @return
-//     */
-//    private Node<E> insert(Node<E> parent, E value) {
-//        if (parent == null) {
-//            parent = new Node<>(value);
-//            super.incrementSize();
-//            return parent;
-//        } else {
-//            return insert(parent.getNext(), value);
-//        }
-//    }
-//
-//    /**
-//     * @param element element to be appended to this list
-//     * @return
-//     */
-//    @Override
-//    public boolean add(E element) {
-//        root = insert(root, element);
-//        return true;
-//    }
-//
-//    /**
-//     * Returns the string representation of this object.
-//     *
-//     * @return
-//     * @see java.lang.Object#toString()
-//     */
-//    public String toString() {
-//        StringBuilder sBuilder = new StringBuilder("[");
-//        if (!isEmpty()) {
-//            Node<E> temp = root;
-//            boolean isFirst = true;
-//            while (temp != null) {
-//                if (isFirst) {
-//                    isFirst = false;
-//                }
-//
-//                if (!isFirst) {
-//                    sBuilder.append(", ");
-//                }
-//
-//                sBuilder.append(temp.getData());
-//                temp = temp.getNext();
-//            }
-//        }
-//
-//        return sBuilder.append("]").toString();
-//    }
-
+    // /**
+    // * @param value
+    // * @return
+    // */
+    // private Node<E> insert(Node<E> parent, E value) {
+    // if (parent == null) {
+    // parent = new Node<>(value);
+    // super.incrementSize();
+    // return parent;
+    // } else {
+    // return insert(parent.getNext(), value);
+    // }
+    // }
+    //
+    // /**
+    // * @param element element to be appended to this list
+    // * @return
+    // */
+    // @Override
+    // public boolean add(E element) {
+    // root = insert(root, element);
+    // return true;
+    // }
+    //
+    // /**
+    // * Returns the string representation of this object.
+    // *
+    // * @return
+    // * @see java.lang.Object#toString()
+    // */
+    // public String toString() {
+    // StringBuilder sBuilder = new StringBuilder("[");
+    // if (!isEmpty()) {
+    // Node<E> temp = root;
+    // boolean isFirst = true;
+    // while (temp != null) {
+    // if (isFirst) {
+    // isFirst = false;
+    // }
+    //
+    // if (!isFirst) {
+    // sBuilder.append(", ");
+    // }
+    //
+    // sBuilder.append(temp.getData());
+    // temp = temp.getNext();
+    // }
+    // }
+    //
+    // return sBuilder.append("]").toString();
+    // }
 
 }

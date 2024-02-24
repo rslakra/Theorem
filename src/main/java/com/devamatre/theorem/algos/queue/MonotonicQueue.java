@@ -1,4 +1,4 @@
-package com.devamatre.theorem.queue;
+package com.devamatre.theorem.algos.queue;
 
 /**
  * @author Rohtash Lakra
@@ -8,8 +8,7 @@ package com.devamatre.theorem.queue;
 public interface MonotonicQueue<E extends Comparable> {
 
     enum Order {
-        INCREASING,
-        DECREASING;
+        INCREASING, DECREASING;
     }
 
     /**
@@ -28,13 +27,13 @@ public interface MonotonicQueue<E extends Comparable> {
      */
     void removeFirst();
 
-//    /**
-//     * @return
-//     */
-//    E getLast();
+// /**
+// * @return
+// */
+// E getLast();
 //
-//    /**
-//     *
-//     */
-//    void removeLast();
+// /**
+// *
+// */
+// void removeLast();
 }

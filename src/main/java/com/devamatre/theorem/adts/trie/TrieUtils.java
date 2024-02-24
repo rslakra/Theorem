@@ -12,20 +12,17 @@ public enum TrieUtils {
     INSTANCE;
 
     /**
-     * Returns the size of the trie trieNode.
+     * Fills the <code>trieNode</code>  node with the provided <code>inputData</code> values.
+     *
+     * <pre>
+     *  [and, bat, add, bag, cat, car]
+     * </pre>
      *
      * @param trieNode
-     * @return
+     * @param inputData
      */
-    public static int getSize(TrieNode trieNode) {
-        int size = 0;
-        if (trieNode != null) {
-            for (Character key : trieNode.getChildren().keySet()) {
-                size += getSize(trieNode.getChildren().get(key)) + 1;
-            }
-        }
-
-        return size;
+    public static void fillTrieNode(TrieNode trieNode, List<String> inputData) {
+        inputData.forEach(key -> trieNode.insert(key));
     }
 
     /**
@@ -45,7 +42,7 @@ public enum TrieUtils {
      * @return
      */
     public static Trie buildTrie(List<String> list) {
-        final Trie trie = new TrieMap();
+        final Trie trie = new MapTrie();
         fillTrie(trie, list);
         return trie;
     }

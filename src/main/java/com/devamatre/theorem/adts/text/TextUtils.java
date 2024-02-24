@@ -7,10 +7,72 @@ import org.slf4j.LoggerFactory;
  * @author Rohtash Lakra
  * @created 1/20/21 4:07 PM
  */
-public class TextUtils {
+public enum TextUtils {
+
+    INSTANCE;
 
     // LOGGER
     private static final Logger LOGGER = LoggerFactory.getLogger(TextUtils.class);
+
+    /**
+     * Returns true if the <code>text</code> contains the <code>findWhat</code> string starting from the provided
+     * <code>index</code> otherwise false.
+     * <pre>
+     *  Time Complexity: O(log N)
+     *  N - the length of the text string.
+     *
+     *  Space Complexity: O(1)
+     * </pre>
+     *
+     * @param index
+     * @param text
+     * @param findWhat
+     * @return
+     */
+    public static boolean findExists(int index, String text, String findWhat) {
+        if (text == null && findWhat == null) {
+            return true;
+        } else if (text != null && findWhat != null && index >= 0 && index <= text.length() - findWhat.length()) {
+            int size = findWhat.length();
+            for (int i = 0, j = findWhat.length() - 1; i <= j; i++, j--) {
+                // beginning index
+                if (text.charAt(i + index) != findWhat.charAt(i)) {
+                    return false;
+                } else if (text.charAt(index + (size - i - 1)) != findWhat.charAt(
+                    size - i - 1)) { // end of the string index
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param text
+     * @param findWhat
+     * @return
+     */
+    public static int findIndexOfFirstOccurrence(String text, String findWhat) {
+        if (text == null) {
+            return -1;
+        } else if (findWhat == null) {
+            return 0;
+        } else if (findWhat.length() > text.length()) {
+            return -1;
+        }
+
+        int size = text.length() - findWhat.length();
+        for (int i = 0; i <= size; i++) {
+            if (findExists(i, text, findWhat)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 
     /**
      * Returns the index of the pattern that starts in the string at that index. If the patterns does not exist in the
@@ -51,7 +113,6 @@ public class TextUtils {
         return -1;
     }
 
-
     /**
      * Returns the index of the pattern that starts in the string at that index. If the patterns does not exist in the
      * string, return -1.
@@ -81,7 +142,7 @@ public class TextUtils {
                 }
             }
 
-//            LOGGER.debug(j);
+            // LOGGER.debug(j);
             if (j == patternSize && patternSize > 0) {
                 // index in text, where pattern starts
                 return i - patternSize;

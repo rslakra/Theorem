@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC2169CountOperationsToObtainZeroTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC2169CountOperationsToObtainZeroTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC2169CountOperationsToObtainZeroTest.class);
 
     /**
      * @return
@@ -36,7 +36,7 @@ public class LC2169CountOperationsToObtainZeroTest {
     }
 
     /**
-     * Tests the <code>findPeakElement()</code> method
+     * Tests the <code>findPeakElement()</code> method.
      *
      * @param num1
      * @param num2

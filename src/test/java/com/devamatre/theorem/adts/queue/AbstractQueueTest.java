@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractQueueTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(AbstractQueueTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractQueueTest.class);
 
     protected static int SIZE = 5;
 

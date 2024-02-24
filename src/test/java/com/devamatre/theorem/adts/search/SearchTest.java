@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class SearchTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(SearchTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchTest.class);
 
     /**
      * @return
@@ -38,7 +38,7 @@ public class SearchTest {
     }
 
     /**
-     * Tests the <code>findPivotInRotatedArray()</code> method
+     * Tests the <code>findPivotInRotatedArray()</code> method.
      *
      * @param arr
      * @param expected
@@ -71,7 +71,7 @@ public class SearchTest {
     }
 
     /**
-     * Tests the <code>findPivotInDuplicateRotatedArray()</code> method
+     * Tests the <code>findPivotInDuplicateRotatedArray()</code> method.
      *
      * @param arr
      * @param expected

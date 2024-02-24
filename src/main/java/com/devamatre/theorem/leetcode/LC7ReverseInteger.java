@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class LC7ReverseInteger {
 
     // LOGGER
-    private static Logger LOGGER = LoggerFactory.getLogger(LC7ReverseInteger.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC7ReverseInteger.class);
 
     /**
      * Given a signed 32-bit integer x. Return x with its digits reversed. If reversing x causes the value to go outside

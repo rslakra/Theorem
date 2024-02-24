@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class LC1095FindInMountainArrayTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC1095FindInMountainArrayTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC1095FindInMountainArrayTest.class);
 
     /**
      * @return
@@ -37,7 +37,7 @@ public class LC1095FindInMountainArrayTest {
     }
 
     /**
-     * Tests the <code>sumOfOddNumbers()</code> method
+     * Tests the <code>sumOfOddNumbers()</code> method.
      *
      * @param number
      * @param expected
@@ -45,9 +45,9 @@ public class LC1095FindInMountainArrayTest {
     @Test(dataProvider = "inputData")
     public void test(int number, int expected) {
         LC1095FindInMountainArray instance = new LC1095FindInMountainArray();
-//        int result = instance.(null);
-//        LOGGER.debug("number:{}, result:{}", number, result);
-//        assertEquals(expected, result);
+//  int result = instance.(null);
+//  LOGGER.debug("number:{}, result:{}", number, result);
+//  assertEquals(expected, result);
     }
 
 }

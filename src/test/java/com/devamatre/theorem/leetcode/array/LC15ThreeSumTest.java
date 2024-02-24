@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC15ThreeSumTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC15ThreeSumTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC15ThreeSumTest.class);
 
     /**
      * @return
@@ -35,7 +35,7 @@ public class LC15ThreeSumTest {
     }
 
     /**
-     * Tests the <code>threeSum()</code> method
+     * Tests the <code>threeSum()</code> method.
      *
      * @param inputData
      * @param expected

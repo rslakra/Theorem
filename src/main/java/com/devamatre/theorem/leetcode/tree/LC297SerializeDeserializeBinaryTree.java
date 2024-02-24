@@ -11,6 +11,11 @@ package com.devamatre.theorem.leetcode.tree;
 public class LC297SerializeDeserializeBinaryTree {
 
     /**
+     * <pre>
+     *  Time Complexity: <code>O(log N)</code>
+     *  Space Complexity: <code>O(1)</code>
+     * </pre>
+     *
      * @param root
      * @return
      */

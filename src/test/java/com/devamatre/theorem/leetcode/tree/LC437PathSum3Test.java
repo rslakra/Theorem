@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class LC437PathSum3Test {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC437PathSum3Test.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC437PathSum3Test.class);
 
     /**
      * @return
@@ -36,7 +36,7 @@ public class LC437PathSum3Test {
     }
 
     /**
-     * Tests the <code>pathSum()</code> method
+     * Tests the <code>pathSum()</code> method.
      *
      * @param root
      * @param expected

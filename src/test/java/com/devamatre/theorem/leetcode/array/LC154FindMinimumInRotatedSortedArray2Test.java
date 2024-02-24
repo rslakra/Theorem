@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC154FindMinimumInRotatedSortedArray2Test {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC154FindMinimumInRotatedSortedArray2Test.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC154FindMinimumInRotatedSortedArray2Test.class);
 
     /**
      * @return
@@ -37,7 +37,7 @@ public class LC154FindMinimumInRotatedSortedArray2Test {
     }
 
     /**
-     * Tests the <code>findMin()</code> method
+     * Tests the <code>findMin()</code> method.
      *
      * @param inputData
      * @param expected

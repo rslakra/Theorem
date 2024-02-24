@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class HeapTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(HeapTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeapTest.class);
 
     public static int SIZE = 8;
 

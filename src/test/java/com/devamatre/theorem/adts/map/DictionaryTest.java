@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
  */
 public class DictionaryTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(Dictionary.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Dictionary.class);
 
     @Test
     public void testDictionary() {

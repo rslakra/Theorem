@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class LC1207UniqueNumberOfOccurrencesTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC1207UniqueNumberOfOccurrencesTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC1207UniqueNumberOfOccurrencesTest.class);
 
     /**
      * @return
@@ -51,7 +51,7 @@ public class LC1207UniqueNumberOfOccurrencesTest {
     }
 
     /**
-     * Tests the <code>uniqueOccurrences()</code> method
+     * Tests the <code>uniqueOccurrences()</code> method.
      *
      * @param inputData
      * @param expected

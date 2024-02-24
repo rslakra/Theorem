@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class LC283MoveZeroesTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC283MoveZeroesTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC283MoveZeroesTest.class);
 
     /**
      * @return

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class LC220ContainsDuplicate3Test {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC220ContainsDuplicate3Test.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC220ContainsDuplicate3Test.class);
 
     /**
      * @return
@@ -55,7 +55,7 @@ public class LC220ContainsDuplicate3Test {
     }
 
     /**
-     * Tests the <code>containsNearbyDuplicate()</code> method
+     * Tests the <code>containsNearbyDuplicate()</code> method.
      *
      * @param inputData
      * @param expected

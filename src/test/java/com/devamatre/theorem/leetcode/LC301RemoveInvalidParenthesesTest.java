@@ -2,7 +2,6 @@ package com.devamatre.theorem.leetcode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.devamatre.theorem.leetcode.LC301RemoveInvalidParentheses;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -24,25 +23,27 @@ public class LC301RemoveInvalidParenthesesTest {
     public Iterator<Object[]> removeInvalidParenthesesData() {
         List<Object[]> inputs = new ArrayList<>();
 
-// Example 1:
-// Input: s = "()())()"
-// Output: ["(())()","()()()"]
+        // Example 1:
+        // Input: s = "()())()"
+        // Output: ["(())()","()()()"]
         inputs.add(new Object[]{"()())()", Arrays.asList("(())()", "()()()")});
 
-// Example 2:
-// Input: s = "(a)())()"
-// Output: ["(a())()","(a)()()"]
+        // Example 2:
+        // Input: s = "(a)())()"
+        // Output: ["(a())()","(a)()()"]
         inputs.add(new Object[]{"(a)())()", Arrays.asList("(a())()", "(a)()()")});
 
-// Example 3:
-// Input: s = ")("
-// Output: [""]
+        // Example 3:
+        // Input: s = ")("
+        // Output: [""]
         inputs.add(new Object[]{")(", Arrays.asList("")});
 
         return inputs.iterator();
     }
 
     /**
+     * Tests the <code>removeInvalidParentheses()</code> method.
+     *
      * @param input
      * @param result
      */

@@ -1,7 +1,7 @@
 package com.devamatre.theorem.aptitude;
 
 /**
- * @author Rohtash Lakra (rslakra.work@gmail.com)
+ * @author Rohtash Lakra
  * @version 1.0.0
  * @since 01/21/2024 3:01 PM
  */

@@ -4,7 +4,6 @@ import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.appsuite.core.ToString;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -16,10 +15,10 @@ import java.util.Objects;
  */
 @NoArgsConstructor
 @Getter
-@Setter
+//@Setter
 public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>> {
 
-    public static final EdgeComparator SORT_BY_WEIGHT = new EdgeComparator();
+    public static final EdgeWeightComparator SORT_BY_WEIGHT = new EdgeWeightComparator();
 
     private E source;
     private E target;
@@ -30,6 +29,7 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
      * @param source
      * @param target
      * @param weight
+     * @param directed
      */
     public Edge(E source, E target, BigDecimal weight, boolean directed) {
         this.source = source;
@@ -50,9 +50,36 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
     /**
      * @param source
      * @param target
+     * @param directed
+     */
+    public Edge(E source, E target, boolean directed) {
+        this(source, target, BigDecimal.ZERO, directed);
+    }
+
+    /**
+     * @param source
+     * @param target
      */
     public Edge(E source, E target) {
         this(source, target, BigDecimal.ZERO, false);
+    }
+
+    /**
+     * The <code>weight</code> to be set.
+     *
+     * @param weight
+     */
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
+    }
+
+    /**
+     * The <code>directed</code> to be set.
+     *
+     * @param directed
+     */
+    public void setDirected(boolean directed) {
+        this.directed = directed;
     }
 
     /**
@@ -63,6 +90,10 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
         return Objects.hash(getSource(), getTarget(), getWeight());
     }
 
+    /**
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -73,10 +104,10 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
             return false;
         }
 
-        Edge<E> that = (Edge<E>) object;
-        return Objects.equals(getSource(), that.getSource())
-               && Objects.equals(getTarget(), that.getTarget())
-               && Objects.equals(getWeight(), that.getWeight());
+        final Edge<E> edge = (Edge<E>) object;
+        return Objects.equals(getSource(), edge.getSource())
+               && Objects.equals(getTarget(), edge.getTarget())
+               && Objects.equals(getWeight(), edge.getWeight());
     }
 
     /**
@@ -131,7 +162,7 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
         if (result == 0) {
             result = getTarget().compareTo(edge.getTarget());
             if (result == 0 && BeanUtils.isNotNull(getWeight())) {
-                result = getWeight().subtract(edge.getWeight()).intValue();
+                result = getWeight().compareTo(edge.getWeight());
             }
         }
 
@@ -143,14 +174,14 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
      *
      * @return
      */
-    protected Edge<E> reverseEdge() {
+    public Edge<E> reverseEdge() {
         return new Edge<>(getTarget(), getSource(), getWeight(), isDirected());
     }
 
     /**
      *
      */
-    static class EdgeComparator implements Comparator<Edge> {
+    static class EdgeWeightComparator implements Comparator<Edge> {
 
         /**
          * Compares its two arguments for order.  Returns a negative integer, zero, or a positive integer as the first
@@ -188,5 +219,58 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
             return (Objects.nonNull(o1.getWeight()) ? o1.getWeight().subtract(o2.getWeight()).intValue()
                                                     : Objects.nonNull(o2.getWeight()) ? o2.getWeight().intValue() : 0);
         }
+    }
+
+    /**
+     * Returns the <code>Edge<E></code> object.
+     *
+     * @param source
+     * @param target
+     * @param weight
+     * @param directed
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Edge<E> of(E source, E target, BigDecimal weight,
+                                                               boolean directed) {
+        return new Edge<>(source, target, weight, directed);
+    }
+
+    /**
+     * Returns the <code>Edge<E></code> object.
+     *
+     * @param source
+     * @param target
+     * @param weight
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Edge<E> of(E source, E target, BigDecimal weight) {
+        return new Edge<>(source, target, weight);
+    }
+
+    /**
+     * Returns the <code>Edge<E></code> object.
+     *
+     * @param source
+     * @param target
+     * @param directed
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Edge<E> of(E source, E target, boolean directed) {
+        return new Edge<>(source, target, directed);
+    }
+
+    /**
+     * Returns the <code>Edge<E></code> object.
+     *
+     * @param source
+     * @param target
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Edge<E> of(E source, E target) {
+        return new Edge<>(source, target);
     }
 }

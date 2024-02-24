@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * https://leetcode.com/problems/longest-substring-without-repeating-characters/
+ * <url>https://leetcode.com/problems/longest-substring-without-repeating-characters</url>
  *
  * @author Rohtash Lakra
  * @created 9/4/23 11:12 AM
@@ -19,6 +19,12 @@ public class LC3LongestSubstringWithoutRepeatingCharacters {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LC3LongestSubstringWithoutRepeatingCharacters.class);
 
+    /**
+     * <url>https://leetcode.com/problems/longest-substring-without-repeating-characters</url>
+     *
+     * @param str
+     * @return
+     */
     public int lengthOfLongestSubstringWithSet(String str) {
         int length = 0;
         if (str != null) {
@@ -28,7 +34,7 @@ public class LC3LongestSubstringWithoutRepeatingCharacters {
                 if (unique.contains(str.charAt(right))) {
                     unique.remove(str.charAt(left));
                     left++;
-//                    length = Math.max(length, unique.size());
+                    // length = Math.max(length, unique.size());
                 } else {
                     unique.add(str.charAt(right));
                     right++;
@@ -51,7 +57,7 @@ public class LC3LongestSubstringWithoutRepeatingCharacters {
                 if (unique.containsKey(str.charAt(right))) {
                     unique.remove(str.charAt(left));
                     left++;
-//                    length = Math.max(length, unique.size());
+// length = Math.max(length, unique.size());
                 } else {
                     unique.put(str.charAt(right), right);
                     right++;

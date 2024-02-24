@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC1342StepCountToReduceNumberToZeroTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC1342StepCountToReduceNumberToZeroTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC1342StepCountToReduceNumberToZeroTest.class);
 
     /**
      * @return
@@ -36,7 +36,7 @@ public class LC1342StepCountToReduceNumberToZeroTest {
     }
 
     /**
-     * Tests the <code>findPeakElement()</code> method
+     * Tests the <code>findPeakElement()</code> method.
      *
      * @param number
      * @param expected

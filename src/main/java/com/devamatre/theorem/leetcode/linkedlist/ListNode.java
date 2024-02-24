@@ -6,10 +6,19 @@ package com.devamatre.theorem.leetcode.linkedlist;
 import java.util.Objects;
 
 /**
- * * public class ListNode { *     int val; *     ListNode next; *     ListNode() {} *     ListNode(int val) { this.val
- * = val; } *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * <pre>
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *    int val;
+ *    ListNode next;
+ *    ListNode() {}
+ *    ListNode(int val) { this.val = val; }
+ *    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ * </pre>
  *
  * @author Rohtash Lakra
+ * @created 11/03/20245 08:28:44 PM
  */
 public class ListNode {
 
@@ -21,6 +30,15 @@ public class ListNode {
      */
     public ListNode(int val) {
         this.val = val;
+    }
+
+    /**
+     * @param val
+     * @param next
+     */
+    public ListNode(int val, ListNode next) {
+        this(val);
+        this.next = next;
     }
 
     /**

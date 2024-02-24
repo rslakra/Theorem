@@ -12,9 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
+ * Graph with the adjacency matrix needs <code>O(1)</code> time and <code>O(N ^ 2)</code> space to handle the
+ * operations.
+ *
  * @author Rohtash Lakra
  * @created 9/9/23 5:01 PM
  */
@@ -25,7 +28,7 @@ public class GraphWith2DMatrix<E extends Comparable<? super E>> extends Abstract
     private List<Vertex> vertices;
 
     // A list of lists to represent an adjacency list
-    private final Map<E, TreeSet<E>> adjList;
+    private final Map<E, Set<E>> adjList;
 
     /**
      * @param weighted
@@ -46,12 +49,57 @@ public class GraphWith2DMatrix<E extends Comparable<? super E>> extends Abstract
     }
 
     /**
+     * Returns the <code>keySet</code> of the graph.
+     *
+     * @return
+     */
+    @Override
+    public Set<E> getVertices() {
+        return vertices.stream()
+            .map(vertex -> (E) vertex.getData())
+            .collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns true if the graph contains the <code>vertex</code> otherwise false.
+     *
+     * @param vertex
+     * @return
+     */
+    @Override
+    public boolean hasVertex(E vertex) {
+        return vertices.stream()
+            .filter(entry -> entry.getData().compareTo(vertex) == 0)
+            .findFirst()
+            .isPresent();
+    }
+
+    /**
+     * Returns the edges/neighbors of the <code>vertex</code> of the <code>graph</code>.
+     *
+     * @param vertex
+     * @return
+     */
+    @Override
+    public Set<Edge<E>> getNeighbors(E vertex) {
+        return null;
+    }
+
+    /**
+     * Prints the graph.
+     */
+    @Override
+    public void printGraph() {
+
+    }
+
+    /**
      * Returns the <code>firstNode</code> of the graph.
      *
      * @return
      */
     @Override
-    public E startNode() {
+    public E firstVertex() {
         return null;
     }
 
@@ -93,17 +141,6 @@ public class GraphWith2DMatrix<E extends Comparable<? super E>> extends Abstract
     }
 
     /**
-     * Returns the edges/neighbors of the <code>vertex</code> of the <code>graph</code>.
-     *
-     * @param vertex
-     * @return
-     */
-    @Override
-    public Set<Edge<E>> getNeighbors(E vertex) {
-        return null;
-    }
-
-    /**
      * Removes the edge between the <code>source</code> and <code>target</code> vertices.
      *
      * @param source
@@ -111,14 +148,6 @@ public class GraphWith2DMatrix<E extends Comparable<? super E>> extends Abstract
      */
     @Override
     public void removeEdge(E source, E target) {
-
-    }
-
-    /**
-     * Prints the graph.
-     */
-    @Override
-    public void printGraph() {
 
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class PascalTriangleTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(PascalTriangleTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PascalTriangleTest.class);
 
     /**
      * @return
@@ -41,7 +41,7 @@ public class PascalTriangleTest {
     }
 
     /**
-     * Tests the <code>fibonacciSeriesWithPascalTriangle()</code> method
+     * Tests the <code>fibonacciSeriesWithPascalTriangle()</code> method.
      *
      * @param number
      * @param expected
@@ -49,7 +49,7 @@ public class PascalTriangleTest {
     @Test(dataProvider = "pascalTriangleData")
     public void testFibonacciSeriesWithPascalTriangle(int number, List<Integer> expected) {
         PascalTriangle.fibonacciSeriesWithPascalTriangle(number);
-//        LOGGER.debug("number:{}, result:{}", number, result);
-//        assertEquals(expected.get(expected.size() - 1), result);
+//  LOGGER.debug("number:{}, result:{}", number, result);
+//  assertEquals(expected.get(expected.size() - 1), result);
     }
 }

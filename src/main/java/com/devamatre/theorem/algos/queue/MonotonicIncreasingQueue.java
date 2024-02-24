@@ -1,4 +1,4 @@
-package com.devamatre.theorem.queue;
+package com.devamatre.theorem.algos.queue;
 
 /**
  * Monotonic increasing queue: to push an element e, starts from the rear element, we pop out element s≥e(violation);

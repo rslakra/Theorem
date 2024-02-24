@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class AbstractSearchable implements Searchable {
 
     // LOGGER
-    private static Logger LOGGER = LoggerFactory.getLogger(AbstractSearchable.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchable.class);
     private List<MatchedSearch> matchedSearches;
     private StopWatch stopWatch = new StopWatch();
 

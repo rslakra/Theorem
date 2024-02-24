@@ -108,6 +108,23 @@ public abstract class AbstractGraph<E extends Comparable<? super E>> {
     }
 
     /**
+     * Increases the size of the vertices;
+     */
+    protected void increaseSize() {
+        size++;
+    }
+
+    /**
+     * Decreases the size of the vertices;
+     */
+    protected void decreaseSize() {
+        size--;
+        if (size < 0) {
+            size = 0;
+        }
+    }
+
+    /**
      * Returns the size of the graph.
      *
      * @return
@@ -117,11 +134,49 @@ public abstract class AbstractGraph<E extends Comparable<? super E>> {
     }
 
     /**
+     * Returns the string representation of this object.
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    /**
+     * Returns the <code>keySet</code> of the graph.
+     *
+     * @return
+     */
+    public abstract Set<E> getVertices();
+
+    /**
+     * Returns true if the graph contains the <code>vertex</code> otherwise false.
+     *
+     * @param vertex
+     * @return
+     */
+    public abstract boolean hasVertex(E vertex);
+
+    /**
+     * Returns the edges/neighbors of the <code>vertex</code> of the <code>graph</code>.
+     *
+     * @param vertex
+     * @return
+     */
+    public abstract Set<Edge<E>> getNeighbors(E vertex);
+
+    /**
      * Returns the <code>firstNode</code> of the graph.
      *
      * @return
      */
-    public abstract E startNode();
+    public abstract E firstVertex();
+
+    /**
+     * Prints the graph.
+     */
+    public abstract void printGraph();
 
     /**
      * Adds the edge between the <code>source</code> and <code>target</code> vertices of the edge with the
@@ -162,14 +217,6 @@ public abstract class AbstractGraph<E extends Comparable<? super E>> {
     public abstract Edge<E> findEdge(E source, E target);
 
     /**
-     * Returns the edges/neighbors of the <code>vertex</code> of the <code>graph</code>.
-     *
-     * @param vertex
-     * @return
-     */
-    public abstract Set<Edge<E>> getNeighbors(E vertex);
-
-    /**
      * Removes the edge between the <code>source</code> and <code>target</code> vertices.
      *
      * @param source
@@ -178,17 +225,11 @@ public abstract class AbstractGraph<E extends Comparable<? super E>> {
     public abstract void removeEdge(E source, E target);
 
     /**
-     * Prints the graph.
-     */
-    public abstract void printGraph();
-
-    /**
      * Returns true if the graph has cycle otherwise false.
      *
      * @return
      */
     public abstract boolean hasCycle();
-
 
     /**
      * Get all vertices connected to the specified vertex.

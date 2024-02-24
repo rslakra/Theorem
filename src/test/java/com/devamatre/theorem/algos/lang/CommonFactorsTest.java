@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class CommonFactorsTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(CommonFactorsTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonFactorsTest.class);
 
     /**
      * @return
@@ -39,7 +39,7 @@ public class CommonFactorsTest {
     }
 
     /**
-     * Tests the <code>isPowerOf2()</code> method
+     * Tests the <code>isPowerOf2()</code> method.
      *
      * @param number
      * @param expected

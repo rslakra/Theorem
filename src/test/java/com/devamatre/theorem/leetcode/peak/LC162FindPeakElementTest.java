@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC162FindPeakElementTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC162FindPeakElementTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC162FindPeakElementTest.class);
 
     /**
      * @return
@@ -39,7 +39,7 @@ public class LC162FindPeakElementTest {
     }
 
     /**
-     * Tests the <code>findPeakElement()</code> method
+     * Tests the <code>findPeakElement()</code> method.
      *
      * @param number
      * @param expected

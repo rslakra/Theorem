@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC1765MapOfHighestPeakTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC1765MapOfHighestPeakTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC1765MapOfHighestPeakTest.class);
 
     /**
      * @return
@@ -39,7 +39,7 @@ public class LC1765MapOfHighestPeakTest {
     }
 
     /**
-     * Tests the <code>highestPeak()</code> method
+     * Tests the <code>highestPeak()</code> method.
      *
      * @param number
      * @param expected

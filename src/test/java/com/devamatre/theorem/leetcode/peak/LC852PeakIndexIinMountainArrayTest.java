@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC852PeakIndexIinMountainArrayTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC852PeakIndexIinMountainArrayTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC852PeakIndexIinMountainArrayTest.class);
 
     /**
      * @return
@@ -39,7 +39,7 @@ public class LC852PeakIndexIinMountainArrayTest {
     }
 
     /**
-     * Tests the <code>peakIndexInMountainArray()</code> method
+     * Tests the <code>peakIndexInMountainArray()</code> method.
      *
      * @param number
      * @param expected

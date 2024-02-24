@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
  */
 public class CircularQueueTest extends AbstractQueueTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(CircularQueueTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CircularQueueTest.class);
 
     /**
      * Tests the <code>Queue</code>
@@ -230,7 +230,7 @@ public class CircularQueueTest extends AbstractQueueTest {
 
         // fill queue with elements
         fillIntQueue(queue, size);
-//        LOGGER.debug("size:{}, queue:{}", queue.getSize(), queue);
+//  LOGGER.debug("size:{}, queue:{}", queue.getSize(), queue);
         assertNotNull(queue);
         assertEquals(size, queue.getSize());
         assertFalse(queue.isEmpty());

@@ -7,38 +7,26 @@ import java.util.Objects;
 
 /**
  * @author Rohtash Lakra
+ * @created 11/03/20245 08:28:44 PM
  */
 public class ListNode<E> {
 
-    private E data;
-    private ListNode<E> next;
+    public E data;
+    public ListNode<E> next;
 
     /**
      * @param data
      */
     public ListNode(E data) {
         this.data = data;
-        next = null;
     }
 
     /**
-     * @return
-     */
-    public E getData() {
-        return data;
-    }
-
-    /**
-     * @return
-     */
-    public ListNode<E> getNext() {
-        return next;
-    }
-
-    /**
+     * @param data
      * @param next
      */
-    public void setNext(ListNode<E> next) {
+    public ListNode(E data, ListNode<E> next) {
+        this(data);
         this.next = next;
     }
 
@@ -47,24 +35,7 @@ public class ListNode<E> {
      */
     @Override
     public String toString() {
-        StringBuilder sBuilder = new StringBuilder();
-        if (!Objects.isNull(getData())) {
-            sBuilder.append(getData());
-            if (!Objects.isNull(getNext())) {
-                sBuilder.append(", ").append(getNext().toString());
-            }
-        }
-
-        return sBuilder.toString();
-    }
-
-    /**
-     * @param data
-     * @param <T>
-     * @return
-     */
-    public static <T> ListNode<T> newNode(T data) {
-        return new ListNode<>(data);
+        return Objects.toString(data);
     }
 
 }

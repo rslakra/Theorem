@@ -1,4 +1,4 @@
-package com.devamatre.theorem.queue;
+package com.devamatre.theorem.algos.queue;
 
 import java.util.Deque;
 import java.util.LinkedList;

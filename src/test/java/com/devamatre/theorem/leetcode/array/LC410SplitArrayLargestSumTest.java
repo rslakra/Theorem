@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC410SplitArrayLargestSumTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC410SplitArrayLargestSumTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC410SplitArrayLargestSumTest.class);
 
     /**
      * @return
@@ -33,7 +33,7 @@ public class LC410SplitArrayLargestSumTest {
     }
 
     /**
-     * Tests the <code>splitArray()</code> method
+     * Tests the <code>splitArray()</code> method.
      * <pre>
      * Example 1:
      * Input: nums = [7,2,5,10,8], k = 2

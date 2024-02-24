@@ -46,7 +46,7 @@ public class ListStack<E> extends ArrayList<E> implements Stack<E> {
     /**
      * @param item
      * @return
-     * @see com.devamatre.coder.stack.Stack#push(java.lang.Object)
+     * @see Stack#push(java.lang.Object)
      */
     @Override
     public E push(E item) {
@@ -66,7 +66,7 @@ public class ListStack<E> extends ArrayList<E> implements Stack<E> {
 
     /**
      * @return
-     * @see com.devamatre.coder.stack.Stack#pop()
+     * @see Stack#pop()
      */
     @Override
     public E pop() {
@@ -75,7 +75,7 @@ public class ListStack<E> extends ArrayList<E> implements Stack<E> {
 
     /**
      * @return
-     * @see com.devamatre.coder.stack.Stack#peek()
+     * @see Stack#peek()
      */
     @Override
     public E peek() {
@@ -84,7 +84,7 @@ public class ListStack<E> extends ArrayList<E> implements Stack<E> {
 
     /**
      * @return
-     * @see com.devamatre.coder.stack.Stack#empty()
+     * @see Stack#empty()
      */
     @Override
     public boolean empty() {

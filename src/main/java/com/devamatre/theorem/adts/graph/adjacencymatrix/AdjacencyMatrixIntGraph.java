@@ -1,5 +1,7 @@
 package com.devamatre.theorem.adts.graph.adjacencymatrix;
 
+import com.devamatre.theorem.adts.NumberUtils;
+import com.devamatre.theorem.adts.graph.Edge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,10 +23,10 @@ import java.util.Objects;
  * <pre>
  *  inputData:
  *  {
- *  {0, 4, 0, 8},
- *  {0, 0, 6, 2},
- *  {0, 6, 0, 1},
- *  {8, 2, 1, 0},
+ *   {0, 4, 0, 8},
+ *   {0, 0, 6, 2},
+ *   {0, 6, 0, 1},
+ *   {8, 2, 1, 0},
  *  }
  *
  *  Graph Representation:
@@ -83,13 +85,30 @@ public class AdjacencyMatrixIntGraph extends AdjacencyMatrixGraph<Integer> {
     public void addEdge(Integer source, Integer target, BigDecimal weight) {
         LOGGER.debug("addEdge({}, {}, {})", source, target, weight);
         checkIndices(source, target);
-        adjMatrix[source][target] = Objects.isNull(weight) ? 0 : weight;
-        // if not directed graph, b
-//        if (!isDirected()) {
-//            adjMatrix[target][source] = Objects.isNull(weight) ? 0 : weight;
-//        }
+        weight = NumberUtils.nullSafeGet(weight);
+        adjMatrix.get(source).add(Edge.of(source, target, weight));
+        // adjMatrix[source][target] = weight;
+        // increaseSize();
+        // if not directed graph
+        if (!isDirected()) {
+            adjMatrix.get(target).add(Edge.of(target, source, weight));
+            // adjMatrix[target][source] = weight;
+            // increaseSize();
+        }
     }
 
+    /**
+     * @param source
+     * @param target
+     * @return
+     */
+    private boolean hasWeight(Integer source, Integer target) {
+        return adjMatrix.get(source).stream()
+            .filter(edge -> edge.getTarget().compareTo(target) == 0 && Objects.nonNull(edge.getWeight()))
+            .findFirst()
+            .isPresent();
+        // return BigDecimal.ZERO.compareTo(NumberUtils.toBigDecimal(getVertex(source, target))) == 0;
+    }
 
     /**
      * Returns true if there is an edge between the <code>source</code> and <code>target</code> vertices otherwise
@@ -103,26 +122,9 @@ public class AdjacencyMatrixIntGraph extends AdjacencyMatrixGraph<Integer> {
     public boolean hasEdge(Integer source, Integer target) {
         checkIndices(source, target);
         if (isDirected()) {
-            return new BigDecimal(adjMatrix[source][target].toString()).intValue() != 0;
+            return hasWeight(source, target);
         } else {
-            return new BigDecimal(adjMatrix[source][target].toString()).intValue() != 0
-                   || new BigDecimal(adjMatrix[target][source].toString()).intValue() != 0;
-        }
-    }
-
-    /**
-     * Removes the edge between the <code>source</code> and <code>target</code> vertices.
-     *
-     * @param source
-     * @param target
-     */
-    @Override
-    public void removeEdge(Integer source, Integer target) {
-        checkIndices(source, target);
-        adjMatrix[source][target] = 0;
-        // if not directed graph, b
-        if (!isDirected()) {
-            adjMatrix[target][source] = 0;
+            return hasWeight(source, target) || hasWeight(target, source);
         }
     }
 

@@ -3,28 +3,32 @@
  */
 package com.devamatre.theorem.leetcode.linkedlist;
 
-
 import com.devamatre.theorem.leetcode.list.ListNode;
+import com.devamatre.theorem.leetcode.list.ListUtils;
 
 /**
  * @author Rohtash Lakra
  */
 public class LinkedList<E> {
 
-    private ListNode<E> root;
+    private ListNode<E> head;
     private int size = 0;
 
     public LinkedList() {
     }
 
     /**
+     * Returns the <code>head</code> node.
+     *
      * @return
      */
-    public ListNode<E> getRoot() {
-        return root;
+    public ListNode<E> getHead() {
+        return head;
     }
 
     /**
+     * Returns the size of the linked list.
+     *
      * @return
      */
     public int getSize() {
@@ -32,27 +36,46 @@ public class LinkedList<E> {
     }
 
     /**
+     * Adds the node the end of the linked list.
+     *
      * @param rootNode
      * @param data
      */
-    protected ListNode<E> addLast(ListNode<E> rootNode, E data) {
+    private ListNode<E> addNode(ListNode<E> rootNode, E data) {
         if (rootNode == null) {
+            rootNode = new ListNode<E>(data);
             size++;
-            return new ListNode<E>(data);
         } else {
-            rootNode.setNext(addLast(rootNode.getNext(), data));
-            return rootNode;
+            rootNode.next = addNode(rootNode.next, data);
+        }
+
+        return rootNode;
+    }
+
+    /**
+     * Adds the node the end of the linked list.
+     *
+     * @param data
+     */
+    public void addNode(E[] data) {
+        for (int i = 0; i < data.length; i++) {
+            addNode(data[i]);
         }
     }
 
     /**
+     * Adds the node the end of the linked list.
+     *
      * @param data
      */
-    public void addLast(E data) {
-        root = addLast(root, data);
+    public void addNode(E data) {
+        head = addNode(head, data);
     }
 
+
     /**
+     * Returns the node if exists otherwise null.
+     *
      * @param rootNode
      * @param data
      * @return
@@ -60,22 +83,26 @@ public class LinkedList<E> {
     protected ListNode<E> findNode(ListNode<E> rootNode, E data) {
         if (rootNode == null) {
             return null;
-        } else if (rootNode.getData().equals(data)) {
+        } else if (rootNode.data.equals(data)) {
             return rootNode;
         }
 
-        return findNode(rootNode.getNext(), data);
+        return findNode(rootNode.next, data);
     }
 
     /**
+     * Returns the node if exists otherwise null.
+     *
      * @param data
      * @return
      */
     public ListNode<E> findNode(E data) {
-        return findNode(root, data);
+        return findNode(head, data);
     }
 
     /**
+     * Removes the node from the linked list.
+     *
      * @param rootNode
      * @param data
      * @return
@@ -85,147 +112,50 @@ public class LinkedList<E> {
             return null;
         }
 
-        if (rootNode.getData().equals(data)) {
+        if (rootNode.data.equals(data)) {
             if (parentNode == null) {
-                root = root.getNext();
+                head = head.next;
+                size--;
             } else {
-                parentNode.setNext(rootNode.getNext());
+                parentNode.next = rootNode.next;
+                size--;
             }
 
             return rootNode;
         }
 
-        return removeNode(rootNode, rootNode.getNext(), data);
+        return removeNode(rootNode, rootNode.next, data);
     }
 
     /**
+     * Removes the node from the linked list.
+     *
      * @param data
      * @return
      */
     public ListNode<E> removeNode(E data) {
-        return removeNode(null, root, data);
+        return removeNode(null, head, data);
     }
 
     /**
-     * @param listNode
-     * @return
-     */
-    public Integer toInteger(ListNode<E> listNode) {
-        if (listNode != null) {
-            return (Integer) listNode.getData();
-        }
-
-        return 0;
-    }
-
-    /**
-     * Returns the nodes and return the sum.
+     * Returns the sum of the <code>leftOperand</code> and <code>rightOperand</code>.
      *
      * @param leftOperand
      * @param rightOperand
      * @return
      */
-    protected int addNodes(ListNode<E> leftOperand, ListNode<E> rightOperand) {
-        if (leftOperand != null && rightOperand != null) {
-            return (toInteger(leftOperand) + toInteger(rightOperand));
-        } else {
-            if (leftOperand == null) {
-                return toInteger(rightOperand);
-            }
-
-            if (rightOperand == null) {
-                return toInteger(leftOperand);
-            }
-
-            return 0;
-        }
+    protected E sumNodes(ListNode<E> leftOperand, ListNode<E> rightOperand) {
+        return null;
     }
 
     /**
-     * @param other
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public LinkedList<E> sum(LinkedList<E> other) {
-        LinkedList<E> sumList = new LinkedList<>();
-        if (root != null || other != null) {
-            ListNode<E> leftOperand = root;
-            ListNode<E> rightOperand = other.getRoot();
-            int carry = 0;
-            while (leftOperand != null || rightOperand != null) {
-                int sum = addNodes(leftOperand, rightOperand) + carry;
-                carry = sum / 10;
-                sum = sum % 10;
-                sumList.addLast((E) Integer.valueOf(sum));
-                if (leftOperand != null) {
-                    leftOperand = leftOperand.getNext();
-                }
-
-                if (rightOperand != null) {
-                    rightOperand = rightOperand.getNext();
-                }
-            }
-
-            if (carry > 0) {
-                sumList.addLast((E) Integer.valueOf(carry));
-            }
-        }
-
-        return sumList;
-    }
-
-    /**
-     * @param other
-     * @return
-     */
-    public ListNode<E> multiply(ListNode<E> other) {
-        return other;
-    }
-
-    /**
+     * Returns the string representation of this object.
      *
+     * @return
      */
     @Override
     public String toString() {
-        StringBuilder sBuilder = new StringBuilder("[");
-        ListNode<E> current = root;
-        while (current != null) {
-            if (sBuilder.length() > 1) {
-                sBuilder.append(", ");
-            }
-            sBuilder.append(current.getData().toString());
-            current = current.getNext();
-        }
-
-        sBuilder.append("]");
-        return sBuilder.toString();
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        LinkedList<Integer> linkList = new LinkedList<>();
-        // linkList.addLast(5);
-        linkList.addLast(4);
-        linkList.addLast(3);
-        System.out.println(linkList);
-        System.out.println("Size:" + linkList.getSize());
-        System.out.println("Found:" + linkList.findNode(4));
-        // System.out.println("Removed Node:" + linkList.removeNode(5));
-        // System.out.println(linkList);
-        LinkedList<Integer> linkList2 = new LinkedList<>();
-        linkList2.addLast(5);
-        linkList2.addLast(6);
-        linkList2.addLast(4);
-        System.out.println(linkList2);
-        System.out.println("Size:" + linkList2.getSize());
-        System.out.println("Found:" + linkList.findNode(0));
-
-        LinkedList<Integer> sumList = linkList.sum(linkList2);
-        System.out.println(sumList);
-        System.out.println("Size:" + sumList.getSize());
-
+        return ListUtils.toString(head);
     }
 
 }

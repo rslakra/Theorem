@@ -9,8 +9,10 @@ import com.devamatre.theorem.adts.lang.Maths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
@@ -26,9 +28,90 @@ public enum NumberUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(NumberUtils.class);
     private boolean active = false;
 
-    //place values
-
     NumberUtils() {
+    }
+
+    /**
+     * Returns the <code>Double</code> value of the provided int <code>value</code>.
+     *
+     * @param value
+     * @return
+     */
+    public static Double asDouble(int value) {
+        return Double.valueOf(value);
+    }
+
+    /**
+     * Returns the <code>Float</code> value of the provided int <code>value</code>.
+     *
+     * @param value
+     * @return
+     */
+    public static Float asFloat(int value) {
+        return Float.valueOf(value);
+    }
+
+    /**
+     * Returns the <code>Double</code> value of the provided int <code>value</code>.
+     *
+     * @param value
+     * @return
+     */
+    public static Integer asInteger(Comparable value) {
+        return (Integer) value;
+    }
+
+    /**
+     * Returns the <code>Double</code> value of the provided <code>left</code> and <code>right</code> integers.
+     *
+     * @param left
+     * @param right
+     * @return
+     */
+    public static Double multiply(int left, int right) {
+        return Double.valueOf(left * right);
+    }
+
+    /**
+     * Returns the null safe value of the <code>number</code>.
+     *
+     * @param number
+     * @return
+     */
+    public static BigDecimal nullSafeGet(BigDecimal number) {
+        return Objects.isNull(number) ? BigDecimal.ZERO : number;
+    }
+
+    /**
+     * @param value
+     * @return
+     */
+    public static boolean isEqualsToZero(BigDecimal value) {
+        return BigDecimal.ZERO.compareTo(value) == 0;
+    }
+
+    /**
+     * @param value
+     * @return
+     */
+    public static boolean isGreaterThanZero(BigDecimal value) {
+        return BigDecimal.ZERO.compareTo(value) > 0;
+    }
+
+    /**
+     * @param value
+     * @return
+     */
+    public static boolean isLessThanZero(BigDecimal value) {
+        return BigDecimal.ZERO.compareTo(value) > 0;
+    }
+
+    /**
+     * @param object
+     * @return
+     */
+    public static BigDecimal toBigDecimal(Object object) {
+        return BeanUtils.asType(Objects.toString(object), BigDecimal.class);
     }
 
     /**

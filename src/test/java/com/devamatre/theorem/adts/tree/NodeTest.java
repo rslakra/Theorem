@@ -48,7 +48,6 @@ public class NodeTest {
         // TODO - REMOVE NODE
     }
 
-
     /**
      * Data Input
      *

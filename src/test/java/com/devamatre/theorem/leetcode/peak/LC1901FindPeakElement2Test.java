@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC1901FindPeakElement2Test {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC1901FindPeakElement2Test.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC1901FindPeakElement2Test.class);
 
     /**
      * @return
@@ -39,7 +39,7 @@ public class LC1901FindPeakElement2Test {
     }
 
     /**
-     * Tests the <code>findPeakGrid()</code> method
+     * Tests the <code>findPeakGrid()</code> method.
      *
      * @param number
      * @param expected

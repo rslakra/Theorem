@@ -77,7 +77,7 @@ public enum TreeUtils {
     public static final String LEFT = "┌─";
     public static final String RIGHT = "─┐";
     public static final String DASH = "─";
-    public static final Integer MINUS_ONE = new Integer(-1);
+    public static final Integer MINUS_ONE = Integer.valueOf(-1);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeUtils.class);
 
@@ -687,7 +687,7 @@ public enum TreeUtils {
      */
     private static <E extends Comparable<? super E>> String buildSpatialBlock(final Node<E> node, int spaces) {
         return (node == null ? String.format("%" + (2 * spaces + 1) + "s%n", "")
-//                : String.format("%" + (spaces + 1) + "s%" + spaces + "s", node.getValue(), "")
+// : String.format("%" + (spaces + 1) + "s%" + spaces + "s", node.getValue(), "")
                              : String.format("%" + (spaces + 1) + "s%" + spaces + "s", LEFT + node.getData() + RIGHT,
                                              ""));
     }
@@ -825,46 +825,46 @@ public enum TreeUtils {
 
 // List<Node> newNodes = new ArrayList<>();
 // for (Node node : list) {
-//            if (node != null) {
-//                System.out.print(node.getValue());
-//                newNodes.add(node.getLeft());
-//                newNodes.add(node.getRight());
-//            } else {
-//                newNodes.add(null);
-//                newNodes.add(null);
-//                System.out.print(SPACE);
-//            }
+// if (node != null) {
+// System.out.print(node.getValue());
+// newNodes.add(node.getLeft());
+// newNodes.add(node.getRight());
+// } else {
+// newNodes.add(null);
+// newNodes.add(null);
+// System.out.print(SPACE);
+// }
 //
-//            printWhiteSpaces(gapBetweenNodes);
+// printWhiteSpaces(gapBetweenNodes);
 // }
 // System.out.println("");
 
 // for (int i = 1; i <= edgeLines; i++) {
-//            for (int j = 0; j < list.size(); j++) {
-//                printWhiteSpaces(firstSpaces - i);
-//                if (list.get(j) == null) {
-//                    printWhiteSpaces(edgeLines + edgeLines + i + 1);
-//                    continue;
-//                }
+// for (int j = 0; j < list.size(); j++) {
+// printWhiteSpaces(firstSpaces - i);
+// if (list.get(j) == null) {
+// printWhiteSpaces(edgeLines + edgeLines + i + 1);
+// continue;
+// }
 //
-//                if (list.get(j).hasLeft()) {
-//                    System.out.print(BACK_SLASH);
-//                } else {
-//                    printWhiteSpaces(1);
-//                }
+// if (list.get(j).hasLeft()) {
+// System.out.print(BACK_SLASH);
+// } else {
+// printWhiteSpaces(1);
+// }
 //
-//                printWhiteSpaces(i + i - 1);
+// printWhiteSpaces(i + i - 1);
 //
-//                if (list.get(j).hasRight()) {
-//                    System.out.print(SLASH);
-//                } else {
-//                    printWhiteSpaces(1);
-//                }
+// if (list.get(j).hasRight()) {
+// System.out.print(SLASH);
+// } else {
+// printWhiteSpaces(1);
+// }
 //
-//                printWhiteSpaces(edgeLines + edgeLines - i);
-//            }
+// printWhiteSpaces(edgeLines + edgeLines - i);
+// }
 //
-//            System.out.println("");
+// System.out.println("");
 // }
 
         treeBuilder.append(prettyTreeHorizontally(node.getLeft(), minLevel + 1, maxLevel));
@@ -962,7 +962,7 @@ public enum TreeUtils {
                 for (int k = 0; k < levelOrder.size(); k++) {
                     // print per row left spaces
                     int perRowLeftSpaces = leftSpaces - (2 * level);
-//                    LOGGER.debug("perRowLeftSpaces:{}", perRowLeftSpaces);
+// LOGGER.debug("perRowLeftSpaces:{}", perRowLeftSpaces);
                     TreeUtils.printWhiteSpaces(perRowLeftSpaces);
                     System.out.print(levelOrder.get(k));
                 }
@@ -974,35 +974,35 @@ public enum TreeUtils {
                 }
             }
 
-//            Queue<Node<E>> queue = new LinkedList<>();
-//            queue.add(rootNode);
-//            while (!queue.isEmpty()) {
-//                int size = queue.size();
-//                level++;
-//                while (size > 0) {
-//                    int floor = maxLevels - level;
-//                    int edgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
-//                    Node<E> tempNode = queue.remove();
-//                    int sideSpaces = floor * edgeLines;
-//                    // print current tempNode
-//                    int leftSpaces = (int) Math.pow(2, (edgeLines + 1)) - 1;
-//                    addSpaces(leftSpaces, treeBuilder);
-//                    addNode(sideSpaces, treeBuilder, tempNode);
-//                    addSpaces(leftSpaces - 1, treeBuilder);
+// Queue<Node<E>> queue = new LinkedList<>();
+// queue.add(rootNode);
+// while (!queue.isEmpty()) {
+// int size = queue.size();
+// level++;
+// while (size > 0) {
+// int floor = maxLevels - level;
+// int edgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
+// Node<E> tempNode = queue.remove();
+// int sideSpaces = floor * edgeLines;
+// // print current tempNode
+// int leftSpaces = (int) Math.pow(2, (edgeLines + 1)) - 1;
+// addSpaces(leftSpaces, treeBuilder);
+// addNode(sideSpaces, treeBuilder, tempNode);
+// addSpaces(leftSpaces - 1, treeBuilder);
 //
-//                    // add left tempNode if available
-//                    if (tempNode.getLeft() != null) {
-//                        queue.add(tempNode.getLeft());
-//                    }
+// // add left tempNode if available
+// if (tempNode.getLeft() != null) {
+// queue.add(tempNode.getLeft());
+// }
 //
-//                    // add right tempNode if available
-//                    if (tempNode.getRight() != null) {
-//                        queue.add(tempNode.getRight());
-//                    }
-//                    size--;
-//                }
-//                treeBuilder.append(NEW_LINE);
-//            }
+// // add right tempNode if available
+// if (tempNode.getRight() != null) {
+// queue.add(tempNode.getRight());
+// }
+// size--;
+// }
+// treeBuilder.append(NEW_LINE);
+// }
         }
 
         return treeBuilder;
@@ -1950,7 +1950,7 @@ public enum TreeUtils {
         StringBuilder strBuilder = new StringBuilder();
         if (Objects.nonNull(rootNode)) {
             if (!rootNode.hasParent()) {
-//                strBuilder.append("|").append(NEW_LINE);
+// strBuilder.append("|").append(NEW_LINE);
                 strBuilder.append(NEW_LINE);
             }
             strBuilder.append(rootNode.getData());

@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class FibonacciSeriesTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(FibonacciSeriesTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FibonacciSeriesTest.class);
 
     /**
      * @return
@@ -44,7 +44,7 @@ public class FibonacciSeriesTest {
     }
 
     /**
-     * Tests the <code>printFibonacci()</code> method
+     * Tests the <code>printFibonacci()</code> method.
      *
      * @param number
      * @param expected
@@ -57,7 +57,7 @@ public class FibonacciSeriesTest {
     }
 
     /**
-     * Tests the <code>printFibonacci()</code> method
+     * Tests the <code>printFibonacci()</code> method.
      *
      * @param number
      * @param expected
@@ -69,7 +69,7 @@ public class FibonacciSeriesTest {
 
 
     /**
-     * Tests the <code>printFibonacci()</code> method
+     * Tests the <code>printFibonacci()</code> method.
      *
      * @param number
      * @param expected
@@ -80,7 +80,7 @@ public class FibonacciSeriesTest {
     }
 
     /**
-     * Tests the <code>printFibonacci()</code> method
+     * Tests the <code>printFibonacci()</code> method.
      *
      * @param number
      * @param expected

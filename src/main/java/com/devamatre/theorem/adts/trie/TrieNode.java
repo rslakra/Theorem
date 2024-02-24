@@ -26,9 +26,6 @@ import com.devamatre.appsuite.core.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 /**
  * Maintains the trie data structure.
  *
@@ -42,36 +39,88 @@ import java.util.TreeMap;
  * @created 2018-09-11 05:07:50 PM
  * @since 1.0.0
  */
-public class TrieNode {
+public abstract class TrieNode<E extends Comparable<? super E>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrieNode.class);
-    private Map<Character, TrieNode> children;
-    private boolean leaf;
+    private E value;
+    private boolean endOfKey;
+    private int size = 0;
 
     /**
-     *
+     * @param value
+     */
+    public TrieNode(E value) {
+        LOGGER.trace("TrieNode()");
+        this.value = value;
+    }
+
+    /**
+     * Default Constructor.
      */
     public TrieNode() {
-        LOGGER.trace("TrieNode()");
-        children = new TreeMap<>();
+        this(null);
     }
 
     /**
-     * Returns the <code>children</code> object.
+     * Returns the value of the <code>value</code> property.
      *
      * @return
      */
-    protected Map<Character, TrieNode> getChildren() {
-        return children;
+    public E getValue() {
+        return value;
     }
 
     /**
-     * Returns the value of the <code>leaf</code>.
+     * The <code>value</code> to be set.
+     *
+     * @param value
+     */
+    public void setValue(E value) {
+        this.value = value;
+    }
+
+    /**
+     * Returns the value of the <code>endOfKey</code> property.
      *
      * @return
      */
-    public final boolean isLeaf() {
-        return leaf;
+    public final boolean isEndOfKey() {
+        return endOfKey;
+    }
+
+    /**
+     * The <code>leaf</code> to be set.
+     *
+     * @param endOfKey
+     */
+    public final void setEndOfKey(boolean endOfKey) {
+        this.endOfKey = endOfKey;
+    }
+
+    /**
+     * Returns the value of the <code>size</code> property.
+     *
+     * @return
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * Increases the size of the nodes count.
+     */
+    protected void increaseSize() {
+        size++;
+    }
+
+    /**
+     * Increases the size of the nodes count.
+     */
+    protected void decreaseSize() {
+        size--;
+        if (size < 0) {
+            size = 0;
+        }
     }
 
     /**
@@ -79,21 +128,7 @@ public class TrieNode {
      *
      * @param key
      */
-    public void insert(String key) {
-        LOGGER.debug("+insert({})", key);
-        if (key != null) {
-            TrieNode trieNode = this;
-            for (int i = 0; i < key.length(); i++) {
-                Character nodeKey = key.charAt(i);
-                if (!trieNode.children.containsKey(nodeKey)) {
-                    trieNode.children.put(nodeKey, new TrieNode());
-                }
-                trieNode = trieNode.children.get(nodeKey);
-            }
-            trieNode.leaf = true;
-        }
-        LOGGER.debug("-insert()");
-    }
+    public abstract void insert(String key);
 
     /**
      * Returns true if the key exists otherwise false.
@@ -101,52 +136,7 @@ public class TrieNode {
      * @param key
      * @return
      */
-    public boolean find(String key) {
-        LOGGER.debug("+find({})", key);
-        if (key != null) {
-            TrieNode trieNode = this;
-            for (int i = 0; i < key.length(); i++) {
-                Character nodeKey = key.charAt(i);
-                if (!trieNode.children.containsKey(nodeKey)) {
-                    LOGGER.debug("-find(), contains:false");
-                    return false;
-                }
-                trieNode = trieNode.children.get(nodeKey);
-            }
-
-            LOGGER.debug("-find(), leaf:{}", trieNode.isLeaf());
-            return trieNode.isLeaf();
-        }
-
-        LOGGER.debug("-find(), false");
-        return false;
-    }
-
-    /**
-     * Returns true if it has children otherwise false.
-     *
-     * @return
-     */
-    public boolean hasChildren() {
-        return (!children.isEmpty());
-    }
-
-    /**
-     * Returns the size of the current node.
-     *
-     * @return
-     */
-    public int getSize() {
-        int size = 0;
-        if (!children.isEmpty()) {
-            for (Character key : children.keySet()) {
-                size += children.get(key).getSize();
-            }
-            size += children.size();
-        }
-
-        return size;
-    }
+    public abstract boolean find(String key);
 
     /**
      * Returns true if the key is deleted otherwise false.
@@ -154,27 +144,7 @@ public class TrieNode {
      * @param key
      * @return
      */
-    public boolean delete(final String key) {
-        boolean nodeDeleted = false;
-        if (key != null) {
-            TrieNode trieNode = this;
-            // iterate over all characters of the key
-            for (int i = 0; i < key.length(); i++) {
-                Character nodeKey = key.charAt(i);
-                if (trieNode.children.containsKey(nodeKey)) {
-                    trieNode = trieNode.children.get(nodeKey);
-                }
-            }
-
-            // if it's the last trieNode, mark the leaf trieNode = false
-            if (trieNode.isLeaf()) {
-                trieNode.leaf = false;
-                nodeDeleted = true;
-            }
-        }
-
-        return nodeDeleted;
-    }
+    public abstract boolean delete(String key);
 
     /**
      * Returns the string representation of this object.
@@ -183,10 +153,7 @@ public class TrieNode {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        final ToString strBuilder = ToString.of(TrieNode.class, true);
-        strBuilder.add(children.toString());
-        strBuilder.add("leaf", isLeaf());
-        return strBuilder.toString();
+        return ToString.of(TrieNode.class, true).add("value", getValue()).add("endOfKey", isEndOfKey()).toString();
     }
 
 }

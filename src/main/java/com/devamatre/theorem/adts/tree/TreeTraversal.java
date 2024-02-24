@@ -5,6 +5,17 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * To traverse binary trees with depth-first search, perform the following operations at each node:
+ * <pre>
+ *  If the current node is empty then return.
+ *  Execute the following three operations in a certain order:
+ *  - N: Visit the current node.
+ *  - L: Recursively traverse the current node's left subtree.
+ *  - R: Recursively traverse the current node's right subtree.
+ * </pre>
+ *
+ * <url>https://en.wikipedia.org/wiki/Tree_traversal</url>
+ *
  * @author Rohtash Lakra
  * @created 12/13/23 2:10 PM
  */

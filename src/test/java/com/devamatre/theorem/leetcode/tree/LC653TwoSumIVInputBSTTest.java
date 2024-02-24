@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class LC653TwoSumIVInputBSTTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC653TwoSumIVInputBSTTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC653TwoSumIVInputBSTTest.class);
 
     /**
      * @return
@@ -39,7 +39,7 @@ public class LC653TwoSumIVInputBSTTest {
     }
 
     /**
-     * Tests the <code>findTarget()</code> method
+     * Tests the <code>findTarget()</code> method.
      *
      * @param inputData
      * @param expected

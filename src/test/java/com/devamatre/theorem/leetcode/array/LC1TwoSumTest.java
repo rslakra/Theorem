@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC1TwoSumTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC1TwoSumTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC1TwoSumTest.class);
 
     /**
      * @return
@@ -35,7 +35,7 @@ public class LC1TwoSumTest {
     }
 
     /**
-     * Tests the <code>twoSum()</code> method
+     * Tests the <code>twoSum()</code> method.
      *
      * @param inputData
      * @param expected

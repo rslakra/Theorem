@@ -11,6 +11,11 @@ public class LC15ThreeSum {
     /**
      * <url>https://leetcode.com/problems/3sum</url>
      *
+     * <pre>
+     *  Time Complexity: O(1)
+     *  Space Complexity: O(1)
+     * </pre>
+     *
      * @param nums
      * @return
      */

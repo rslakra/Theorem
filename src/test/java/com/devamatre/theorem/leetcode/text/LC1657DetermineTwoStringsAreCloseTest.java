@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC1657DetermineTwoStringsAreCloseTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC1657DetermineTwoStringsAreCloseTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC1657DetermineTwoStringsAreCloseTest.class);
 
     /**
      * @return

@@ -1,8 +1,10 @@
 package com.devamatre.theorem.adts.graph.matrix2d;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import com.devamatre.theorem.adts.graph.AbstractGraphTest;
+import com.devamatre.theorem.adts.graph.GraphUtilsTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
@@ -19,7 +21,7 @@ public class GraphWith2DMatrixTest extends AbstractGraphTest {
      * Tests the <code>createGraph</code> method.
      */
     @Override
-    public void testCreateGraph() {
+    public void testBuildGraph() {
 
     }
 
@@ -51,7 +53,31 @@ public class GraphWith2DMatrixTest extends AbstractGraphTest {
      * Tests the <code></code> method.
      */
     @Override
-    public void testStartNode() {
+    public void testGetVertices() {
+
+    }
+
+    /**
+     * Tests the <code></code> method.
+     */
+    @Override
+    public void testGetNeighbors() {
+
+    }
+
+    /**
+     * Tests the <code></code> method.
+     */
+    @Override
+    public void testPrintGraph() {
+
+    }
+
+    /**
+     * Tests the <code></code> method.
+     */
+    @Override
+    public void testFirstVertex() {
 
     }
 
@@ -99,23 +125,7 @@ public class GraphWith2DMatrixTest extends AbstractGraphTest {
      * Tests the <code></code> method.
      */
     @Override
-    public void testGetNeighbors() {
-
-    }
-
-    /**
-     * Tests the <code></code> method.
-     */
-    @Override
     public void testGetVerticesConnectedTo() {
-
-    }
-
-    /**
-     * Tests the <code></code> method.
-     */
-    @Override
-    public void testPrintGraph() {
 
     }
 
@@ -162,16 +172,16 @@ public class GraphWith2DMatrixTest extends AbstractGraphTest {
     @Test
     public void testGraph() {
         GraphWith2DMatrix<Integer> graph = new GraphWith2DMatrix<>();
-        createGraph(graph);
+        GraphUtilsTest.fillGraph(graph, false);
         LOGGER.debug("graph:{}", graph);
         assertNotNull(graph);
-//        assertEquals(5, graph.getSize());
-//
-//        // Print the adjacency list representation of the above graph
-//        graph.printGraph();
-//
-//        // Search the given edge in the graph
-//        graph.searchEdge(2, 1);
-//        graph.searchEdge(0, 3);
+        assertEquals(5, graph.getSize());
+
+        // // Print the adjacency list representation of the above graph
+        // graph.printGraph();
+        //
+        // // Search the given edge in the graph
+        // graph.searchEdge(2, 1);
+        //  graph.searchEdge(0, 3);
     }
 }

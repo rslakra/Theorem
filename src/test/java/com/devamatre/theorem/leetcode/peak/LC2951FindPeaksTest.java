@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC2951FindPeaksTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC2951FindPeaksTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC2951FindPeaksTest.class);
 
     /**
      * @return
@@ -39,7 +39,7 @@ public class LC2951FindPeaksTest {
     }
 
     /**
-     * Tests the <code>findPeaks()</code> method
+     * Tests the <code>findPeaks()</code> method.
      *
      * @param number
      * @param expected

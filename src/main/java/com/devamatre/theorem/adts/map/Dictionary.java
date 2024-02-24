@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Dictionary<K, V> extends HashTable<K, V> {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(Dictionary.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Dictionary.class);
 
     /**
      *

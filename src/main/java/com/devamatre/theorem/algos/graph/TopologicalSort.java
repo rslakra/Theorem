@@ -1,5 +1,10 @@
 package com.devamatre.theorem.algos.graph;
 
+import com.devamatre.theorem.adts.graph.vertex.Vertex;
+import com.devamatre.theorem.adts.graph.vertex.VertexBasedGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
@@ -10,30 +15,11 @@ import java.util.Set;
  * @version 1.0.0
  * @created Aug 13, 2019 8:12:20 PM
  */
-public class TopologicalSort<T> {
+public class TopologicalSort<E extends Comparable<? super E>> {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(TopologicalSort.class);
 
     public TopologicalSort() {
-    }
-
-    /**
-     * @param graph
-     * @return
-     */
-    public Deque<Vertex<T>> topSort(Graph<T> graph) {
-        final Deque<Vertex<T>> stack = new ArrayDeque<>();
-        final Set<Vertex<T>> visited = new HashSet<>();
-
-        /*
-        // visit all vertices of the graph
-        for (Vertex<T> vertix : graph.getVertices()) {
-            // if not visited, visit the vertix
-            if (!visited.contains(vertix)) {
-                topSort(vertix, stack, visited);
-            }
-        }
-         */
-
-        return stack;
     }
 
     /**
@@ -41,42 +27,37 @@ public class TopologicalSort<T> {
      * @param stack
      * @param visited
      */
-    private final void topSort(Vertex<T> vertex, Deque<Vertex<T>> stack, Set<Vertex<T>> visited) {
+    private void topSort(Vertex<E> vertex, Deque<Vertex<E>> stack, Set<Vertex<E>> visited) {
         visited.add(vertex);
 
-        /*
         // find all children of the current node.
-        for (Vertex<T> child : vertex.getAdjacentVertices()) {
+        for (Vertex<E> neighbor : vertex.getNeighbors()) {
             // if not visited, explore it.
-            if (!visited.contains(child)) {
-                topSort(child, stack, visited);
+            if (!visited.contains(neighbor)) {
+                topSort(neighbor, stack, visited);
             }
         }
-         */
 
         stack.offerFirst(vertex);
     }
 
     /**
-     * @param args
+     * @param graph
+     * @return
      */
-    public static void main(String[] args) {
-        Graph<Integer> graph = new Graph<Integer>(true);
-        /*
-        graph.addEdge(1, 3);
-        graph.addEdge(1, 2);
+    public Deque<Vertex<E>> topSort(VertexBasedGraph<E> graph) {
+        final Deque<Vertex<E>> stack = new ArrayDeque<>();
+        final Set<Vertex<E>> visited = new HashSet<>();
 
-        graph.addEdge(3, 5);
-        graph.addEdge(3, 4);
-
-        graph.addEdge(4, 6);
-         */
-
-        TopologicalSort<Integer> tSort = new TopologicalSort<>();
-        Deque<Vertex<Integer>> graphSorted = tSort.topSort(graph);
-        while (!graphSorted.isEmpty()) {
-            System.out.println(graphSorted.poll());
+        // visit all vertices of the graph
+        for (Vertex<E> vertex : graph.getAllVertices()) {
+            // if not visited, visit the vertex
+            if (!visited.contains(vertex)) {
+                topSort(vertex, stack, visited);
+            }
         }
+
+        return stack;
     }
 
 }

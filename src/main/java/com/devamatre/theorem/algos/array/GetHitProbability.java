@@ -1,5 +1,7 @@
 package com.devamatre.theorem.algos.array;
 
+import com.devamatre.theorem.adts.NumberUtils;
+
 /**
  * @author Rohtash Lakra
  * @created 12/14/23 4:08 PM
@@ -13,7 +15,7 @@ public class GetHitProbability {
      * @return
      */
     public double getHitProbability(int R, int C, int[][] G) {
-        Double div = new Double(R) * new Double(C);
+        Double div = NumberUtils.multiply(R, C);
         Double count = 0.0;
         for (int i = 0; i < G.length; i++) {
             for (int j = 0; j < G[0].length; j++) {

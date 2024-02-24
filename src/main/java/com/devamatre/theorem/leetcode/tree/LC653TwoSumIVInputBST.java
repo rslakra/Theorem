@@ -24,6 +24,11 @@ public class LC653TwoSumIVInputBST {
     /**
      * <url>https://leetcode.com/problems/two-sum-iv-input-is-a-bst</url>
      *
+     * <pre>
+     *  Time Complexity: <code>O(log N)</code>
+     *  Space Complexity: <code>O(1)</code>
+     * </pre>
+     *
      * @param root
      * @param k
      * @return

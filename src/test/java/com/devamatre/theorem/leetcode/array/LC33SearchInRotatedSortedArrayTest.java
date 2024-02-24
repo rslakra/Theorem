@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class LC33SearchInRotatedSortedArrayTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(LC33SearchInRotatedSortedArrayTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC33SearchInRotatedSortedArrayTest.class);
 
     /**
      * @return
@@ -38,7 +38,7 @@ public class LC33SearchInRotatedSortedArrayTest {
     }
 
     /**
-     * Tests the <code>search()</code> method
+     * Tests the <code>search()</code> method.
      *
      * @param input
      * @param expected

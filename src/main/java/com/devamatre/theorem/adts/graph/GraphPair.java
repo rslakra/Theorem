@@ -1,6 +1,6 @@
 package com.devamatre.theorem.adts.graph;
 
-import com.devamatre.theorem.adts.Pair;
+import com.devamatre.theorem.adts.lang.Pair;
 
 import java.math.BigDecimal;
 import java.util.Objects;

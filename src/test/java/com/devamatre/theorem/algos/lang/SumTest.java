@@ -18,10 +18,10 @@ import java.util.List;
  */
 public class SumTest {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(SumTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SumTest.class);
 
     /**
-     * Tests the <code>sumOfNOddNumbers()</code> method
+     * Tests the <code>sumOfNOddNumbers()</code> method.
      */
     @Test
     public void testSumOfNOddNumbers() {
@@ -50,7 +50,7 @@ public class SumTest {
     }
 
     /**
-     * Tests the <code>sumOfOddNumbers()</code> method
+     * Tests the <code>sumOfOddNumbers()</code> method.
      *
      * @param number
      * @param expected
@@ -64,7 +64,7 @@ public class SumTest {
     }
 
     /**
-     * Tests the <code>sumOfSquareOfNOddNumber()</code> method
+     * Tests the <code>sumOfSquareOfNOddNumber()</code> method.
      */
     @Test
     public void testSumOfSquareOfNOddNumber() {
@@ -75,7 +75,7 @@ public class SumTest {
     }
 
     /**
-     * Tests the <code>sumOfCubesOfNOddNumber()</code> method
+     * Tests the <code>sumOfCubesOfNOddNumber()</code> method.
      */
     @Test
     public void testSumOfCubesOfNOddNumber() {

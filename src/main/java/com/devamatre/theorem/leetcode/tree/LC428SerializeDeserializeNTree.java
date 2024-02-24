@@ -134,7 +134,7 @@ public class LC428SerializeDeserializeNTree {
             List<String> values = split(str);
             if (values != null) {
                 for (String child : values) {
-//                    System.out.println(child);
+                    // System.out.println(child);
                     String value = null;
                     int lastIndex = child.indexOf("[");
                     if (lastIndex != -1) {
@@ -160,14 +160,14 @@ public class LC428SerializeDeserializeNTree {
         Node two = new Node(2);
         Node three = new Node(3);
         root.addChild(one);
-// root.addChild(two);
-// root.addChild(three);
+        // root.addChild(two);
+        // root.addChild(three);
 
-// //3rd level
-// Node four = new Node(4);
-// Node five = new Node(5);
-// one.addChild(four);
-// one.addChild(five);
+        // //3rd level
+        // Node four = new Node(4);
+        // Node five = new Node(5);
+        // one.addChild(four);
+        // one.addChild(five);
 
         return root;
     }
@@ -218,17 +218,17 @@ public class LC428SerializeDeserializeNTree {
     public static void main(String[] args) {
 
         LC428SerializeDeserializeNTree tree = new LC428SerializeDeserializeNTree();
-// List<String> tokens = tree.split("1[4, 5]");
-// tokens.forEach(str -> System.out.println(str));
-// System.out.println();
-// tokens = tree.split("1[4, 5[6, 7]], 2, 3");
-// tokens.forEach(str -> System.out.println(str));
-// System.out.println();
-// tokens = tree.split("1[4], 2[6, 7], 3");
-// tokens.forEach(str -> System.out.println(str));
-// System.out.println();
-// tokens = tree.split("1[4, 5], 2, 3[[6[8], 7]]");
-// tokens.forEach(str -> System.out.println(str));
+        // List<String> tokens = tree.split("1[4, 5]");
+        // tokens.forEach(str -> System.out.println(str));
+        // System.out.println();
+        // tokens = tree.split("1[4, 5[6, 7]], 2, 3");
+        // tokens.forEach(str -> System.out.println(str));
+        // System.out.println();
+        // tokens = tree.split("1[4], 2[6, 7], 3");
+        // tokens.forEach(str -> System.out.println(str));
+        // System.out.println();
+        // tokens = tree.split("1[4, 5], 2, 3[[6[8], 7]]");
+        // tokens.forEach(str -> System.out.println(str));
 
         // left tree
         Node leftTree = tree.buildLeftTree();
@@ -237,9 +237,9 @@ public class LC428SerializeDeserializeNTree {
         Node leftDeserializedTree = tree.deserialize(leftSerialized);
         String leftDeserialized = tree.serialize(leftDeserializedTree);
         System.out.println(leftDeserialized);
-// leftDeserializedTree = tree.deserializeOptimized(leftSerialized);
-// leftDeserialized = tree.serialize(leftDeserializedTree);
-// System.out.println(leftDeserialized);
+        // leftDeserializedTree = tree.deserializeOptimized(leftSerialized);
+        // leftDeserialized = tree.serialize(leftDeserializedTree);
+        // System.out.println(leftDeserialized);
         System.out.println();
 
         //center tree

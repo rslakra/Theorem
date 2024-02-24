@@ -18,8 +18,7 @@ import java.util.List;
  */
 public class LC140WordBreak2Test {
 
-
-    private static Logger LOGGER = LoggerFactory.getLogger(LC140WordBreak2Test.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LC140WordBreak2Test.class);
 
     /**
      * @return

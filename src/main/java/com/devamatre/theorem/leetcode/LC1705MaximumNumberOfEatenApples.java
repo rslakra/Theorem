@@ -1,6 +1,6 @@
 package com.devamatre.theorem.leetcode;
 
-import com.devamatre.theorem.adts.Pair;
+import com.devamatre.theorem.adts.lang.Pair;
 
 import java.util.PriorityQueue;
 

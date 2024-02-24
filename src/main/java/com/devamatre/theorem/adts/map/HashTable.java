@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class HashTable<K, V> implements Map<K, V> {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(HashTable.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HashTable.class);
     /* The percentage of capacity representing the maximum number of entries before the table will grow. E.g., 0.80 */
     private static final float FILL_FACTOR = 0.80f;
     /* The multiple to increase the capacity of the hash table, when the fill factor has been exceeded. E.g., 1.50 */
@@ -460,7 +460,7 @@ public class HashTable<K, V> implements Map<K, V> {
          */
         @Override
         public String toString() {
-//            return ToString.of(HashEntry.class)
+// return ToString.of(HashEntry.class)
             return ToString.of()
                 .add("key", getKey())
                 .add("value", getValue())
