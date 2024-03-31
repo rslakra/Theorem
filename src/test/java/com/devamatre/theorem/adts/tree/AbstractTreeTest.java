@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Rohtash Lakra
@@ -35,25 +34,6 @@ public abstract class AbstractTreeTest {
     public static final Integer[] POST_ORDER_DATA = new Integer[]{4, 5, 2, 7, 8, 6, 3, 1};
 
     /**
-     * Builds the <code>BinarySearchTree</code>.
-     *
-     * @param inputData
-     * @param <E>
-     * @return
-     */
-    public static <E extends Comparable<? super E>> void fillTree(final AbstractTree<E> tree, List<E> inputData) {
-        LOGGER.debug("+fillTree({}, {})", tree, inputData);
-        if (BeanUtils.isNotEmpty(inputData)) {
-            inputData.forEach(data -> {
-                LOGGER.debug("data:{}", data);
-                tree.addNode(data);
-            });
-        }
-
-        LOGGER.debug("-fillTree(), tree:{}", tree);
-    }
-
-    /**
      * Builds the binary tree of the
      *
      * @param traversalMode
@@ -65,27 +45,32 @@ public abstract class AbstractTreeTest {
         assertNotNull(treeBuilder);
         Node<E> rootNode = treeBuilder.buildBinaryTree(inputData);
         assertNotNull(rootNode);
-//        assertEquals(inputData.size(), rootNode.getSize());
+        // assertEquals(inputData.size(), rootNode.getSize());
         TreeUtils.printBinaryTree(rootNode);
         return rootNode;
     }
 
+
     /**
-     * Builds the tree with the provided <code>inputData</code>
+     * Fills the provided <code>AbstractTree</code> with the provided <code>inputData</code>.
      *
      * @param inputData
      * @param <E>
      * @return
      */
-    public <E extends Comparable<? super E>> AbstractTree<E> buildTree(AbstractTree<E> tree, List<E> inputData) {
-        LOGGER.debug("+buildTree({}, {})", tree, inputData);
-        if (Objects.nonNull(tree)) {
-            fillTree(tree, inputData);
+    public static <E extends Comparable<? super E>> void fillTree(AbstractTree<E> tree, List<E> inputData) {
+        LOGGER.debug("+fillTree({}, {})", tree, inputData);
+        if (BeanUtils.isNotNull(tree) && BeanUtils.isNotEmpty(inputData)) {
+            for (E data : inputData) {
+                LOGGER.debug("data:{}", data);
+                tree.addNode(data);
+            }
+
+            // print pretty tree
             tree.printPrettyTree();
         }
 
-        LOGGER.debug("-buildTree(), tree:{}", tree);
-        return tree;
+        LOGGER.debug("-fillTree(), tree:{}", tree);
     }
 
     /**
@@ -96,7 +81,9 @@ public abstract class AbstractTreeTest {
      * @return
      */
     public <E extends Comparable<? super E>> Tree<E> buildTree(List<E> inputData) {
-        return (Tree) buildTree(new Tree<>(), inputData);
+        Tree<E> tree = new Tree<>();
+        fillTree(tree, inputData);
+        return tree;
     }
 
     /**
@@ -116,7 +103,9 @@ public abstract class AbstractTreeTest {
      * @return
      */
     public <E extends Comparable<? super E>> BinaryTree<E> buildBinaryTree(List<E> inputData) {
-        return (BinaryTree) buildTree(new BinaryTree<>(), inputData);
+        BinaryTree binaryTree = new BinaryTree<>();
+        fillTree(binaryTree, inputData);
+        return binaryTree;
     }
 
     /**
@@ -134,7 +123,9 @@ public abstract class AbstractTreeTest {
      * @return
      */
     public <E extends Comparable<? super E>> BinarySearchTree<E> buildBinarySearchTree(List<E> inputData) {
-        return (BinarySearchTree) buildTree(new BinarySearchTree<>(), inputData);
+        BinarySearchTree binarySearchTree = new BinarySearchTree();
+        fillTree(binarySearchTree, inputData);
+        return binarySearchTree;
     }
 
     /**
@@ -152,7 +143,7 @@ public abstract class AbstractTreeTest {
      * @return
      */
     public <E extends Comparable<? super E>> Tree<E> buildHierarchicalTree(List<E> inputData) {
-        return (Tree) buildTree(new Tree<>(), inputData);
+        return buildTree(inputData);
     }
 
     /**
@@ -161,7 +152,7 @@ public abstract class AbstractTreeTest {
      * @return
      */
     public <E extends Comparable<? super E>> Tree<E> buildHierarchicalTree(E[] inputData) {
-        return (Tree) buildTree(new Tree<>(), Arrays.asList(inputData));
+        return buildTree(inputData);
     }
 
     /**

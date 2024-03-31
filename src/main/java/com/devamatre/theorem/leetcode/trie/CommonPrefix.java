@@ -15,16 +15,16 @@ public final class CommonPrefix {
     }
 
     /**
-     * @param strs
+     * @param inputs
      */
-    private String buildTrie(String[] strs) {
+    private String buildTrie(String[] inputs) {
         String smallString = "";
-        if (strs != null) {
-            for (int i = 0; i < strs.length; i++) {
-                if (i == 0 || strs[i].length() < smallString.length()) {
-                    smallString = strs[i];
+        if (inputs != null) {
+            for (int i = 0; i < inputs.length; i++) {
+                if (i == 0 || inputs[i].length() < smallString.length()) {
+                    smallString = inputs[i];
                 }
-                trie.addNode(strs[i]);
+                trie.insert(inputs[i]);
             }
         }
 
@@ -69,9 +69,9 @@ public final class CommonPrefix {
 
         String longestCommonPrefix = "";
         String smallString = buildTrie(strs);
-        TrieNode node = trie.getRoot();
+        Trie.TrieNode node = trie.getRootNode();
         for (int i = 0; i < smallString.length(); i++) {
-            node = node.getKeyNode(smallString.charAt(i));
+            node = node.getNode(smallString.charAt(i));
             longestCommonPrefix += smallString.charAt(i);
             if (node.size() > 1) {
                 break;

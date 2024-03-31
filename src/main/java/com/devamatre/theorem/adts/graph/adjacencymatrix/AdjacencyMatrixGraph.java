@@ -266,16 +266,6 @@ public class AdjacencyMatrixGraph<E extends Comparable<? super E>> extends Abstr
     }
 
     /**
-     * Returns true if the graph has cycle otherwise false.
-     *
-     * @return
-     */
-    @Override
-    public boolean hasCycle() {
-        return false;
-    }
-
-    /**
      * Get all vertices connected to the specified vertex.
      *
      * @param vertex

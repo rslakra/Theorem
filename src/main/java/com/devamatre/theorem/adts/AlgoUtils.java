@@ -10,8 +10,10 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * @author Rohtash Lakra
@@ -445,6 +447,73 @@ public enum AlgoUtils {
             System.out.print("[" + interval.getStart() + ", " + interval.getEnd() + "], ");
         }
         System.out.println();
+    }
+
+    /**
+     * Converts the <code>List<E></code> into <code>Stack<E></code>.
+     *
+     * @param list
+     * @param stack
+     * @param <E>
+     */
+    public static <E extends Comparable<? super E>> void listAsStack(List<E> list, Stack<E> stack) {
+        if (Objects.isNull(stack)) {
+            stack = new Stack<>();
+        }
+
+        if (Objects.nonNull(list)) {
+            // convert stack to list.
+            for (int i = 0; i < list.size(); i++) {
+                stack.push(list.get(i));
+            }
+        }
+    }
+
+    /**
+     * Converts the <code>List<E></code> into <code>Stack<E></code>.
+     *
+     * @param list
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> Stack<E> listAsStack(List<E> list) {
+        Stack<E> stack = new Stack<>();
+        listAsStack(list, stack);
+        return stack;
+    }
+
+    /**
+     * Converts the <code>Stack<E></code> into <code>List<E></code>.
+     *
+     * @param stack
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> void stackAsList(Stack<E> stack, List<E> list) {
+        if (Objects.isNull(list)) {
+            list = new ArrayList<>();
+        }
+
+        if (Objects.nonNull(stack)) {
+            Stack<E> stackClone = (Stack<E>) stack.clone();
+            // convert stack to list.
+            while (!stackClone.isEmpty()) {
+                list.add(0, stackClone.pop());
+            }
+        }
+    }
+
+    /**
+     * Converts the <code>Stack<E></code> into <code>List<E></code>.
+     *
+     * @param stack
+     * @param <E>
+     * @return
+     */
+    public static <E extends Comparable<? super E>> List<E> stackAsList(Stack<E> stack) {
+        List<E> list = new ArrayList<>();
+        stackAsList(stack, list);
+        return list;
     }
 
 }

@@ -1,7 +1,9 @@
 package com.devamatre.theorem.adts.graph;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import com.devamatre.theorem.adts.PrettyPrinter;
 import com.devamatre.theorem.adts.array.TablePrettyPrinter;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
+import java.util.Set;
 
 /**
  * @author Rohtash Lakra
@@ -123,8 +125,8 @@ public class GraphUtilsTest {
         Graph<Integer> graph = new Graph<>();
         fillGraph(graph, false);
         assertEquals(5, graph.getSize());
-        assertEquals(false, graph.isWeighted());
-        assertEquals(false, graph.isDirected());
+        assertFalse(graph.isWeighted());
+        assertFalse(graph.isDirected());
         graph.printGraph();
     }
 
@@ -178,8 +180,8 @@ public class GraphUtilsTest {
             Arrays.asList(Edge.of(0, 1), Edge.of(0, 4), Edge.of(1, 2), Edge.of(1, 3), Edge.of(2, 3));
         GraphUtils.buildGraph(graph, edges);
         assertEquals(5, graph.getSize());
-        assertEquals(false, graph.isWeighted());
-        assertEquals(false, graph.isDirected());
+        assertFalse(graph.isWeighted());
+        assertFalse(graph.isDirected());
         graph.printGraph();
     }
 
@@ -194,13 +196,13 @@ public class GraphUtilsTest {
             Arrays.asList(Edge.of(0, 1), Edge.of(0, 4), Edge.of(1, 2), Edge.of(1, 3), Edge.of(2, 0));
         GraphUtils.buildGraph(graph, edges);
         assertEquals(5, graph.getSize());
-        assertEquals(false, graph.isWeighted());
-        assertEquals(true, graph.isDirected());
+        assertFalse(graph.isWeighted());
+        assertTrue(graph.isDirected());
         graph.printGraph();
     }
 
     /**
-     * @return
+     * @param graph
      */
     public static void createDirectedWeightedGraph(Graph<Integer> graph) {
         LOGGER.debug("+createDirectedWeightedGraph()");
@@ -220,7 +222,7 @@ public class GraphUtilsTest {
     }
 
     /**
-     * @return
+     * @param graph
      */
     public static void createDirectedNegativeWeightedGraph(Graph<Integer> graph) {
         LOGGER.debug("+createDirectedNegativeWeightedGraph()");
@@ -240,7 +242,8 @@ public class GraphUtilsTest {
     }
 
     /**
-     * @return
+     * @param graph
+     * @param negWeightCycle
      */
     public static void createDirectedNegativeWeightedGraphWithNegativeWeightCycle(Graph<Integer> graph,
                                                                                   boolean negWeightCycle) {
@@ -261,9 +264,9 @@ public class GraphUtilsTest {
         LOGGER.debug("-createDirectedNegativeWeightedGraphWithNegativeWeightCycle(), graph:{}", graph);
     }
 
-
     /**
-     * @return
+     * @param graph
+     * @param withCycle
      */
     public static void createWeightedGraph(Graph<Integer> graph, boolean withCycle) {
         LOGGER.debug("+createWeightedGraph({}, {})", graph, withCycle);
@@ -288,7 +291,7 @@ public class GraphUtilsTest {
     }
 
     /**
-     * @return
+     *
      */
     public static void createDirectedGraph(Graph<Integer> graph) {
         LOGGER.debug("+createDirectedGraph()");
@@ -296,29 +299,24 @@ public class GraphUtilsTest {
         // add edges
         graph.addEdge(0, 2);
         graph.addEdge(0, 3);
-
         graph.addEdge(2, 1);
-
         graph.addEdge(1, 0);
-
         graph.addEdge(3, 4);
-
         graph.addEdge(4, null);
         LOGGER.debug("-createDirectedGraph(), graph:{}", graph);
     }
 
     /**
-     * @return
+     * @param graph
+     * @param multiBridge
      */
     public static void createBridgeGraph(Graph<Integer> graph, boolean multiBridge) {
-        LOGGER.debug("+createBridgeGraph({}, {})", graph);
+        LOGGER.debug("+createBridgeGraph({}, {})", graph, multiBridge);
         // add edges
         graph.addEdge(0, 1);
         graph.addEdge(0, 2);
         graph.addEdge(0, 3);
-
         graph.addEdge(1, 2);
-
         graph.addEdge(3, 4);
         if (!multiBridge) {
             graph.addEdge(3, 5);
@@ -328,10 +326,11 @@ public class GraphUtilsTest {
     }
 
     /**
-     * @return
+     * @param graph
+     * @param singleBridge
      */
     public static void createArticulationPointsGraph(Graph<Integer> graph, boolean singleBridge) {
-        LOGGER.debug("+createArticulationPointsGraph({}, {})", graph);
+        LOGGER.debug("+createArticulationPointsGraph({}, {})", graph, singleBridge);
         // add edges
         graph.addEdge(0, 1);
         graph.addEdge(0, 2);
@@ -349,24 +348,89 @@ public class GraphUtilsTest {
     }
 
     /**
-     * Tests the <code>convertStackToList()</code> method.
+     * Tests the <code>dfs()</code> method.
      */
     @Test
-    public void testConvertStackToList() {
-        LOGGER.debug("testConvertStackToList()");
-        Stack<Integer> stack = new Stack<>();
-        for (int i = 1; i <= 5; i++) {
-            stack.push(i);
-        }
-        List<Integer> expected = Arrays.asList(5, 4, 3, 2, 1);
-        List<Integer> result = new ArrayList<>();
-        GraphUtils.convertStackToList(stack, result);
-        LOGGER.debug("result:{}", result);
-        assertNotNull(result);
-        assertEquals(expected.size(), result.size());
-        assertEquals(expected, result);
+    public void testDFS() {
+        Graph<Integer> graph = new Graph<>();
+        List<Edge<Integer>>
+            edges =
+            Arrays.asList(Edge.of(0, 1), Edge.of(0, 4), Edge.of(1, 2), Edge.of(1, 3), Edge.of(2, 0));
+        GraphUtils.buildGraph(graph, edges);
+        assertEquals(5, graph.getSize());
+        assertFalse(graph.isWeighted());
+        assertFalse(graph.isDirected());
+        graph.printGraph();
+        Set<Integer> result = GraphUtils.dfs(graph);
+        assertTrue(Set.of(0, 1, 2, 3, 4).containsAll(result));
     }
 
+    /**
+     * Tests the <code>bfs()</code> method.
+     */
+    @Test
+    public void testBFS() {
+        Graph<Integer> graph = new Graph<>();
+        List<Edge<Integer>>
+            edges =
+            Arrays.asList(Edge.of(0, 1), Edge.of(0, 4), Edge.of(1, 2), Edge.of(1, 3), Edge.of(2, 0));
+        GraphUtils.buildGraph(graph, edges);
+        assertEquals(5, graph.getSize());
+        assertFalse(graph.isWeighted());
+        assertFalse(graph.isDirected());
+        graph.printGraph();
+        Set<Integer> result = GraphUtils.bfs(graph);
+        assertEquals(Arrays.asList(0, 4, 2, 1, 3), result);
+    }
+
+    /**
+     * Tests the <code>depthFirstTraversal()</code> method.
+     */
+    @Test
+    public void testDepthFirstTraversalWithRootNode() {
+        Graph<Integer> graph = new Graph<>();
+        List<Edge<Integer>>
+            edges =
+            Arrays.asList(Edge.of(0, 1), Edge.of(0, 4), Edge.of(1, 2), Edge.of(1, 3), Edge.of(2, 0));
+        GraphUtils.buildGraph(graph, edges);
+        assertEquals(5, graph.getSize());
+        assertFalse(graph.isWeighted());
+        assertFalse(graph.isDirected());
+        graph.printGraph();
+        Set<Integer> result = GraphUtils.depthFirstTraversal(graph, 1);
+        assertTrue(Set.of(0, 1, 2, 3, 4).containsAll(result));
+    }
+
+    /**
+     * Tests the <code>depthFirstTraversal()</code> method.
+     */
+    @Test
+    public void testDepthFirstTraversal() {
+        Graph<Integer> graph = new Graph<>();
+        List<Edge<Integer>>
+            edges =
+            Arrays.asList(Edge.of(0, 1), Edge.of(0, 4), Edge.of(1, 2), Edge.of(1, 3), Edge.of(2, 0));
+        GraphUtils.buildGraph(graph, edges);
+        assertEquals(5, graph.getSize());
+        assertFalse(graph.isWeighted());
+        assertFalse(graph.isDirected());
+        graph.printGraph();
+        Set<Integer> result = GraphUtils.depthFirstTraversal(graph);
+        assertTrue(Set.of(0, 1, 2, 3, 4).containsAll(result));
+    }
+
+    /**
+     * Tests the <code>depthFirstTraversal()</code> method.
+     */
+    @Test
+    public void testDepthFirstTraversalOfMatrix() {
+        LOGGER.debug("testDepthFirstTraversalOfMatrix()");
+        int[][] graph = new int[][]{{1, 0, 0, 1}, {0, 1, 1, 0}, {0, 1, 1, 1}, {1, 0, 1, 1}};
+        Set<Integer> result = GraphUtils.depthFirstTraversal(graph);
+        LOGGER.debug("result:{}", result);
+        assertEquals(4, result.size());
+        assertTrue(Set.of(0, 1, 2, 3).containsAll(result));
+    }
 
     /**
      * Tests the <code>topSort()</code> method.
@@ -377,8 +441,8 @@ public class GraphUtilsTest {
         Graph<Integer> graph = new Graph<>();
         fillGraph(graph, false);
         assertEquals(5, graph.getSize());
-        assertEquals(false, graph.isWeighted());
-        assertEquals(false, graph.isDirected());
+        assertFalse(graph.isWeighted());
+        assertFalse(graph.isDirected());
         graph.printGraph();
         List<Integer> expected = Arrays.asList(0, 1, 2, 3, 4);
         List<Integer> result = GraphUtils.topSort(graph);

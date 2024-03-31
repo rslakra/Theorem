@@ -46,10 +46,10 @@ public enum MapUtils {
          */
         @Override
         public int compare(Map.Entry<K, V> left, Map.Entry<K, V> right) {
-            int result = (((Comparable<V>) left.getValue()).compareTo(right.getValue()));
+            int result = left.getValue().compareTo(right.getValue());
             // values might be same and can override the key
             if (result == 0) {
-                result = (((Comparable<K>) left.getKey()).compareTo(right.getKey()));
+                result = left.getKey().compareTo(right.getKey());
             }
 
             return result;

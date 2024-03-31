@@ -87,7 +87,7 @@ public class FindPathsTest extends AbstractTreeTest {
         List<List<Integer>> root2LeafPath = instance.findAllRoot2LeafPaths(tree.getRoot());
         LOGGER.debug("root2LeafPath:{}", root2LeafPath);
         assertNotNull(root2LeafPath);
-//        assertEquals(4, root2LeafPath.size());
+        //  assertEquals(4, root2LeafPath.size());
         assertEquals(expected, root2LeafPath);
     }
 

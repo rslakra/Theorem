@@ -56,7 +56,7 @@ public class GraphWith2DMatrix<E extends Comparable<? super E>> extends Abstract
     @Override
     public Set<E> getVertices() {
         return vertices.stream()
-            .map(vertex -> (E) vertex.getData())
+            .map(vertex -> (E) vertex.getLabel())
             .collect(Collectors.toSet());
     }
 
@@ -69,7 +69,7 @@ public class GraphWith2DMatrix<E extends Comparable<? super E>> extends Abstract
     @Override
     public boolean hasVertex(E vertex) {
         return vertices.stream()
-            .filter(entry -> entry.getData().compareTo(vertex) == 0)
+            .filter(entry -> entry.getLabel().compareTo(vertex) == 0)
             .findFirst()
             .isPresent();
     }
@@ -149,16 +149,6 @@ public class GraphWith2DMatrix<E extends Comparable<? super E>> extends Abstract
     @Override
     public void removeEdge(E source, E target) {
 
-    }
-
-    /**
-     * Returns true if the graph has cycle otherwise false.
-     *
-     * @return
-     */
-    @Override
-    public boolean hasCycle() {
-        return false;
     }
 
     /**

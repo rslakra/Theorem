@@ -1,14 +1,13 @@
 package com.devamatre.theorem.algos.graph;
 
 import com.devamatre.theorem.adts.NumberUtils;
-import com.devamatre.theorem.adts.graph.vertex.Edge;
+import com.devamatre.theorem.adts.graph.vertex.GraphEdge;
 import com.devamatre.theorem.adts.graph.vertex.Vertex;
 import com.devamatre.theorem.adts.graph.vertex.VertexBasedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -41,14 +40,14 @@ public class GraphAlgorithm {
     public void kruskals(VertexBasedGraph<Integer> graph) {
         LOGGER.debug("+kruskals({})", graph);
         // sort all edges
-        SortedSet<Edge> allEdges = new TreeSet<>();
+        SortedSet<GraphEdge> allEdges = new TreeSet<>();
         for (Vertex vertex : graph.getAllVertices()) {
             allEdges.addAll(vertex.getEdges());
         }
         LOGGER.debug("allEdges:{}", allEdges);
 
         int vertices = graph.getVertices().size();
-        Edge[] edges = new Edge[vertices - 1];
+        GraphEdge[] edges = new GraphEdge[vertices - 1];
         // build parent's array and fill with own index.
         // means everyone is their own parent.
         int[] parent = new int[vertices];
@@ -59,14 +58,14 @@ public class GraphAlgorithm {
 
         int index = 0;
         // for each edge,
-        for (Edge edge : allEdges) {
+        for (GraphEdge edge : allEdges) {
             if (index == vertices - 1) {
                 break;
             }
 
             LOGGER.debug("index:{}, edge:{}", index, edge);
-            int sourceParent = findParent(parent, NumberUtils.asInteger(edge.getSource().getData()).intValue());
-            int targetParent = findParent(parent, NumberUtils.asInteger(edge.getTarget().getData()).intValue());
+            int sourceParent = findParent(parent, NumberUtils.asInteger(edge.getSource().getLabel()).intValue());
+            int targetParent = findParent(parent, NumberUtils.asInteger(edge.getTarget().getLabel()).intValue());
             LOGGER.debug("sourceParent:{}, targetParent:{}", sourceParent, targetParent);
             if (sourceParent != targetParent) {
                 edges[index] = edge;

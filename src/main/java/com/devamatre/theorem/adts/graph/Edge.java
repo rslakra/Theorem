@@ -105,8 +105,7 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
         }
 
         final Edge<E> edge = (Edge<E>) object;
-        return Objects.equals(getSource(), edge.getSource())
-               && Objects.equals(getTarget(), edge.getTarget())
+        return Objects.equals(getSource(), edge.getSource()) && Objects.equals(getTarget(), edge.getTarget())
                && Objects.equals(getWeight(), edge.getWeight());
     }
 
@@ -117,12 +116,8 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
      */
     @Override
     public String toString() {
-        return ToString.of(Edge.class, true)
-            .add("source", getSource())
-            .add("target", getTarget())
-            .add("weight", getWeight())
-            .add("directed", isDirected())
-            .toString();
+        return ToString.of(Edge.class, true).add("source", getSource()).add("target", getTarget())
+            .add("weight", getWeight()).add("directed", isDirected()).toString();
     }
 
     /**
@@ -216,8 +211,7 @@ public class Edge<E extends Comparable<? super E>> implements Comparable<Edge<E>
          */
         @Override
         public int compare(Edge o1, Edge o2) {
-            return (Objects.nonNull(o1.getWeight()) ? o1.getWeight().subtract(o2.getWeight()).intValue()
-                                                    : Objects.nonNull(o2.getWeight()) ? o2.getWeight().intValue() : 0);
+            return (Objects.nonNull(o1.getWeight()) ? o1.getWeight().compareTo(o2.getWeight()) : -1);
         }
     }
 

@@ -26,7 +26,7 @@ public class IntBinaryTreeTest extends AbstractTreeTest {
      */
     private IntBinaryTree buildIntBinaryTree(List<Integer> inputData) {
         final IntBinaryTree tree = new IntBinaryTree();
-        buildTree(tree, inputData);
+        fillTree(tree, inputData);
         return tree;
     }
 

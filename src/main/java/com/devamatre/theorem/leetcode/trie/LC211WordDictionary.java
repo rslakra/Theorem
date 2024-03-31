@@ -25,10 +25,10 @@ public class LC211WordDictionary {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LC211WordDictionary.class);
 
-    private TrieNode rootNode;
+    private Trie.TrieNode rootNode;
 
     public LC211WordDictionary() {
-        rootNode = new TrieNode();
+        rootNode = new Trie.TrieNode();
     }
 
     /**
@@ -41,15 +41,15 @@ public class LC211WordDictionary {
      */
     public void addWord(String word) {
         LOGGER.debug("+addWord({})", word);
-        TrieNode trieNode = rootNode;
+        Trie.TrieNode trieNode = rootNode;
         for (int i = 0; i < word.length(); i++) {
             char keyChar = word.charAt(i);
             if (!trieNode.contains(keyChar)) {
-                trieNode.addNode(keyChar, new TrieNode(keyChar));
+                trieNode.addNode(keyChar, new Trie.TrieNode(keyChar));
             }
-            trieNode = trieNode.getKeyNode(keyChar);
+            trieNode = trieNode.getNode(keyChar);
         }
-        trieNode.setEndOfKey(true);
+        trieNode.setEnds(true);
         LOGGER.debug("-addWord(), rootNode:{}", rootNode);
     }
 
@@ -64,25 +64,25 @@ public class LC211WordDictionary {
      * @param rootNode
      * @return
      */
-    public boolean search(String word, int index, TrieNode rootNode) {
+    public boolean search(String word, int index, Trie.TrieNode rootNode) {
         LOGGER.debug("+search({}, {}, {})", word, index, rootNode);
         if (index == word.length()) {
             LOGGER.debug("-search(), index:{} == length:{}, rootNode:{}", index, word.length(), rootNode);
-            return rootNode.isEndOfKey();
+            return rootNode.isEnds();
         }
 
         char keyChar = word.charAt(index);
         // if char is . (dot), find other alternatives
         if ('.' == keyChar) {
-            Map<Character, TrieNode> childNodes = rootNode.getChildren();
+            Map<Character, Trie.TrieNode> childNodes = rootNode.getChildren();
             for (Character nextChar : childNodes.keySet()) {
-                if (search(word, index + 1, rootNode.getKeyNode(nextChar))) {
+                if (search(word, index + 1, rootNode.getNode(nextChar))) {
                     LOGGER.debug("-search(), return true! keyChar:{}", keyChar);
                     return true;
                 }
             }
         } else if (rootNode.contains(keyChar)) { // if not a .(dot), find other chars
-            if (search(word, index + 1, rootNode.getKeyNode(keyChar))) {
+            if (search(word, index + 1, rootNode.getNode(keyChar))) {
                 LOGGER.debug("-search(), return true! keyChar:{}", keyChar);
                 return true;
             }
@@ -108,7 +108,7 @@ public class LC211WordDictionary {
             return true;
         }
 
-        TrieNode trieNode = rootNode;
+        Trie.TrieNode trieNode = rootNode;
         if (search(word, 0, trieNode)) {
             LOGGER.debug("-search(), return true! i:0");
             return true;

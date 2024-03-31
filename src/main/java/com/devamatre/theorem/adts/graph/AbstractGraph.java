@@ -1,12 +1,16 @@
 package com.devamatre.theorem.adts.graph;
 
+import com.devamatre.theorem.adts.AlgoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * In computer science, a graph is an abstract data type that is meant to implement the undirected graph and directed
@@ -225,11 +229,136 @@ public abstract class AbstractGraph<E extends Comparable<? super E>> {
     public abstract void removeEdge(E source, E target);
 
     /**
+     * Returns true if the directed graph has cycle otherwise false.
+     *
+     * @param root
+     * @param visited
+     * @param path
+     * @return
+     */
+    private boolean hasCycleInDirectedGraph(E root, Set<E> visited, Set<E> path) {
+        // Case 1: Target Already in Recursion Stack or traversal path
+        // root is visited and is in the traversal path of the root node, it means there is cycle
+        if (visited.contains(root) && path.contains(root)) {
+            return true;
+        }
+
+        // mark the root node visited
+        visited.add(root);
+        // add the root node in traversal path
+        path.add(root);
+        // visit neighbors of root vertex
+        Set<Edge<E>> neighbors = getNeighbors(root);
+        for (Edge<E> edge : neighbors) {
+            // if neighbor is already visited
+            if (visited.contains(edge.getTarget())) {
+                // Case 1: Target Already in Recursion Stack or traversal path
+                // neighbor is visited and is parent of the root node, it means there is cycle
+                if (path.contains(edge.getTarget())) {
+                    return true;
+                }
+
+                // Case 2: Target Already Visited and Parent == Target (Nothing to do for this case)
+            } else {
+                // Case 3: Target Not Already Visited
+                if (hasCycleInDirectedGraph(edge.getTarget(), visited, path)) {
+                    return true;
+                }
+            }
+        }
+
+        // remove the root node from traversal path while back-tracking
+        path.remove(root);
+
+        return false;
+    }
+
+    /**
+     * Returns true if the directed graph has cycle otherwise false.
+     *
+     * @return
+     */
+    public boolean hasCycleInDirectedGraph() {
+        // track visited vertices
+        Set<E> visited = new HashSet<>();
+        Set<E> path = new HashSet<>();
+        // traverse all neighbors of the current node
+        for (E root : getVertices()) {
+            // if the child node is not visited
+            if (!visited.contains(root)) {
+                if (hasCycleInDirectedGraph(root, visited, path)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the undirected graph has cycle otherwise false.
+     * <p>
+     * Back-Edge/Cycle detection criteria
+     *
+     * @param vertex
+     * @param visited
+     * @param parent
+     * @return
+     */
+    private boolean hasCycleInUndirectedGraph(E vertex, Set<E> visited, E parent) {
+        // mark the vertex visited
+        visited.add(vertex);
+        // visit neighbors of current vertex
+        Set<Edge<E>> neighbors = getNeighbors(vertex);
+        for (Edge<E> edge : neighbors) {
+            // if neighbor is already visited
+            if (visited.contains(edge.getTarget())) {
+                // Case 1: Target Already Visited and Parent != Target (back-edge)
+                // neighbor is visited and is not parent of the vertex node, it means there is cycle
+                if (edge.getTarget().compareTo(parent) != 0) {
+                    return true;
+                }
+
+                // Case 2: Target Already Visited and Parent == Target (Nothing to do for this case)
+            } else {
+                // Case 3: Target Not Already Visited
+                if (hasCycleInUndirectedGraph(edge.getTarget(), visited, edge.getSource())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the undirected graph has cycle otherwise false.
+     *
+     * @return
+     */
+    public boolean hasCycleInUndirectedGraph() {
+        Set<E> visited = new HashSet<>();
+        // traverse all vertices of the graph
+        for (E root : getVertices()) {
+            // if the child node is not visited
+            if (!visited.contains(root)) {
+                if (hasCycleInUndirectedGraph(root, visited, null)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns true if the graph has cycle otherwise false.
      *
      * @return
      */
-    public abstract boolean hasCycle();
+    public boolean hasCycle() {
+        return isDirected() ? hasCycleInDirectedGraph() : hasCycleInUndirectedGraph();
+    }
 
     /**
      * Get all vertices connected to the specified vertex.
@@ -302,4 +431,62 @@ public abstract class AbstractGraph<E extends Comparable<? super E>> {
             return;
         }
     }
+
+    /**
+     * Only Used for DAG (Directed Acyclic Graph)
+     * <p>
+     * Linear order of vertices such that every directed edge u -> v, the vertex u comes before vertex v, in the order.
+     * <p>
+     * When to use:
+     * <p>
+     * - for dependency resolution in builds.
+     *
+     * @return
+     */
+    protected void topSort(E vertex, Set<E> visited, Stack<E> stack) {
+        LOGGER.trace("+topSort({}, {}, {})", vertex, visited, stack);
+        // mark the current vertex visited
+        visited.add(vertex);
+        // mark the current vertex visited
+        if (hasVertex(vertex)) {
+            // visit all neighbors of the vertex
+            for (Edge<E> edge : getNeighbors(vertex)) {
+                if (!visited.contains(edge.getTarget())) {
+                    topSort(edge.getTarget(), visited, stack);
+                }
+            }
+
+            // after visiting all neighbors, push vertex to stack
+            stack.push(vertex);
+        }
+        LOGGER.trace("-topSort()");
+    }
+
+    /**
+     * Only Used for DAG (Directed Acyclic Graph)
+     * <p>
+     * Linear order of vertices such that every directed edge u -> v, the vertex u comes before vertex v, in the order.
+     * <p>
+     * When to use: for dependencies.
+     *
+     * @return
+     */
+    protected List<E> topSort() {
+        LOGGER.debug("+topSort()");
+        List<E> topSort = new ArrayList<>();
+        final Set<E> visited = new HashSet<>();
+        final Stack<E> stack = new Stack<>();
+        // traverse each vertex of the graph
+        for (E vertex : getVertices()) {
+            if (!visited.contains(vertex)) {
+                topSort(vertex, visited, stack);
+            }
+        }
+        // convert stack to list
+        AlgoUtils.stackAsList(stack, topSort);
+
+        LOGGER.debug("-topSort(), topSort:{}", topSort);
+        return topSort;
+    }
+
 }

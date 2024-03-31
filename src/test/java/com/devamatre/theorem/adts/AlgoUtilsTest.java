@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * @author Rohtash Lakra
@@ -21,21 +22,33 @@ public class AlgoUtilsTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlgoUtilsTest.class);
 
+    /**
+     * Tests the <code>printElements()</code> method.
+     */
     @Test
     public void testPrintElements() {
         AlgoUtils.printElements(Arrays.asList(1, 2, 3, 4, 5));
     }
 
+    /**
+     * Tests the <code>printArray()</code> method.
+     */
     @Test
     public void testPrintArray() {
         AlgoUtils.printArray(new Integer[]{1, 2, 3, 4, 5});
     }
 
+    /**
+     * Tests the <code>printArray()</code> method.
+     */
     @Test
     public void testPrint2DArray() {
         AlgoUtils.printArray(new Integer[][]{{1, 3, 5}, {2, 4, 6}});
     }
 
+    /**
+     * Tests the <code>uniqueIntArrayGenerator()</code> method.
+     */
     @Test
     public void testUniqueIntArrayGeneratorFirstElementNonEmpty() {
         boolean firstElementEmpty = false;
@@ -48,6 +61,9 @@ public class AlgoUtilsTest {
         Arrays.stream(result).forEach(item -> assertTrue(item < upperBound));
     }
 
+    /**
+     * Tests the <code>uniqueIntArrayGenerator()</code> method.
+     */
     @Test
     public void testUniqueIntArrayGeneratorFirstElementEmpty() {
         boolean firstElementEmpty = true;
@@ -64,6 +80,9 @@ public class AlgoUtilsTest {
         });
     }
 
+    /**
+     * Tests the <code>uniqueIntSetGenerator()</code> method.
+     */
     @Test
     public void testUniqueIntSetGenerator() {
         int upperBound = 10;
@@ -74,6 +93,9 @@ public class AlgoUtilsTest {
         result.forEach(item -> assertTrue(item < upperBound));
     }
 
+    /**
+     * Tests the <code>uniqueIntListGenerator()</code> method.
+     */
     @Test
     public void testUniqueIntListGenerator() {
         int upperBound = 10;
@@ -84,6 +106,9 @@ public class AlgoUtilsTest {
         result.forEach(item -> assertTrue(item < upperBound));
     }
 
+    /**
+     * Tests the <code>randomIntArrayGenerator()</code> method.
+     */
     @Test
     public void testRandomIntArrayGeneratorFirstElementNonEmpty() {
         boolean firstElementEmpty = false;
@@ -96,6 +121,9 @@ public class AlgoUtilsTest {
         Arrays.stream(result).forEach(item -> assertTrue(item < upperBound));
     }
 
+    /**
+     * Tests the <code>randomIntArrayGenerator()</code> method.
+     */
     @Test
     public void testRandomIntArrayGeneratorFirstElementEmpty() {
         boolean firstElementEmpty = true;
@@ -112,6 +140,9 @@ public class AlgoUtilsTest {
         });
     }
 
+    /**
+     * Tests the <code>randomIntListGenerator()</code> method.
+     */
     @Test
     public void testRandomIntListGenerator() {
         int upperBound = 10;
@@ -122,6 +153,9 @@ public class AlgoUtilsTest {
         result.forEach(item -> assertTrue(item < upperBound));
     }
 
+    /**
+     * Tests the <code>positiveIntArrayGenerator()</code> method.
+     */
     @Test
     public void testPositiveIntArrayGeneratorFirstElementNonEmpty() {
         boolean firstElementEmpty = false;
@@ -133,6 +167,9 @@ public class AlgoUtilsTest {
         Arrays.stream(result).forEach(item -> assertTrue(item <= size));
     }
 
+    /**
+     * Tests the <code>positiveIntArrayGenerator()</code> method.
+     */
     @Test
     public void testPositiveIntArrayGeneratorFirstElementEmpty() {
         boolean firstElementEmpty = true;
@@ -148,6 +185,9 @@ public class AlgoUtilsTest {
         });
     }
 
+    /**
+     * Tests the <code>positiveIntSetGenerator()</code> method.
+     */
     @Test
     public void testPositiveIntSetGenerator() {
         int upperBound = 10;
@@ -158,6 +198,9 @@ public class AlgoUtilsTest {
         result.forEach(item -> assertTrue(item < upperBound));
     }
 
+    /**
+     * Tests the <code>positiveIntListGenerator()</code> method.
+     */
     @Test
     public void testPositiveIntListGenerator() {
         int size = 7;
@@ -167,10 +210,41 @@ public class AlgoUtilsTest {
         result.forEach(item -> assertTrue(item <= size));
     }
 
+    /**
+     * Tests the <code>hash()</code> method.
+     */
     @Test
     public void testHashCode() {
         List<String> strings = Arrays.asList("abc", "acb", "bac", "cab");
         strings.forEach(str -> System.out.println("str:" + str + ", hashCode: " + Objects.hash(str)));
+    }
+
+    /**
+     * Tests the <code>listAsStack()</code> method.
+     */
+    @Test
+    public void testListAsStack() {
+        LOGGER.debug("testListAsStack()");
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+        LOGGER.debug("list:{}", list);
+        Stack<Integer> stack = AlgoUtils.listAsStack(list);
+        LOGGER.debug("stack:{}", stack);
+        assertEquals(list.size(), stack.size());
+        assertEquals(list, stack);
+    }
+
+    /**
+     * Tests the <code>stackAsList()</code> method.
+     */
+    @Test
+    public void testStackAsList() {
+        LOGGER.debug("testStackAsList()");
+        Stack<Integer> stack = AlgoUtils.listAsStack(Arrays.asList(1, 2, 3, 4, 5));
+        LOGGER.debug("stack:{}", stack);
+        List<Integer> list = AlgoUtils.stackAsList(stack);
+        LOGGER.debug("list:{}", list);
+        assertEquals(list.size(), stack.size());
+        assertEquals(list, stack);
     }
 
 }

@@ -1,13 +1,15 @@
 package com.devamatre.theorem.adts.graph.vertex;
 
 import com.devamatre.appsuite.core.ToString;
+import com.devamatre.theorem.adts.graph.Edge;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -18,14 +20,14 @@ import java.util.stream.Collectors;
 @Setter
 public class Vertex<E extends Comparable<? super E>> implements Comparable<Vertex<E>> {
 
-    private final E data;
-    private final List<Edge> edges = new ArrayList<>();
+    private final E label;
+    private final Set<GraphEdge<E>> edges = new HashSet<>();
 
     /**
-     * @param data
+     * @param label
      */
-    public Vertex(E data) {
-        this.data = data;
+    public Vertex(E label) {
+        this.label = label;
     }
 
     /**
@@ -35,10 +37,7 @@ public class Vertex<E extends Comparable<? super E>> implements Comparable<Verte
      * @param weight
      */
     public void addEdge(Vertex endVertex, BigDecimal weight) {
-        Edge edge = new Edge(this, endVertex, weight);
-        if (!edges.contains(edge)) {
-            edges.add(edge);
-        }
+        edges.add(GraphEdge.of(this, endVertex, weight));
     }
 
     /**
@@ -64,10 +63,10 @@ public class Vertex<E extends Comparable<? super E>> implements Comparable<Verte
      *
      * @return neighbors
      */
-    public List<Vertex> getNeighbors() {
+    public Set<Vertex> getNeighbors() {
         return edges.stream()
             .map(edge -> edge.getTarget())
-            .collect(Collectors.toList());
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -85,16 +84,17 @@ public class Vertex<E extends Comparable<? super E>> implements Comparable<Verte
     public static String toString(Vertex vertex) {
         final ToString strBuilder = ToString.of(Vertex.class, true);
         if (Objects.nonNull(vertex)) {
-            List<Edge> edges = vertex.getEdges();
+            Set<Edge> edges = vertex.getEdges();
             if (edges.isEmpty()) {
-                strBuilder.add("data", vertex.getData());
+                strBuilder.add("data", vertex.getLabel());
             } else {
-                for (int i = 0; i < edges.size(); i++) {
-                    Edge edge = edges.get(i);
-                    strBuilder.add(edge.toString());
-                    if (i < edges.size() - 1) {
+                Iterator<Edge> itr = edges.iterator();
+                while (itr.hasNext()) {
+                    Edge edge = itr.next();
+                    if (strBuilder.length() > 0) {
                         strBuilder.add(", ");
                     }
+                    strBuilder.add(edge.toString());
                 }
             }
         }
@@ -110,7 +110,7 @@ public class Vertex<E extends Comparable<? super E>> implements Comparable<Verte
     @Override
     public String toString() {
         return ToString.of(Vertex.class, true)
-            .add("data", getData())
+            .add("label", getLabel())
             .add("edges", getEdges())
             .toString();
     }
@@ -148,7 +148,7 @@ public class Vertex<E extends Comparable<? super E>> implements Comparable<Verte
      */
     @Override
     public int compareTo(Vertex<E> other) {
-        return getData().compareTo(other.getData());
+        return getLabel().compareTo(other.getLabel());
     }
 
 }

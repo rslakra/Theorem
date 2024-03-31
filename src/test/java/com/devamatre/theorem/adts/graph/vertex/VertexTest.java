@@ -43,6 +43,6 @@ public class VertexTest {
         Vertex<Integer> vertex = new Vertex<>(inputData);
         assertNotNull(vertex);
         LOGGER.debug("vertex:{}", vertex);
-        assertEquals(inputData, vertex.getData());
+        assertEquals(inputData, vertex.getLabel());
     }
 }

@@ -3,6 +3,7 @@
  */
 package com.devamatre.theorem.algos.graph;
 
+import com.devamatre.theorem.adts.graph.Edge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,46 +14,9 @@ import java.util.Arrays;
  * @version 1.0.0
  * @created Aug 13, 2019 8:59:08 PM
  */
-public class GraphCycle {
+public class DetectGraphCycle {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphCycle.class);
-
-    /**
-     * @author Rohtash Lakra
-     * @version 1.0.0
-     * @Created Jul 17, 2019 11:33:45 AM
-     */
-    static class Edge implements Comparable<Edge> {
-
-        int source;
-        int target;
-        int weight;
-
-        /**
-         * @param source
-         * @param target
-         * @param weight
-         */
-        Edge(int source, int target, int weight) {
-            this.source = source;
-            this.target = target;
-            this.weight = weight;
-        }
-
-        Edge() {
-        }
-
-        /**
-         * Sort by edge.
-         *
-         * @param edge the object to be compared.
-         * @return
-         */
-        @Override
-        public int compareTo(Edge edge) {
-            return weight - edge.weight;
-        }
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(DetectGraphCycle.class);
 
     /**
      * @author Rohtash Lakra
@@ -74,11 +38,13 @@ public class GraphCycle {
         }
     }
 
-    private int vertexCount, edgeCount;
-    private Edge[] edges;
+    private int vertexCount;
+    private int edgeCount;
+    private boolean directed;
+
+    private Edge<Integer>[] edges;
     private int[] parents;
     private int[] ranks;
-    private boolean directedGraph;
     private SubSet[] subSets;
 
     /**
@@ -86,10 +52,11 @@ public class GraphCycle {
      * @param edgeCount
      * @param directedGraph
      */
-    public GraphCycle(int vertexCount, int edgeCount, boolean directedGraph) {
+    public DetectGraphCycle(int vertexCount, int edgeCount, boolean directedGraph) {
         this.vertexCount = vertexCount;
         this.edgeCount = edgeCount;
-        this.directedGraph = directedGraph;
+//        this.edgeCount = directedGraph ? edgeCount : edgeCount * 2;
+        this.directed = directedGraph;
         this.initEdges();
     }
 
@@ -97,7 +64,7 @@ public class GraphCycle {
      * @param vertexCount
      * @param edgeCount
      */
-    public GraphCycle(int vertexCount, int edgeCount) {
+    public DetectGraphCycle(int vertexCount, int edgeCount) {
         this(vertexCount, edgeCount, false);
     }
 
@@ -120,8 +87,8 @@ public class GraphCycle {
      *
      * @return directedGraph
      */
-    public boolean isDirectedGraph() {
-        return directedGraph;
+    public boolean isDirected() {
+        return directed;
     }
 
     /**
@@ -133,6 +100,16 @@ public class GraphCycle {
             edges[i] = new Edge();
         }
     }
+
+    /**
+     * @param index
+     * @param source
+     * @param target
+     */
+    protected void addEdge(int index, int source, int target) {
+        edges[index] = Edge.of(source, target);
+    }
+
 
     /**
      * Creates n sets with single item in each.
@@ -151,26 +128,6 @@ public class GraphCycle {
                 parents[i] = i;
             }
         }
-    }
-
-    /**
-     *
-     */
-    protected void initSubSets() {
-        subSets = new SubSet[getVertices()];
-        for (int i = 0; i < getVertices(); i++) {
-            subSets[i] = new SubSet(i, 0);
-        }
-    }
-
-    /**
-     * @param index
-     * @param source
-     * @param target
-     */
-    protected void addEdge(int index, int source, int target) {
-        edges[index].source = source;
-        edges[index].target = target;
     }
 
     /**
@@ -236,13 +193,13 @@ public class GraphCycle {
         // vertices of every edge, if both subsets are same, then
         // there is cycle in graph.
         for (int i = 0; i < getEdges(); i++) {
-            int sourceParent = find(edges[i].source);
-            int targetParent = find(edges[i].target);
+            int sourceParent = find(edges[i].getSource());
+            int targetParent = find(edges[i].getTarget());
             if (sourceParent == targetParent) {
                 return true;
             }
 
-            union(edges[i].source, edges[i].target);
+            union(edges[i].getSource(), edges[i].getTarget());
         }
 
         return false;
@@ -281,20 +238,20 @@ public class GraphCycle {
     /**
      * @return
      */
-    public boolean hasCycleInUndirectGraph() {
+    public boolean hasCycleInUndirectedGraph() {
         markSets(true);
 
         // Iterate through all edges of graph, find subset of both
         // vertices of every edge, if both subsets are same, then
         // there is cycle in graph.
         for (int i = 0; i < getEdges(); i++) {
-            int leftParent = find(parents, edges[i].source);
-            int rightParent = find(parents, edges[i].target);
+            int leftParent = find(parents, edges[i].getSource());
+            int rightParent = find(parents, edges[i].getTarget());
             if (leftParent == rightParent) {
                 return true;
             }
 
-            union(parents, edges[i].source, edges[i].target);
+            union(parents, edges[i].getSource(), edges[i].getTarget());
         }
 
         return false;
@@ -340,26 +297,33 @@ public class GraphCycle {
     }
 
     /**
-     * @param graph
+     *
+     */
+    private void initSubSets() {
+        subSets = new SubSet[getVertices()];
+        for (int i = 0; i < getVertices(); i++) {
+            subSets[i] = new SubSet(i, 0);
+        }
+    }
+
+    /**
      * @return
      */
-    public boolean hasCycleByPathCompression(GraphCycle graph) {
-        if (graph != null) {
-            initSubSets();
+    public boolean hasCycleByPathCompression() {
+        initSubSets();
 
-            // Iterate through all edges of graph, find subset of both
-            // vertices of every edge, if both subsets are same, then
-            // there is cycle in graph.
-            for (int i = 0; i < graph.getEdges(); i++) {
-                int leftParent = graph.find(subSets, graph.edges[i].source);
-                int rightParent = graph.find(subSets, graph.edges[i].target);
-                if (leftParent == rightParent) {
-                    return true;
-                }
-
-                graph.union(subSets, graph.edges[i].source, graph.edges[i].target);
+        // Iterate through all edges of graph, find subset of both
+        // vertices of every edge, if both subsets are same, then
+        // there is cycle in graph.
+        for (int i = 0; i < getEdges(); i++) {
+            Edge<Integer> edge = edges[i];
+            int leftParent = find(subSets, edge.getSource());
+            int rightParent = find(subSets, edge.getTarget());
+            if (leftParent == rightParent) {
+                return true;
             }
 
+            union(subSets, edge.getSource(), edge.getTarget());
         }
 
         return false;
@@ -379,18 +343,40 @@ public class GraphCycle {
          * 1-----2
          * </pre>
          */
+
+        DetectGraphCycle graph = new DetectGraphCycle(3, 3);
+        // add edge 0-1
+        graph.addEdge(0, 0, 1);
+        // add edge 0-2
+        graph.addEdge(1, 0, 2);
+        // add edge 1-2
+        graph.addEdge(2, 1, 2);
+
+        LOGGER.debug("graph:{}", graph);
+
+        if (graph.hasCycleInUndirectedGraph()) {
+            LOGGER.debug("graph contains cycle");
+        } else {
+            LOGGER.debug("graph doesn't contain cycle");
+        }
+
+        if (graph.hasCycleByPathCompression()) {
+            LOGGER.debug("graph contains cycle");
+        } else {
+            LOGGER.debug("graph doesn't contain cycle");
+        }
+
+        // union-find
         int vertices = 5;
         int edges = 3;
-        GraphCycle graph = new GraphCycle(vertices, edges);
+        graph = new DetectGraphCycle(vertices, edges);
         // init
         graph.markSets(false);
 
         // 0 is a friend of 2
         graph.union(0, 2);
-
         // 4 is a friend of 2
         graph.union(4, 2);
-
         // 3 is a friend of 1
         graph.union(3, 1);
 
@@ -407,37 +393,6 @@ public class GraphCycle {
         } else {
             System.out.println("No");
         }
-
-        /**
-         * Let us create following graph
-         *
-         * <pre>
-         *    0
-         *   / \
-         *  /   \
-         * 1-----2
-         * </pre>
-         */
-        graph = new GraphCycle(3, edges);
-        // add edge 0-1
-        graph.addEdge(0, 0, 1);
-        // add edge 1-2
-        graph.addEdge(1, 1, 2);
-        // add edge 0-2
-        graph.addEdge(2, 0, 2);
-
-        if (graph.hasCycleInUndirectGraph()) {
-            System.out.println("graph contains cycle");
-        } else {
-            System.out.println("graph doesn't contain cycle");
-        }
-
-        if (graph.hasCycleByPathCompression(graph)) {
-            System.out.println("graph contains cycle");
-        } else {
-            System.out.println("graph doesn't contain cycle");
-        }
-
     }
 
 }

@@ -17,9 +17,9 @@ import java.util.List;
  * @author Rohtash Lakra
  * @created 2/13/24 12:14 PM
  */
-public class EdgeTest {
+public class GraphEdgeTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EdgeTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphEdgeTest.class);
 
     /**
      * @return
@@ -39,19 +39,33 @@ public class EdgeTest {
     }
 
     /**
-     * Tests the <code>new Edge()</code> method.
+     * Tests the <code>new GraphEdge()</code> method.
      */
     @Test(dataProvider = "inputData")
-    public void testEdge(int source, int target, BigDecimal weight, boolean direct) {
-        LOGGER.debug("testEdge({}, {}, {}, {})", source, target, weight, direct);
+    public void testGraphEdge(int source, int target, BigDecimal weight, boolean directed) {
+        LOGGER.debug("testGraphEdge({}, {}, {}, {})", source, target, weight, directed);
         Vertex<Integer> sourceVertex = new Vertex<>(source);
+        LOGGER.debug("sourceVertex:{}", sourceVertex);
+        assertNotNull(sourceVertex);
         Vertex<Integer> targetVertex = new Vertex<>(target);
-        Edge edge = new Edge(sourceVertex, targetVertex, weight, direct);
-        assertNotNull(edge);
+        LOGGER.debug("targetVertex:{}", targetVertex);
+        assertNotNull(targetVertex);
+
+        // create an edge
+        GraphEdge edge = GraphEdge.of(sourceVertex, targetVertex, weight, directed);
         LOGGER.debug("edge:{}", edge);
-        assertEquals(source, edge.getSource().getData());
-        assertEquals(target, edge.getTarget().getData());
+        assertNotNull(edge);
+
+        // validate source vertex
+        assertEquals(source, edge.getSource().getLabel());
+        assertEquals(target, edge.getTarget().getLabel());
         assertEquals(weight, edge.getWeight());
-        assertEquals(direct, edge.isDirected());
+        assertEquals(directed, edge.isDirected());
+
+        // validate target vertex
+        assertEquals(source, edge.getSource().getLabel());
+        assertEquals(target, edge.getTarget().getLabel());
+        assertEquals(weight, edge.getWeight());
+        assertEquals(directed, edge.isDirected());
     }
 }

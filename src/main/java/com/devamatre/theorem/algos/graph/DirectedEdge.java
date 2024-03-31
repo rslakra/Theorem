@@ -1,6 +1,6 @@
 package com.devamatre.theorem.algos.graph;
 
-import com.devamatre.theorem.adts.graph.vertex.Edge;
+import com.devamatre.theorem.adts.graph.Edge;
 import com.devamatre.theorem.adts.graph.vertex.Vertex;
 
 import java.math.BigDecimal;

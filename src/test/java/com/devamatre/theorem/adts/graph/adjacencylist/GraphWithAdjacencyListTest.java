@@ -1,11 +1,15 @@
 package com.devamatre.theorem.adts.graph.adjacencylist;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import com.devamatre.theorem.adts.graph.AbstractGraphTest;
 import com.devamatre.theorem.adts.graph.Edge;
+import com.devamatre.theorem.adts.graph.Graph;
 import com.devamatre.theorem.adts.graph.GraphUtilsTest;
+import org.junit.jupiter.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
@@ -176,6 +180,75 @@ public class GraphWithAdjacencyListTest extends AbstractGraphTest {
     }
 
     /**
+     * Test <code>hasCycleInUndirectedGraph()</code> method.
+     */
+    @Test
+    public void testHasCycleInUndirectedGraph() {
+        LOGGER.debug("testHasCycleInUndirectedGraph()");
+        // no cycle
+        GraphWithAdjacencyList<Integer> graphNoCycle = new GraphWithAdjacencyList<>();
+        Assertions.assertNotNull(graphNoCycle);
+        GraphUtilsTest.fillGraph(graphNoCycle, false);
+        assertFalse(graphNoCycle.hasCycleInUndirectedGraph());
+
+        // with cycle
+        GraphWithAdjacencyList<Integer> graphWithCycle = new GraphWithAdjacencyList<>();
+        Assertions.assertNotNull(graphWithCycle);
+        GraphUtilsTest.fillGraph(graphWithCycle, true);
+        assertTrue(graphWithCycle.hasCycleInUndirectedGraph());
+    }
+
+    /**
+     * Test <code>hasCycleInDirectedGraph()</code> method.
+     */
+    @Test
+    public void testHasCycleInDirectedGraph() {
+        LOGGER.debug("testHasCycleInDirectedGraph()");
+        // no cycle data
+        GraphWithAdjacencyList<Integer> graphNoCycle = new GraphWithAdjacencyList<>(false, true);
+        Assertions.assertNotNull(graphNoCycle);
+        GraphUtilsTest.fillGraph(graphNoCycle, false);
+        assertFalse(graphNoCycle.hasCycleInDirectedGraph());
+
+        // with cycle data
+        GraphWithAdjacencyList<Integer> graphWithCycle = new GraphWithAdjacencyList<>(false, true);
+        Assertions.assertNotNull(graphWithCycle);
+        GraphUtilsTest.fillGraph(graphWithCycle, true);
+        assertTrue(graphWithCycle.hasCycleInDirectedGraph());
+    }
+
+    /**
+     * Test <code>hasCycle()</code> method.
+     */
+    @Test
+    public void testHasCycle() {
+        LOGGER.debug("testHasCycle()");
+        // no cycle data
+        GraphWithAdjacencyList<Integer> graphNoCycle = new GraphWithAdjacencyList<>();
+        Assertions.assertNotNull(graphNoCycle);
+        GraphUtilsTest.fillGraph(graphNoCycle, false);
+        assertFalse(graphNoCycle.hasCycle());
+
+        // no cycle data
+        graphNoCycle = new GraphWithAdjacencyList<>(false, true);
+        Assertions.assertNotNull(graphNoCycle);
+        GraphUtilsTest.fillGraph(graphNoCycle, false);
+        assertFalse(graphNoCycle.hasCycle());
+
+        // with cycle data
+        GraphWithAdjacencyList<Integer> graphWithCycle = new GraphWithAdjacencyList<>();
+        Assertions.assertNotNull(graphWithCycle);
+        GraphUtilsTest.fillGraph(graphWithCycle, true);
+        assertTrue(graphWithCycle.hasCycle());
+
+        // with cycle data
+        graphWithCycle = new GraphWithAdjacencyList<>(false, true);
+        Assertions.assertNotNull(graphWithCycle);
+        GraphUtilsTest.fillGraph(graphWithCycle, true);
+        assertTrue(graphWithCycle.hasCycle());
+    }
+
+    /**
      * Tests the <code></code> method.
      */
     @Override
@@ -204,14 +277,6 @@ public class GraphWithAdjacencyListTest extends AbstractGraphTest {
      */
     @Override
     public void testGetSortedVertices() {
-
-    }
-
-    /**
-     * Tests the <code></code> method.
-     */
-    @Override
-    public void testHasCycle() {
 
     }
 

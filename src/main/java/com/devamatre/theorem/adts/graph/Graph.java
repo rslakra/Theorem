@@ -1,5 +1,6 @@
 package com.devamatre.theorem.adts.graph;
 
+import com.devamatre.theorem.adts.AlgoUtils;
 import com.devamatre.theorem.adts.graph.adjacencylist.GraphWithAdjacencyList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,174 +66,6 @@ public class Graph<E extends Comparable<? super E>> extends GraphWithAdjacencyLi
      */
 
     /**
-     * Back-Edge/Cycle detection criteria
-     *
-     * @param current
-     * @param visited
-     * @param parent
-     * @return
-     */
-    public boolean hasCycleInUndirectedGraph(E current, Set<E> visited, E parent) {
-        visited.add(current);
-        // visit neighbors of current vertex
-        Iterator<Edge<E>> itr = getNeighbors(current).iterator();
-        while (itr.hasNext()) {
-            Edge<E> edge = itr.next();
-            if (visited.contains(edge.getTarget())
-                && edge.getTarget() != parent) { // Case 1: Target Already Visited and Parent != Target (back-edge)
-                return true;
-            } else if (!visited.contains(edge.getTarget())) { // Case 3: Target Not Already Visited
-                if (hasCycleInUndirectedGraph(edge.getTarget(), visited, current)) {
-                    return true;
-                }
-            }
-            // Case 2: Target Already Visited and Parent == Target (Nothing to do for this case)
-        }
-
-        return false;
-    }
-
-    /**
-     * @return
-     */
-    public boolean hasCycleInUndirectedGraph() {
-        Set<E> visited = new HashSet<>();
-        Iterator<E> itr = getAdjList().keySet().iterator();
-        while (itr.hasNext()) {
-            E current = itr.next();
-            if (!visited.contains(current)) {
-                if (hasCycleInUndirectedGraph(current, visited, null)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param current
-     * @param visited
-     * @param hashSet
-     * @return
-     */
-    public boolean hasCycleDirected(E current, Set<E> visited, Set<E> hashSet) {
-        visited.add(current);
-        hashSet.add(current);
-        // visit neighbors of current vertex
-        if (hasVertex(current)) {
-            Iterator<Edge<E>> itr = getNeighbors(current).iterator();
-            while (itr.hasNext()) {
-                Edge<E> edge = itr.next();
-                if (hashSet.contains(edge.getTarget())) { // Case 1: Target Already in Recursion Stack
-                    return true;
-                } else if (!visited.contains(edge.getTarget())) { // Case 3: Target Not Already Visited
-                    if (hasCycleDirected(edge.getTarget(), visited, hashSet)) {
-                        return true;
-                    }
-                }
-                // Case 2: Target Already Visited and Parent == Target (Nothing to do for this case)
-            }
-
-            // remove while back-tracking
-            hashSet.remove(current);
-        }
-
-        return false;
-    }
-
-    /**
-     * @return
-     */
-    public boolean cycleDetectionDirected() {
-        Set<E> visited = new HashSet<>();
-        Set<E> stack = new HashSet<>();
-        Iterator<E> itr = getAdjList().keySet().iterator();
-        while (itr.hasNext()) {
-            E current = itr.next();
-            if (!visited.contains(current)) {
-                if (hasCycleDirected(current, visited, stack)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Only Used for DAG (Directed Acyclic Graph)
-     * <p>
-     * Linear order of vertices such that every directed edge u -> v, the vertex u comes before vertex v, in the order.
-     * <p>
-     * When to use: for dependencies.
-     *
-     * @return
-     */
-    public void topSort(E current, Set<E> visited, Stack<E> stack) {
-        visited.add(current);
-        if (hasVertex(current)) {
-            // visit all neighbors of the current vertex
-            Iterator<Edge<E>> itr = getNeighbors(current).iterator();
-            while (itr.hasNext()) {
-                Edge<E> edge = itr.next();
-                if (!visited.contains(edge.getTarget())) {
-                    topSort(edge.getTarget(), visited, stack);
-                }
-            }
-
-            // after visiting neighbors, push current to stack
-            stack.push(current);
-        }
-    }
-
-    /**
-     * Only Used for DAG (Directed Acyclic Graph)
-     * <p>
-     * Linear order of vertices such that every directed edge u -> v, the vertex u comes before vertex v, in the order.
-     * <p>
-     * When to use: for dependencies.
-     *
-     * @return
-     */
-    public Stack<E> topSort() {
-        final Set<E> visited = new HashSet<>();
-        final Stack<E> topSort = new Stack<>();
-        // traverse each vertex of the graph
-        Iterator<E> itr = getAdjList().keySet().iterator();
-        while (itr.hasNext()) {
-            E current = itr.next();
-            if (!visited.contains(current)) {
-                topSort(current, visited, topSort);
-            }
-        }
-
-        LOGGER.debug("topSort:{}", topSort);
-        return topSort;
-    }
-
-    /**
-     * Only Used for DAG (Directed Acyclic Graph)
-     * <p>
-     * Linear order of vertices such that every directed edge u -> v, the vertex u comes before vertex v, in the order.
-     * <p>
-     * When to use: for dependencies.
-     *
-     * @return
-     */
-    public List<E> topSortList() {
-        List<E> topSort = new ArrayList<>();
-        final Stack<E> stack = topSort();
-        // convert stack to list.
-        while (!stack.isEmpty()) {
-            topSort.add(stack.pop());
-        }
-
-        LOGGER.debug("topSort:{}", topSort);
-        return topSort;
-    }
-
-    /**
      * Only Used for DAG (Directed Acyclic Graph)
      * <p>
      * Linear order of vertices such that every directed edge u -> v, the vertex u comes before vertex v, in the order.
@@ -243,7 +76,7 @@ public class Graph<E extends Comparable<? super E>> extends GraphWithAdjacencyLi
      */
     public List<List<E>> topSorts() {
         List<List<E>> topSorts = new ArrayList<>();
-        List<E> topSort = topSortList();
+        List<E> topSort = topSort();
         topSorts.add(topSort);
         LOGGER.debug("topSorts:{}", topSorts);
         return topSorts;
@@ -550,7 +383,7 @@ public class Graph<E extends Comparable<? super E>> extends GraphWithAdjacencyLi
     public Set<Set<E>> kosarajuAlgorithm() {
         Set<Set<E>> stronglyConnectedComponents = new LinkedHashSet<>();
         // Step 1: Get nodes in stack (Topological Sort)
-        Stack<E> topSort = topSort();
+        Stack<E> topSort = AlgoUtils.listAsStack(topSort());
         // Step 2: Transpose the graph
         final Graph<E> graphTransposed = transposeDirectedGraph();
         // Step 3: Do DFS according to stack nodes on the transposed graph
@@ -595,7 +428,6 @@ public class Graph<E extends Comparable<? super E>> extends GraphWithAdjacencyLi
                 // if the neighbor is equal to parent, continue (nothing to do)
                 if (edge.getTarget().equals(parent)) {
                     // nothing to do here.
-                    continue;
                 } else if (!visited.contains(edge.getTarget())) {
                     // visit neighbors
                     dfsGraphBridges(edge.getTarget(), visited, current, time, discoveryTime, lowestDiscoveryTime,

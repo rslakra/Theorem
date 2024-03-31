@@ -358,7 +358,7 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
     /**
      * Returns the maximum/minimum <code>element</code> from the queue.
      * <p>
-     * The maximum/minimum (root) <code>element</code> resides at index 1.
+     * The maximum/minimum (root) <code>element</code> resides at index 0.
      * <p>
      * Time Complexity: O(1)
      *
@@ -366,6 +366,26 @@ public abstract class Heap<E extends Comparable<? super E>> implements Comparabl
      */
     public E peek() {
         return (E) (isEmpty() ? null : getQueue()[0]);
+    }
+
+    /**
+     * Removes the maximum/minimum <code>element</code> from the queue.
+     * <p>
+     * The maximum/minimum (root) <code>element</code> resides at index 0.
+     * <p>
+     * Retrieves and removes the head of the queue represented by this queue (in other words, the first element of this
+     * queue), or returns {@code null} if this queue is empty. Time Complexity: O(1)
+     *
+     * @return
+     */
+    public E poll() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        // remove the first element of the queue.
+        Object removed = getQueue()[0];
+        return (E) removed;
     }
 
     /**

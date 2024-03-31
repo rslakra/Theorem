@@ -386,7 +386,7 @@ public class GraphTest extends AbstractGraphTest {
         //  }
         // Print the adjacency list representation of the above graph
         graph.printGraph();
-        assertEquals(expected, graph.cycleDetectionDirected());
+        assertEquals(expected, graph.hasCycleInDirectedGraph());
     }
 
     @Test

@@ -57,7 +57,7 @@ public class VertexBasedGraph<E extends Comparable<? super E>> extends AbstractG
     @Override
     public Set<E> getVertices() {
         return vertices.stream()
-            .map(vertex -> (E) vertex.getData())
+            .map(vertex -> (E) vertex.getLabel())
             .collect(Collectors.toSet());
     }
 
@@ -70,7 +70,7 @@ public class VertexBasedGraph<E extends Comparable<? super E>> extends AbstractG
     @Override
     public boolean hasVertex(E vertex) {
         return vertices.stream()
-            .filter(entry -> entry.getData().compareTo(vertex) == 0)
+            .filter(entry -> entry.getLabel().compareTo(vertex) == 0)
             .findFirst()
             .isPresent();
     }
@@ -85,8 +85,9 @@ public class VertexBasedGraph<E extends Comparable<? super E>> extends AbstractG
     public Set<Edge<E>> getNeighbors(E vertex) {
         Vertex<E> graphVertex = findVertex(vertex);
         Set<Edge<E>> edges = new HashSet<>();
-        for (com.devamatre.theorem.adts.graph.vertex.Edge edge : graphVertex.getEdges()) {
-            edges.add(Edge.of(edge.getSource().getData(), edge.getTarget().getData(), edge.getWeight(), isDirected()));
+        for (GraphEdge<E> edge : graphVertex.getEdges()) {
+            edges.add(
+                Edge.of(edge.getSource().getLabel(), edge.getTarget().getLabel(), edge.getWeight(), isDirected()));
         }
 
         return edges;
@@ -112,7 +113,26 @@ public class VertexBasedGraph<E extends Comparable<? super E>> extends AbstractG
     @Override
     public E firstVertex() {
         // pick the first vertex and return its data.
-        return (E) vertices.iterator().next().getData();
+        return (E) vertices.iterator().next().getLabel();
+    }
+
+    /**
+     * Adds the vertex with <code>label</code>.
+     *
+     * @param label
+     */
+    public void addVertex(E label) {
+        Vertex<E> vertex = new Vertex<>(label);
+        vertices.add(vertex);
+    }
+
+    /**
+     * Removes the vertex with <code>label</code>.
+     *
+     * @param label
+     */
+    public void removeVertex(E label) {
+        vertices.removeIf(vertex -> vertex.getLabel().compareTo(label) == 0);
     }
 
     /**
@@ -179,7 +199,7 @@ public class VertexBasedGraph<E extends Comparable<? super E>> extends AbstractG
      */
     protected Vertex<E> findVertex(E source) {
         for (Vertex<E> vertex : vertices) {
-            if (vertex.getData().compareTo(source) == 0) {
+            if (vertex.getLabel().compareTo(source) == 0) {
                 return vertex;
             }
         }
@@ -229,16 +249,6 @@ public class VertexBasedGraph<E extends Comparable<? super E>> extends AbstractG
     @Override
     public void printGraph() {
         getVertices().forEach(vertex -> vertex.toString());
-    }
-
-    /**
-     * Returns true if the graph has cycle otherwise false.
-     *
-     * @return
-     */
-    @Override
-    public boolean hasCycle() {
-        return false;
     }
 
     /**
