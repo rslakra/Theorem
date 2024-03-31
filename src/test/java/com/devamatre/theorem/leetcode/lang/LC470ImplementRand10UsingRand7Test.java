@@ -54,8 +54,8 @@ public class LC470ImplementRand10UsingRand7Test {
     public void testRand10() {
         LOGGER.debug("testRand10()");
         LC470ImplementRand10UsingRand7 instance = new LC470ImplementRand10UsingRand7();
-        int result = instance.rand10_1();
+        int result = instance.rand10();
         LOGGER.debug("result:{}, expected:{}", result);
-        assertEquals(result, instance.rand10_2());
+        assertEquals(result, instance.rand10Optimized());
     }
 }

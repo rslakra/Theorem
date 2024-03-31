@@ -24,7 +24,7 @@ public class LC470ImplementRand10UsingRand7 {
      *
      * @return
      */
-    public int rand10_1() {
+    public int rand10() {
         while (true) {
             int row = (rand7() - 1) * 7;
             int col = rand7();
@@ -43,9 +43,9 @@ public class LC470ImplementRand10UsingRand7 {
      *
      * @return
      */
-    public int rand10_2() {
+    public int rand10Optimized() {
         int row = (rand7() - 1) * 7;
         int col = rand7();
-        return ((row + col) > 40 ? rand10_2() : ((row + col - 1) % 10 + 1));
+        return ((row + col) > 40 ? rand10Optimized() : ((row + col - 1) % 10 + 1));
     }
 }

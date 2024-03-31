@@ -3,7 +3,6 @@ package com.devamatre.theorem.leetcode.tree;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +31,9 @@ public class LC987VerticalOrderTraversalOfBinaryTree {
 
     // node data comparator
     private Comparator<NodeData>
-        nodeDataComparator =
-        (left, right) -> (left.yAxis == right.yAxis ? left.rootNode.val - right.rootNode.val
-                                                    : left.yAxis - right.yAxis);
+            nodeDataComparator =
+            (left, right) -> (left.yAxis == right.yAxis ? left.rootNode.val - right.rootNode.val
+                    : left.yAxis - right.yAxis);
 
     /**
      * @param rootNode

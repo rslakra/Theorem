@@ -109,7 +109,8 @@ public class LC128LongestConsecutiveSequence {
         // System.out.println(map);
         int max = 0;
         for (int num : map.keySet()) {
-            if (map.get(num)) {// value == true
+            // value == true
+            if (map.get(num)) {
                 int count = 0;
                 while (map.containsKey(num)) {
                     count++;
@@ -165,7 +166,8 @@ public class LC128LongestConsecutiveSequence {
         // System.out.println(map);
         int max = 0;
         for (int num : map.keySet()) {
-            if (map.get(num)) {// value == true
+            // value == true
+            if (map.get(num)) {
                 int count = findCount(num, map);
                 max = Math.max(max, count);
             }
