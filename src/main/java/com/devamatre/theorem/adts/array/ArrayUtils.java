@@ -330,15 +330,10 @@ public enum ArrayUtils {
     /**
      * Prints the 2D (two-dimensional) array.
      *
-     * @param data
+     * @param matrix
      */
-    public static <E> void printMatrix(E[][] data) {
-        for (int row = 0; row < data.length; row++) {
-            for (int column = 0; column < data.length; column++) {
-                System.out.print(data[row][column] + " ");
-            }
-            System.out.println();
-        }
+    public static <E> void printMatrix(E[][] matrix) {
+        TablePrettyPrinter.buildPrettyPrinter().prettyPrint(matrix);
     }
 
     /**
@@ -364,7 +359,6 @@ public enum ArrayUtils {
         }
         LOGGER.trace("-printDiagonally()");
     }
-
 
     /**
      * Returns the index of an element in an array.

@@ -6,7 +6,7 @@ import java.util.List;
  * @author Rohtash Lakra
  * @created 1/14/24 1:54 PM
  */
-public interface PrettyPrinter<E extends Comparable<? super E>> {
+public interface PrettyPrinter<E> {
 
     /**
      * Prints the pretty <code>elements</code> horizontally.
@@ -23,20 +23,13 @@ public interface PrettyPrinter<E extends Comparable<? super E>> {
     void prettyPrint(E[][] elements);
 
     /**
-     * Prints the pretty <code>elements</code>.
-     *
-     * @param elements
-     */
-    void prettyPrint(Object[][] elements);
-
-    /**
-     * @param stringBuilder
+     * @param strBuilder
      * @param size
      * @param fillWith
      */
-    default void fillBuilder(final StringBuilder stringBuilder, int size, String fillWith) {
+    default void fillBuilder(final StringBuilder strBuilder, int size, String fillWith) {
         for (int i = 0; i < size; i++) {
-            stringBuilder.append(fillWith);
+            strBuilder.append(fillWith);
         }
     }
 

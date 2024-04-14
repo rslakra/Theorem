@@ -15,6 +15,7 @@ public class LC46Permutations {
             return;
         }
 
+        // iterate each element of nums
         for (int i = 0; i < nums.length; i++) {
             if (visited[i]) {
                 continue;

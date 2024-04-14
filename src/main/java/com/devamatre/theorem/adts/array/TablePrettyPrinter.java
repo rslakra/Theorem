@@ -9,7 +9,7 @@ import java.io.Writer;
  * @author Rohtash Lakra
  * @created 1/14/24 2:00 PM
  */
-public class TablePrettyPrinter<E extends Comparable<? super E>> extends AbstractPrettyPrinter<E> {
+public class TablePrettyPrinter<E> extends AbstractPrettyPrinter<E> {
 
     /**
      * @param writer
@@ -26,10 +26,12 @@ public class TablePrettyPrinter<E extends Comparable<? super E>> extends Abstrac
     }
 
     /**
+     * Returns the <code>TablePrettyPrinter</code> instance.
+     *
      * @param <E>
      * @return
      */
-    public static <E extends Comparable<? super E>> PrettyPrinter<E> buildPrettyPrinter() {
+    public static <E> PrettyPrinter<E> buildPrettyPrinter() {
         return new TablePrettyPrinter<>();
     }
 

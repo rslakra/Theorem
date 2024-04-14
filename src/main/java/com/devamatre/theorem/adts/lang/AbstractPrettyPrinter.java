@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author Rohtash Lakra
  * @created 1/14/24 2:10 PM
  */
-public abstract class AbstractPrettyPrinter<E extends Comparable<? super E>> implements PrettyPrinter<E> {
+public abstract class AbstractPrettyPrinter<E> implements PrettyPrinter<E> {
 
     protected static final int BUFFER = 1024;
     private static final String BORDER_KNOT = "+";
@@ -229,6 +229,12 @@ public abstract class AbstractPrettyPrinter<E extends Comparable<? super E>> imp
 
     /**
      * Builds the row with columns data and borders.
+     * <p>
+     * <pre>
+     *  System.out.println(
+     *    Arrays.deepToString(matrix) .replace("],", "\n") .replace(",", "\t| ").replaceAll("[\\[\\]]"," ")
+     *  );
+     * </pre>
      *
      * @param rowColumns
      * @param columnWidths
@@ -240,7 +246,8 @@ public abstract class AbstractPrettyPrinter<E extends Comparable<? super E>> imp
         final StringBuilder rowBuilder = new StringBuilder(lineLength).append(VERTICAL_BORDER);
         // max width of the columns
         for (int i = 0; i < columnWidths.size(); i++) {
-            rowBuilder.append(padRight(toString(getCellValue(rowColumns, i)), columnWidths.get(i)))
+            rowBuilder
+                .append(padRight(toString(getCellValue(rowColumns, i)), columnWidths.get(i)))
                 .append(VERTICAL_BORDER);
         }
 
@@ -344,16 +351,6 @@ public abstract class AbstractPrettyPrinter<E extends Comparable<? super E>> imp
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
-    }
-
-    /**
-     * Prints the pretty <code>elements</code>.
-     *
-     * @param elements
-     */
-    @Override
-    public void prettyPrint(Object[][] elements) {
-        System.out.println(this);
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.devamatre.theorem.coderbyte;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -9,16 +11,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.testng.AssertJUnit.*;
-
 /**
- * @author Rohtash Lakra
- * @version 1.0.0
- * @since 03/11/2021 5:27 PM
- * <p>
+ * <pre>
  * https://javachallengers.com/tree-data-structure-with-java/
  * https://github.com/rajat4255/Tree-constructor/blob/main/main.py
  * https://coderbyte.com/solution/Tree%20Constructor
+ * </pre>
+ *
+ * @author Rohtash Lakra
+ * @version 1.0.0
+ * @since 03/11/2021 5:27 PM
  */
 public class TreeConstructorTwoTest {
 
@@ -50,5 +52,7 @@ public class TreeConstructorTwoTest {
         boolean result = TreeConstructorTwo.treeConstructor(input);
         LOGGER.debug("result:{}", result);
         assertEquals(expected, result);
+        System.out.println();
+        assertEquals(expected, TreeConstructorTwo.treeConstructorWithGraph(input));
     }
 }

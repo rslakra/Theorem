@@ -36,14 +36,4 @@ public class LC1396DesignUndergroundSystem {
         return -1;
     }
 
-    /**
-     * Your UndergroundSystem object will be instantiated and called as such: UndergroundSystem obj = new
-     * UndergroundSystem(); obj.checkIn(id,stationName,t); obj.checkOut(id,stationName,t); double param_3 =
-     * obj.getAverageTime(startStation,endStation);
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-
-    }
 }

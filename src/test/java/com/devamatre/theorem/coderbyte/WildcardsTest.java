@@ -1,5 +1,7 @@
 package com.devamatre.theorem.coderbyte;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -9,15 +11,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.testng.AssertJUnit.*;
-
 /**
  * @author Rohtash Lakra
  * @version 1.0.0
  * @since 03/11/2021 5:27 PM
  */
 public class WildcardsTest {
-
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WildcardsTest.class);
 
