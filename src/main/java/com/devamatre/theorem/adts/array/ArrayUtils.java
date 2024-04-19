@@ -398,4 +398,22 @@ public enum ArrayUtils {
         return parent[vertex];
     }
 
+    /**
+     * Returns the <code>int[]</code> for the provided <code>Integer[]</code>.
+     *
+     * @return
+     */
+    public static int[] toIntArray(Integer[] inputData) {
+        return Arrays.stream(inputData).mapToInt(Integer::intValue).toArray();
+    }
+
+    /**
+     * Returns the <code>int[]</code> for the provided <code>Integer[]</code>.
+     *
+     * @return
+     */
+    public static int[] toIntArray(List<Integer> inputData) {
+        return inputData.stream().mapToInt(Integer::intValue).toArray();
+    }
+
 }
