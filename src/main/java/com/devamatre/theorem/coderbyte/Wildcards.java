@@ -66,8 +66,8 @@ public class Wildcards {
      * @param index
      * @return
      */
-    private static int getSize(String pattern, int index) {
-        int maxSize = 3;
+    private static int getPatternSize(String pattern, int index, int defaultSize) {
+        int maxSize = defaultSize;
         if (pattern != null && index + 1 < pattern.length() && pattern.charAt(index + 1) == '{') {
             int startCurly = pattern.indexOf('{', index);
             int endCurly = pattern.indexOf('}', index);
@@ -103,7 +103,7 @@ public class Wildcards {
                 step++;
             } else if (pattern.charAt(index) == '*') {
                 // check if it's default repetition of 3 or provided length
-                int maxSize = getSize(pattern, index);
+                int maxSize = getPatternSize(pattern, index, 3);
                 // first checking for out of bounds
                 if (step + maxSize - 1 > second.length()) {
                     return false;

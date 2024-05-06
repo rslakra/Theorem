@@ -56,7 +56,7 @@ public class TreeConstructorTwo {
             parents.put(parent, parents.getOrDefault(parent, 0) + 1);
             // update children frequency
             children.put(child, children.getOrDefault(child, 0) + 1);
-            // check if either frequency is > 2 or children frequency > 1
+            // check if either parent frequency is > 2 or children frequency > 1
             if (parents.get(parent) > 2 || children.get(child) > 1) {
                 return false;
             }
