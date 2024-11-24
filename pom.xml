@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!-- Theorem -->
-    <groupId>com.devamatre.theorem</groupId>
+    <groupId>com.rslakra.theorem</groupId>
     <artifactId>Theorem</artifactId>
     <version>${revision}</version>
     <packaging>jar</packaging>
@@ -17,30 +17,33 @@
         <revision>0.0.0</revision>
 
         <!-- sourceEncoding & outputEncoding -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <defaultEncoding>UTF-8</defaultEncoding>
+        <project.build.sourceEncoding>${defaultEncoding}</project.build.sourceEncoding>
+
+        <project.reporting.outputEncoding>${defaultEncoding}</project.reporting.outputEncoding>
 
         <!-- java version -->
-        <java.version>11</java.version>
-
-        <!-- maven -->
+        <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.release>${java.version}</maven.compiler.release>
 
         <!-- maven plugins -->
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins -->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-checkstyle-plugin.version>3.5.0</maven-checkstyle-plugin.version>
 
         <!-- checkstyle -->
         <code-styles.dir>https://raw.githubusercontent.com/rslakra/code-styles/master</code-styles.dir>
         <checkstyle.threshold>0</checkstyle.threshold>
 
         <!-- appsuite-core -->
-        <appsuite-core.version>0.0.30</appsuite-core.version>
+        <appsuite-core.version>0.0.58</appsuite-core.version>
 
         <!-- lombok -->
-        <lombok.version>1.18.28</lombok.version>
+        <lombok.version>1.18.34</lombok.version>
 
         <!-- swagger -->
         <swagger.skip>false</swagger.skip>
@@ -76,7 +79,7 @@
 
         <!-- appsuite-core -->
         <dependency>
-            <groupId>com.devamatre.appsuite</groupId>
+            <groupId>com.rslakra.appsuite</groupId>
             <artifactId>appsuite-core</artifactId>
             <version>${appsuite-core.version}</version>
         </dependency>
@@ -106,7 +109,7 @@
 
     </dependencies>
 
-    <!-- profiles -->
+    <!-- Profiles -->
     <profiles>
 
         <!-- snapshot -->
@@ -144,7 +147,7 @@
         <plugins>
 
             <!-- Note:- Don't uncomment this plug-in for the common packages -->
-            <!-- frameworks-boot-maven-plugin -->
+            <!-- spring-boot-maven-plugin -->
             <!--            <plugin>-->
             <!--                <groupId>org.springframework.boot</groupId>-->
             <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
@@ -200,7 +203,7 @@
 
     </build>
 
-    <!-- reporting -->
+    <!-- Reporting -->
     <reporting>
 
         <!-- plugins -->
