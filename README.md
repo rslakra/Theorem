@@ -54,12 +54,14 @@ Run the program with the following command
 
 * [Java](https://www.java.com/en/download/mac_download.jsp) - The Java Download Location
 * [Maven](https://maven.apache.org/) - Dependency Management
+* [Python Algos](./pytheorem/README.md)
 
 ## References
 
 ---
 
 - [Support Guide](https://devamatre.atlassian.net/wiki/spaces/DEVAMATRE/pages)
+
 
 ## Authors
 
