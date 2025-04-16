@@ -1,7 +1,7 @@
 #
 # Author: Rohtash Lakra
 #
-# from logger.logutils import RequestIdFilter
+# from pytheorem.logger.logutils import RequestIdFilter
 #
 # reqeustIdFilter = RequestIdFilter()
 # https://dev.to/camillehe1992/mask-sensitive-data-using-python-built-in-logging-module-45fa

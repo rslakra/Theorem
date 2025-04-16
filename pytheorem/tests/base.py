@@ -4,8 +4,8 @@
 import logging
 import unittest
 
-from adts.time.datatime import timeMillis
-from logger import configLogger
+from pytheorem.adts.time.datatime import timeMillis
+from pytheorem.logger import configLogger
 
 configLogger()
 

@@ -1,4 +1,4 @@
 #
 # Author: Rohtash Lakra
 #
-import logger
+import pytheorem.logger

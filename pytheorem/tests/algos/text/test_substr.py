@@ -3,9 +3,9 @@
 #
 import logging
 
-from algos.text.substr import longest_substring_of_k_unique_chars
-from algos.text.substr import longest_substring_with_k_unique_chars
-from tests.base import AbstractTestCase
+from pytheorem.algos.text.substr import longest_substring_of_k_unique_chars
+from pytheorem.algos.text.substr import longest_substring_with_k_unique_chars
+from pytheorem.tests.base import AbstractTestCase
 
 logger = logging.getLogger(__name__)
 
@@ -18,10 +18,10 @@ class SubStrTest(AbstractTestCase):
         inputData = [
             (None, 1, ''),
             ("longest", 7, 'longest'),
-            ("abcaaabc", 2, 'aaabc'),
+            ("abcaaabc", 2, 'caaa'),
         ]
         for input, k, expected in inputData:
-            logger.debug(f"input={input}, k={k}")
+            logger.debug(f"input={input}, k={k}, expected={expected}")
             longest_substring = longest_substring_with_k_unique_chars(input, k)
             logger.debug(f"longest_substring={longest_substring}")
             self.assertEqual(expected, longest_substring)

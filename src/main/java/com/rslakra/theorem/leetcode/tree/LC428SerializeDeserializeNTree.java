@@ -6,7 +6,8 @@ import java.util.Stack;
 
 /**
  * Author: Rohtash Lakra
- * Created: 8/15/20 11:57 AM Version: 1.0.0
+ * Created: 8/15/20 11:57 AM
+ * Version: 1.0.0
  */
 public class LC428SerializeDeserializeNTree {
 

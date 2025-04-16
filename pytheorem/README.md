@@ -107,7 +107,7 @@ The parenthesized ```(venv)``` in front of the prompt indicates that you’ve su
 
 ```
 pip install --upgrade pip
-python3 -m pip install -r iws/requirements.txt
+python -m pip install -r pytheorem/requirements.txt
 ```
 
 
@@ -214,8 +214,8 @@ pip freeze > requirements.txt
 
 ### Unit Tests
 ```shell
-python3 -m unittest
-python -m unittest discover -s ./tests -p "test_*.py"
+python -m unittest
+python -m unittest discover -s ./pytheorem/tests -p "test_*.py"
 ```
 
 ### Performance Testing

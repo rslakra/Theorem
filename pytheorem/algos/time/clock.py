@@ -1,7 +1,7 @@
 #
 # Author: Rohtash Lakra
 #
-from adts.lang.math import Math
+from pytheorem.adts.lang.math import Math
 
 
 class LogicalClock:

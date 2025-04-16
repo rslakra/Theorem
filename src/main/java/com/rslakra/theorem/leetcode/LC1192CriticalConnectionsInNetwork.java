@@ -4,7 +4,8 @@ import java.util.List;
 
 /**
  * Author: Rohtash Lakra
- * Created: 4/18/20 11:42 AM Version: 1.0.0
+ * Created: 4/18/20 11:42 AM
+ * Version: 1.0.0
  */
 public class LC1192CriticalConnectionsInNetwork {
 
