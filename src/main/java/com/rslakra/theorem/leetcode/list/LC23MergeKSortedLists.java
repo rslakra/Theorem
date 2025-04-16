@@ -1,7 +1,8 @@
 package com.rslakra.theorem.leetcode.list;
 
 /**
- * Author: Rohtash Singh Lakra Created: 4/18/20 11:21 AM Version: 1.0.0
+ * Author: Rohtash Lakra
+ * Created: 4/18/20 11:21 AM Version: 1.0.0
  */
 public class LC23MergeKSortedLists {
 

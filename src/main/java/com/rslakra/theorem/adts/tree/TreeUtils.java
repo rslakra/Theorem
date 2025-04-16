@@ -397,10 +397,10 @@ public enum TreeUtils {
 
         int level = maxLevel - minLevel;
         int levelPower = (int) Math.pow(2, level);
-// int nodePosition = (int) Math.pow(2, levelPower) - 1;
+        // int nodePosition = (int) Math.pow(2, levelPower) - 1;
         int nodePosition = (int) Math.pow(2, level) - 1;
         int edgeLines = (int) Math.pow(2, (Math.max(level - 1, 0)));
-// int gapBetweenNodes = (int) Math.pow(2, levelPower) + 1;
+        // int gapBetweenNodes = (int) Math.pow(2, levelPower) + 1;
         int gapBetweenNodes = (int) Math.pow(2, (level + 1)) - 1;
         LOGGER.trace("level:{}, nodePosition:{}, edgeLines:{}, gapBetweenNodes:{}", level, nodePosition, edgeLines,
                      gapBetweenNodes);
@@ -688,7 +688,7 @@ public enum TreeUtils {
     private static <E extends Comparable<? super E>> String buildSpatialBlock(final Node<E> node, int spaces) {
         return (node == null ? String.format("%" + (2 * spaces + 1) + "s%n", "")
 // : String.format("%" + (spaces + 1) + "s%" + spaces + "s", node.getValue(), "")
-                             : String.format("%" + (spaces + 1) + "s%" + spaces + "s", LEFT + node.getData() + RIGHT,
+                             : String.format("%" + (spaces + 3) + "s%" + spaces + "s", LEFT + node.getData() + RIGHT,
                                              ""));
     }
 

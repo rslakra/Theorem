@@ -2,8 +2,9 @@
 
 ---
 
-The ```Theorem``` project contains the various algorithms, abstract data types and implementation of them including the
-interview preparation algorithms.
+The ```Theorem``` project contains the algorithms, abstract data types and implementation of them including the
+interview preparation algorithms in ```Java``` language.
+
 
 ## Data Structure & Algorithms
 

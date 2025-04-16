@@ -25,7 +25,8 @@ import java.util.Random;
  * Input: 1234567891 Output: "One Billion Two Hundred Thirty Four Million Five Hundred Sixty Seven Thousand Eight
  * Hundred Ninety One"
  * <p>
- * Author: Rohtash Singh Lakra Created: 12/22/19 12:14 PM
+ * Author: Rohtash Lakra
+ * Created: 12/22/19 12:14 PM
  */
 public final class LC273Integer2EnglishWords {
 

@@ -56,7 +56,7 @@ public class PreOrderTraversal<E extends Comparable<? super E>> extends Abstract
      *       4  5    6   7
      * </pre>
      * <p>
-     * InOrder Traversal <code>Root -> Left -> Right</code>
+     * PreOrder Traversal <code>Root -> Left -> Right</code>
      * <p>
      * i.e: [1, 2, 4, 5, 3, 6, 7]
      *

@@ -15,7 +15,7 @@ public class LC415AddStrings {
      * @param index
      * @return
      */
-    private final int toInt(String str, int index) {
+    private int toInt(String str, int index) {
         return (int) (str.charAt(index) - '0');
     }
 
@@ -91,7 +91,7 @@ public class LC415AddStrings {
      * @param num1
      * @param num2
      */
-    private final void printNumbers(String num1, String num2) {
+    private void printNumbers(String num1, String num2) {
         if (num1.length() > num2.length()) {
             System.out.println(num1);
             int result = num1.length() - num2.length();

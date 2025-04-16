@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Author: Rohtash Singh Lakra Created: 4/11/20 9:46 AM Version: 1.0.0
+ * Author: Rohtash Lakra
+ * Created: 4/11/20 9:46 AM Version: 1.0.0
  */
 public class LC140WordBreak2 {
 

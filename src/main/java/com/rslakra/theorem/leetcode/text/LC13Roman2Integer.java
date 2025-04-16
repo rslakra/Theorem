@@ -43,7 +43,8 @@ import java.util.Scanner;
  * Input: "MCMXCIV" Output: 1994 Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
  * <p>
  * <p>
- * Author: Rohtash Singh Lakra Created: 12/12/19 7:04 PM
+ * Author: Rohtash Lakra
+ * Created: 12/12/19 7:04 PM
  */
 public class LC13Roman2Integer {
 

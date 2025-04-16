@@ -1,8 +1,10 @@
-# Theorem (Python)
+# PyTheorem (Python)
 
 ---
 
-The ```Theorem``` represents the python project.
+The ```PyTheorem``` project contains the algorithms, abstract data types and implementation of them including the
+interview preparation algorithms in ```Python``` language.
+
 
 ## Project Structure
 
@@ -73,7 +75,7 @@ If you split this functionality into modules instead, then you could reuse compl
 
 ## Local Development
 
-### Check python settings
+### Check ```Python``` settings
 ```shell
 python3 --version
 python3 -m pip --version
@@ -90,7 +92,7 @@ source venv/bin/activate
 ```
 
 **Note: -**
-```source``` is Linux/Mac-OS command and doesn't work in Windows.
+```source``` is ```Linux/Mac-OS``` command and doesn't work in ```Windows```.
 
 - Windows
 ```shell
@@ -98,7 +100,7 @@ venv\Scripts\activate
 ```
 
 **Note: -**
-The parenthesized (venv) in front of the prompt indicates that you’ve successfully activated the virtual environment.
+The parenthesized ```(venv)``` in front of the prompt indicates that you’ve successfully activated the virtual environment.
 
 
 ### Install Requirements (Dependencies)
@@ -120,19 +122,19 @@ python3 -m pip install Flask
 
 ### Configuration Setup
 
-Create or update local .env configuration file.
+Create or update local ```.env``` configuration file.
 
 ```shell
-cp ./iws/default.env .env
+cp ./default.env .env
 OR
 touch .env
 
 #
 # App Configs
 #
-FLASK_ENV = development
+FLASK_ENV = develop
 DEBUG = False
-HOST = 127.0.0.1
+HOST = 0.0.0.0
 PORT = 8080
 #
 # Pool Configs
@@ -142,14 +144,14 @@ RDS_POOL_SIZE = 1
 #
 # Logger Configs
 #
-LOG_FILE_NAME = 'iws.log'
+LOG_FILE_NAME = 'PyTheorem.log'
 #
 # Database Configs
 #
 DB_HOSTNAME = 127.0.0.1
 DB_PORT =
-DB_NAME = posts
-DB_USERNAME = posts
+DB_NAME = PyTheorem
+DB_USERNAME = PyTheorem
 DB_PASSWORD = Password
 ```
 
@@ -226,6 +228,8 @@ kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never --
 
 # Reference
 
+### Python Basics
+
 - [Build a Scalable Flask Web Project From Scratch](https://realpython.com/flask-project/)
 - [Gunicorn - WSGI server](https://docs.gunicorn.org/en/latest/index.html)
 - [Python Packaging User Guide](https://packaging.python.org/en/latest/)
@@ -243,37 +247,19 @@ kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never --
 - [Load Balancing](https://go-zero.dev/en/docs/tutorials/service/governance/lb)
 
 
-
-### Concepts - Data Structure & Algorithms
-
-| Topic      | Types                                                                                                                                                                                                                         | Description                                                 |
-|:-----------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------|
-| Array      | <ul><li>Single Dimension</li><li>Multi-Dimension</li></ul>                                                                                                                                                                    |                                                             |
-| Clock      | <ul><li>Vector Clock</li><li>Lamport Clock</li></ul>                                                                                                                                                                          |                                                             |
-| List       | <ul><li>ArrayList</li></ul>                                                                                                                                                                                                   |                                                             |
-| LinkedList | <ul><li>Singly Linked List</li><li>Doubly Linked List</li></ul>                                                                                                                                                               |                                                             |
-| Set        | <ul><li>Ordered</li><li>Unordered</li></ul> Implementations <ul><li>Hash Set</li><li>Sorted Set</li><li>Tree Set</li></ul>                                                                                                    |                                                             |
-| Map        | <ul><li>HashMap</li><li>LinkedHashMap</li><li>ConcurrentHashMap</li></ul>                                                                                                                                                     |                                                             |
-| Sort       | Sorting Methods <ul><li>Bubble Sort</li><li>Insertion Sort</li><li>Selection Sort</li><li>Merge Sort</li><li>Heap Sort</li><li>Cyclic Sort</li><li>Topological Sort</li></ul>                                                 | Sorting Types <ul><li>Ascending</li><li>Decending</li></ul> |
-| Search     | <ul><li>Binary Search</li></ul>                                                                                                                                                                                               |                                                             |
-| Stack      |                                                                                                                                                                                                                               |                                                             |
-| Queue      | <ul><li>Circular Queue</li><li>Blocked Queue</li><li>Priority Queue</li><li>Indexed Priority Queue</li></ul>                                                                                                                  |                                                             |
-| Heap       | <ul><li>Min Heap</li><li>Max Heap</li><li>Priority Queue</li></ul>                                                                                                                                                            |                                                             |
-| Tree       | Traversal Methods <ul><li>Depth First Search (Uses Stack)</li><li>Breadth First Search (Users Queue)</li></ul> Tree Types <ul><li>Binary Tree</li><li>Binary Search Tree</li><li>Spanning Tree</li><li>Segment Tree</li></ul> |                                                             |
-| Graph      | Graph Components <ul><li>Vertex</li><li>Edge<ul><li>Directed</li><li>Undirected</li></ul></li></ul>                                                                                                                           |                                                             |
-
-## References
-
----
-
+### Events in Distributed Systems
 - [Lamport Clocks](https://sookocheff.com/post/time/lamport-clock)
 - [Lamport Clocks: Determining the Order of Events in Distributed Systems](https://medium.com/outreach-prague/lamport-clocks-determining-the-order-of-events-in-distributed-systems-41a9a8489177)
 - [Lamport Logical Clock](https://www.geeksforgeeks.org/lamports-logical-clock)
 - [Vector Clock](https://en.wikipedia.org/wiki/Vector_clock)
 - [Time in Distributed Systems Lamport Timestamps](https://www.goodmath.org/blog/2016/03/16/time-in-distributed-systems-lamport-timestamps)
-- 
 
+### Makefile
+- [6.14 Other Special Variables](https://www.gnu.org/software/make/manual/html_node/Special-Variables.html)
 
 
 # Author
+
+---
+
 - Rohtash Lakra

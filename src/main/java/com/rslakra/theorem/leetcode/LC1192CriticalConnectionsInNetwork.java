@@ -3,7 +3,8 @@ package com.rslakra.theorem.leetcode;
 import java.util.List;
 
 /**
- * Author: Rohtash Singh Lakra Created: 4/18/20 11:42 AM Version: 1.0.0
+ * Author: Rohtash Lakra
+ * Created: 4/18/20 11:42 AM Version: 1.0.0
  */
 public class LC1192CriticalConnectionsInNetwork {
 

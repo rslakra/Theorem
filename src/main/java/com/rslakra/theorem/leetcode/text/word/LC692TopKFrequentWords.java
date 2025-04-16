@@ -3,7 +3,8 @@ package com.rslakra.theorem.leetcode.text.word;
 import java.util.List;
 
 /**
- * Author: Rohtash Singh Lakra Created: 4/18/20 11:28 AM Version: 1.0.0
+ * Author: Rohtash Lakra
+ * Created: 4/18/20 11:28 AM Version: 1.0.0
  */
 public class LC692TopKFrequentWords {
 
