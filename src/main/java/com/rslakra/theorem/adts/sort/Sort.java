@@ -9,7 +9,8 @@ import java.util.List;
 public interface Sort {
 
     enum Direction {
-        ASC, DESC;
+        ASC,
+        DESC;
     }
 
     /**
