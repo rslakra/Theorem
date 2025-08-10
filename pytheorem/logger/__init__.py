@@ -19,7 +19,7 @@ def configLogger():
 def getLogger(__name__):
     return logging.getLogger(__name__)
 
+# init logger
 configLogger()
 
-# init logger
 # logger = getLogger(__name__)
