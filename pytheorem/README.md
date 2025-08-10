@@ -13,64 +13,64 @@ For example, it will be hard for you to reuse the application logic in other pro
 If you split this functionality into modules instead, then you could reuse complete modules across different projects.
 
 ```
-    /
-    ├── adts                            # an adts package/
-    │    ├── array                      # an array package/
-    │    ├── graph                      # a graph package/
-    │    │    ├── __init__.py           # The package initializer
-    │    │    ├── README.md             # Instructions and helpful links
-    │    │    └── _                     # The package initializer
-    │    ├── hash                       # a hash package/
-    │    ├── heap                       # a heap package/
-    │    ├── iterator                   # an iterator package/
-    │    ├── lang                       # a lang package/
-    │    ├── linkedlist                 # a linkedlist package/
-    │    ├── list                       # a list package/
-    │    ├── logs                       # a logs package/
-    │    ├── map                        # a map package/
-    │    ├── queue                      # a queue package/
-    │    ├── search                     # a search package/
-    │    ├── security                   # a security package/
-    │    ├── sort                       # a sort package/
-    │    ├── stack                      # a stack package/
-    │    ├── text                       # a text package/
-    │    ├── time                       # a time package/
-    │    ├── tree                       # a tree package/
-    │    ├── trie                       # a trie package/
-    │    ├── __init__.py                # The package initializer
-    │    └── README.md                  # The README file of ews module
-    ├── algos                           # an algos package/
-    │    ├── array                      # an array package/
-    │    ├── graph                      # a graph package/
-    │    │    ├── __init__.py           # The package initializer
-    │    │    ├── README.md             # Instructions and helpful links
-    │    │    └── _                     # The package initializer
-    │    ├── hash                       # a hash package/
-    │    ├── heap                       # a heap package/
-    │    ├── iterator                   # an iterator package/
-    │    ├── lang                       # a lang package/
-    │    ├── linkedlist                 # a linkedlist package/
-    │    ├── list                       # a list package/
-    │    ├── logs                       # a logs package/
-    │    ├── map                        # a map package/
-    │    ├── queue                      # a queue package/
-    │    ├── search                     # a search package/
-    │    ├── security                   # a security package/
-    │    ├── sort                       # a sort package/
-    │    ├── stack                      # a stack package/
-    │    ├── text                       # a text package/
-    │    ├── time                       # a time package/
-    │    ├── tree                       # a tree package/
-    │    ├── trie                       # a trie package/
-    │    ├── __init__.py                # The package initializer
-    │    └── README.md                  # The README file of ews module
-    ├── aptitude                        # an aptitude package/
-    ├── domain                          # a domain package/
-    ├── games                           # a games package/
-    ├── quiz                            # a quiz package/
-    ├── README.md                       # Instructions and helpful links
-    ├── requirements.txt                # a list of package dependencies
-    └── robots.txt                      # tells which URLs the search engine crawlers can access on your site
+/
+├── adts                            # an adts package/
+│    ├── array                      # an array package/
+│    ├── graph                      # a graph package/
+│    │    ├── __init__.py           # The package initializer
+│    │    ├── README.md             # Instructions and helpful links
+│    │    └── _                     # The package initializer
+│    ├── hash                       # a hash package/
+│    ├── heap                       # a heap package/
+│    ├── iterator                   # an iterator package/
+│    ├── lang                       # a lang package/
+│    ├── linkedlist                 # a linkedlist package/
+│    ├── list                       # a list package/
+│    ├── logs                       # a logs package/
+│    ├── map                        # a map package/
+│    ├── queue                      # a queue package/
+│    ├── search                     # a search package/
+│    ├── security                   # a security package/
+│    ├── sort                       # a sort package/
+│    ├── stack                      # a stack package/
+│    ├── text                       # a text package/
+│    ├── time                       # a time package/
+│    ├── tree                       # a tree package/
+│    ├── trie                       # a trie package/
+│    ├── __init__.py                # The package initializer
+│    └── README.md                  # The README file of ews module
+├── algos                           # an algos package/
+│    ├── array                      # an array package/
+│    ├── graph                      # a graph package/
+│    │    ├── __init__.py           # The package initializer
+│    │    ├── README.md             # Instructions and helpful links
+│    │    └── _                     # The package initializer
+│    ├── hash                       # a hash package/
+│    ├── heap                       # a heap package/
+│    ├── iterator                   # an iterator package/
+│    ├── lang                       # a lang package/
+│    ├── linkedlist                 # a linkedlist package/
+│    ├── list                       # a list package/
+│    ├── logs                       # a logs package/
+│    ├── map                        # a map package/
+│    ├── queue                      # a queue package/
+│    ├── search                     # a search package/
+│    ├── security                   # a security package/
+│    ├── sort                       # a sort package/
+│    ├── stack                      # a stack package/
+│    ├── text                       # a text package/
+│    ├── time                       # a time package/
+│    ├── tree                       # a tree package/
+│    ├── trie                       # a trie package/
+│    ├── __init__.py                # The package initializer
+│    └── README.md                  # The README file of ews module
+├── aptitude                        # an aptitude package/
+├── domain                          # a domain package/
+├── games                           # a games package/
+├── quiz                            # a quiz package/
+├── README.md                       # Instructions and helpful links
+├── requirements.txt                # a list of package dependencies
+└── robots.txt                      # tells which URLs the search engine crawlers can access on your site
 ```
 
 ## Local Development

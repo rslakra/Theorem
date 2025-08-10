@@ -3,6 +3,7 @@
 #
 import logging
 import unittest
+from typing import Any
 
 from pytheorem.adts.time.datatime import timeMillis
 from pytheorem.logger import configLogger
@@ -73,3 +74,20 @@ class AbstractTestCase(unittest.TestCase):
 
     def getTestEmail(self, isAdmin: bool = False):
         return f"{'admin' if isAdmin else 'user'}{timeMillis()}@lakra.com"
+
+
+class ParametrizedTestCase(AbstractTestCase):
+
+    def __init__(self, methodName='runTest', params=None):
+        super(ParametrizedTestCase, self).__init__(methodName)
+        self.params = params
+
+    @staticmethod
+    def parametrize(testCaseClass, params: Any = None):
+        testLoader = unittest.TestLoader()
+        testCaseNames = testLoader.getTestCaseNames(testCaseClass)
+        testSuite = unittest.TestSuite()
+        for testCaseName in testCaseNames:
+            testSuite.addTest(testCaseClass(testCaseName, params=params))
+
+        return testSuite

@@ -16,7 +16,10 @@ def configLogger():
     logging.basicConfig(level=logging.DEBUG, format="[%(asctime)s] [%(process)d] [%(levelname)s] - %(message)s")
 
 
+def getLogger(__name__):
+    return logging.getLogger(__name__)
+
 configLogger()
 
 # init logger
-logger = logging.getLogger(__name__)
+# logger = getLogger(__name__)

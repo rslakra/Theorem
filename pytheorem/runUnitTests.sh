@@ -6,6 +6,6 @@ if [ "$1" == "production" ]; then
   python -m unittest discover -s ./tests -p "test_*.py"
 else
   echo "python3 -m unittest"
-  python3 -m unittest
+  python -m unittest
 fi
 echo
