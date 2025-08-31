@@ -10,6 +10,22 @@ interview preparation algorithms in ```Java``` language.
 
 Data Structure and Algorithms Implementation.
 
+
+## Folder Structure Conventions
+
+---
+
+```
+./
+├── src
+│    ├── main
+│    ├── test
+│    └── /
+├── README.md
+└── /
+```
+
+
 The algorithms terminology and concepts.
 
 ### Concepts
