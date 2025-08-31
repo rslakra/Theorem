@@ -57,7 +57,7 @@ public class LC3LongestSubstringWithoutRepeatingCharacters {
                 if (unique.containsKey(str.charAt(right))) {
                     unique.remove(str.charAt(left));
                     left++;
-// length = Math.max(length, unique.size());
+                    // length = Math.max(length, unique.size());
                 } else {
                     unique.put(str.charAt(right), right);
                     right++;
