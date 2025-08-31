@@ -1,18 +1,18 @@
-package com.rslakra.theorem.leetcode;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+package com.rslakra.theorem.leetcode.hash;
 
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Rohtash Lakra
  * @created 9/17/23 12:03 PM
  */
-public class LC146LRUCacheTest {
-
+public class LC146LRUCacheLinkedListTest {
+    
     @Test
     public void testLRUCache() {
-        LC146LRUCache lRUCache = new LC146LRUCache(3);
+        LC146LRUCacheLinkedList lRUCache = new LC146LRUCacheLinkedList(3);
         lRUCache.put(1, 1); // cache is {1=1}
         lRUCache.put(2, 2); // cache is {2=2, 1=1}
         assertEquals(1, lRUCache.get(1)); // cache is {1=1, 2=2}

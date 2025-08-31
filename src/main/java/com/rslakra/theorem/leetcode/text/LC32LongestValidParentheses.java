@@ -3,6 +3,19 @@ package com.rslakra.theorem.leetcode.text;
 import java.util.Stack;
 
 /**
+ * Given a string containing just the characters '(' and ')', return the length of the longest valid (well-formed)
+ * parentheses substring .
+ * <p>
+ * <p>
+ * <p>
+ * Example 1:
+ * <p>
+ * Input: s = "(()" Output: 2 Explanation: The longest valid parentheses substring is "()". Example 2:
+ * <p>
+ * Input: s = ")()())" Output: 4 Explanation: The longest valid parentheses substring is "()()". Example 3:
+ * <p>
+ * Input: s = "" Output: 0
+ *
  * @author Rohtash Lakra
  * @created 1/25/24 5:13 PM
  */

@@ -1,6 +1,6 @@
 package com.rslakra.theorem.leetcode.text.word;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Author: Rohtash Lakra
@@ -8,7 +8,7 @@ import java.util.List;
  * Version: 1.0.0
  */
 public class LC692TopKFrequentWords {
-
+    
     /**
      * https://leetcode.com/problems/top-k-frequent-words/
      *
@@ -44,6 +44,29 @@ public class LC692TopKFrequentWords {
      * @return
      */
     public List<String> topKFrequent(String[] words, int k) {
-        return null;
+        Map<String, Integer> map = new HashMap<>();
+        for (String word : words) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+        
+        SortedSet<Map.Entry<String, Integer>> sortedSet = new TreeSet<>(new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                // values might be same and can override the key
+                int result = o2.getValue() - o1.getValue();
+                if (result == 0) {
+                    result = o1.getKey().compareTo(o2.getKey());
+                }
+                return result;
+            }
+        });
+        sortedSet.addAll(map.entrySet());
+        
+        List<String> topKWords = new ArrayList<>();
+        for (Iterator<Map.Entry<String, Integer>> itr = sortedSet.iterator(); itr.hasNext() && k > 0; k--) {
+            topKWords.add(itr.next().getKey());
+        }
+        
+        return topKWords;
     }
 }

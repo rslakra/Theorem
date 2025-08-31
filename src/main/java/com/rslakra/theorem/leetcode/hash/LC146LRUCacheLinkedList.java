@@ -1,4 +1,4 @@
-package com.rslakra.theorem.leetcode;
+package com.rslakra.theorem.leetcode.hash;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -8,16 +8,16 @@ import java.util.Map;
  * @author Rohtash Lakra
  * @created 9/17/23 12:03 PM
  */
-public class LC146LRUCache {
-
+public class LC146LRUCacheLinkedList {
+    
     private int capacity;
     private Map<Integer, Integer> map = new HashMap<>();
     private LinkedList<Integer> linkedList = new LinkedList();
-
-    public LC146LRUCache(int capacity) {
+    
+    public LC146LRUCacheLinkedList(int capacity) {
         this.capacity = capacity;
     }
-
+    
     public int get(int key) {
         Integer value = map.get(key);
         if (map.containsKey(key)) {
@@ -26,10 +26,10 @@ public class LC146LRUCache {
         } else {
             value = -1;
         }
-
+        
         return value;
     }
-
+    
     /**
      * @param key
      * @param value
@@ -41,7 +41,7 @@ public class LC146LRUCache {
                 map.remove(lastKey);
             }
         }
-
+        
         linkedList.addFirst(key);
         map.put(key, value);
     }
